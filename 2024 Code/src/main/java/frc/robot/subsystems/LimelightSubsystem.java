@@ -17,13 +17,11 @@ public class LimelightSubsystem extends SubsystemBase {
   public boolean getTv() {
     NetworkTableEntry tv = limelight.getEntry("tv");
     double validTarget = tv.getDouble(0.0);
-    if (validTarget == 1) {
-      return true;
-    }
-    return false;
+    
+    return validTarget == 1;
   }
   public void getID() {
-   limelight.getEntry("tid").getDouble(0.0));
+   limelight.getEntry("tid").getDouble(0.0);
   }
 
   // gets the x offest between the center of vision and the detected object
