@@ -3,8 +3,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class LimelightSubsystem {
+public class LimelightSubsystem extends SubsystemBase {
     private NetworkTable limelight;
     public LimelightSubsystem() {
     // global instance of the network table and gets the limelight table
@@ -21,8 +22,8 @@ public class LimelightSubsystem {
     }
     return false;
   }
-  public double getID() {
-    return limelight.getEntry("tid").getDouble(0.0);
+  public void getID() {
+   limelight.getEntry("tid").getDouble(0.0));
   }
 
   // gets the x offest between the center of vision and the detected object
@@ -35,5 +36,6 @@ public class LimelightSubsystem {
     return limelight.getEntry("ty").getDouble(0.0);
   }
   public void periodic() {
-    limelight.getEntry("ledMode").setNumber(1);  }
+    limelight.getEntry("ledMode").setNumber(1);
+   }
 }
