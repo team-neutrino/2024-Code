@@ -36,4 +36,11 @@ public class LimelightSubsystem extends SubsystemBase {
   public void periodic() {
     limelight.getEntry("ledMode").setNumber(1);
    }
+  
+  public double[] getBotPose() {
+    double[] pose = new double[6];
+    limelight.getEntry("botpose").getDoubleArray(pose);
+    return pose;
+  }
+   
 }
