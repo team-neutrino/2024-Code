@@ -2,6 +2,7 @@ package frc.robot;
 import com.revrobotics.*;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.Constants.SwerveConstants;
 
 public class SwerveModule {
 
@@ -37,9 +38,96 @@ public class SwerveModule {
         speedPID.setP(Constants.SwerveConstants.SPEED_P, 0);
     }
 
-    // public Rotation2d getOptimizationAngle(){
-    //     return;
-    // }
+    public Rotation2d getOptimizationAngle(){
+        return Rotation2d.fromDegrees(adjustAngleOut());
+    }
+
+    private double adjustAngleOut(){
+        double out = 0;
+        if(angleID == 2){
+            if(SwerveConstants.FRA_OFFSET<180){
+                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FRA_OFFSET);
+            }
+            else{
+                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FRA_OFFSET);
+            }
+        }
+        else if(angleID == 4){
+            if(SwerveConstants.FLA_OFFSET<180){
+                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FLA_OFFSET);
+            }
+            else{
+                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FLA_OFFSET);
+            }
+        }
+        else if(angleID == 6){
+            if(SwerveConstants.BRA_OFFSET<180){
+                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BRA_OFFSET);
+            }
+            else{
+                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BRA_OFFSET);
+            }
+        }
+        else if(angleID == 8){
+            if(SwerveConstants.BLA_OFFSET<180){
+                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BLA_OFFSET);
+            }
+            else{
+                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BLA_OFFSET);
+            }
+        }
+        return out;
+    }
+
+    private double largeAngleAdjusterOut(double angle, double constant){
+        if(angle > (360-constant)){
+            angle -= (360-constant);
+        }
+        else{
+            angle += constant;
+        }
+        return angle;
+    }
+
+    private double smallAngleAdjusterOut(double angle, double constant){
+        if(angle < (360-constant)){
+            angle += constant;
+        }
+        else{
+            angle += (constant-360);
+        }
+        return angle;
+    }
+
+    private double largeAngleAdjusterIn(double angle, double constant){
+        if(angle < constant){
+            angle += constant;
+        }
+        else{
+            angle += (constant-360);
+        }
+        return angle;
+    }
+
+    private double smallAngleAdjusterIn(double angle, double constant){
+        if(angle > constant){
+            angle -= constant;
+        }
+        else{
+            angle += (-constant + 360);
+        }
+        return angle;
+    }
+
+    public void setAnglePID(double reference){
+        
+    }
+
+    public void setSpeedPID(double reference){
+
+    }
+
+
 
      
 }
