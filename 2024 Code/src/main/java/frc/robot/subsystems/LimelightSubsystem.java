@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSubsystem extends SubsystemBase {
     private NetworkTable limelight;
+    private double[] pose = new double[6];
     public LimelightSubsystem() {
     // global instance of the network table and gets the limelight table
     limelight = NetworkTableInstance.getDefault().getTable("limelight");
@@ -36,4 +37,10 @@ public class LimelightSubsystem extends SubsystemBase {
   public void periodic() {
     limelight.getEntry("ledMode").setNumber(1);
    }
+  
+  public double[] getBotPose() {
+    limelight.getEntry("botpose").getDoubleArray(pose);
+    return pose;
+  }
+   
 }
