@@ -99,12 +99,48 @@ public class SwerveModule {
         return angle;
     }
 
+    private double adjustAngleIn(double angle){
+        if(angleID == 2){
+            if(SwerveConstants.FRA_OFFSET<180){
+                angle = smallAngleAdjusterIn(angle, SwerveConstants.FRA_OFFSET);
+            }
+            else{
+                angle = largeAngleAdjusterIn(angle, SwerveConstants.FRA_OFFSET);
+            }
+        }
+        if(angleID == 4){
+            if(SwerveConstants.FLA_OFFSET<180){
+                angle = smallAngleAdjusterIn(angle, SwerveConstants.FLA_OFFSET);
+            }
+            else{
+                angle = largeAngleAdjusterIn(angle, SwerveConstants.FLA_OFFSET);
+            }
+        }
+        if(angleID == 6){
+            if(SwerveConstants.BRA_OFFSET<180){
+                angle = smallAngleAdjusterIn(angle, SwerveConstants.BRA_OFFSET);
+            }
+            else{
+                angle = largeAngleAdjusterIn(angle, SwerveConstants.BRA_OFFSET);
+            }
+        }
+        if(angleID == 8){
+            if(SwerveConstants.BLA_OFFSET<180){
+                angle = smallAngleAdjusterIn(angle, SwerveConstants.BLA_OFFSET);
+            }
+            else{
+                angle = largeAngleAdjusterIn(angle, SwerveConstants.BLA_OFFSET);
+            }
+        }
+        return angle;
+    }
+
     private double largeAngleAdjusterIn(double angle, double constant){
         if(angle < constant){
-            angle += constant;
+            angle += (360-constant);
         }
         else{
-            angle += (constant-360);
+            angle += -constant;
         }
         return angle;
     }
@@ -120,11 +156,12 @@ public class SwerveModule {
     }
 
     public void setAnglePID(double reference){
-        
+        reference = adjustAngleIn(reference);
+        anglePID.setReference(reference, CANSparkBase.ControlType.kPosition, 0);
     }
 
-    public void setSpeedPID(double reference){
-
+    public void setSpeedPID(double reference, double feedforward){
+        speedPID.setReference(reference, CANSparkBase.ControlType.kVelocity, 0, feedforward);
     }
 
 
