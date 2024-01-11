@@ -3,9 +3,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;\
-import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import frc.robot.Constants.PWMConstants;
 //import frc.robot.util.EnumConstants.LEDColor;
 //import frc.robot.commands.LEDDefaultCommand;
@@ -13,7 +12,6 @@ import edu.wpi.first.wpilibj.Timer;
 public class LEDSubsystem extends SubsystemBase{
     public AddressableLED m_addressableLED;
     public AddressableLEDBuffer m_LEDBuffer;
-    private int LEDLength = 58;
     private Timer timer = new Timer();
 
 public LEDSubsystem() {
