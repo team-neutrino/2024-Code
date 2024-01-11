@@ -57,4 +57,3 @@ public final class Constants {
     public static double kv = 2.6;
   }
 }
-
