@@ -20,4 +20,12 @@ public final class Constants {
   public static class MotorConstants {
     public static int shooter;
   }
+
+  public final class ControllerConstants {
+    public static int XBOX_CONTROLLER_ID = 2;
+  }
+
+  public final class DriverConstants {
+    public static double MAX_SPEED = 0.5;
+  }
 }
