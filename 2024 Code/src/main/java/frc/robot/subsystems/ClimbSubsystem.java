@@ -1,0 +1,111 @@
+package frc.robot.subsystems;
+
+import com.revrobotics.*;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+// import Constants;
+
+import frc.robot.Constants;
+
+/**
+ * TODO:
+ * As of 1/11 the climb system is known as follows: some kind of winch mechanism utilizing
+ * one motor and encoder to pull the robot up. File to be edited when more details are known.
+ * 
+ * NOTES:
+ * Climber motors controller id's (the first parameter in the construction line) are 40s.
+ */
+public class ClimbSubsystem 
+{
+    /*
+     * Motor controllers
+     * Variable names may be changed
+     */
+    private CANSparkMax m_climb1 = new CANSparkMax(40, MotorType.kBrushless);
+
+
+    /**
+     * Encoders - assumed to be relative, subject to change
+     * Encoders are initialized in the constructor with the helper method "initializeMotor"
+     */
+    private RelativeEncoder m_encoder1;
+
+    /**
+     * Public constructor to be invoked in RobotContainer
+     */
+    public ClimbSubsystem()
+    {
+        m_encoder1 = initializeMotor(m_climb1, false);
+    }
+
+    /**
+     * Helper method that returns an instance of the given motor controller's relative encoder and sets
+     * the motor controller's default behaviours.
+     * 
+     * @param motorController The motor controller to configure.
+     * @param inverted Inversion state of the encoder, true means inverted.
+     * @return An instance of the given motor controller's encoder.
+     */
+    private RelativeEncoder initializeMotor(CANSparkMax p_motorController, boolean inverted) {
+
+        p_motorController.restoreFactoryDefaults();
+        p_motorController.setIdleMode(IdleMode.kBrake);
+        p_motorController.setInverted(inverted);
+
+        // .setPositionConversionFactor(DriverConstants.ENCODER_POSITION_CONVERSION);
+        // .setVelocityConversionFactor(DriverConstants.ENCODER_VELOCITY_CONVERSION);
+        // ^^ May be needed in the future? 
+
+        return p_motorController.getEncoder();
+    }
+
+    /**
+     * Starts the climb motor to the constant determined speed. 
+     * NOTE: CURRENT CONSTANT IS A PLACEHOLDER VALUE
+     * NOTE: IF MORE MOTORS ARE ADDED, CREATE A PARAMETER
+     */
+    public void startMotor()
+    {
+        m_climb1.set(Constants.MotorConstants.CLIMB_MOTOR_SPEED);
+    }
+
+    /**
+     * Stops the given motor.
+     * 
+     * @param p_motor The motor to stop.
+     */
+    public void stopMotor(CANSparkMax p_motor)
+    {
+        p_motor.stopMotor();
+    }
+
+    /**
+     * Resets encoders
+     */
+    public void resetEncoders() 
+    {
+        m_encoder1.setPosition(0);
+    }
+
+    /**
+     * Getter for the specified encoder's position.
+     * 
+     * @param p_encoder The encoder to get position from.
+     * @return The position of the given encoder's motor.
+     */
+    public double getEncoderPosition(RelativeEncoder p_encoder)
+    {
+        return p_encoder.getPosition();
+    }
+
+    /**
+     * Getter for the specified encoder's velocity.
+     * 
+     * @param p_encoder The encoder to get velocity from.
+     * @return The velocity of the given encoder's motor.
+     */
+    public double getEncoderVelocity(RelativeEncoder p_encoder)
+    {
+        return p_encoder.getVelocity();
+    }
+}
