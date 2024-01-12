@@ -9,18 +9,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MotorConstants;
-<<<<<<< Updated upstream
 
-public class ShooterSubsystem extends SubsystemBase {
-  private CANSparkMax m_shooter = new CANSparkMax(MotorConstants.shooter, MotorType.kBrushless);
-  private RelativeEncoder m_shooterEncoder;
-  // private JoystickButton m_bumperRight;
-  private SparkPIDController m_pidController;
-  private double WHEEL_P;
-  private double WHEEL_I;
-  private double WHEEL_D;
-  private double WHEEL_FF;
-=======
 public class ShooterSubsystem extends SubsystemBase {
   private CANSparkMax m_shooter = new CANSparkMax(MotorConstants.shooter, MotorType.kBrushless);
   private RelativeEncoder m_shooterEncoder;
@@ -30,7 +19,6 @@ public class ShooterSubsystem extends SubsystemBase {
   private double WHEEL_I = 0.0006;
   private double WHEEL_D = 0;
   private double WHEEL_FF = 0.195;
->>>>>>> Stashed changes
   private double m_targetRPM;
 
   public ShooterSubsystem() {
@@ -110,11 +98,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController.setFF(FF / 1000.0);
   }
 
-<<<<<<< Updated upstream
   public boolean magicShooter(double RPM, double TRPM) {
-=======
-  public boolean shoot(double RPM, double TRPM) {
->>>>>>> Stashed changes
     return Math.abs(RPM - TRPM) <= 10;
   }
 
