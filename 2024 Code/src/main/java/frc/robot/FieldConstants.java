@@ -34,4 +34,15 @@ public final class FieldConstants{
         15, new Pose3d(Units.inchesToMeters(182.73), Units.inchesToMeters(177.10), Units.inchesToMeters(52), new Rotation3d(0, 0, (2*Math.PI)/3)),
         16, new Pose3d(Units.inchesToMeters(182.73), Units.inchesToMeters(146.19), Units.inchesToMeters(52), new Rotation3d(0, 0, (4*Math.PI)/3))
     );
+    //FORMAT: M, C, X1, X2 (X, Z1, Z2 if null)
+    public static final Double[][] bannedRegions = {
+        {null, 2.423414, -1.557274, 1.557274},
+        {null, -2.423414, -1.557274, 1.557274},
+        {-0.55635208711, 2.90554543682, 2.423414, 5.222494},
+        {0.55635208711, 2.90554543682, -5.222494, 2.423414},
+        {0.55635208711, -2.90554543682, 2.423414, 5.222494},
+        {-0.55635208711, -2.90554543682, -5.222494, 2.423414}
+    };
+
+    public static final Double[] autoAlignPoint = {1.0, 1.0, 1.0};
 }
