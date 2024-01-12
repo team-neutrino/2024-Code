@@ -6,7 +6,9 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.ClimbTestCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,6 +28,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final LimelightSubsystem m_LimelightSubsystem = new LimelightSubsystem();
+  private final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
+
+  //default commands
+  ClimbTestCommand test = new ClimbTestCommand();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(
@@ -54,6 +60,8 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    m_ClimbSubsystem.setDefaultCommand(test);
+
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));

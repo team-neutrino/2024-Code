@@ -1,11 +1,18 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 // import Constants;
 
 import frc.robot.Constants;
+
+public class ClimbSubsystem extends SubsystemBase  
 
 /**
  * TODO:
@@ -15,7 +22,6 @@ import frc.robot.Constants;
  * NOTES:
  * Climber motors controller id's (the first parameter in the construction line) are 40s.
  */
-public class ClimbSubsystem 
 {
     /*
      * Motor controllers
@@ -66,7 +72,7 @@ public class ClimbSubsystem
      */
     public void startMotor()
     {
-        m_climb1.set(Constants.MotorConstants.CLIMB_MOTOR_SPEED);
+        m_climb1.set(Constants.ClimbConstants.CLIMB_MOTOR_SPEED);
     }
 
     /**
@@ -107,5 +113,11 @@ public class ClimbSubsystem
     public double getEncoderVelocity(RelativeEncoder p_encoder)
     {
         return p_encoder.getVelocity();
+    }
+
+
+   @Override
+    public void periodic() {
+      // This method will be called once per scheduler run
     }
 }
