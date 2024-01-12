@@ -2,28 +2,27 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.MotorConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-   private CANSparkMax m_shooter =
-      new CANSparkMax(MotorConstants.shooter, MotorType.kBrushless);
-      private RelativeEncoder m_shooterEncoder;
-      private JoystickButton m_bumperRight;
-      private SparkMaxPIDController m_pidController;
-      private  double WHEEL_P;
-      private  double WHEEL_I;
-      private  double WHEEL_D;
-      private  double WHEEL_FF;
-    
+  private CANSparkMax m_shooter = new CANSparkMax(MotorConstants.shooter, MotorType.kBrushless);
+  private RelativeEncoder m_shooterEncoder;
+  // private JoystickButton m_bumperRight;
+  private SparkPIDController m_pidController;
+  private double WHEEL_P;
+  private double WHEEL_I;
+  private double WHEEL_D;
+  private double WHEEL_FF;
+  private double m_targetRPM;
 
-  public ShooterSubsystem(JoystickButton p_bumperRight){
-    m_bumperRight = p_bumperRight;
+  public ShooterSubsystem() {
+    // m_bumperRight = p_bumperRight;
     m_pidController = m_shooter.getPIDController();
     m_pidController.setFeedbackDevice(m_shooterEncoder);
     m_shooter.restoreFactoryDefaults();
@@ -36,6 +35,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController.setIZone(160);
     m_pidController.setOutputRange(.1, 1);
   }
+
   public double getshooterEncoder() {
     return m_shooterEncoder.getPosition();
   }
@@ -43,18 +43,31 @@ public class ShooterSubsystem extends SubsystemBase {
   public double getshooterVel() {
     return m_shooterEncoder.getVelocity();
   }
-  public void resetEncoders(RelativeEncoder encoder){
+
+  public void resetEncoders(RelativeEncoder encoder) {
     encoder.setPosition(0);
   }
+
   public void setVoltage(double voltage) {
     m_shooter.setVoltage(voltage);
   }
 
-  public void getVoltage(double voltage){
+  public void getVoltage(double voltage) {
     m_shooter.setVoltage(voltage);
   }
+
   public double getP() {
     return m_pidController.getP() * 1000.0;
+  }
+
+  public double getTargetRPM() {
+    return m_targetRPM;
+
+  }
+
+  public void setTargetRPM(double p_targetRPM) {
+    m_targetRPM = p_targetRPM;
+    m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
   }
 
   public double getFF() {
@@ -85,8 +98,11 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController.setFF(FF / 1000.0);
   }
 
+  public boolean magicShooter(double RPM, double TRPM) {
+    return Math.abs(RPM - TRPM) <= 10;
+  }
 
   public void periodic() {
-    
-   }
+
+  }
 }
