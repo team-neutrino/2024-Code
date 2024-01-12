@@ -38,7 +38,7 @@ public class RobotContainer {
 
   //CONTROLLERS
   // private final XboxController m_driverController = new XboxController(OperatorConstants.XBOX);
-  private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.xbox);
+  private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
   private final Joystick m_leftJoystick = new Joystick(OperatorConstants.JOYSTICK_LEFT);
   private final Joystick m_rightJoystick = new Joystick(OperatorConstants.JOYSTICK_RIGHT);
 
