@@ -6,21 +6,18 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
-//import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
+//import frc.robot.commands.ShooterdefaultCommand;
+import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-//import edu.wpi.first.wpilibj2.command.button.Trigger;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+//import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -34,14 +31,23 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final LEDSubsystem m_LedSubsystem = new LEDSubsystem();
+  // private final LimelightSubsystem m_LimelightSubsystem = new
+  // LimelightSubsystem();
+  private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
+  // private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
 
-  //CONTROLLERS
-  // private final XboxController m_driverController = new XboxController(OperatorConstants.XBOX);
-  private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
-  private final Joystick m_leftJoystick = new Joystick(OperatorConstants.JOYSTICK_LEFT);
-  private final Joystick m_rightJoystick = new Joystick(OperatorConstants.JOYSTICK_RIGHT);
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final CommandXboxController m_driverController = new CommandXboxController(
+      OperatorConstants.XBOX_CONTROLLER);
 
+  private final LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand(m_LEDSubsystem);
+
+  // private XboxController m_OperatorController = new
+  // XboxController(Constants.ControllerConstants.XBOX_CONTROLLER_ID);
+
+  // private JoystickButton m_BumperRight = new
+  // JoystickButton(m_OperatorController,
+  // XboxController.Button.kRightBumper.value);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -49,6 +55,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
   }
 
   /**
@@ -66,12 +73,12 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    m_driverController.b().toggleOnTrue(new LEDCommand(m_LedSubsystem));
-    m_LedSubsystem.setDefaultCommand(m_LEDDefaultCommand);
-  }
+    // m_driverController.a().whileTrue(new
+    // ShooterdefaultCommand(m_ShooterSubsystem));
+    m_driverController.b().onTrue(new LEDCommand(m_LEDSubsystem));
+    m_driverController.b().onFalse(new LEDDefaultCommand(m_LEDSubsystem));
 
-  private final LEDDefaultCommand m_LEDDefaultCommand = 
-    new LEDDefaultCommand(m_LedSubsystem);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
