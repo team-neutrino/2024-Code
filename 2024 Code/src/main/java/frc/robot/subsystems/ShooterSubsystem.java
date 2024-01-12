@@ -12,6 +12,7 @@ import frc.robot.Constants.MotorConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
   private CANSparkMax m_shooter = new CANSparkMax(MotorConstants.shooter, MotorType.kBrushless);
+  // initialize encoder
   private RelativeEncoder m_shooterEncoder;
   // private JoystickButton m_bumperRight
   private SparkPIDController m_pidController;
@@ -26,12 +27,12 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController = m_shooter.getPIDController();
     m_pidController.setFeedbackDevice(m_shooterEncoder);
     m_shooter.restoreFactoryDefaults();
-    m_shooter.setIdleMode(IdleMode.kBrake);
+    m_shooter.setIdleMode(IdleMode.kCoast);
 
-    m_pidController.setP(WHEEL_P / 1000.0);
-    m_pidController.setI(WHEEL_I / 1000.0);
-    m_pidController.setD(WHEEL_D / 1000.0);
-    m_pidController.setFF(WHEEL_FF / 1000.0);
+    m_pidController.setP(WHEEL_P);
+    m_pidController.setI(WHEEL_I);
+    m_pidController.setD(WHEEL_D);
+    m_pidController.setFF(WHEEL_FF);
     m_pidController.setIZone(160);
     m_pidController.setOutputRange(.1, 1);
   }
