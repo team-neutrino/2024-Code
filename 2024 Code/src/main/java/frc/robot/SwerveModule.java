@@ -25,6 +25,10 @@ public class SwerveModule {
         angleMotor.restoreFactoryDefaults();
         speedMotor.restoreFactoryDefaults();
 
+        if (speedID == 1) {
+            speedMotor.setInverted(true);
+        }
+
         angleMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
         speedMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
         absAngleEncoder = angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute);
@@ -46,7 +50,15 @@ public class SwerveModule {
     }
 
     public Rotation2d getOptimizationAngle() {
-        return Rotation2d.fromDegrees(adjustAngleOut());
+        double out = adjustAngleOut();
+        if (out <= 0) {
+            out *= -1;
+        }
+
+        else {
+            out = 360 - out;
+        }
+        return Rotation2d.fromDegrees(out);
     }
 
     private double adjustAngleOut() {
@@ -54,36 +66,29 @@ public class SwerveModule {
         if (angleID == 2) {
             if (SwerveConstants.FRA_OFFSET < 180) {
                 out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FRA_OFFSET);
-            } 
-            else {
+            } else {
                 out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FRA_OFFSET);
             }
-        }
-        else if (angleID == 4) {
+        } else if (angleID == 4) {
             if (SwerveConstants.FLA_OFFSET < 180) {
                 out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FLA_OFFSET);
-            } 
-            else {
+            } else {
                 out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FLA_OFFSET);
             }
-        } 
-        else if (angleID == 6) {
+        } else if (angleID == 6) {
             if (SwerveConstants.BRA_OFFSET < 180) {
                 out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BRA_OFFSET);
-            } 
-            else {
+            } else {
                 out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BRA_OFFSET);
             }
-        } 
-        else if (angleID == 8) {
+        } else if (angleID == 8) {
             if (SwerveConstants.BLA_OFFSET < 180) {
                 out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BLA_OFFSET);
-            }
-            else {
+            } else {
                 out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BLA_OFFSET);
             }
         }
-        
+
         return out;
     }
 
@@ -109,17 +114,15 @@ public class SwerveModule {
         if (angleID == 2) {
             if (SwerveConstants.FRA_OFFSET < 180) {
                 angle = smallAngleAdjusterIn(angle, SwerveConstants.FRA_OFFSET);
-            } 
-            else {
+            } else {
                 angle = largeAngleAdjusterIn(angle, SwerveConstants.FRA_OFFSET);
             }
         }
-        
+
         else if (angleID == 4) {
             if (SwerveConstants.FLA_OFFSET < 180) {
                 angle = smallAngleAdjusterIn(angle, SwerveConstants.FLA_OFFSET);
-            } 
-            else {
+            } else {
                 angle = largeAngleAdjusterIn(angle, SwerveConstants.FLA_OFFSET);
             }
         }
@@ -127,8 +130,7 @@ public class SwerveModule {
         else if (angleID == 6) {
             if (SwerveConstants.BRA_OFFSET < 180) {
                 angle = smallAngleAdjusterIn(angle, SwerveConstants.BRA_OFFSET);
-            } 
-            else {
+            } else {
                 angle = largeAngleAdjusterIn(angle, SwerveConstants.BRA_OFFSET);
             }
         }
@@ -136,8 +138,7 @@ public class SwerveModule {
         else if (angleID == 8) {
             if (SwerveConstants.BLA_OFFSET < 180) {
                 angle = smallAngleAdjusterIn(angle, SwerveConstants.BLA_OFFSET);
-            }   
-            else {
+            } else {
                 angle = largeAngleAdjusterIn(angle, SwerveConstants.BLA_OFFSET);
             }
         }
@@ -147,11 +148,10 @@ public class SwerveModule {
 
     private double largeAngleAdjusterIn(double angle, double constant) {
         if (angle < constant) {
-            angle += (360 - constant);
+            return angle + (360 - constant);
         } else {
-            angle += -constant;
+            return angle - constant;
         }
-        return angle;
     }
 
     private double smallAngleAdjusterIn(double angle, double constant) {
@@ -176,4 +176,7 @@ public class SwerveModule {
         return absAngleEncoder.getPosition();
     }
 
+    public double getVoltage() {
+        return absAngleEncoder.getVoltage();
+    }
 }

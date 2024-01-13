@@ -48,6 +48,7 @@ public class SwerveSubsystem extends SubsystemBase {
     ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
 
     moduleStates = m_kinematics.toSwerveModuleStates(robotSpeeds);
+
     moduleStates[0] = SwerveModuleState.optimize(moduleStates[0], m_frontRight.getOptimizationAngle());
     moduleStates[1] = SwerveModuleState.optimize(moduleStates[1], m_frontLeft.getOptimizationAngle());
     moduleStates[2] = SwerveModuleState.optimize(moduleStates[2], m_backRight.getOptimizationAngle());
@@ -58,17 +59,25 @@ public class SwerveSubsystem extends SubsystemBase {
     double feedForwardBR = m_feedForward.calculate(moduleStates[2].speedMetersPerSecond);
     double feedForwardBL = m_feedForward.calculate(moduleStates[3].speedMetersPerSecond);
 
-    System.out.println(moduleStates[0].angle.getDegrees());
+    // System.out.println(moduleStates[0].angle.getDegrees());
 
-    // m_frontRight.setAnglePID(moduleStates[0].angle.getDegrees());
+    for (int i = 0; i < 4; i++) {
+      if (moduleStates[i].angle.getDegrees() <= 0) {
+        moduleStates[i].angle = Rotation2d.fromDegrees(moduleStates[i].angle.getDegrees() * -1);
+      } else {
+        moduleStates[i].angle = Rotation2d.fromDegrees(360 - moduleStates[i].angle.getDegrees());
+      }
+    }
+
+    m_frontRight.setAnglePID(moduleStates[0].angle.getDegrees());
     m_frontLeft.setAnglePID(moduleStates[1].angle.getDegrees());
     m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
     m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
 
-    // m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond,feedForwardFR);
-    // m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
-    // m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
-    // m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond, feedForwardFR);
+    m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
+    m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
+    m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
   }
 
   public double getYaw() {
