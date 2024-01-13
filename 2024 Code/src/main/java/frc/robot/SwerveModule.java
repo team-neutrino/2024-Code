@@ -51,40 +51,39 @@ public class SwerveModule {
 
     private double adjustAngleOut() {
         double out = 0;
-        // if (angleID == 2) {
-        // if (SwerveConstants.FRA_OFFSET < 180) {
-        // out = smallAngleAdjusterOut(absAngleEncoder.getPosition(),
-        // SwerveConstants.FRA_OFFSET);
-        // } else {
-        // out = largeAngleAdjusterOut(absAngleEncoder.getPosition(),
-        // SwerveConstants.FRA_OFFSET);
-        // }
-        // }
-        // if (angleID == 4) {
-        // if (SwerveConstants.FLA_OFFSET < 180) {
-        // out = smallAngleAdjusterOut(absAngleEncoder.getPosition(),
-        // SwerveConstants.FLA_OFFSET);
-        // } else {
-        // out = largeAngleAdjusterOut(absAngleEncoder.getPosition(),
-        // SwerveConstants.FLA_OFFSET);
-        // }
-        // } else if (angleID == 6) {
-        // if (SwerveConstants.BRA_OFFSET < 180) {
-        // out = smallAngleAdjusterOut(absAngleEncoder.getPosition(),
-        // SwerveConstants.BRA_OFFSET);
-        // } else {
-        // out = largeAngleAdjusterOut(absAngleEncoder.getPosition(),
-        // SwerveConstants.BRA_OFFSET);
-        // }
-        // } else if (angleID == 8) {
-        // if (SwerveConstants.BLA_OFFSET < 180) {
-        // out = smallAngleAdjusterOut(absAngleEncoder.getPosition(),
-        // SwerveConstants.BLA_OFFSET);
-        // } else {
-        // out = largeAngleAdjusterOut(absAngleEncoder.getPosition(),
-        // SwerveConstants.BLA_OFFSET);
-        // }
-        // }
+        if (angleID == 2) {
+            if (SwerveConstants.FRA_OFFSET < 180) {
+                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FRA_OFFSET);
+            } 
+            else {
+                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FRA_OFFSET);
+            }
+        }
+        else if (angleID == 4) {
+            if (SwerveConstants.FLA_OFFSET < 180) {
+                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FLA_OFFSET);
+            } 
+            else {
+                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FLA_OFFSET);
+            }
+        } 
+        else if (angleID == 6) {
+            if (SwerveConstants.BRA_OFFSET < 180) {
+                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BRA_OFFSET);
+            } 
+            else {
+                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BRA_OFFSET);
+            }
+        } 
+        else if (angleID == 8) {
+            if (SwerveConstants.BLA_OFFSET < 180) {
+                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BLA_OFFSET);
+            }
+            else {
+                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BLA_OFFSET);
+            }
+        }
+        
         return out;
     }
 
@@ -107,34 +106,42 @@ public class SwerveModule {
     }
 
     private double adjustAngleIn(double angle) {
-        // if (angleID == 2) {
-        // if (SwerveConstants.FRA_OFFSET < 180) {
-        // angle = smallAngleAdjusterIn(angle, SwerveConstants.FRA_OFFSET);
-        // } else {
-        // angle = largeAngleAdjusterIn(angle, SwerveConstants.FRA_OFFSET);
-        // }
-        // }
-        // if (angleID == 4) {
-        // if (SwerveConstants.FLA_OFFSET < 180) {
-        // angle = smallAngleAdjusterIn(angle, SwerveConstants.FLA_OFFSET);
-        // } else {
-        // angle = largeAngleAdjusterIn(angle, SwerveConstants.FLA_OFFSET);
-        // }
-        // }
-        // if (angleID == 6) {
-        // if (SwerveConstants.BRA_OFFSET < 180) {
-        // angle = smallAngleAdjusterIn(angle, SwerveConstants.BRA_OFFSET);
-        // } else {
-        // angle = largeAngleAdjusterIn(angle, SwerveConstants.BRA_OFFSET);
-        // }
-        // }
-        // if (angleID == 8) {
-        // if (SwerveConstants.BLA_OFFSET < 180) {
-        // angle = smallAngleAdjusterIn(angle, SwerveConstants.BLA_OFFSET);
-        // } else {
-        // angle = largeAngleAdjusterIn(angle, SwerveConstants.BLA_OFFSET);
-        // }
-        // }
+        if (angleID == 2) {
+            if (SwerveConstants.FRA_OFFSET < 180) {
+                angle = smallAngleAdjusterIn(angle, SwerveConstants.FRA_OFFSET);
+            } 
+            else {
+                angle = largeAngleAdjusterIn(angle, SwerveConstants.FRA_OFFSET);
+            }
+        }
+        
+        else if (angleID == 4) {
+            if (SwerveConstants.FLA_OFFSET < 180) {
+                angle = smallAngleAdjusterIn(angle, SwerveConstants.FLA_OFFSET);
+            } 
+            else {
+                angle = largeAngleAdjusterIn(angle, SwerveConstants.FLA_OFFSET);
+            }
+        }
+
+        else if (angleID == 6) {
+            if (SwerveConstants.BRA_OFFSET < 180) {
+                angle = smallAngleAdjusterIn(angle, SwerveConstants.BRA_OFFSET);
+            } 
+            else {
+                angle = largeAngleAdjusterIn(angle, SwerveConstants.BRA_OFFSET);
+            }
+        }
+
+        else if (angleID == 8) {
+            if (SwerveConstants.BLA_OFFSET < 180) {
+                angle = smallAngleAdjusterIn(angle, SwerveConstants.BLA_OFFSET);
+            }   
+            else {
+                angle = largeAngleAdjusterIn(angle, SwerveConstants.BLA_OFFSET);
+            }
+        }
+
         return angle;
     }
 
