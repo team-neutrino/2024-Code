@@ -31,28 +31,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   XboxController m_controller = new XboxController(OperatorConstants.XBOX_CONTROLLER);
-  //SUBSYSTEMS
-  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  // private final LimelightSubsystem m_LimelightSubsystem = new LimelightSubsystem();
-  // private final SwerveSubsystem m_swerve = new SwerveSubsystem();
-
-  //COMMANDS
-  
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  // private final CommandXboxController m_driverController = new CommandXboxController(
-  //     OperatorConstants.kDriverControllerPort);
-
-  
 
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-
 
   }
 
@@ -72,15 +59,6 @@ public class RobotContainer {
    */
   private void configureBindings() {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
-
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // new Trigger(m_exampleSubsystem::exampleCondition)
-    //     .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-    // pressed,
-    // cancelling on release.
-    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
   }
 
   /**

@@ -30,7 +30,6 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModule m_backLeft = new SwerveModule(SwerveConstants.BLS, SwerveConstants.BLA);
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
-  // DELETE LATER
   double cycle = 0;
 
   public SwerveSubsystem() {
@@ -58,8 +57,6 @@ public class SwerveSubsystem extends SubsystemBase {
     double feedForwardFL = m_feedForward.calculate(moduleStates[1].speedMetersPerSecond);
     double feedForwardBR = m_feedForward.calculate(moduleStates[2].speedMetersPerSecond);
     double feedForwardBL = m_feedForward.calculate(moduleStates[3].speedMetersPerSecond);
-
-    // System.out.println(moduleStates[0].angle.getDegrees());
 
     for (int i = 0; i < 4; i++) {
       if (moduleStates[i].angle.getDegrees() <= 0) {
@@ -89,7 +86,7 @@ public class SwerveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     cycle++;
     if (cycle % 8 == 0) {
-      System.out.println(m_frontRight.getAbsoluteAngle());
+
     }
   }
 }
