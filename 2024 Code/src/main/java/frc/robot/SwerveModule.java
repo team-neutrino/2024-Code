@@ -7,8 +7,39 @@ import frc.robot.Constants.SwerveConstants;
 
 public class SwerveModule {
 
-    private int angleID;
-    private int speedID;
+    public static class MotorCfg {
+        public MotorCfg(int can_id, boolean inverted) {
+            m_can_id = can_id;
+            m_inverted = inverted;
+            m_angle_offset = 0.0;
+        }
+
+        public MotorCfg(int can_id, boolean inverted, double angle_offset) {
+            m_can_id = can_id;
+            m_inverted = inverted;
+            m_angle_offset = angle_offset;
+        }
+
+        public int CanId() {
+            return m_can_id;
+        }
+
+        public boolean IsInverted() {
+            return m_inverted;
+        }
+
+        public double AngleOffset() {
+            return m_angle_offset;
+        }
+
+        protected int m_can_id;
+        protected boolean m_inverted;
+        protected double m_angle_offset;
+
+    }
+
+    private MotorCfg angle_motor_cfg;
+    private MotorCfg speed_motor_cfg;
     private CANSparkMax angleMotor;
     private CANSparkMax speedMotor;
     private SparkAnalogSensor absAngleEncoder;
@@ -16,18 +47,17 @@ public class SwerveModule {
     private SparkPIDController anglePID;
     private SparkPIDController speedPID;
 
-    public SwerveModule(int speedID, int angleID) {
-        this.angleID = angleID;
-        this.speedID = speedID;
-        angleMotor = new CANSparkMax(angleID, CANSparkLowLevel.MotorType.kBrushless);
-        speedMotor = new CANSparkMax(speedID, CANSparkLowLevel.MotorType.kBrushless);
+    public SwerveModule(MotorCfg speed_motor_configuration, MotorCfg angle_motor_configuration) {
+        speed_motor_cfg = speed_motor_configuration;
+        angle_motor_cfg = angle_motor_configuration;
+        angleMotor = new CANSparkMax(angle_motor_cfg.CanId(), CANSparkLowLevel.MotorType.kBrushless);
+        speedMotor = new CANSparkMax(speed_motor_cfg.CanId(), CANSparkLowLevel.MotorType.kBrushless);
 
         angleMotor.restoreFactoryDefaults();
         speedMotor.restoreFactoryDefaults();
 
-        if (speedID == 1) {
-            speedMotor.setInverted(true);
-        }
+        speedMotor.setInverted(speed_motor_cfg.IsInverted());
+        angleMotor.setInverted(angle_motor_cfg.IsInverted());
 
         angleMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
         speedMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
@@ -62,34 +92,9 @@ public class SwerveModule {
     }
 
     private double adjustAngleOut() {
-        double out = 0;
-        if (angleID == 2) {
-            if (SwerveConstants.FRA_OFFSET < 180) {
-                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FRA_OFFSET);
-            } else {
-                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FRA_OFFSET);
-            }
-        } else if (angleID == 4) {
-            if (SwerveConstants.FLA_OFFSET < 180) {
-                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FLA_OFFSET);
-            } else {
-                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.FLA_OFFSET);
-            }
-        } else if (angleID == 6) {
-            if (SwerveConstants.BRA_OFFSET < 180) {
-                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BRA_OFFSET);
-            } else {
-                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BRA_OFFSET);
-            }
-        } else if (angleID == 8) {
-            if (SwerveConstants.BLA_OFFSET < 180) {
-                out = smallAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BLA_OFFSET);
-            } else {
-                out = largeAngleAdjusterOut(absAngleEncoder.getPosition(), SwerveConstants.BLA_OFFSET);
-            }
-        }
-
-        return out;
+        final double OFFSET = speed_motor_cfg.AngleOffset();
+        final double POSITION = absAngleEncoder.getPosition();
+        return (OFFSET < 180) ? smallAngleAdjusterOut(POSITION, OFFSET) : largeAngleAdjusterOut(POSITION, OFFSET);
     }
 
     private double largeAngleAdjusterOut(double angle, double constant) {
@@ -111,39 +116,8 @@ public class SwerveModule {
     }
 
     private double adjustAngleIn(double angle) {
-        if (angleID == 2) {
-            if (SwerveConstants.FRA_OFFSET < 180) {
-                angle = smallAngleAdjusterIn(angle, SwerveConstants.FRA_OFFSET);
-            } else {
-                angle = largeAngleAdjusterIn(angle, SwerveConstants.FRA_OFFSET);
-            }
-        }
-
-        else if (angleID == 4) {
-            if (SwerveConstants.FLA_OFFSET < 180) {
-                angle = smallAngleAdjusterIn(angle, SwerveConstants.FLA_OFFSET);
-            } else {
-                angle = largeAngleAdjusterIn(angle, SwerveConstants.FLA_OFFSET);
-            }
-        }
-
-        else if (angleID == 6) {
-            if (SwerveConstants.BRA_OFFSET < 180) {
-                angle = smallAngleAdjusterIn(angle, SwerveConstants.BRA_OFFSET);
-            } else {
-                angle = largeAngleAdjusterIn(angle, SwerveConstants.BRA_OFFSET);
-            }
-        }
-
-        else if (angleID == 8) {
-            if (SwerveConstants.BLA_OFFSET < 180) {
-                angle = smallAngleAdjusterIn(angle, SwerveConstants.BLA_OFFSET);
-            } else {
-                angle = largeAngleAdjusterIn(angle, SwerveConstants.BLA_OFFSET);
-            }
-        }
-
-        return angle;
+        final double OFFSET = speed_motor_cfg.AngleOffset();
+        return (OFFSET < 180) ? smallAngleAdjusterIn(angle, OFFSET) : largeAngleAdjusterIn(angle, OFFSET);
     }
 
     private double largeAngleAdjusterIn(double angle, double constant) {

@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.SwerveModule;
+import frc.robot.SwerveModule.MotorCfg;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
 
@@ -24,10 +25,29 @@ public class SwerveSubsystem extends SubsystemBase {
       SwerveConstants.BACK_RIGHT_COORD, SwerveConstants.BACK_LEFT_COORD);
   AHRS m_navX = new AHRS();
   SwerveModuleState[] moduleStates;
-  SwerveModule m_frontRight = new SwerveModule(SwerveConstants.FRS, SwerveConstants.FRA);
-  SwerveModule m_frontLeft = new SwerveModule(SwerveConstants.FLS, SwerveConstants.FLA);
-  SwerveModule m_backRight = new SwerveModule(SwerveConstants.BRS, SwerveConstants.BRA);
-  SwerveModule m_backLeft = new SwerveModule(SwerveConstants.BLS, SwerveConstants.BLA);
+
+  private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(SwerveConstants.FRS,
+      true);
+  private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(SwerveConstants.FLS,
+      false);
+  private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(SwerveConstants.BRS,
+      false);
+  private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(SwerveConstants.BLS,
+      false);
+
+  private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(SwerveConstants.FRA,
+      false, SwerveConstants.FRA_OFFSET);
+  private final SwerveModule.MotorCfg front_left_angle = new SwerveModule.MotorCfg(SwerveConstants.FLA,
+      false, SwerveConstants.FLA_OFFSET);
+  private final SwerveModule.MotorCfg back_right_angle = new SwerveModule.MotorCfg(SwerveConstants.BRA,
+      false, SwerveConstants.BRA_OFFSET);
+  private final SwerveModule.MotorCfg back_left_angle = new SwerveModule.MotorCfg(SwerveConstants.BLA,
+      false, SwerveConstants.BLA_OFFSET);
+
+  SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
+  SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
+  SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
+  SwerveModule m_backLeft = new SwerveModule(back_left_speed, back_left_angle);
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
   double cycle = 0;
