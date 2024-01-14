@@ -84,10 +84,10 @@ public class SwerveModule {
         if (out <= 0) {
             out *= -1;
         }
-
         else {
             out = 360 - out;
         }
+
         return Rotation2d.fromDegrees(out);
     }
 
@@ -131,7 +131,12 @@ public class SwerveModule {
         speedPID.setReference(reference, CANSparkBase.ControlType.kVelocity, 0, feedforward);
     }
 
-    public double getAbsoluteAngle() {
+    public double getAbsoluteAngle()
+    {
+        return adjustAngleOut();
+    }
+
+    public double getRawAbsoluteAngle() {
         return absAngleEncoder.getPosition();
     }
 
