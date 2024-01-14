@@ -93,47 +93,32 @@ public class SwerveModule {
 
     private double adjustAngleOut() {
         final double OFFSET = speed_motor_cfg.AngleOffset();
-        final double POSITION = absAngleEncoder.getPosition();
-        return (OFFSET < 180) ? smallAngleAdjusterOut(POSITION, OFFSET) : largeAngleAdjusterOut(POSITION, OFFSET);
-    }
+        double angle = absAngleEncoder.getPosition();
 
-    private double largeAngleAdjusterOut(double angle, double constant) {
-        if (angle > (360 - constant)) {
-            angle -= (360 - constant);
-        } else {
-            angle += constant;
+        if (angle > OFFSET)
+        {
+            angle -= OFFSET;
         }
-        return angle;
-    }
+        else
+        {
+            angle += -OFFSET + 360;
+        }
 
-    private double smallAngleAdjusterOut(double angle, double constant) {
-        if (angle < (360 - constant)) {
-            angle += constant;
-        } else {
-            angle += (constant - 360);
-        }
         return angle;
     }
 
     private double adjustAngleIn(double angle) {
         final double OFFSET = speed_motor_cfg.AngleOffset();
-        return (OFFSET < 180) ? smallAngleAdjusterIn(angle, OFFSET) : largeAngleAdjusterIn(angle, OFFSET);
-    }
 
-    private double largeAngleAdjusterIn(double angle, double constant) {
-        if (angle < constant) {
-            return angle + (360 - constant);
-        } else {
-            return angle - constant;
+        if (angle < 360 - OFFSET)
+        {
+            angle += OFFSET;
         }
-    }
+        else
+        {
+            angle += OFFSET - 360;
+        }
 
-    private double smallAngleAdjusterIn(double angle, double constant) {
-        if (angle > constant) {
-            angle -= constant;
-        } else {
-            angle += (-constant + 360);
-        }
         return angle;
     }
 
