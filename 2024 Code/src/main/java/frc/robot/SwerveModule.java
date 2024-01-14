@@ -92,7 +92,7 @@ public class SwerveModule {
     }
 
     private double adjustAngleOut() {
-        final double OFFSET = speed_motor_cfg.AngleOffset();
+        final double OFFSET = angle_motor_cfg.AngleOffset();
         double angle = absAngleEncoder.getPosition();
 
         if (angle > OFFSET)
@@ -108,7 +108,7 @@ public class SwerveModule {
     }
 
     private double adjustAngleIn(double angle) {
-        final double OFFSET = speed_motor_cfg.AngleOffset();
+        final double OFFSET = angle_motor_cfg.AngleOffset();
 
         if (angle < 360 - OFFSET)
         {
