@@ -3,6 +3,7 @@ package frc.robot;
 import com.revrobotics.*;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import frc.robot.Constants.SwerveConstants;
 
 public class SwerveModule {
@@ -83,8 +84,7 @@ public class SwerveModule {
         double out = adjustAngleOut();
         if (out <= 0) {
             out *= -1;
-        }
-        else {
+        } else {
             out = 360 - out;
         }
 
@@ -95,12 +95,9 @@ public class SwerveModule {
         final double OFFSET = angle_motor_cfg.AngleOffset();
         double angle = absAngleEncoder.getPosition();
 
-        if (angle > OFFSET)
-        {
+        if (angle > OFFSET) {
             angle -= OFFSET;
-        }
-        else
-        {
+        } else {
             angle += -OFFSET + 360;
         }
 
@@ -110,12 +107,9 @@ public class SwerveModule {
     private double adjustAngleIn(double angle) {
         final double OFFSET = angle_motor_cfg.AngleOffset();
 
-        if (angle < 360 - OFFSET)
-        {
+        if (angle < 360 - OFFSET) {
             angle += OFFSET;
-        }
-        else
-        {
+        } else {
             angle += OFFSET - 360;
         }
 
@@ -131,8 +125,7 @@ public class SwerveModule {
         speedPID.setReference(reference, CANSparkBase.ControlType.kVelocity, 0, feedforward);
     }
 
-    public double getAbsoluteAngle()
-    {
+    public double getAbsoluteAngle() {
         return adjustAngleOut();
     }
 
@@ -142,5 +135,9 @@ public class SwerveModule {
 
     public double getVoltage() {
         return absAngleEncoder.getVoltage();
+    }
+
+    public SwerveModulePosition getModulePosition() {
+        return new SwerveModulePosition(speedEncoder.getPosition(), Rotation2d.fromDegrees(adjustAngleOut()));
     }
 }

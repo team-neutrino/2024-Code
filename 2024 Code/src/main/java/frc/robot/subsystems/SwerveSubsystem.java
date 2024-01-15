@@ -10,6 +10,8 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -43,6 +45,16 @@ public class SwerveSubsystem extends SubsystemBase {
       false, SwerveConstants.BRA_OFFSET);
   private final SwerveModule.MotorCfg back_left_angle = new SwerveModule.MotorCfg(SwerveConstants.BLA,
       false, SwerveConstants.BLA_OFFSET);
+
+  public SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
+
+  SwerveModulePosition m_frontRightPosition = new SwerveModulePosition();modulePositions[0]=m_frontRightPosition;
+  SwerveModulePosition m_frontLeftPosition = new SwerveModulePosition();modulePositions[1]=m_frontLeftPosition;
+  SwerveModulePosition m_backRightPosition = new SwerveModulePosition();modulePositions[2]=m_backRightPosition;
+  SwerveModulePosition m_backLeftPosition = new SwerveModulePosition();modulePositions[3]=m_backLeftPosition;
+
+  private SwerveDriveOdometry swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
+      modulePositions);
 
   SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
   SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
@@ -108,6 +120,9 @@ public class SwerveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    m_frontRightPosition = m_frontRight.getModulePosition();
+
     cycle++;
     if (cycle % 8 == 0) {
 
