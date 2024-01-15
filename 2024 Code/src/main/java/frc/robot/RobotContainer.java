@@ -43,8 +43,6 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // m_driverController.a().whileTrue(new
-    // ShooterdefaultCommand(m_ShooterSubsystem));
 
     m_buttonA.whileTrue(new LEDCommand());
 
