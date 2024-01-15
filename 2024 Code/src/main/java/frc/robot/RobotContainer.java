@@ -9,11 +9,16 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 //import frc.robot.commands.ShooterdefaultCommand;
+import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -49,6 +54,10 @@ public class RobotContainer {
   // JoystickButton(m_OperatorController,
   // XboxController.Button.kRightBumper.value);
 
+  XboxController m_controller = new XboxController(OperatorConstants.XBOX_CONTROLLER);
+
+  SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -78,6 +87,7 @@ public class RobotContainer {
     m_driverController.b().whileTrue(new LEDCommand(m_LEDSubsystem));
     m_LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
 
+    SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
   }
 
   /**
@@ -87,6 +97,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    // return Autos.exampleAuto(m_exampleSubsystem);
+    return Commands.print("No autonomous command configured");
   }
 }
