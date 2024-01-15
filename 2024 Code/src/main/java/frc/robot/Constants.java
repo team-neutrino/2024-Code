@@ -20,7 +20,6 @@ import edu.wpi.first.math.geometry.Translation2d;
  */
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
     public static final int XBOX_CONTROLLER = 0;
   }
 
@@ -43,30 +42,22 @@ public final class Constants {
     public static double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static double MAX_MODULE_ROTATION_SPEED;
 
-    public static double FLA_OFFSET = 0;
-    public static double FRA_OFFSET = 0;
-    public static double BLA_OFFSET = 0;
-    public static double BRA_OFFSET = 0;
+    public static double FLA_OFFSET = 43;
+    public static double FRA_OFFSET = 336.6;
+    public static double BLA_OFFSET = 82.7;
+    public static double BRA_OFFSET = 359.2;
 
-    public static int FLA = 8;
-    public static int FRA = 6;
-    public static int BLA = 2;
-    public static int BRA = 4;
+    public static int FLA = 4;
+    public static int FRA = 2;
+    public static int BLA = 8;
+    public static int BRA = 6;
 
-    public static int FLS = 7;
-    public static int FRS = 5;
-    public static int BLS = 1;
-    public static int BRS = 3;
+    public static int FLS = 3;
+    public static int FRS = 1;
+    public static int BLS = 7;
+    public static int BRS = 5;
 
     public static double ks = 0.15;
     public static double kv = 2.6;
-  }
-
-  public final class MotorConstants {
-    public static final int INTAKE_MOTOR = 20;
-  }
-
-  public final class DIgitalConstats {
-    public static final int INTAKE_BEAMBREAK = 0;
   }
 }
