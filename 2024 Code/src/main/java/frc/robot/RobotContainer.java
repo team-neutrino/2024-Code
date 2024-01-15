@@ -15,7 +15,9 @@ import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -33,6 +35,8 @@ public class RobotContainer {
   XboxController m_controller = new XboxController(OperatorConstants.XBOX_CONTROLLER);
 
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
+
+  JoystickButton m_buttonX = new JoystickButton(m_controller, XboxController.Button.kX.value);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -59,6 +63,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
+
+    m_buttonX.onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
   }
 
   /**

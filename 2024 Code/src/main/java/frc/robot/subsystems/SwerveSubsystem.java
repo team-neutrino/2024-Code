@@ -101,6 +101,10 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_navX.getYaw() * (-1);
   }
 
+  public void resetNavX() {
+    m_navX.reset();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
