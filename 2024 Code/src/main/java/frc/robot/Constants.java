@@ -60,4 +60,12 @@ public final class Constants {
     public static double ks = 0.15;
     public static double kv = 2.6;
   }
+
+  public final class DigitalConstants {
+    public static int LED = 0;
+  }
+
+  public final class LEDConstants {
+    public static int LEDBufferLen = 60;
+  }
 }
