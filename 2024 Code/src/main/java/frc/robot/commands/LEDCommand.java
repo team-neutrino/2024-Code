@@ -3,19 +3,21 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LEDSubsystem;
 //import frc.robot.subsystems.SubsystemContainer;
+import frc.robot.util.SubsystemContainer;
 
 public class LEDCommand extends Command {
 
-    private LEDSubsystem m_LEDSubsystem;
+  private LEDSubsystem m_LEDSubsystem;
 
-public LEDCommand (LEDSubsystem p_LEDSubsystem){ //add subsystem container + driverstation info
-    m_LEDSubsystem = p_LEDSubsystem;
+  public LEDCommand() { // add subsystem container + driverstation info
+    m_LEDSubsystem = SubsystemContainer.LEDSubsystem;
     addRequirements(m_LEDSubsystem);
   }
 
   @Override
   public void initialize() {
-    m_LEDSubsystem.setToGreen();;
+    m_LEDSubsystem.setToGreen();
+    ;
   }
 
   @Override
@@ -24,13 +26,11 @@ public LEDCommand (LEDSubsystem p_LEDSubsystem){ //add subsystem container + dri
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   @Override
   public boolean isFinished() {
     return false;
   }
 }
-
-
-

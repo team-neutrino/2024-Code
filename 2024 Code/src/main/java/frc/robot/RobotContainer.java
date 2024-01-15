@@ -9,7 +9,6 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 //import frc.robot.commands.ShooterdefaultCommand;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
@@ -24,68 +23,32 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 //import frc.robot.subsystems.ShooterSubsystem;
 
-/**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  // private final LimelightSubsystem m_LimelightSubsystem = new
-  // LimelightSubsystem();
-  private final LEDSubsystem m_LEDSubsystem = new LEDSubsystem();
-  // private final ShooterSubsystem m_ShooterSubsystem = new ShooterSubsystem();
+  // private final CommandXboxController m_driverController = new
+  // CommandXboxController(
+  // OperatorConstants.XBOX_CONTROLLER);
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController = new CommandXboxController(
-      OperatorConstants.XBOX_CONTROLLER);
-
-  private final LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand(m_LEDSubsystem);
-
-  // private XboxController m_OperatorController = new
-  // XboxController(Constants.ControllerConstants.XBOX_CONTROLLER_ID);
-
-  // private JoystickButton m_BumperRight = new
-  // JoystickButton(m_OperatorController,
-  // XboxController.Button.kRightBumper.value);
+  XboxController m_driverController = new XboxController(OperatorConstants.XBOX_CONTROLLER);
 
   XboxController m_controller = new XboxController(OperatorConstants.XBOX_CONTROLLER);
 
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
+  LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  private final JoystickButton m_buttonA = new JoystickButton(m_controller, XboxController.Button.kA.value);
+
   public RobotContainer() {
-    // Configure the trigger bindings
-    configureBindings();
 
+    configureBindings();
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be
-   * created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-   * an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link
-   * CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
   private void configureBindings() {
     // m_driverController.a().whileTrue(new
     // ShooterdefaultCommand(m_ShooterSubsystem));
-    m_driverController.b().whileTrue(new LEDCommand(m_LEDSubsystem));
-    m_LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
+
+    m_buttonA.whileTrue(new LEDCommand());
+
+    SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
 
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
   }
