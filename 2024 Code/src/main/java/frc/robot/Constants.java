@@ -43,10 +43,10 @@ public final class Constants {
     public static double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static double MAX_MODULE_ROTATION_SPEED;
 
-    public static double FLA_OFFSET = 317;
-    public static double FRA_OFFSET = 23.4;
-    public static double BLA_OFFSET = 277.3;
-    public static double BRA_OFFSET = 0.8;
+    public static double FLA_OFFSET = 43;
+    public static double FRA_OFFSET = 336.6;
+    public static double BLA_OFFSET = 82.7;
+    public static double BRA_OFFSET = 359.2;
 
     public static int FLA = 4;
     public static int FRA = 2;
