@@ -21,12 +21,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-//import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
-  // private final CommandXboxController m_driverController = new
-  // CommandXboxController(
-  // OperatorConstants.XBOX_CONTROLLER);
 
   XboxController m_driverController = new XboxController(OperatorConstants.XBOX_CONTROLLER);
 
@@ -51,14 +47,7 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    // return Autos.exampleAuto(m_exampleSubsystem);
     return Commands.print("No autonomous command configured");
   }
 }
