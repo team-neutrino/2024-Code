@@ -5,22 +5,14 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
-//import frc.robot.commands.ShooterdefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
