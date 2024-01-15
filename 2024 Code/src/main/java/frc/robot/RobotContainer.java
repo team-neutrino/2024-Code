@@ -9,21 +9,17 @@ import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.util.SubsystemContainer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
 
-  XboxController m_driverController = new XboxController(OperatorConstants.XBOX_CONTROLLER);
-
-  XboxController m_controller = new XboxController(OperatorConstants.XBOX_CONTROLLER);
+  CommandXboxController m_controller = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
+  CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
 
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
-
-  private final JoystickButton m_buttonA = new JoystickButton(m_controller, XboxController.Button.kA.value);
 
   public RobotContainer() {
 
@@ -32,7 +28,7 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    m_buttonA.whileTrue(new LEDCommand());
+    m_controller.a().whileTrue(new LEDCommand());
 
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
 

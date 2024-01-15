@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 public final class Constants {
   public static class OperatorConstants {
     public static final int XBOX_CONTROLLER = 0;
+    public static final int DRIVER_CONTROLLER = 1;
   }
 
   public static class DimensionConstants {
