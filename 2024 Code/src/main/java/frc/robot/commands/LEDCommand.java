@@ -16,7 +16,6 @@ public class LEDCommand extends Command {
   @Override
   public void initialize() {
     m_LEDSubsystem.setToGreen();
-    ;
   }
 
   @Override
