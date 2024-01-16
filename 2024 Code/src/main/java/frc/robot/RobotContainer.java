@@ -5,8 +5,6 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 //import frc.robot.commands.ShooterdefaultCommand;
@@ -34,11 +32,11 @@ public class RobotContainer {
 
   private final JoystickButton m_buttonA = new JoystickButton(m_controller, XboxController.Button.kA.value);
 
-  private XboxController m_OperatorController =
-      new XboxController(Constants.ControllerConstants.XBOX_CONTROLLER_ID);
+  private XboxController m_OperatorController = new XboxController(Constants.ControllerConstants.XBOX_CONTROLLER_ID);
 
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
 
   public RobotContainer() {
 
@@ -47,8 +45,6 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
-
 
     m_buttonA.whileTrue(new LEDCommand());
 
