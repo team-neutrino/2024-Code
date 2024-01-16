@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -15,14 +16,11 @@ public class ShooterSubsystem extends SubsystemBase {
   private RelativeEncoder m_shooterEncoder;
   // private JoystickButton m_bumperRight
   private SparkPIDController m_pidController;
-
-  // Might need to scale everthing up - becuase previous values were divided for shuffleboard.
   private double WHEEL_P = 0.3;
   private double WHEEL_I = 0.0006;
   private double WHEEL_D = 0;
   private double WHEEL_FF = 0.195;
   private double m_targetRPM;
-  private final double range = 3;
 
   public ShooterSubsystem() {
     // m_bumperRight = p_bumperRight;
@@ -68,13 +66,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
-  public void setTargetRPM(double initialRPM) {
-    m_targetRPM = initialRPM;
-    if(Math.abs(m_targetRPM - initialRPM)>range){
+  public void setTargetRPM(double p_targetRPM) {
+    m_targetRPM = p_targetRPM;
     m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
-    }
-    }
-// May need to change all PID values for set because of scale
+  }
+
   public double getFF() {
     return m_pidController.getFF() * 1000.0;
   }
@@ -101,6 +97,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setFF(double FF) {
     m_pidController.setFF(FF / 1000.0);
+  }
+
+  public boolean magicShooter(double RPM, double TRPM) {
+    return Math.abs(RPM - TRPM) <= 10;
   }
 
   public void periodic() {
