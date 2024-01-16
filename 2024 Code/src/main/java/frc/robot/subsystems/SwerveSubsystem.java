@@ -14,9 +14,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.SwerveModule;
-import frc.robot.SwerveModule.MotorCfg;
+import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
 
@@ -28,22 +27,22 @@ public class SwerveSubsystem extends SubsystemBase {
   AHRS m_navX = new AHRS();
   SwerveModuleState[] moduleStates;
 
-  private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(SwerveConstants.FRS,
+  private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(MotorIDs.FRS,
       true);
-  private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(SwerveConstants.FLS,
+  private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
       false);
-  private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(SwerveConstants.BRS,
+  private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
       false);
-  private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(SwerveConstants.BLS,
+  private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
       false);
 
-  private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(SwerveConstants.FRA,
+  private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(MotorIDs.FRA,
       false, SwerveConstants.FRA_OFFSET);
-  private final SwerveModule.MotorCfg front_left_angle = new SwerveModule.MotorCfg(SwerveConstants.FLA,
+  private final SwerveModule.MotorCfg front_left_angle = new SwerveModule.MotorCfg(MotorIDs.FLA,
       false, SwerveConstants.FLA_OFFSET);
-  private final SwerveModule.MotorCfg back_right_angle = new SwerveModule.MotorCfg(SwerveConstants.BRA,
+  private final SwerveModule.MotorCfg back_right_angle = new SwerveModule.MotorCfg(MotorIDs.BRA,
       false, SwerveConstants.BRA_OFFSET);
-  private final SwerveModule.MotorCfg back_left_angle = new SwerveModule.MotorCfg(SwerveConstants.BLA,
+  private final SwerveModule.MotorCfg back_left_angle = new SwerveModule.MotorCfg(MotorIDs.BLA,
       false, SwerveConstants.BLA_OFFSET);
 
   public SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
