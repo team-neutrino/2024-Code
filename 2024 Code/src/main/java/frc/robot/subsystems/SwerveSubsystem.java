@@ -48,10 +48,13 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
 
-  SwerveModulePosition m_frontRightPosition = new SwerveModulePosition();modulePositions[0]=m_frontRightPosition;
-  SwerveModulePosition m_frontLeftPosition = new SwerveModulePosition();modulePositions[1]=m_frontLeftPosition;
-  SwerveModulePosition m_backRightPosition = new SwerveModulePosition();modulePositions[2]=m_backRightPosition;
-  SwerveModulePosition m_backLeftPosition = new SwerveModulePosition();modulePositions[3]=m_backLeftPosition;
+  // SwerveModulePosition m_frontRightPosition = new SwerveModulePosition();
+
+  // modulePositions[0] = m_frontRightPosition;
+  // SwerveModulePosition m_frontLeftPosition = new SwerveModulePosition();
+  // modulePositions[1]=m_frontLeftPosition;
+  // SwerveModulePosition m_backRightPosition = new SwerveModulePosition();modulePositions[2]=m_backRightPosition;
+  // SwerveModulePosition m_backLeftPosition = new SwerveModulePosition();modulePositions[3]=m_backLeftPosition;
 
   private SwerveDriveOdometry swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
       modulePositions);
@@ -121,7 +124,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    m_frontRightPosition = m_frontRight.getModulePosition();
+    modulePositions[0] = m_frontRight.getModulePosition();
 
     cycle++;
     if (cycle % 8 == 0) {
