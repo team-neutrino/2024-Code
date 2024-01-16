@@ -29,7 +29,6 @@ public class ClimbSubsystem extends SubsystemBase
      */
     private CANSparkMax m_climb1 = new CANSparkMax(Constants.ClimbConstants.CLIMB_MOTOR1, MotorType.kBrushless);
 
-
     /**
      * Encoders - assumed to be relative, subject to change
      * Encoders are initialized in the constructor with the helper method "initializeMotor"
@@ -58,6 +57,8 @@ public class ClimbSubsystem extends SubsystemBase
         p_motorController.setIdleMode(IdleMode.kBrake);
         p_motorController.setInverted(inverted);
 
+        //.setOpenLoopRampRate(int rate) used in 2022 climb - not needed here?
+
         // .setPositionConversionFactor(DriverConstants.ENCODER_POSITION_CONVERSION);
         // .setVelocityConversionFactor(DriverConstants.ENCODER_VELOCITY_CONVERSION);
         // ^^ May be needed in the future? 
@@ -68,21 +69,29 @@ public class ClimbSubsystem extends SubsystemBase
     /**
      * Starts the climb motor to the constant determined speed. 
      * NOTE: CURRENT CONSTANT IS A PLACEHOLDER VALUE
-     * NOTE: IF MORE MOTORS ARE ADDED, CREATE A PARAMETER
      */
-    public void startMotor()
+    public void extendClimber()
     {
         m_climb1.set(Constants.ClimbConstants.CLIMB_MOTOR_SPEED);
     }
 
     /**
-     * Stops the given motor.
-     * 
-     * @param p_motor The motor to stop.
+     * Stops the motor.
      */
-    public void stopMotor(CANSparkMax p_motor)
+    public void stopClimber()
     {
-        p_motor.stopMotor();
+        m_climb1.stopMotor();
+    }
+
+    /**
+     * Starts the climb motor to the constant determined speed.
+     * 
+     * NOTE: current constant is the same as the extend climber, 
+     * just negative - should there be a separate value?
+     */
+    public void rectractClimber()
+    {
+        m_climb1.set(-Constants.ClimbConstants.CLIMB_MOTOR_SPEED);
     }
 
     /**
