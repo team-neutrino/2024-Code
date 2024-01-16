@@ -48,9 +48,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
 
-  // SwerveModulePosition m_frontRightPosition = new SwerveModulePosition();
+  SwerveModulePosition m_frontRightPosition = new SwerveModulePosition();
 
-  // modulePositions[0] = m_frontRightPosition;
+  //modulePositions[0] = new SwerveModulePosition();
+
+  //modulePositions[0] = m_frontRightPosition;
   // SwerveModulePosition m_frontLeftPosition = new SwerveModulePosition();
   // modulePositions[1]=m_frontLeftPosition;
   // SwerveModulePosition m_backRightPosition = new SwerveModulePosition();modulePositions[2]=m_backRightPosition;
@@ -68,6 +70,7 @@ public class SwerveSubsystem extends SubsystemBase {
   double cycle = 0;
 
   public SwerveSubsystem() {
+    //modulePositions[0] = new SwerveModulePosition();
   }
 
   public void Swerve(double vx, double vy, double omega) {
