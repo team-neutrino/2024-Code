@@ -27,7 +27,7 @@ public class ClimbSubsystem extends SubsystemBase
      * Motor controllers
      * Variable names may be changed
      */
-    private CANSparkMax m_climb1 = new CANSparkMax(40, MotorType.kBrushless);
+    private CANSparkMax m_climb1 = new CANSparkMax(Constants.ClimbConstants.CLIMB_MOTOR1, MotorType.kBrushless);
 
 
     /**
