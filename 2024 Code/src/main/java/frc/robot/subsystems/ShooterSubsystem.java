@@ -7,7 +7,9 @@ import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -16,11 +18,14 @@ public class ShooterSubsystem extends SubsystemBase {
   private RelativeEncoder m_shooterEncoder;
   // private JoystickButton m_bumperRight
   private SparkPIDController m_pidController;
+  private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
   private double WHEEL_P = 0.3;
   private double WHEEL_I = 0.0006;
   private double WHEEL_D = 0;
   private double WHEEL_FF = 0.195;
   private double m_targetRPM;
+  private double range = 10;
+  private boolean hasNote = false;
 
   public ShooterSubsystem() {
     // m_bumperRight = p_bumperRight;
@@ -36,12 +41,22 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController.setIZone(160);
     m_pidController.setOutputRange(.1, 1);
   }
+  public boolean getBeamBreak() {
+    return m_beamBreak.get();
+  }
+
+  public boolean detectedGamePiece() {
+    return true;
+  }
+  public void gamePieceBeamBroken() {
+    hasNote = !getBeamBreak();
+  }
 
   public double getshooterEncoder() {
     return m_shooterEncoder.getPosition();
   }
 
-  public double getshooterVel() {
+  public double getshooterRpm() {
     return m_shooterEncoder.getVelocity();
   }
 
@@ -66,9 +81,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
-  public void setTargetRPM(double p_targetRPM) {
-    m_targetRPM = p_targetRPM;
-    m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
+  public void setTargetRPM(double m_targetRPM) {
+    double intialRpm =  getshooterRpm();
+    if(Math.abs(m_targetRPM - intialRpm)>range){}
+    m_pidController.setReference(m_targetRPM,CANSparkBase.ControlType.kVelocity);
   }
 
   public double getFF() {

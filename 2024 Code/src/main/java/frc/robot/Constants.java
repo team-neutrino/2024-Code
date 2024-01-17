@@ -50,6 +50,7 @@ public final class Constants {
 
   public final class DigitalConstants {
     public static int LED = 0;
+    public static int SHOOTER_BEAMBREAK = 2;
   }
 
   public final class LEDConstants {
