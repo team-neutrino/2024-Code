@@ -50,7 +50,7 @@ public final class Constants {
 
     public static int FLA = 8;
     public static int FRA = 6;
-    public static int BLA = 2;
+    // public static int BLA = 2;
     public static int BRA = 4;
 
     public static int FLS = 7;
