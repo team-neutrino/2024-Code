@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor.set(0);
     }
 
-    public double getIntakeEncoder() {
+    public double getIntakeVelocity() {
         return m_intakeEncoder.getVelocity();
     }
 
