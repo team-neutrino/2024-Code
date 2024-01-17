@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.MotorIDs;
@@ -54,7 +55,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
 
-  private PIDController m_angleController = new PIDController(1, 0, 0);
+  private PIDController m_angleController = new PIDController(0.1, 0, 0);
+  private Timer m_timer = new Timer();
+  private double m_referenceAngle = 0;
+  private boolean m_referenceSet = false;
 
   private SwerveDriveOdometry m_swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
       modulePositions);
@@ -103,6 +107,15 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
     omega = Limiter.scale(Limiter.deadzone(omega, 0.2), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
+
+    if (omega == 0 && m_timer.hasElapsed(0)) {
+      m_timer.start();
+    } else if (m_timer.get() == 0.2) {
+      m_referenceAngle = getYaw();
+      m_referenceSet = true;
+    } else if (omega == 0 && m_referenceSet) {
+      omega += m_angleController.calculate(getYaw(), m_referenceAngle);
+    }
 
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(vx, vy, omega);
     ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
@@ -168,6 +181,10 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+  }
+
+  public void setRobotYaw(double angle) {
+    m_referenceAngle = angle;
   }
 
   public double getYaw() {
