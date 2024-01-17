@@ -20,7 +20,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void runIntake() {
         m_intakeMotor.set(MotorIDs.INTAKE_MOTOR_SPEED);
-        System.err.println("run");
     }
 
     public void runIntakeReverse() {
