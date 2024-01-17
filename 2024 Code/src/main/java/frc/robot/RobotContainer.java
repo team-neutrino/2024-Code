@@ -60,9 +60,9 @@ public class RobotContainer {
     m_controller.x().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_IntakeDefaultCommand);
 
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+    // PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
 
-    m_controller.a().onTrue(AutoBuilder.followPath(path));
+    m_controller.a().onTrue(new PathPlannerAuto("New Auto"));
   }
 
   public Command getAutonomousCommand() {
