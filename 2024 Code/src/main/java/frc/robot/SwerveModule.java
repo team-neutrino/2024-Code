@@ -4,6 +4,7 @@ import com.revrobotics.*;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.SwerveConstants;
 
 public class SwerveModule {
@@ -139,5 +140,9 @@ public class SwerveModule {
 
     public SwerveModulePosition getModulePosition() {
         return new SwerveModulePosition(speedEncoder.getPosition(), Rotation2d.fromDegrees(adjustAngleOut()));
+    }
+
+    public SwerveModuleState getModuleState() {
+        return new SwerveModuleState(speedEncoder.getVelocity(), Rotation2d.fromDegrees(adjustAngleOut()));
     }
 }

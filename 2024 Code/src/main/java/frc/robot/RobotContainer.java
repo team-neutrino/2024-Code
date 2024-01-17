@@ -9,6 +9,7 @@ import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.util.SubsystemContainer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -24,7 +25,8 @@ public class RobotContainer {
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
 
-  JoystickButton m_buttonX = new JoystickButton(m_controller, XboxController.Button.kX.value);
+  // JoystickButton m_buttonX = new JoystickButton(m_controller,
+  // XboxController.Button.kX.value);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -42,7 +44,7 @@ public class RobotContainer {
 
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
 
-    m_buttonX.onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_controller.x().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
   }
 
   public Command getAutonomousCommand() {

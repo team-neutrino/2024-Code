@@ -22,10 +22,12 @@ public final class Constants {
     public static Translation2d FRONT_LEFT_COORD = new Translation2d(0.2155261469, 0.2155261469);
     public static Translation2d BACK_RIGHT_COORD = new Translation2d(-0.2155261469, -0.2155261469);
     public static Translation2d BACK_LEFT_COORD = new Translation2d(-0.2155261469, 0.2155261469);
+    public static double DRIVEBASE_RADIUS = 0.304799999992;
 
     public static double MAX_CHASSIS_LINEAR_SPEED = 1;
     public static double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static double MAX_MODULE_ROTATION_SPEED;
+    public static double MAX_MODULE_LINEAR_SPEED = 7;
 
     public static double FLA_OFFSET = 43;
     public static double FRA_OFFSET = 336.6;
