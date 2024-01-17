@@ -19,7 +19,7 @@ public class ShooterSubsystem extends SubsystemBase {
   // private JoystickButton m_bumperRight
   private SparkPIDController m_pidController;
   private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
-  private double WHEEL_P = 0;
+  private double WHEEL_P = 0.003;
   private double WHEEL_I = 0.0;
   private double WHEEL_D = 0;
   private double WHEEL_FF = 0;
