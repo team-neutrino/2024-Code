@@ -8,10 +8,6 @@ public final class Constants {
     public static final int DRIVER_CONTROLLER = 1;
   }
 
-  public static class MotorConstants {
-    public static int shooter;
-  }
-
   public final class ControllerConstants {
     public static int XBOX_CONTROLLER_ID = 2;
   }
@@ -69,5 +65,6 @@ public final class Constants {
     public static int FRS = 1;
     public static int BLS = 7;
     public static int BRS = 5;
+    public static int shooter = 20;
   }
 }

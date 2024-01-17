@@ -10,25 +10,24 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DigitalConstants;
-import frc.robot.Constants.MotorConstants;
+import frc.robot.Constants.MotorIDs;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private CANSparkMax m_shooter = new CANSparkMax(MotorConstants.shooter, MotorType.kBrushless);
+  private CANSparkMax m_shooter = new CANSparkMax(MotorIDs.shooter, MotorType.kBrushless);
   // initialize encoder
   private RelativeEncoder m_shooterEncoder;
   // private JoystickButton m_bumperRight
   private SparkPIDController m_pidController;
   private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
-  private double WHEEL_P = 0.3;
-  private double WHEEL_I = 0.0006;
+  private double WHEEL_P = 0;
+  private double WHEEL_I = 0.0;
   private double WHEEL_D = 0;
-  private double WHEEL_FF = 0.195;
+  private double WHEEL_FF = 0;
   private double m_targetRPM;
-  private double range = 10;
   private boolean hasNote = false;
 
   public ShooterSubsystem() {
-    // m_bumperRight = p_bumperRight;
+    m_shooterEncoder = m_shooter.getEncoder();
     m_pidController = m_shooter.getPIDController();
     m_pidController.setFeedbackDevice(m_shooterEncoder);
     m_shooter.restoreFactoryDefaults();
@@ -39,8 +38,9 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController.setD(WHEEL_D);
     m_pidController.setFF(WHEEL_FF);
     m_pidController.setIZone(160);
-    m_pidController.setOutputRange(.1, 1);
+    m_pidController.setOutputRange(0, 1);
   }
+
   public boolean getBeamBreak() {
     return m_beamBreak.get();
   }
@@ -48,6 +48,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public boolean detectedGamePiece() {
     return true;
   }
+
   public void gamePieceBeamBroken() {
     hasNote = !getBeamBreak();
   }
@@ -81,10 +82,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
-  public void setTargetRPM(double m_targetRPM) {
-    double intialRpm =  getshooterRpm();
-    if(Math.abs(m_targetRPM - intialRpm)>range){}
-    m_pidController.setReference(m_targetRPM,CANSparkBase.ControlType.kVelocity);
+  public void setTargetRPM(double p_targetRpm) {
+    m_targetRPM = p_targetRpm;
+    System.out.println(getshooterRpm());
+    m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
   }
 
   public double getFF() {
@@ -120,6 +121,5 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
-
   }
 }
