@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import frc.robot.Constants.IntakeIDs;
 import frc.robot.Constants.MotorIDs;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -19,11 +21,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake() {
-        m_intakeMotor.set(MotorIDs.INTAKE_MOTOR_SPEED);
+        m_intakeMotor.set(IntakeIDs.INTAKE_MOTOR_SPEED);
     }
 
     public void runIntakeReverse() {
-        m_intakeMotor.set(-MotorIDs.INTAKE_MOTOR_SPEED);
+        m_intakeMotor.set(-IntakeIDs.INTAKE_MOTOR_SPEED);
     }
 
     public void stopIntake() {
