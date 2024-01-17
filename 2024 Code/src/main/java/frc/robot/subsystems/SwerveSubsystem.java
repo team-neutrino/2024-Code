@@ -36,13 +36,13 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModuleState[] moduleStates;
 
   private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(MotorIDs.FRS,
-      true);
+      false);
   private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
-      false);
+      true);
   private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
-      false);
+      true);
   private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
-      false);
+      true);
 
   private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(MotorIDs.FRA,
       false, SwerveConstants.FRA_OFFSET);
@@ -55,13 +55,12 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
 
+  private SwerveDriveOdometry m_swerveOdometry;
+
   private PIDController m_angleController = new PIDController(0.1, 0, 0);
   private Timer m_timer = new Timer();
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
-
-  private SwerveDriveOdometry m_swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
-      modulePositions);
 
   SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
   SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
@@ -76,6 +75,9 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[1] = new SwerveModulePosition();
     modulePositions[2] = new SwerveModulePosition();
     modulePositions[3] = new SwerveModulePosition();
+
+    m_swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
+        modulePositions);
 
     m_angleController.enableContinuousInput(-180, 180);
 
@@ -108,13 +110,25 @@ public class SwerveSubsystem extends SubsystemBase {
     omega = Limiter.scale(Limiter.deadzone(omega, 0.2), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
 
-    if (omega == 0 && m_timer.hasElapsed(0)) {
+    if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
-    } else if (m_timer.get() == 0.2) {
+    } else if (m_timer.get() >= 0.2 && !m_referenceSet) {
       m_referenceAngle = getYaw();
       m_referenceSet = true;
+      m_timer.stop();
+      m_timer.reset();
+    } else if (omega != 0) {
+      m_referenceSet = false;
+
     } else if (omega == 0 && m_referenceSet) {
       omega += m_angleController.calculate(getYaw(), m_referenceAngle);
+    }
+
+    System.out.println("time elapsed " + m_timer.hasElapsed(0));
+
+    if (cycle % 8 == 0) {
+      // System.out.println("reference angle " + m_referenceAngle);
+
     }
 
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(vx, vy, omega);
@@ -193,6 +207,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void resetNavX() {
     m_navX.reset();
+    m_referenceAngle = 0;
   }
 
   public Pose2d getPose() {

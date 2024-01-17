@@ -11,10 +11,12 @@ import frc.robot.util.SubsystemContainer;
 
 public class SwerveDefaultCommand extends Command {
   XboxController m_xboxController;
+  double cycle;
 
   public SwerveDefaultCommand(CommandXboxController p_controller) {
     m_xboxController = p_controller.getHID();
     addRequirements(SubsystemContainer.swerveSubsystem);
+    cycle = 0;
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +27,12 @@ public class SwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    cycle++;
+    if (cycle % 8 == 0) {
+      // System.out.println("controller y " + m_xboxController.getLeftY());
+      // System.out.println("controller x " + m_xboxController.getRightX());
+    }
+
     SubsystemContainer.swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1, m_xboxController.getLeftX() * -1,
         m_xboxController.getRightX() * -1);
   }
