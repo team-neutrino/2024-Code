@@ -10,6 +10,7 @@ import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
+import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -34,6 +35,8 @@ public class RobotContainer {
     m_controller.a().whileTrue(new LEDCommand());
 
     m_controller.b().whileTrue(new IntakeCommand());
+
+    m_controller.y().whileTrue(new IntakeReverseCommand());
 
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
 

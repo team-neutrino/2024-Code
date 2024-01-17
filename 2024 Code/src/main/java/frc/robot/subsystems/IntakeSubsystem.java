@@ -15,12 +15,12 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem() {
         m_intakeMotor.restoreFactoryDefaults();
-        m_intakeEncoder = m_intakeMotor.getEncoder();
-        m_intakeMotor.setSmartCurrentLimit(30, 35); // from previous code idk what it does
+
     }
 
     public void runIntake() {
         m_intakeMotor.set(MotorIDs.INTAKE_MOTOR_SPEED);
+        System.err.println("run");
     }
 
     public void runIntakeReverse() {

@@ -43,7 +43,8 @@ public class SwerveSubsystem extends SubsystemBase {
   private final SwerveModule.MotorCfg back_left_angle = new SwerveModule.MotorCfg(MotorIDs.BLA,
       false, SwerveConstants.BLA_OFFSET);
 
-  SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
+  SwerveModule m_frontRight = new SwerveModule(front_right_speed,
+      front_right_angle);
   SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
   SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
   SwerveModule m_backLeft = new SwerveModule(back_left_speed, back_left_angle);
