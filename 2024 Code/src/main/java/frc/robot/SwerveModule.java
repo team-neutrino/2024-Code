@@ -83,7 +83,7 @@ public class SwerveModule {
 
     public Rotation2d getOptimizationAngle() {
         double out = adjustAngleOut();
-        if (out <= 0) {
+        if (out <= 180) {
             out *= -1;
         } else {
             out = 360 - out;
