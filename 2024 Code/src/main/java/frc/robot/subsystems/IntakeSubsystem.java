@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel;
 
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MotorIDs;
@@ -13,7 +13,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private RelativeEncoder m_intakeEncoder;
 
-    private CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, MotorType.kBrushless);
+    private CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
 
     public IntakeSubsystem() {
         m_intakeMotor.restoreFactoryDefaults();
