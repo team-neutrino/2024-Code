@@ -22,6 +22,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.MotorIDs;
@@ -71,6 +73,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
   double cycle = 0;
 
+   //SIMULATION
+    Field2d field = new Field2d();
+    Pose2d autonPose = new Pose2d();
+    Pose2d generalSimPose = new Pose2d();
+
   // ChassisSpeeds robotSpeeds;
 
   public SwerveSubsystem() {
@@ -83,6 +90,10 @@ public class SwerveSubsystem extends SubsystemBase {
         modulePositions);
 
     m_angleController.enableContinuousInput(-180, 180);
+
+    //SIMULATION
+    SmartDashboard.putData("Field", field);
+    field.getRobotObject().close();
 
     AutoBuilder.configureHolonomic(
         this::getPose,
@@ -245,7 +256,9 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[2] = m_backRight.getModulePosition();
     modulePositions[3] = m_backLeft.getModulePosition();
 
-    m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    autonPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+
+    field.getObject("auton").setPose(autonPose);
 
     cycle++;
     if (cycle % 8 == 0) {
