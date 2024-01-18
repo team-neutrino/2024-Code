@@ -139,7 +139,7 @@ public class SwerveModule {
     }
 
     public SwerveModulePosition getModulePosition() {
-        return new SwerveModulePosition(speedEncoder.getPosition(), Rotation2d.fromDegrees(adjustAngleOut()));
+        return new SwerveModulePosition(speedEncoder.getPosition(), getOptimizationAngle());
     }
 
     public SwerveModuleState getModuleState() {
