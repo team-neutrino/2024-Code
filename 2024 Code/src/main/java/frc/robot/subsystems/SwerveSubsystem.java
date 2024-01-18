@@ -15,6 +15,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.Odometry;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -70,6 +71,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
   double cycle = 0;
 
+  // ChassisSpeeds robotSpeeds;
+
   public SwerveSubsystem() {
     modulePositions[0] = new SwerveModulePosition();
     modulePositions[1] = new SwerveModulePosition();
@@ -87,8 +90,8 @@ public class SwerveSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds,
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
-            new PIDConstants(1, 0.0, 0.0),
-            new PIDConstants(1, 0.0, 0.0),
+            new PIDConstants(0.105, 0.0, 0.0),
+            new PIDConstants(0.105, 0.0, 0.0),
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -124,7 +127,7 @@ public class SwerveSubsystem extends SubsystemBase {
       omega += m_angleController.calculate(getYaw(), m_referenceAngle);
     }
 
-    System.out.println("time elapsed " + m_timer.hasElapsed(0));
+    // System.out.println("time elapsed " + m_timer.hasElapsed(0));
 
     if (cycle % 8 == 0) {
       // System.out.println("reference angle " + m_referenceAngle);
@@ -136,10 +139,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
     moduleStates = m_kinematics.toSwerveModuleStates(robotSpeeds);
 
-    moduleStates[0] = SwerveModuleState.optimize(moduleStates[0], m_frontRight.getOptimizationAngle());
-    moduleStates[1] = SwerveModuleState.optimize(moduleStates[1], m_frontLeft.getOptimizationAngle());
-    moduleStates[2] = SwerveModuleState.optimize(moduleStates[2], m_backRight.getOptimizationAngle());
-    moduleStates[3] = SwerveModuleState.optimize(moduleStates[3], m_backLeft.getOptimizationAngle());
+    moduleStates[0] = SwerveModuleState.optimize(moduleStates[0],
+        m_frontRight.getOptimizationAngle());
+    moduleStates[1] = SwerveModuleState.optimize(moduleStates[1],
+        m_frontLeft.getOptimizationAngle());
+    moduleStates[2] = SwerveModuleState.optimize(moduleStates[2],
+        m_backRight.getOptimizationAngle());
+    moduleStates[3] = SwerveModuleState.optimize(moduleStates[3],
+        m_backLeft.getOptimizationAngle());
 
     double feedForwardFR = m_feedForward.calculate(moduleStates[0].speedMetersPerSecond);
     double feedForwardFL = m_feedForward.calculate(moduleStates[1].speedMetersPerSecond);
@@ -167,11 +174,15 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void robotRelativeSwerve(ChassisSpeeds referenceSpeeds) {
     moduleStates = m_kinematics.toSwerveModuleStates(referenceSpeeds);
-
-    moduleStates[0] = SwerveModuleState.optimize(moduleStates[0], m_frontRight.getOptimizationAngle());
-    moduleStates[1] = SwerveModuleState.optimize(moduleStates[1], m_frontLeft.getOptimizationAngle());
-    moduleStates[2] = SwerveModuleState.optimize(moduleStates[2], m_backRight.getOptimizationAngle());
-    moduleStates[3] = SwerveModuleState.optimize(moduleStates[3], m_backLeft.getOptimizationAngle());
+    // robotSpeeds = referenceSpeeds;
+    // moduleStates[0] = SwerveModuleState.optimize(moduleStates[0],
+    // m_frontRight.getOptimizationAngle());
+    // moduleStates[1] = SwerveModuleState.optimize(moduleStates[1],
+    // m_frontLeft.getOptimizationAngle());
+    // moduleStates[2] = SwerveModuleState.optimize(moduleStates[2],
+    // m_backRight.getOptimizationAngle());
+    // moduleStates[3] = SwerveModuleState.optimize(moduleStates[3],
+    // m_backLeft.getOptimizationAngle());
 
     double feedForwardFR = m_feedForward.calculate(moduleStates[0].speedMetersPerSecond);
     double feedForwardFL = m_feedForward.calculate(moduleStates[1].speedMetersPerSecond);
@@ -215,11 +226,13 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void resetPose(Pose2d pose) {
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(m_navX.getAngle()), modulePositions, pose);
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
-    return m_kinematics.toChassisSpeeds(m_frontRight.getModuleState(), m_frontLeft.getModuleState(),
+    // return robotSpeeds;
+    return m_kinematics.toChassisSpeeds(m_frontRight.getModuleState(),
+        m_frontLeft.getModuleState(),
         m_backRight.getModuleState(), m_backLeft.getModuleState());
   }
 
@@ -232,9 +245,19 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[2] = m_backRight.getModulePosition();
     modulePositions[3] = m_backLeft.getModulePosition();
 
+    m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+
     cycle++;
     if (cycle % 8 == 0) {
+      // System.out.println("navx yaw " + getYaw());
+      // System.out.println("current x value " +
+      // m_swerveOdometry.getPoseMeters().getX());
+      System.out.println("current y value " +
+          m_swerveOdometry.getPoseMeters().getY() + " current x value "
+          + m_swerveOdometry.getPoseMeters().getX());
 
+      // System.out.println(" \"distance traveled\" " +
+      // m_frontRight.getModulePosition().distanceMeters);
     }
   }
 }
