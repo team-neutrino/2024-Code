@@ -5,12 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.util.SubsystemContainer;
 
-public class ClimbDefaultCommand extends Command {
-
-  /** Creates a new ClimbDefaultCommand. */
-  public ClimbDefaultCommand() {
+public class ClimbExtendCommand extends Command {
+  /** Creates a new ClimbExtendCommand. */
+  public ClimbExtendCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(SubsystemContainer.climbSubsystem);
   }
@@ -18,12 +18,13 @@ public class ClimbDefaultCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
-  // Called every 20 ms
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.climbSubsystem.stopClimber();
+    SubsystemContainer.climbSubsystem.extendClimber();
   }
 
   // Called once the command ends or is interrupted.
