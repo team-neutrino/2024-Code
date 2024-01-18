@@ -38,6 +38,7 @@ public final class Constants {
 
   public final class DigitalConstants {
     public static int LED = 0;
+    public static int ARM_ENCONDER = 1;
   }
 
   public final class LEDConstants {
@@ -56,5 +57,13 @@ public final class Constants {
     public static int FRS = 1;
     public static int BLS = 7;
     public static int BRS = 5;
+
+    public static int Arm = 10;
+  }
+
+  public class ArmConstants {
+    public static double Arm_kp = 1;
+    public static double Arm_ki = 0;
+    public static double Arm_kd = 0;
   }
 }
