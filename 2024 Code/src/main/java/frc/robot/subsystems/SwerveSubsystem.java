@@ -34,8 +34,8 @@ public class SwerveSubsystem extends SubsystemBase {
   private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
       false);
 
-  // private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(MotorIDs.FRA,
-  //     false, SwerveConstants.FRA_OFFSET);
+  private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(MotorIDs.FRA,
+      false, SwerveConstants.FRA_OFFSET);
   private final SwerveModule.MotorCfg front_left_angle = new SwerveModule.MotorCfg(MotorIDs.FLA,
       false, SwerveConstants.FLA_OFFSET);
   private final SwerveModule.MotorCfg back_right_angle = new SwerveModule.MotorCfg(MotorIDs.BRA,
@@ -43,7 +43,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final SwerveModule.MotorCfg back_left_angle = new SwerveModule.MotorCfg(MotorIDs.BLA,
       false, SwerveConstants.BLA_OFFSET);
 
-  // SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
+  SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
   SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
   SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
   SwerveModule m_backLeft = new SwerveModule(back_left_speed, back_left_angle);
@@ -67,7 +67,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     moduleStates = m_kinematics.toSwerveModuleStates(robotSpeeds);
 
-    // moduleStates[0] = SwerveModuleState.optimize(moduleStates[0], m_frontRight.getOptimizationAngle());
+    moduleStates[0] = SwerveModuleState.optimize(moduleStates[0], m_frontRight.getOptimizationAngle());
     moduleStates[1] = SwerveModuleState.optimize(moduleStates[1], m_frontLeft.getOptimizationAngle());
     moduleStates[2] = SwerveModuleState.optimize(moduleStates[2], m_backRight.getOptimizationAngle());
     moduleStates[3] = SwerveModuleState.optimize(moduleStates[3], m_backLeft.getOptimizationAngle());
@@ -85,12 +85,12 @@ public class SwerveSubsystem extends SubsystemBase {
       }
     }
 
-    // m_frontRight.setAnglePID(moduleStates[0].angle.getDegrees());
+    m_frontRight.setAnglePID(moduleStates[0].angle.getDegrees());
     m_frontLeft.setAnglePID(moduleStates[1].angle.getDegrees());
     m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
     m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
 
-    // m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond, feedForwardFR);
+    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond, feedForwardFR);
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);

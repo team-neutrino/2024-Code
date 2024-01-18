@@ -9,7 +9,7 @@ public final class Constants {
   }
 
   public static class ClimbConstants {
-    public static final double CLIMB_MOTOR_SPEED = .2; //PLACEHOLDER VALUE
+    public static final double CLIMB_MOTOR_SPEED = .2; // PLACEHOLDER VALUE
     public static final int CLIMB_MOTOR1 = 40;
   }
 
@@ -53,7 +53,7 @@ public final class Constants {
     // A means Angular and S means Speed.
 
     public static int FLA = 4;
-    // public static int FRA = 2;
+    public static int FRA = 2;
     public static int BLA = 8;
     public static int BRA = 6;
 

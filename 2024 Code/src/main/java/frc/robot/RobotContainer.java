@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
+import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
@@ -24,6 +25,7 @@ public class RobotContainer {
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_IntakeDefaultCommand = new IntakeDefaultCommand();
+  ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
 
   public RobotContainer() {
 
@@ -31,7 +33,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    //set default commands
+    // set default commands
 
     m_controller.a().whileTrue(new LEDCommand());
 
@@ -45,7 +47,7 @@ public class RobotContainer {
 
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_IntakeDefaultCommand);
 
-    SubsystemContainer.climbSubsystem.setDefaultCommand(m_IntakeDefaultCommand);
+    SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
   }
 
   public Command getAutonomousCommand() {
