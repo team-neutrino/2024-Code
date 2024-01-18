@@ -6,8 +6,8 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class SubsystemContainer {
 
-    public static final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+    public static final LimelightSubsystem LimelightSubsystem = new LimelightSubsystem();
     public static final LEDSubsystem LEDSubsystem = new LEDSubsystem();
-    public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+    public static final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
 
 }

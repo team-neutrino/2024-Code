@@ -32,7 +32,7 @@ public class RobotContainer {
 
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
 
-    SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
+    SubsystemContainer.SwerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
   }
 
   public Command getAutonomousCommand() {
