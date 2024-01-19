@@ -230,9 +230,8 @@ public class SwerveSubsystem extends SubsystemBase {
   public void resetNavX() {
     m_navX.reset();
     m_referenceAngle = 0;
-    // autonPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
-        new Pose2d(4.78, 4.18, Rotation2d.fromDegrees(0)));
+        new Pose2d());
   }
 
   public Pose2d getPose() {
@@ -244,7 +243,6 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
-    // return robotSpeeds;
     return m_kinematics.toChassisSpeeds(m_frontRight.getModuleState(),
         m_frontLeft.getModuleState(),
         m_backRight.getModuleState(), m_backLeft.getModuleState());
@@ -265,15 +263,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     cycle++;
     if (cycle % 8 == 0) {
-      // System.out.println("navx yaw " + getYaw());
-      // System.out.println("current x value " +
-      // m_swerveOdometry.getPoseMeters().getX());
-      System.out.println("current y value " +
-          m_swerveOdometry.getPoseMeters().getY() + " current x value "
-          + m_swerveOdometry.getPoseMeters().getX());
 
-      // System.out.println(" \"distance traveled\" " +
-      // m_frontRight.getModulePosition().distanceMeters);
     }
   }
 }

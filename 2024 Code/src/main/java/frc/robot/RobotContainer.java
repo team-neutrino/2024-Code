@@ -39,9 +39,6 @@ public class RobotContainer {
   IntakeDefaultCommand m_IntakeDefaultCommand = new IntakeDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
 
-  // JoystickButton m_buttonX = new JoystickButton(m_controller,
-  // XboxController.Button.kX.value);
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -71,9 +68,6 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
 
     m_controller.x().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-
-    // PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
-
     m_controller.a().onTrue(new PathPlannerAuto("New Auto"));
   }
 
