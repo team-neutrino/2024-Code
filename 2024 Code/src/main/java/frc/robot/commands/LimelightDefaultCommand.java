@@ -13,7 +13,7 @@ public class LimelightDefaultCommand extends Command {
     private LimelightSubsystem m_LimelightSubsystem;
 
     public LimelightDefaultCommand() {
-        m_LimelightSubsystem = SubsystemContainer.LimelightSubsystem;
+        m_LimelightSubsystem = SubsystemContainer.limelightSubsystem;
         addRequirements(m_LimelightSubsystem);
 
     }

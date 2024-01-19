@@ -24,7 +24,7 @@ public class AutoAlign extends Command {
     @Override
     public void initialize() {
         // in degrees?
-        setRobotYaw(FieldConstants.autoAlignPoint[5]);
+        //setRobotYaw(FieldConstants.autoAlignPoint[5]);
 
     }
 
