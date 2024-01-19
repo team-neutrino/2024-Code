@@ -41,8 +41,11 @@ public final class Constants {
   }
 
   public final class DigitalConstants {
-    public static int LED = 0;
     public static int INTAKE_MOTOR_BEAMBREAK = 0;
+  }
+
+  public final class PWMConstants {
+    public static int LED = 0;
   }
 
   public final class LEDConstants {
