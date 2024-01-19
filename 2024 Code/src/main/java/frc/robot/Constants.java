@@ -42,6 +42,7 @@ public final class Constants {
 
   public final class DigitalConstants {
     public static int LED = 0;
+    public static int INTAKE_MOTOR_BEAMBREAK = 0;
   }
 
   public final class LEDConstants {
@@ -61,13 +62,13 @@ public final class Constants {
     public static int BLS = 7;
     public static int BRS = 5;
 
-    public static int INTAKE_MOTOR = 20;
+    public static int INTAKE_MOTOR = 30;
 
     public static final int CLIMB_MOTOR1 = 40;
   }
 
   public final class IntakeConstants {
-    public static double INTAKE_MOTOR_SPEED = 0.1;
+    public static double INTAKE_MOTOR_SPEED = 0.2;
   }
 
 }
