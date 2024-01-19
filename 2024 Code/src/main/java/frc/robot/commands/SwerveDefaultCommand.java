@@ -11,7 +11,6 @@ import frc.robot.util.SubsystemContainer;
 
 public class SwerveDefaultCommand extends Command {
   XboxController m_xboxController;
-  double cycle;
 
   public SwerveDefaultCommand(CommandXboxController p_controller) {
     m_xboxController = p_controller.getHID();
