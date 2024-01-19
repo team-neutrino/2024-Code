@@ -17,27 +17,35 @@ import frc.robot.Constants.MotorIDs;
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
   private DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCONDER);
+  private double errorSum;
+  private double lastError;
+  private double error;
+  private double change;
+  private double PIDoutput;
 
   public ArmSubsystem() {
     m_arm.restoreFactoryDefaults();
   }
 
-  private void setArm(double output) {
-    m_arm.setVoltage(output);
-  }
-
   private double armPID(double targetAngle, double currentAngle) {
-    double errorSum = 0;
-    double lastError = 0;
-    double error = targetAngle - currentAngle;
+    error = targetAngle - currentAngle;
     errorSum += error;
-    double change = error - lastError;
-    double output = ArmConstants.Arm_kp * error + ArmConstants.Arm_kd * errorSum + ArmConstants.Arm_kd * change;
-    return output;
+    change = error - lastError;
+    PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_kd * errorSum + ArmConstants.Arm_kd * change;
+    return PIDoutput;
   }
 
   public void setAngle(double angle) {
-    setArm(armPID(angle, m_armEncoder.getAbsolutePosition()));
+    m_arm.setVoltage(armPID(angle, m_armEncoder.getAbsolutePosition()));
+  }
+
+  public void armChecker(double desiredVolt) {
+    if ((m_armEncoder.getAbsolutePosition() >= 180 && desiredVolt > ArmConstants.INTAKE_LIMIT) ||
+        (m_armEncoder.getAbsolutePosition() <= ArmConstants.AMP_LIMIT && desiredVolt < 0)) {
+      m_arm.setVoltage(0);
+    } else {
+      m_arm.setVoltage(desiredVolt);
+    }
   }
 
   @Override

@@ -65,5 +65,7 @@ public final class Constants {
     public static double Arm_kp = 1;
     public static double Arm_ki = 0;
     public static double Arm_kd = 0;
+    public static double INTAKE_LIMIT = 180;
+    public static double AMP_LIMIT = 0;
   }
 }
