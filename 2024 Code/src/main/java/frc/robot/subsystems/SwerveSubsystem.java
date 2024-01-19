@@ -9,13 +9,11 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.Odometry;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -31,7 +29,6 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
 
 public class SwerveSubsystem extends SubsystemBase {
-  /** Creates a new SwerveSubsystem. */
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
       SwerveConstants.FRONT_LEFT_COORD,
       SwerveConstants.BACK_RIGHT_COORD, SwerveConstants.BACK_LEFT_COORD);
@@ -73,12 +70,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
   double cycle = 0;
 
-  // SIMULATION
   Field2d field = new Field2d();
   Pose2d autonPose = new Pose2d();
   Pose2d generalSimPose = new Pose2d();
-
-  // ChassisSpeeds robotSpeeds;
 
   public SwerveSubsystem() {
     modulePositions[0] = new SwerveModulePosition();
@@ -91,7 +85,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_angleController.enableContinuousInput(-180, 180);
 
-    // SIMULATION
     SmartDashboard.putData("Field", field);
     field.getRobotObject().close();
 
@@ -138,13 +131,6 @@ public class SwerveSubsystem extends SubsystemBase {
       omega += m_angleController.calculate(getYaw(), m_referenceAngle);
     }
 
-    // System.out.println("time elapsed " + m_timer.hasElapsed(0));
-
-    if (cycle % 8 == 0) {
-      // System.out.println("reference angle " + m_referenceAngle);
-
-    }
-
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(vx, vy, omega);
     ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
 
@@ -185,15 +171,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void robotRelativeSwerve(ChassisSpeeds referenceSpeeds) {
     moduleStates = m_kinematics.toSwerveModuleStates(referenceSpeeds);
-    // robotSpeeds = referenceSpeeds;
-    // moduleStates[0] = SwerveModuleState.optimize(moduleStates[0],
-    // m_frontRight.getOptimizationAngle());
-    // moduleStates[1] = SwerveModuleState.optimize(moduleStates[1],
-    // m_frontLeft.getOptimizationAngle());
-    // moduleStates[2] = SwerveModuleState.optimize(moduleStates[2],
-    // m_backRight.getOptimizationAngle());
-    // moduleStates[3] = SwerveModuleState.optimize(moduleStates[3],
-    // m_backLeft.getOptimizationAngle());
 
     double feedForwardFR = m_feedForward.calculate(moduleStates[0].speedMetersPerSecond);
     double feedForwardFL = m_feedForward.calculate(moduleStates[1].speedMetersPerSecond);
@@ -230,9 +207,8 @@ public class SwerveSubsystem extends SubsystemBase {
   public void resetNavX() {
     m_navX.reset();
     m_referenceAngle = 0;
-    // autonPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
-        new Pose2d(4.78, 4.18, Rotation2d.fromDegrees(0)));
+        new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
   }
 
   public Pose2d getPose() {
@@ -244,7 +220,6 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
-    // return robotSpeeds;
     return m_kinematics.toChassisSpeeds(m_frontRight.getModuleState(),
         m_frontLeft.getModuleState(),
         m_backRight.getModuleState(), m_backLeft.getModuleState());
@@ -252,8 +227,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-
     modulePositions[0] = m_frontRight.getModulePosition();
     modulePositions[1] = m_frontLeft.getModulePosition();
     modulePositions[2] = m_backRight.getModulePosition();
@@ -265,15 +238,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     cycle++;
     if (cycle % 8 == 0) {
-      // System.out.println("navx yaw " + getYaw());
-      // System.out.println("current x value " +
-      // m_swerveOdometry.getPoseMeters().getX());
-      System.out.println("current y value " +
-          m_swerveOdometry.getPoseMeters().getY() + " current x value "
-          + m_swerveOdometry.getPoseMeters().getX());
 
-      // System.out.println(" \"distance traveled\" " +
-      // m_frontRight.getModulePosition().distanceMeters);
     }
   }
 }
