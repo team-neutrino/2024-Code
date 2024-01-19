@@ -62,7 +62,7 @@ public final class Constants {
     public static int BLS = 7;
     public static int BRS = 5;
 
-    public static int INTAKE_MOTOR = 40;
+    public static int INTAKE_MOTOR = 30;
 
     public static final int CLIMB_MOTOR1 = 40;
   }
