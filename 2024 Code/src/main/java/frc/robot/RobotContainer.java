@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
+import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.ClimbExtendCommand;
 import frc.robot.commands.ClimbRetractCommand;
@@ -41,6 +42,7 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_IntakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
 
     // LED buttons
     m_controller.a().whileTrue(new LEDCommand());
@@ -52,6 +54,8 @@ public class RobotContainer {
     // Climb buttons
     m_controller.x().whileTrue(new ClimbExtendCommand());
     m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
+
+    m_controller.start().whileTrue(new ArmAngleCommand(Constants.ArmConstants.AMP_POSE));
 
   }
 

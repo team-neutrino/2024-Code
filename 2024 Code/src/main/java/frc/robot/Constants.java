@@ -41,8 +41,8 @@ public final class Constants {
   }
 
   public final class DigitalConstants {
-    public static int LED = 0;
-    public static int ARM_ENCONDER = 1;
+    public static int LED = 0; // PWM
+    public static int ARM_ENCONDER = 1; // DIO
   }
 
   public final class LEDConstants {
@@ -63,6 +63,10 @@ public final class Constants {
     public static int BRS = 5;
 
     public static int Arm = 10;
+
+    public static int INTAKE_MOTOR = 20;
+
+    public static final int CLIMB_MOTOR1 = 40;
   }
 
   public class ArmConstants {
@@ -71,9 +75,9 @@ public final class Constants {
     public static double Arm_kd = 0;
     public static double INTAKE_LIMIT = 180;
     public static double AMP_LIMIT = 0;
-    public static int INTAKE_MOTOR = 20;
+    public static double INTAKE_POSE = 140;
+    public static double AMP_POSE = 20;
 
-    public static final int CLIMB_MOTOR1 = 40;
   }
 
   public final class IntakeConstants {

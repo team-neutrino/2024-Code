@@ -1,5 +1,6 @@
 package frc.robot.util;
 
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
@@ -12,5 +13,6 @@ public class SubsystemContainer {
     public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     public static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     public static final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+    public static final ArmSubsystem armSubsystem = new ArmSubsystem();
 
 }
