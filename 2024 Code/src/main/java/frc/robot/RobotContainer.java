@@ -8,16 +8,15 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ClimbDefaultCommand;
+import frc.robot.commands.ClimbExtendCommand;
+import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.SubsystemContainer;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
-
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -34,9 +33,7 @@ public class RobotContainer {
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_IntakeDefaultCommand = new IntakeDefaultCommand();
-
-  // JoystickButton m_buttonX = new JoystickButton(m_controller,
-  // XboxController.Button.kX.value);
+  ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -47,23 +44,26 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    // set default commands
+    SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
+    SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
+    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_IntakeDefaultCommand);
+    SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
 
+    // LED buttons
     m_controller.a().whileTrue(new LEDCommand());
 
-    m_controller.b().whileTrue(new IntakeCommand());
-
+    // Intake buttons
     m_controller.y().whileTrue(new IntakeReverseCommand());
 
-    SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
+    // Climb buttons
+    m_controller.x().whileTrue(new ClimbExtendCommand());
+    m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
 
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
 
-    m_controller.x().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_IntakeDefaultCommand);
-
-    // PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
-
-    m_controller.a().onTrue(new PathPlannerAuto("New Auto"));
+    m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
   }
 
   public Command getAutonomousCommand() {
