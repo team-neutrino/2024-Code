@@ -73,10 +73,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
   double cycle = 0;
 
-   //SIMULATION
-    Field2d field = new Field2d();
-    Pose2d autonPose = new Pose2d();
-    Pose2d generalSimPose = new Pose2d();
+  // SIMULATION
+  Field2d field = new Field2d();
+  Pose2d autonPose = new Pose2d();
+  Pose2d generalSimPose = new Pose2d();
 
   // ChassisSpeeds robotSpeeds;
 
@@ -91,7 +91,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_angleController.enableContinuousInput(-180, 180);
 
-    //SIMULATION
+    // SIMULATION
     SmartDashboard.putData("Field", field);
     field.getRobotObject().close();
 
@@ -101,8 +101,8 @@ public class SwerveSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds,
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
-            new PIDConstants(0.105, 0.0, 0.0),
-            new PIDConstants(0.105, 0.0, 0.0),
+            new PIDConstants(0.4, 0.0, 0.0),
+            new PIDConstants(1.4, 0.0, 0.0),
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -230,6 +230,9 @@ public class SwerveSubsystem extends SubsystemBase {
   public void resetNavX() {
     m_navX.reset();
     m_referenceAngle = 0;
+    // autonPose = new Pose2d(0, 0, Rotation2d.fromDegrees(0));
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
+        new Pose2d(4.78, 4.18, Rotation2d.fromDegrees(0)));
   }
 
   public Pose2d getPose() {
