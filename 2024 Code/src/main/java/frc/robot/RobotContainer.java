@@ -35,9 +35,6 @@ public class RobotContainer {
   IntakeDefaultCommand m_IntakeDefaultCommand = new IntakeDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
 
     configureBindings();
