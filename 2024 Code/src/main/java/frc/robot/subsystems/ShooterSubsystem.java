@@ -24,7 +24,6 @@ public class ShooterSubsystem extends SubsystemBase {
   private double WHEEL_D = 0;
   private double WHEEL_FF = 0;
   private double m_targetRPM;
-  private boolean hasNote = false;
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooter.getEncoder();
@@ -41,16 +40,8 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController.setOutputRange(0, 1);
   }
 
-  public boolean getBeamBreak() {
-    return m_beamBreak.get();
-  }
-
   public boolean detectedGamePiece() {
-    return true;
-  }
-
-  public void gamePieceBeamBroken() {
-    hasNote = !getBeamBreak();
+    return !m_beamBreak.get();
   }
 
   public double getshooterEncoder() {
@@ -84,8 +75,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setTargetRPM(double p_targetRpm) {
     m_targetRPM = p_targetRpm;
+    if(detectedGamePiece()){
     System.out.println(getshooterRpm());
     m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
+    }
   }
 
   public double getFF() {
