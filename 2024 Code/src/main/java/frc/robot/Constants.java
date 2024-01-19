@@ -10,7 +10,6 @@ public final class Constants {
 
   public static class ClimbConstants {
     public static final double CLIMB_MOTOR_SPEED = .2; // PLACEHOLDER VALUE
-    public static final int CLIMB_MOTOR1 = 40;
   }
 
   public static class DimensionConstants {
@@ -64,6 +63,7 @@ public final class Constants {
 
     public static int INTAKE_MOTOR = 20;
 
+    public static final int CLIMB_MOTOR1 = 40;
   }
 
   public final class IntakeConstants {
