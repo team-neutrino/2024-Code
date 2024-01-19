@@ -8,6 +8,9 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
+import frc.robot.commands.ClimbDefaultCommand;
+import frc.robot.commands.ClimbExtendCommand;
+import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
@@ -34,6 +37,7 @@ public class RobotContainer {
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_IntakeDefaultCommand = new IntakeDefaultCommand();
+  ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
 
   // JoystickButton m_buttonX = new JoystickButton(m_controller,
   // XboxController.Button.kX.value);
@@ -47,19 +51,26 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    // set default commands
+    SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
+    SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
+    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_IntakeDefaultCommand);
+    SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
 
+    // LED buttons
     m_controller.a().whileTrue(new LEDCommand());
 
+    // Intake buttons
     m_controller.b().whileTrue(new IntakeCommand());
-
     m_controller.y().whileTrue(new IntakeReverseCommand());
 
-    SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
+    // Climb buttons
+    m_controller.x().whileTrue(new ClimbExtendCommand());
+    m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
 
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
 
     m_controller.x().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_IntakeDefaultCommand);
 
     // PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
 

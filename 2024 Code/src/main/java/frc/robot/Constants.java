@@ -8,6 +8,10 @@ public final class Constants {
     public static final int DRIVER_CONTROLLER = 1;
   }
 
+  public static class ClimbConstants {
+    public static final double CLIMB_MOTOR_SPEED = .2; // PLACEHOLDER VALUE
+  }
+
   public static class DimensionConstants {
     public static double WHEEL_DIAMETER = 0.1016;
     public static double WHEEL_CIRCUMFERENCE = 0.1016 * Math.PI;
@@ -40,6 +44,7 @@ public final class Constants {
 
   public final class DigitalConstants {
     public static int LED = 0;
+    public static int INTAKE_MOTOR_BEAMBREAK = 0;
   }
 
   public final class LEDConstants {
@@ -59,12 +64,13 @@ public final class Constants {
     public static int BLS = 7;
     public static int BRS = 5;
 
-    public static int INTAKE_MOTOR = 20;
+    public static int INTAKE_MOTOR = 30;
 
+    public static final int CLIMB_MOTOR1 = 40;
   }
 
   public final class IntakeConstants {
-    public static double INTAKE_MOTOR_SPEED = 0.1;
+    public static double INTAKE_MOTOR_SPEED = 0.2;
   }
 
 }
