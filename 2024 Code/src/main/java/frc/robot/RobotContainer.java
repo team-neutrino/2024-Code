@@ -14,8 +14,10 @@ import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.SubsystemContainer;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
@@ -51,6 +53,10 @@ public class RobotContainer {
     m_controller.x().whileTrue(new ClimbExtendCommand());
     m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
 
+    SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
+
+    m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
   }
 
   public Command getAutonomousCommand() {
