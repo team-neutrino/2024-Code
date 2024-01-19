@@ -65,8 +65,8 @@ public class RobotContainer {
 
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
 
-    m_controller.x().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_controller.a().onTrue(new PathPlannerAuto("New Auto"));
+    m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
   }
 
   public Command getAutonomousCommand() {
