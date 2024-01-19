@@ -12,7 +12,6 @@ import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.ClimbExtendCommand;
 import frc.robot.commands.ClimbRetractCommand;
-import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.SubsystemContainer;
@@ -48,7 +47,6 @@ public class RobotContainer {
     m_controller.a().whileTrue(new LEDCommand());
 
     // Intake buttons
-    m_controller.b().whileTrue(new IntakeCommand());
     m_controller.y().whileTrue(new IntakeReverseCommand());
 
     // Climb buttons
