@@ -40,9 +40,9 @@ public final class Constants {
     public static double kv = 2.6;
   }
 
-  public final class PinOutConstants {
+  public final class DigitalConstants {
     public static int LED = 0; // PWM
-    public static int INTAKE_MOTOR_BEAMBREAK = 0; //DIO
+    public static int INTAKE_MOTOR_BEAMBREAK = 0; // DIO
     public static int ARM_ENCONDER = 1; // DIO
   }
 
