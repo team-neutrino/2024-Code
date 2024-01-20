@@ -62,6 +62,8 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
 
+  boolean omegaZero = false;
+
   SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
   SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
   SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
@@ -116,6 +118,11 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
     omega = Limiter.scale(Limiter.deadzone(omega, 0.2), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
+
+    if (omega == 0)
+    {
+      omegaZero = true;
+    }
 
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
@@ -194,6 +201,11 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+  }
+
+  public boolean omegaZero()
+  {
+    return omegaZero;
   }
 
   public void setRobotYaw(double angle) {
