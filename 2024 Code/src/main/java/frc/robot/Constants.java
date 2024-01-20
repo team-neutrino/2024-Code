@@ -1,5 +1,8 @@
 package frc.robot;
 
+import com.pathplanner.lib.path.PathConstraints;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public final class Constants {
@@ -40,6 +43,18 @@ public final class Constants {
 
     public static double ks = 0.15;
     public static double kv = 2.6;
+
+    public static PathConstraints PATH_CONSTRAINTS = new PathConstraints(1, 1, 1.5 * Math.PI, 4 * Math.PI);
+
+    public static Pose2d RED_TARGET_POSE1;
+    public static Pose2d RED_TARGET_POSE2;
+    public static Pose2d RED_TARGET_POSE3;
+    public static Pose2d RED_TARGET_POSE4;
+
+    public static Pose2d BLUE_TARGET_POSE1;
+    public static Pose2d BLUE_TARGET_POSE2;
+    public static Pose2d BLUE_TARGET_POSE3;
+    public static Pose2d BLUE_TARGET_POSE4;
   }
 
   public final class DigitalConstants {
