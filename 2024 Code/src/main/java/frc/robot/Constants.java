@@ -67,7 +67,7 @@ public final class Constants {
     public static int BLA = 8;
     public static int BRA = 6;
 
-    public static int FLS = 41;
+    public static int FLS = 3;
     public static int FRS = 1;
     public static int BLS = 7;
     public static int BRS = 5;
