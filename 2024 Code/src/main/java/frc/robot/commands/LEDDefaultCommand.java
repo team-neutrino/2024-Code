@@ -20,7 +20,7 @@ public class LEDDefaultCommand extends Command {
   public void initialize() {
     m_LEDSubsystem.setToOrange();
     if (m_IntakeSubsystem.getBeamBreak() == false) {
-      m_LEDSubsystem.blinkBlue();
+      m_LEDSubsystem.setToGreen();
     }
   }
 
@@ -28,7 +28,7 @@ public class LEDDefaultCommand extends Command {
   public void execute() {
     m_LEDSubsystem.setToOrange();
     if (m_IntakeSubsystem.getBeamBreak() == false) {
-      m_LEDSubsystem.blinkBlue();
+      m_LEDSubsystem.setToGreen();
     }
   }
 

@@ -14,7 +14,6 @@ public class LEDSubsystem extends SubsystemBase {
     private AddressableLED m_addressableLED;
     private AddressableLEDBuffer m_LEDBuffer;
     private Timer timer = new Timer();
-    private Timer blueTimer = new Timer();
 
     public LEDSubsystem() {
         m_addressableLED = new AddressableLED(PWMConstants.LED);
@@ -23,6 +22,7 @@ public class LEDSubsystem extends SubsystemBase {
         m_addressableLED.setData(m_LEDBuffer);
         m_addressableLED.start();
         setToOrange();
+        // sarahStrobe();
         timer.start();
     }
 
@@ -44,24 +44,9 @@ public class LEDSubsystem extends SubsystemBase {
         setToColor(0, 0, 255);
     }
 
-    public void turnOff() {
-        setToColor(0, 0, 0);
-    }
-
-    public void blinkBlue() {
-        blueTimer.start();
-        for (double i = blueTimer.get(); i < 20;) {
-            if (Math.floor(blueTimer.get()) % 2 == 1) {
-                setToBlue();
-            } else {
-                turnOff();
-            }
-        }
-    }
-
     // false = broken
 
-    private void sarahStrobe() {
+    public void sarahStrobe() {
         double timeConst = Math.PI;
         int r = (int) Math.round(126 * Math.cos(timeConst / 4 * timer.get()) + 126);
         int g = (int) Math.round(126 * Math.cos(timeConst / 8 * timer.get()) + 126);
