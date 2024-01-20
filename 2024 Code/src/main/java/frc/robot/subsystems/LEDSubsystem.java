@@ -13,7 +13,6 @@ import java.lang.Math;
 public class LEDSubsystem extends SubsystemBase {
     private AddressableLED m_addressableLED;
     private AddressableLEDBuffer m_LEDBuffer;
-    private DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
     private Timer timer = new Timer();
     private Timer blueTimer = new Timer();
 
@@ -58,10 +57,6 @@ public class LEDSubsystem extends SubsystemBase {
                 turnOff();
             }
         }
-    }
-
-    public boolean getBeamBreak() {
-        return m_intakeBeamBreak.get();
     }
 
     // false = broken
