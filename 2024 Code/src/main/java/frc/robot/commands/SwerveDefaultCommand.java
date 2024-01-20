@@ -17,10 +17,6 @@ public class SwerveDefaultCommand extends Command {
     addRequirements(SubsystemContainer.swerveSubsystem);
   }
 
-  public SwerveDefaultCommand() {
-    // TODO Auto-generated constructor stub
-  }
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
