@@ -43,7 +43,14 @@ public class AutoAlignSequentialCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if()
+        if (m_swerveSubsystem.getCurrentAlliance() == true
+                && m_limelight.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY) {
+            return true;
+        }
+        if (m_swerveSubsystem.getCurrentAlliance() == false
+                && m_limelight.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
+            return true;
+        }
         return false;
     }
 }
