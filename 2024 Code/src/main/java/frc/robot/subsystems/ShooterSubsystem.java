@@ -41,7 +41,6 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean detectedGamePiece() {
-    System.out.println(m_beamBreak.get());
     return !m_beamBreak.get();
   }
 
