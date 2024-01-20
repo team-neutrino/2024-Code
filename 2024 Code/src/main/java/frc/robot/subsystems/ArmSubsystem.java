@@ -16,7 +16,7 @@ import frc.robot.Constants.MotorIDs;
 
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
-  private DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCONDER);
+  private DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCODER);
   private double errorSum;
   private double lastError;
   private double error;

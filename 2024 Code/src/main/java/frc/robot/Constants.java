@@ -44,6 +44,7 @@ public final class Constants {
 
   public final class DigitalConstants {
     public static int INTAKE_MOTOR_BEAMBREAK = 0;
+    public static int ARM_ENCODER = 1;
   }
 
   public final class PWMConstants {
