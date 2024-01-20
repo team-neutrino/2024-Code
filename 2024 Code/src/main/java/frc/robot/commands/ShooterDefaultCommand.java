@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 /** An example command that uses an example subsystem. */
 public class ShooterDefaultCommand extends Command {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-    private final ShooterSubsystem m_shooterSubsystem;
 
     /**
      * Creates a new ExampleCommand.
@@ -15,8 +14,7 @@ public class ShooterDefaultCommand extends Command {
      * @param subsystem The subsystem used by this command.
      */
     public ShooterDefaultCommand() {
-        m_shooterSubsystem = SubsystemContainer.ShooterSubsystem;
-        addRequirements(m_shooterSubsystem);
+        addRequirements(SubsystemContainer.ShooterSubsystem);
     }
 
     // Called when the command is initially scheduled.
@@ -26,5 +24,15 @@ public class ShooterDefaultCommand extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        SubsystemContainer.ShooterSubsystem.setTargetRPM(1000);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }

@@ -15,14 +15,12 @@ public class LEDDefaultCommand extends Command {
 
   @Override
   public void initialize() {
-    // m_LEDSubsystem.setToOrange();
-    m_LEDSubsystem.sarahStrobe();
+    m_LEDSubsystem.setToOrange();
   }
 
   @Override
   public void execute() {
-    // m_LEDSubsystem.setToOrange();
-    m_LEDSubsystem.sarahStrobe();
+    m_LEDSubsystem.setToOrange();
   }
 
   @Override

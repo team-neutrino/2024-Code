@@ -13,10 +13,8 @@ import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private CANSparkMax m_shooter = new CANSparkMax(MotorIDs.shooter, MotorType.kBrushless);
-  // initialize encoder
+  private CANSparkMax m_shooter = new CANSparkMax(MotorIDs.SHOOTER_MOTOR, MotorType.kBrushless);
   private RelativeEncoder m_shooterEncoder;
-  // private JoystickButton m_bumperRight
   private SparkPIDController m_pidController;
   private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
   private double WHEEL_P = 0.25;
