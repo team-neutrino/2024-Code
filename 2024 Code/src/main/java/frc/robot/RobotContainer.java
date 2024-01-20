@@ -11,7 +11,6 @@ import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.ClimbRetractCommand;
-import frc.robot.commands.IndexDefaultCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.SubsystemContainer;
@@ -32,7 +31,6 @@ public class RobotContainer {
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   ShooterDefaultCommand m_ShooterDefaultCommand = new ShooterDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
-  IndexDefaultCommand m_IndexDefaultCommand = new IndexDefaultCommand();
 
   public RobotContainer() {
 
@@ -46,7 +44,6 @@ public class RobotContainer {
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(m_ShooterDefaultCommand);
-    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_IndexDefaultCommand);
 
     // LED buttons
     m_controller.a().whileTrue(new LEDCommand());
