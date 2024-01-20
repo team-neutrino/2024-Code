@@ -13,27 +13,28 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class AutoAlign extends Command {
+public class AutoAlignCommand extends Command {
     double currentYaw;
     double targetYaw;
     private LimelightSubsystem m_limelight;
     private SwerveSubsystem m_swerveSubsystem;
 
-    public AutoAlign() {
+    public AutoAlignCommand() {
         m_limelight = SubsystemContainer.limelightSubsystem;
         m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
         addRequirements(m_limelight, m_swerveSubsystem);
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     @Override
     public void execute() {
         // in degrees?
         currentYaw = m_limelight.getBotPose()[5];
         targetYaw = m_limelight.getTargetPose()[5];
-        m_swerveSubsystem.setRobotYaw(currentYaw-targetYaw);
+        m_swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
     }
 
     @Override
