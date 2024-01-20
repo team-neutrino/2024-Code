@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
+import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
@@ -24,6 +25,7 @@ public class RobotContainer {
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_IntakeDefaultCommand = new IntakeDefaultCommand();
+  ShooterDefaultCommand m_ShooterDefaultCommand = new ShooterDefaultCommand();
 
   public RobotContainer() {
 
@@ -44,6 +46,8 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
 
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_IntakeDefaultCommand);
+
+    SubsystemContainer.ShooterSubsystem.setDefaultCommand(m_ShooterDefaultCommand);
   }
 
   public Command getAutonomousCommand() {

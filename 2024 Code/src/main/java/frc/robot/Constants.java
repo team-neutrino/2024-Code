@@ -65,7 +65,7 @@ public final class Constants {
     public static int FRS = 1;
     public static int BLS = 7;
     public static int BRS = 5;
-    public static int shooter = 9;
+    public static int shooter = 30;
     public static int INTAKE_MOTOR = 20;
   }
 

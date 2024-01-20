@@ -17,7 +17,7 @@ public class SwerveDefaultCommand extends Command {
     addRequirements(SubsystemContainer.swerveSubsystem);
   }
 
-  public SwerveDefaultCommand(XboxController m_controller) {
+  public SwerveDefaultCommand() {
     // TODO Auto-generated constructor stub
   }
 
