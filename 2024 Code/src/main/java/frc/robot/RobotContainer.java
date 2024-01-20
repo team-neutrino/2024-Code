@@ -13,8 +13,10 @@ import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.SubsystemContainer;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
@@ -25,7 +27,7 @@ public class RobotContainer {
 
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
-  IntakeDefaultCommand m_IntakeDefaultCommand = new IntakeDefaultCommand();
+  IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
 
   public RobotContainer() {
@@ -37,7 +39,7 @@ public class RobotContainer {
     // set default commands
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
-    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_IntakeDefaultCommand);
+    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
 
     // LED buttons
@@ -48,7 +50,8 @@ public class RobotContainer {
 
     // Climb buttons
     m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
-
+    m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
   }
 
   public Command getAutonomousCommand() {
