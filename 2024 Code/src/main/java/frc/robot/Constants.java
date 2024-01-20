@@ -43,9 +43,11 @@ public final class Constants {
   }
 
   public final class DigitalConstants {
-    public static int LED = 0; // PWM
-    public static int INTAKE_MOTOR_BEAMBREAK = 0; // DIO
-    public static int ARM_ENCONDER = 1; // DIO
+    public static int INTAKE_MOTOR_BEAMBREAK = 0;
+  }
+
+  public final class PWMConstants {
+    public static int LED = 0;
   }
 
   public final class LEDConstants {

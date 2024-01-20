@@ -29,7 +29,7 @@ public class RobotContainer {
 
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
-  IntakeDefaultCommand m_IntakeDefaultCommand = new IntakeDefaultCommand();
+  IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
 
   public RobotContainer() {
@@ -41,7 +41,7 @@ public class RobotContainer {
     // set default commands
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
-    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_IntakeDefaultCommand);
+    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
 
