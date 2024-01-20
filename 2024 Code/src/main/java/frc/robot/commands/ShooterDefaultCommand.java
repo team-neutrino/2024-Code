@@ -11,10 +11,9 @@ public class ShooterDefaultCommand extends Command {
         addRequirements(SubsystemContainer.ShooterSubsystem);
     }
 
-
     public void initialize() {
     }
-    
+
     @Override
     public void execute() {
         SubsystemContainer.ShooterSubsystem.setTargetRPM(1000);
