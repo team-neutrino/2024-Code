@@ -52,7 +52,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public double[] getTargetPose() {
     limelight.getEntry("targetpose_robotspace").getDoubleArray(targetPose);
-    return pose;
+    return targetPose;
   }
 
 }
