@@ -16,6 +16,8 @@ import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.revrobotics.REVPhysicsSim;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -65,5 +67,12 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
+  }
+
+  public void simulationInit() {
+  }
+
+  public void simulationPeriodic() {
+    REVPhysicsSim.getInstance().run();
   }
 }
