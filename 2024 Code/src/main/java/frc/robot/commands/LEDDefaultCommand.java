@@ -10,10 +10,13 @@ public class LEDDefaultCommand extends Command {
   private LEDSubsystem m_LEDSubsystem;
   private IntakeSubsystem m_IntakeSubsystem;
 
+  // The issue might be that Intake Subsystem is one of the requirements on the
+  // LED default command and the intake default command.
+  // See if you can fix Sarah.
   public LEDDefaultCommand() {
     m_LEDSubsystem = SubsystemContainer.LEDSubsystem;
     m_IntakeSubsystem = SubsystemContainer.intakeSubsystem;
-    addRequirements(m_LEDSubsystem, m_IntakeSubsystem);
+    addRequirements(m_LEDSubsystem);
   }
 
   @Override
