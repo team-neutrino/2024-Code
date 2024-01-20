@@ -28,7 +28,7 @@ public class LimelightDefaultCommand extends Command {
     public void execute() {
         if (m_limelight.getTv()) {
             botPose = m_limelight.getBotPose();
-            pose = new Pose2d(botPose[0], botPose[2], new Rotation2d(botPose[5]));
+            pose = new Pose2d(botPose[0], botPose[1], new Rotation2d(botPose[5]));
             m_swerveSubsystem.resetPose(pose);
             
             
