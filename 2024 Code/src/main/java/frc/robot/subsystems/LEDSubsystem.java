@@ -20,7 +20,6 @@ public class LEDSubsystem extends SubsystemBase {
         m_addressableLED.setData(m_LEDBuffer);
         m_addressableLED.start();
         setToOrange();
-        // sarahStrobe();
         timer.start();
     }
 
@@ -43,7 +42,6 @@ public class LEDSubsystem extends SubsystemBase {
     }
 
     // false = broken
-
     public void sarahStrobe() {
         double timeConst = Math.PI;
         int r = (int) Math.round(126 * Math.cos(timeConst / 4 * timer.get()) + 126);
