@@ -75,12 +75,15 @@ public final class Constants {
     public static int BRS = 5;
 
     public static int INTAKE_MOTOR = 20;
+    public static int INDEX_MOTOR = 21;
     public static int SHOOTER_MOTOR = 30;
+    public static int RIGHTSHOOTER_MOTOR = 31;
     public static final int CLIMB_MOTOR1 = 40;
     public static final int CLIMB_MOTOR2 = 41;
   }
 
   public final class IntakeConstants {
     public static double INTAKE_MOTOR_SPEED = 0.2;
+    public static double INDEX_MOTOR_SPEED = 0.1;
   }
 }
