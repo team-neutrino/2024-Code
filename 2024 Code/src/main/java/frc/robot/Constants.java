@@ -70,7 +70,7 @@ public final class Constants {
     public static int BRS = 5;
 
     public static int INTAKE_MOTOR = 20;
-    public static int SHOOTER_MOTOR = 30;
+    public static int SHOOTER_MOTOR = 34;
     public static final int CLIMB_MOTOR1 = 40;
   }
 

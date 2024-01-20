@@ -2,12 +2,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.PWMConstants;
-import frc.robot.Constants.DigitalConstants;
 import java.lang.Math;
 
 public class LEDSubsystem extends SubsystemBase {
