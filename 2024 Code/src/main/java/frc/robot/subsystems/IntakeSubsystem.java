@@ -14,13 +14,17 @@ import frc.robot.Constants.MotorIDs;
 public class IntakeSubsystem extends SubsystemBase {
 
     private RelativeEncoder m_intakeEncoder;
+    private RelativeEncoder m_indexEncoder;
 
     private CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
+    private CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR,CANSparkLowLevel.MotorType.kBrushless);
+
 
     private DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
 
     public IntakeSubsystem() {
         m_intakeMotor.restoreFactoryDefaults();
+        m_indexMotor.restoreFactoryDefaults();
 
     }
 
@@ -28,20 +32,38 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SPEED);
     }
 
+    public void runIndex(){
+        m_indexMotor.set(IntakeConstants.INDEX_MOTOR_SPEED);
+    }
+
     public void runIntakeReverse() {
         m_intakeMotor.set(-IntakeConstants.INTAKE_MOTOR_SPEED);
     }
 
+    public void runIndexReverse(){
+        m_indexMotor.set(-IntakeConstants.INDEX_MOTOR_SPEED);
+    }
+
     public void stopIntake() {
         m_intakeMotor.set(0);
+    }
+    
+    public void stopIndex(){
+        m_indexMotor.stopMotor();
     }
 
     public double getIntakeVelocity() {
         return m_intakeEncoder.getVelocity();
     }
 
+    public double getIndexVelocity(){
+        return m_indexEncoder.getVelocity();
+    }
+
+
     public void resetEncoders() {
         m_intakeEncoder.setPosition(0);
+        m_indexEncoder.setPosition(0);
     }
 
     /**
@@ -53,5 +75,5 @@ public class IntakeSubsystem extends SubsystemBase {
     public boolean getBeamBreak() {
         return m_intakeBeamBreak.get();
     }
-
+    
 }
