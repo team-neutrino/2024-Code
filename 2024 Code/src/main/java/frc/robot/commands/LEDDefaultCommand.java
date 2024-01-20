@@ -16,7 +16,6 @@ public class LEDDefaultCommand extends Command {
   @Override
   public void initialize() {
     m_LEDSubsystem.setToOrange();
-    ;
   }
 
   @Override
