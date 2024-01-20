@@ -12,7 +12,7 @@ public class ArmAngleCommand extends Command {
 
   public ArmAngleCommand(double p_angle) {
     addRequirements(SubsystemContainer.armSubsystem);
-    p_angle = m_angle;
+    m_angle = p_angle;
   }
 
   // Called when the command is initially scheduled.

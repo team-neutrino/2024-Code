@@ -44,7 +44,7 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
-    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(98));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(m_ShooterDefaultCommand);
 
     // LED buttons
@@ -57,7 +57,6 @@ public class RobotContainer {
     m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
 
     m_controller.start().whileTrue(new ArmAngleCommand(Constants.ArmConstants.AMP_POSE));
-
 
     // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));

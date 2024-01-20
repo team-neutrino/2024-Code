@@ -27,17 +27,23 @@ public class ArmSubsystem extends SubsystemBase {
     m_arm.restoreFactoryDefaults();
   }
 
+  private double getArmPose() {
+    return m_armEncoder.getAbsolutePosition() * 100.0;
+  }
+
   public double armPID(double targetAngle) {
-    error = targetAngle - m_armEncoder.getAbsolutePosition();
+    double angle = getArmPose();
+    error = targetAngle - angle;
     errorSum += error;
     change = error - lastError;
     PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_kd * errorSum + ArmConstants.Arm_kd * change;
+    System.out.println("error " + error + " target " + targetAngle + " actual " + angle + " output " + PIDoutput);
     return PIDoutput;
   }
 
   public void armChecker(double desiredVolt) {
-    if ((m_armEncoder.getAbsolutePosition() >= ArmConstants.INTAKE_LIMIT && desiredVolt > 0) ||
-        (m_armEncoder.getAbsolutePosition() <= ArmConstants.AMP_LIMIT && desiredVolt < 0)) {
+    if ((getArmPose() >= ArmConstants.INTAKE_LIMIT && desiredVolt > 0) ||
+        (getArmPose() <= ArmConstants.AMP_LIMIT && desiredVolt < 0)) {
       m_arm.setVoltage(0);
     } else {
       m_arm.setVoltage(desiredVolt);
@@ -46,6 +52,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
   }
 }
