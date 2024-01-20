@@ -231,12 +231,26 @@ public class SwerveSubsystem extends SubsystemBase {
         + Math.pow(targetPose.getY() - current.getY(), 2));
   }
 
-  public Pose2d getPathfindingTargetPose() {
+  /**
+   * Returns true if the current alliance is red, false otherwise.
+   * 
+   * @throws IllegalStateException if no alliance is present
+   * @return boolean representing the current alliance as retrieved from the
+   *         Driver Station.
+   */
+  public boolean getCurrentAlliance() {
     boolean isRed = false;
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
       isRed = alliance.get() == DriverStation.Alliance.Red;
+    } else {
+      throw new IllegalStateException();
     }
+    return isRed;
+  }
+
+  public Pose2d getPathfindingTargetPose() {
+    boolean isRed = getCurrentAlliance();
 
     Pose2d closestPose;
     if (isRed) {
