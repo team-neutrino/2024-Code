@@ -33,7 +33,6 @@ public class LEDDefaultCommand extends Command {
       m_LEDSubsystem.setToGreen();
     } else if (m_IntakeSubsystem.getBeamBreak()) {
       m_LEDSubsystem.setToOrange();
-
     }
   }
 
