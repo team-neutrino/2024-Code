@@ -9,6 +9,7 @@ import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
+import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.ClimbExtendCommand;
 import frc.robot.commands.ClimbRetractCommand;
@@ -57,6 +58,7 @@ public class RobotContainer {
     m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
+    m_controller.rightBumper().whileTrue(new AutoAlignCommand());
   }
 
   public Command getAutonomousCommand() {
