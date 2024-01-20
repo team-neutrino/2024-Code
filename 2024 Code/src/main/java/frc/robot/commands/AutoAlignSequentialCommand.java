@@ -51,6 +51,11 @@ public class AutoAlignSequentialCommand extends Command {
                 && m_limelight.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
             return true;
         }
+
+        if (!m_swerveSubsystem.omegaZero())  {
+            return true;
+        }
+
         return false;
     }
 }

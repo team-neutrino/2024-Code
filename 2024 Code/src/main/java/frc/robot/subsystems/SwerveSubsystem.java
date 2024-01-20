@@ -69,6 +69,7 @@ public class SwerveSubsystem extends SubsystemBase {
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
   double cycle = 0;
+  boolean omegaZero = false;
 
   Field2d field = new Field2d();
   Pose2d autonPose = new Pose2d();
@@ -167,6 +168,17 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+
+    if (omega == 0) {
+      omegaZero = true;
+    } else {
+      omegaZero = false;
+    }
+
+  }
+
+  public boolean omegaZero() {
+    return omegaZero;
   }
 
   public void robotRelativeSwerve(ChassisSpeeds referenceSpeeds) {
