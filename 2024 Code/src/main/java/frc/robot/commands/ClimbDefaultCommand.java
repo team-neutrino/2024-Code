@@ -4,17 +4,15 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.SubsystemContainer;
 
-public class SwerveDefaultCommand extends Command {
-  XboxController m_xboxController;
+public class ClimbDefaultCommand extends Command {
 
-  public SwerveDefaultCommand(CommandXboxController p_controller) {
-    m_xboxController = p_controller.getHID();
-    addRequirements(SubsystemContainer.swerveSubsystem);
+  /** Creates a new ClimbDefaultCommand. */
+  public ClimbDefaultCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(SubsystemContainer.climbSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -22,11 +20,10 @@ public class SwerveDefaultCommand extends Command {
   public void initialize() {
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
+  // Called every 20 ms
   @Override
   public void execute() {
-    SubsystemContainer.swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1, m_xboxController.getLeftX() * -1,
-        m_xboxController.getRightX() * -1);
+    SubsystemContainer.climbSubsystem.stopClimber();
   }
 
   // Called once the command ends or is interrupted.
