@@ -21,9 +21,11 @@ public class IntakeDefaultCommand extends Command {
     public void execute() {
         // motor should run while the beam break is NOT tripped
         if (m_intakeSubsystem.getBeamBreak()) {
+            System.out.println("motors should be running");
             m_intakeSubsystem.runIntake();
             m_intakeSubsystem.runIndex();
         } else {
+            System.out.println("everything should be stopped");
             m_intakeSubsystem.stopIntake();
             m_intakeSubsystem.stopIndex();
         }
