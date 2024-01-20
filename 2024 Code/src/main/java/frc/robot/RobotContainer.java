@@ -44,7 +44,7 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
-    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(98));
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(m_ShooterDefaultCommand);
 
     // LED buttons

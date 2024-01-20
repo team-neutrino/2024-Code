@@ -19,9 +19,8 @@ public class ArmSubsystem extends SubsystemBase {
   private DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCODER);
   private double errorSum;
   private double lastError;
-  private double error;
-  private double change;
   private double PIDoutput;
+  private double m_angle;
 
   public ArmSubsystem() {
     m_arm.restoreFactoryDefaults();
@@ -32,18 +31,17 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double armPID(double targetAngle) {
-    double angle = getArmPose();
-    error = targetAngle - angle;
+    double error = targetAngle - m_angle;
     errorSum += error;
-    change = error - lastError;
+    double change = error - lastError;
     PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_kd * errorSum + ArmConstants.Arm_kd * change;
-    System.out.println("error " + error + " target " + targetAngle + " actual " + angle + " output " + PIDoutput);
+    lastError = error;
     return PIDoutput;
   }
 
   public void armChecker(double desiredVolt) {
-    if ((getArmPose() >= ArmConstants.INTAKE_LIMIT && desiredVolt > 0) ||
-        (getArmPose() <= ArmConstants.AMP_LIMIT && desiredVolt < 0)) {
+    if ((m_angle >= ArmConstants.INTAKE_LIMIT && desiredVolt > 0) ||
+        (m_angle <= ArmConstants.AMP_LIMIT && desiredVolt < 0)) {
       m_arm.setVoltage(0);
     } else {
       m_arm.setVoltage(desiredVolt);
@@ -52,6 +50,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    m_angle = getArmPose();
   }
 }
