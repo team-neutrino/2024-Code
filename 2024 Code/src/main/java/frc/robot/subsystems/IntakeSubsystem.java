@@ -40,6 +40,10 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor.set(-IntakeConstants.INTAKE_MOTOR_SPEED);
     }
 
+    public void runIndexReverse(){
+        m_indexMotor.set(-IntakeConstants.INDEX_MOTOR_SPEED);
+    }
+
     public void stopIntake() {
         m_intakeMotor.set(0);
     }
