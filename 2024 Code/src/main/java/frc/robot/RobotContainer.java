@@ -10,7 +10,6 @@ import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.ClimbDefaultCommand;
-import frc.robot.commands.ClimbExtendCommand;
 import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
@@ -53,8 +52,9 @@ public class RobotContainer {
     m_controller.y().whileTrue(new IntakeReverseCommand());
 
     // Climb buttons
-    m_controller.x().whileTrue(new ClimbExtendCommand());
     m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
+
+    // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
   }
