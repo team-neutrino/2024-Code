@@ -6,39 +6,43 @@ package frc.robot.commands;
 
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.util.SubsystemContainer;
+import edu.wpi.first.hal.AllianceStationID;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlign extends Command {
-    @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-    private final LimelightSubsystem m_limelight;
     double[] pose;
     double yawChange;
+    private LimelightSubsystem m_limelight;
+    private SwerveSubsystem m_swerveSubsystem;
 
-    public AutoAlign(LimelightSubsystem limelight) {
-        m_limelight = limelight;
-        addRequirements(limelight);
+    public AutoAlign() {
+        m_limelight = SubsystemContainer.limelightSubsystem;
+        m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
+        addRequirements(m_limelight, m_swerveSubsystem);
     }
 
-    // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-        // in degrees?
-        //setRobotYaw(FieldConstants.autoAlignPoint[5]);
+    public void initialize() {}
 
-    }
-
-    // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        // in degrees?
+        if(m_limelight.getID().equals(4.0)){
+            
+        } else if(m_limelight.getID().equals(7.0)){
+
+        }
+        m_swerveSubsystem.setRobotYaw();
     }
 
-    // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
     }
 
-    // Returns true when the command should end.
     @Override
     public boolean isFinished() {
         return false;
