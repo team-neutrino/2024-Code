@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class LimelightSubsystem extends SubsystemBase {
   private NetworkTable limelight;
   private double[] pose = new double[6];
-  private double[] newPose = new double[3];
+  private double[] targetPose = new double[6];
 
   public LimelightSubsystem() {
     // global instance of the network table and gets the limelight table
@@ -47,6 +47,11 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public double[] getBotPose() {
     limelight.getEntry("botpose").getDoubleArray(pose);
+    return pose;
+  }
+
+  public double[] getTargetPose() {
+    limelight.getEntry("targetpose_robotspace").getDoubleArray(targetPose);
     return pose;
   }
 
