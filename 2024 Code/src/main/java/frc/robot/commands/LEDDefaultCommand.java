@@ -25,7 +25,7 @@ public class LEDDefaultCommand extends Command {
   public void execute() {
     if (!m_IntakeSubsystem.getBeamBreak()) {
       m_LEDSubsystem.setToGreen();
-    } else if (m_IntakeSubsystem.getBeamBreak()) {
+    } else {
       m_LEDSubsystem.setToOrange();
     }
   }
