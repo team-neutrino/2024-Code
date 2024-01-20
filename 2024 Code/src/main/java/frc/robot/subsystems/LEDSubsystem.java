@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.PWMConstants;
 
 public class LEDSubsystem extends SubsystemBase {
     public AddressableLED m_addressableLED;
@@ -12,12 +13,13 @@ public class LEDSubsystem extends SubsystemBase {
     private Timer timer = new Timer();
 
     public LEDSubsystem() {
-        m_addressableLED = new AddressableLED(Constants.DigitalConstants.LED);
+        m_addressableLED = new AddressableLED(PWMConstants.LED);
         m_LEDBuffer = new AddressableLEDBuffer(Constants.LEDConstants.LEDBufferLen);
         m_addressableLED.setLength(m_LEDBuffer.getLength());
         m_addressableLED.setData(m_LEDBuffer);
         m_addressableLED.start();
         setToOrange();
+        sarahStrobe();
         timer.start();
     }
 
@@ -35,7 +37,7 @@ public class LEDSubsystem extends SubsystemBase {
         setToColor(0, 255, 0);
     }
 
-    private void sarahStrobe() {
+    public void sarahStrobe() {
         double timeConst = Math.PI;
         int r = (int) Math.round(126 * Math.cos(timeConst / 4 * timer.get()) + 126);
         int g = (int) Math.round(126 * Math.cos(timeConst / 8 * timer.get()) + 126);
