@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.Arrays;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,21 +19,23 @@ public class LimelightDefaultCommand extends Command {
     public LimelightDefaultCommand() {
         m_limelight = SubsystemContainer.limelightSubsystem;
         m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
-        addRequirements(m_limelight, m_swerveSubsystem);
+        addRequirements(m_limelight);
 
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     @Override
     public void execute() {
         if (m_limelight.getTv()) {
             botPose = m_limelight.getBotPose();
-            pose = new Pose2d(botPose[0], botPose[1], new Rotation2d(botPose[5]));
+            System.out.println(Arrays.toString(botPose));
+            pose = new Pose2d(botPose[0], botPose[1],
+                    Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem.getYaw()));// new Rotation2d(botPose[5]));
             m_swerveSubsystem.resetPose(pose);
-            
-            
+
         }
     }
 

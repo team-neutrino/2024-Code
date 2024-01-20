@@ -57,7 +57,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private SwerveDriveOdometry m_swerveOdometry;
 
-  private PIDController m_angleController = new PIDController(0.1, 0, 0);
+  private PIDController m_angleController = new PIDController(0.08, 0, 0);
   private Timer m_timer = new Timer();
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;

@@ -22,7 +22,7 @@ public class AutoAlignCommand extends Command {
     public AutoAlignCommand() {
         m_limelight = SubsystemContainer.limelightSubsystem;
         m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
-        addRequirements(m_limelight, m_swerveSubsystem);
+        addRequirements(m_limelight);
     }
 
     @Override
@@ -32,8 +32,8 @@ public class AutoAlignCommand extends Command {
     @Override
     public void execute() {
         // in degrees?
-        currentYaw = m_limelight.getBotPose()[5];
-        targetYaw = m_limelight.getTargetPose()[5];
+        currentYaw = m_swerveSubsystem.getYaw();
+        targetYaw = m_limelight.getTx();
         m_swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
     }
 

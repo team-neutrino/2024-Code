@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
+import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignCommand;
@@ -33,6 +34,7 @@ public class RobotContainer {
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   ShooterDefaultCommand m_ShooterDefaultCommand = new ShooterDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
+  LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
 
   public RobotContainer() {
 
@@ -46,6 +48,7 @@ public class RobotContainer {
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(m_ShooterDefaultCommand);
+    SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // LED buttons
     m_controller.a().whileTrue(new LEDCommand());

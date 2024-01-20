@@ -10,6 +10,8 @@ public class LimelightSubsystem extends SubsystemBase {
   private NetworkTable limelight;
   private double[] pose = new double[6];
   private double[] targetPose = new double[6];
+  private double[] ppose = new double[6];
+  private double[] ptargetPose = new double[6];
 
   public LimelightSubsystem() {
     // global instance of the network table and gets the limelight table
@@ -46,12 +48,12 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public double[] getBotPose() {
-    limelight.getEntry("botpose").getDoubleArray(pose);
+    pose = limelight.getEntry("botpose").getDoubleArray(ppose);
     return pose;
   }
 
   public double[] getTargetPose() {
-    limelight.getEntry("targetpose_robotspace").getDoubleArray(targetPose);
+    targetPose = limelight.getEntry("targetpose_robotspace").getDoubleArray(ptargetPose);
     return targetPose;
   }
 
