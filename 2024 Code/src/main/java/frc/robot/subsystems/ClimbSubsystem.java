@@ -8,43 +8,44 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-// import Constants;
-
 import frc.robot.Constants;
 
-public class ClimbSubsystem extends SubsystemBase
-
 /**
- * TODO:
- * As of 1/11 the climb system is known as follows: some kind of winch mechanism
- * utilizing
- * one motor and encoder to pull the robot up. File to be edited when more
- * details are known.
- * 
  * NOTES:
- * Climber motors controller id's (the first parameter in the construction line)
- * are 40s.
+ * 1/19 it is still unclear how extending the
+ * spring and winch based arms will work on the controls
+ * side, locking the mechanism in place during teleop,
+ * how many motors the configuration will have (2 or 4),
+ * and if limits will be needed.
+ * 
+ * despite not having an "extend arms" command on the assumption
+ * that it will not be necessary with the current spring model (see 2022),
+ * both the constant for arm extension motor speed and method for
+ * arm extension have been kept in case they are needed.
  */
-{
+public class ClimbSubsystem extends SubsystemBase {
     /*
      * Motor controllers
      * Variable names may be changed
      */
-    private CANSparkMax m_climb1 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR1,
+    private CANSparkMax m_climbArm1 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR1,
             MotorType.kBrushless);
+    private CANSparkMax m_climbArm2 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR2, MotorType.kBrushless);
 
     /**
      * Encoders - assumed to be relative, subject to change
      * Encoders are initialized in the constructor with the helper method
      * "initializeMotor"
      */
-    private RelativeEncoder m_encoder1;
+    private RelativeEncoder m_armEncoder1;
+    private RelativeEncoder m_armEncoder2;
 
     /**
      * Public constructor to be invoked in RobotContainer
      */
     public ClimbSubsystem() {
-        m_encoder1 = initializeMotor(m_climb1, false);
+        m_armEncoder1 = initializeMotor(m_climbArm1, false);
+        m_armEncoder2 = initializeMotor(m_climbArm2, false);
     }
 
     /**
@@ -72,55 +73,59 @@ public class ClimbSubsystem extends SubsystemBase
     }
 
     /**
-     * Starts the climb motor to the constant determined speed.
+     * Starts the arm motors to the constant determined extend speed.
      * NOTE: CURRENT CONSTANT IS A PLACEHOLDER VALUE
+     * NOTE: THIS METHOD MAY NOT BE NEEDED WHEN MORE DETAILS ARE KNOWN
      */
-    public void extendClimber() {
-        m_climb1.set(Constants.ClimbConstants.CLIMB_MOTOR_SPEED);
+    public void extendClimberArms() {
+        m_climbArm1.set(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
+        m_climbArm2.set(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
     }
 
     /**
-     * Stops the motor.
+     * Stops the arm motors.
      */
-    public void stopClimber() {
-        m_climb1.stopMotor();
+    public void stopClimberArms() {
+        m_climbArm1.stopMotor();
+        m_climbArm2.stopMotor();
     }
 
     /**
-     * Starts the climb motor to the constant determined speed.
+     * Starts the arm motors to the constant determined retract speed.
      * 
-     * NOTE: current constant is the same as the extend climber,
+     * TODO: current constant is the same as the extend climber,
      * just negative - should there be a separate value?
      */
-    public void rectractClimber() {
-        m_climb1.set(-Constants.ClimbConstants.CLIMB_MOTOR_SPEED);
+    public void rectractClimberArms() {
+        m_climbArm1.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
+        m_climbArm2.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
     }
 
     /**
-     * Resets encoders
+     * Resets all encoders
      */
     public void resetEncoders() {
-        m_encoder1.setPosition(0);
+        m_armEncoder1.setPosition(0);
+        m_armEncoder2.setPosition(0);
     }
 
     /**
-     * Getter for the specified encoder's position.
+     * Getter for the arm motors' positions.
      * 
-     * @param p_encoder The encoder to get position from.
-     * @return The position of the given encoder's motor.
+     * @return An array of the arm motors' positions.
      */
-    public double getEncoderPosition(RelativeEncoder p_encoder) {
-        return p_encoder.getPosition();
+    public double[] getArmEncoderPosition() {
+        return new double[] { m_armEncoder1.getPosition(), m_armEncoder2.getPosition() };
     }
 
     /**
-     * Getter for the specified encoder's velocity.
+     * Getter for the arm motors' velocities.
      * 
-     * @param p_encoder The encoder to get velocity from.
-     * @return The velocity of the given encoder's motor.
+     * @return An array of the arm motors' velocities.
      */
-    public double getEncoderVelocity(RelativeEncoder p_encoder) {
-        return p_encoder.getVelocity();
+
+    public double[] getArmEncoderVelocity() {
+        return new double[] { m_armEncoder1.getVelocity(), m_armEncoder2.getPosition() };
     }
 
     @Override
