@@ -67,7 +67,7 @@ public final class Constants {
     public static int BLA = 8;
     public static int BRA = 6;
 
-    public static int FLS = 3;
+    public static int FLS = 41;
     public static int FRS = 1;
     public static int BLS = 7;
     public static int BRS = 5;
@@ -76,7 +76,6 @@ public final class Constants {
 
     public static final int CLIMB_MOTOR1 = 40;
     public static final int CLIMB_MOTOR2 = 41;
-    public static final int CLIMB_MOTOR3 = 42;
   }
 
   public final class IntakeConstants {
