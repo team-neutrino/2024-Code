@@ -123,6 +123,10 @@ public class SwerveSubsystem extends SubsystemBase {
     {
       omegaZero = true;
     }
+    else
+    {
+      omegaZero = false;
+    }
 
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
