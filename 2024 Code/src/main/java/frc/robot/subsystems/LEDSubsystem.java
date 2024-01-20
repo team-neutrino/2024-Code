@@ -2,15 +2,20 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.PWMConstants;
+import frc.robot.Constants.DigitalConstants;
+import java.lang.Math;
 
 public class LEDSubsystem extends SubsystemBase {
-    public AddressableLED m_addressableLED;
-    public AddressableLEDBuffer m_LEDBuffer;
+    private AddressableLED m_addressableLED;
+    private AddressableLEDBuffer m_LEDBuffer;
+    private DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
     private Timer timer = new Timer();
+    private Timer blueTimer = new Timer();
 
     public LEDSubsystem() {
         m_addressableLED = new AddressableLED(PWMConstants.LED);
@@ -35,6 +40,31 @@ public class LEDSubsystem extends SubsystemBase {
     public void setToGreen() {
         setToColor(0, 255, 0);
     }
+
+    public void setToBlue() {
+        setToColor(0, 0, 255);
+    }
+
+    public void turnOff() {
+        setToColor(0, 0, 0);
+    }
+
+    public void blinkBlue() {
+        blueTimer.start();
+        for (double i = blueTimer.get(); i < 20;) {
+            if (Math.floor(blueTimer.get()) % 2 == 1) {
+                setToBlue();
+            } else {
+                turnOff();
+            }
+        }
+    }
+
+    public boolean getBeamBreak() {
+        return m_intakeBeamBreak.get();
+    }
+
+    // false = broken
 
     private void sarahStrobe() {
         double timeConst = Math.PI;
