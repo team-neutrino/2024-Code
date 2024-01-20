@@ -1,0 +1,21 @@
+{
+  "NetworkTables": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Field": "Field2d"
+    },
+    "windows": {
+      "/SmartDashboard/Field": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT3)"
+  }
+}

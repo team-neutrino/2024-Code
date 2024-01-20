@@ -3,6 +3,7 @@ package frc.robot;
 import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public final class Constants {
@@ -56,10 +57,10 @@ public final class Constants {
     public static Pose2d RED_TARGET_POSE3;
     public static Pose2d RED_TARGET_POSE4;
 
-    public static Pose2d BLUE_TARGET_POSE1;
-    public static Pose2d BLUE_TARGET_POSE2;
-    public static Pose2d BLUE_TARGET_POSE3;
-    public static Pose2d BLUE_TARGET_POSE4;
+    public static Pose2d BLUE_TARGET_POSE1 = new Pose2d(2.636, 1, new Rotation2d());
+    public static Pose2d BLUE_TARGET_POSE2 = new Pose2d(2.688, 2, new Rotation2d());
+    public static Pose2d BLUE_TARGET_POSE3 = new Pose2d(0.75, 3.86, new Rotation2d());
+    public static Pose2d BLUE_TARGET_POSE4 = new Pose2d(3, 1, new Rotation2d());
   }
 
   public final class DigitalConstants {

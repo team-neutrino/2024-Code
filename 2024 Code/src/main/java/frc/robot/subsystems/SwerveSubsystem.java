@@ -119,12 +119,9 @@ public class SwerveSubsystem extends SubsystemBase {
     omega = Limiter.scale(Limiter.deadzone(omega, 0.2), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
 
-    if (omega == 0)
-    {
+    if (omega == 0) {
       omegaZero = true;
-    }
-    else
-    {
+    } else {
       omegaZero = false;
     }
 
@@ -207,8 +204,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
   }
 
-  public boolean omegaZero()
-  {
+  public boolean omegaZero() {
     return omegaZero;
   }
 
@@ -242,7 +238,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public double distanceFormula(Pose2d targetPose) {
-    Pose2d current = getPose();
+    Pose2d current = autonPose;
     return Math.sqrt(Math.pow(targetPose.getX() - current.getX(), 2)
         + Math.pow(targetPose.getY() - current.getY(), 2));
   }
@@ -282,6 +278,14 @@ public class SwerveSubsystem extends SubsystemBase {
       }
     } else {
       closestPose = SwerveConstants.BLUE_TARGET_POSE1;
+
+      double d1 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE1);
+      double d2 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE2);
+      double d3 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE3);
+      double d4 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE4);
+
+      System.out.println("pose 1 " + d1 + "\npose 2 " + d2 + "\npose 3 " + d3 + "\npose 4 " + d4);
+
       if (distanceFormula(SwerveConstants.BLUE_TARGET_POSE2) < distanceFormula(closestPose)) {
         closestPose = SwerveConstants.BLUE_TARGET_POSE2;
       }
@@ -292,6 +296,9 @@ public class SwerveSubsystem extends SubsystemBase {
         closestPose = SwerveConstants.BLUE_TARGET_POSE4;
       }
     }
+
+    double f = distanceFormula(closestPose);
+    System.out.println("returned " + f);
     return closestPose;
   }
 
