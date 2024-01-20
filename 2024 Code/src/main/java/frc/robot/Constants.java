@@ -11,8 +11,13 @@ public final class Constants {
     public static final int DRIVER_CONTROLLER = 1;
   }
 
+  /**
+   * Climber motors controller id's (the first parameter in the construction line)
+   * are 40s.
+   */
   public static class ClimbConstants {
-    public static final double CLIMB_MOTOR_SPEED = .2; // PLACEHOLDER VALUE
+    public static final double CLIMB_EXTEND_MOTOR_SPEED = .2; // PLACEHOLDER VALUE
+    public static final double CLIMB_RETRACT_MOTOR_SPEED = -.2; // PLACEHOLDER VALUE
   }
 
   public static class DimensionConstants {
@@ -59,6 +64,8 @@ public final class Constants {
 
   public final class DigitalConstants {
     public static int INTAKE_MOTOR_BEAMBREAK = 0;
+    public static int SHOOTER_BEAMBREAK = 1;
+
   }
 
   public final class PWMConstants {
@@ -82,13 +89,13 @@ public final class Constants {
     public static int BLS = 7;
     public static int BRS = 5;
 
-    public static int INTAKE_MOTOR = 30;
-
+    public static int INTAKE_MOTOR = 20;
+    public static int SHOOTER_MOTOR = 30;
     public static final int CLIMB_MOTOR1 = 40;
+    public static final int CLIMB_MOTOR2 = 41;
   }
 
   public final class IntakeConstants {
     public static double INTAKE_MOTOR_SPEED = 0.2;
   }
-
 }
