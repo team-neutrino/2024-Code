@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 /** An example command that uses an example subsystem. */
 public class AutoAlign extends Command {
     double currentYaw;
+    double targetYaw;
     private LimelightSubsystem m_limelight;
     private SwerveSubsystem m_swerveSubsystem;
 
@@ -31,7 +32,8 @@ public class AutoAlign extends Command {
     public void execute() {
         // in degrees?
         currentYaw = m_limelight.getBotPose()[5];
-        m_swerveSubsystem.setRobotYaw();
+        targetYaw = m_limelight.getTargetPose()[5];
+        m_swerveSubsystem.setRobotYaw(currentYaw-targetYaw);
     }
 
     @Override
