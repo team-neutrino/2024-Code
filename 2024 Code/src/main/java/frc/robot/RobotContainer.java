@@ -7,7 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
-import frc.robot.commands.ShooterDefaultCommand;
+import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ClimbDefaultCommand;
@@ -30,7 +30,6 @@ public class RobotContainer {
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
-  ShooterDefaultCommand m_ShooterDefaultCommand = new ShooterDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
 
   public RobotContainer() {
@@ -45,7 +44,6 @@ public class RobotContainer {
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
-    SubsystemContainer.ShooterSubsystem.setDefaultCommand(m_ShooterDefaultCommand);
 
     // LED buttons
     m_controller.a().whileTrue(new LEDCommand());
@@ -61,6 +59,9 @@ public class RobotContainer {
     // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
+
+    // shooter buttons
+    m_controller.y().whileTrue(new ShootSpeakerCommand());
   }
 
   public Command getAutonomousCommand() {
