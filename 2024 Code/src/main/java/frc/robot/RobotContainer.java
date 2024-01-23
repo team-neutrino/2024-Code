@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.ShootSpeakerCommand;
+import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ClimbDefaultCommand;
@@ -31,6 +32,7 @@ public class RobotContainer {
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
+  ShooterDefaultCommand m_shooterDefaultCommand = new ShooterDefaultCommand();
 
   public RobotContainer() {
 
@@ -44,6 +46,7 @@ public class RobotContainer {
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
+    SubsystemContainer.ShooterSubsystem.setDefaultCommand(m_shooterDefaultCommand);
 
     // LED buttons
     m_controller.a().whileTrue(new LEDCommand());
