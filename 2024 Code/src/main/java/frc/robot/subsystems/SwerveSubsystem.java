@@ -58,7 +58,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private SwerveDriveOdometry m_swerveOdometry;
 
-  private PIDController m_angleController = new PIDController(0.1, 0, 0);
+  private PIDController m_angleController = new PIDController(0.08, 0, 0);
   private Timer m_timer = new Timer();
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
@@ -177,6 +177,17 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+
+    if (omega == 0) {
+      omegaZero = true;
+    } else {
+      omegaZero = false;
+    }
+
+  }
+
+  public boolean omegaZero() {
+    return omegaZero;
   }
 
   public void robotRelativeSwerve(ChassisSpeeds referenceSpeeds) {
@@ -204,10 +215,6 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
-  }
-
-  public boolean omegaZero() {
-    return omegaZero;
   }
 
   public void setRobotYaw(double angle) {

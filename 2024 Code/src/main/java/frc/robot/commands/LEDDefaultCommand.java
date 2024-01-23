@@ -2,14 +2,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class LEDDefaultCommand extends Command {
 
   private LEDSubsystem m_LEDSubsystem;
+  private IntakeSubsystem m_IntakeSubsystem;
 
   public LEDDefaultCommand() {
     m_LEDSubsystem = SubsystemContainer.LEDSubsystem;
+    m_IntakeSubsystem = SubsystemContainer.intakeSubsystem;
     addRequirements(m_LEDSubsystem);
   }
 
@@ -20,7 +23,11 @@ public class LEDDefaultCommand extends Command {
 
   @Override
   public void execute() {
-    m_LEDSubsystem.setToOrange();
+    if (!m_IntakeSubsystem.getBeamBreak()) {
+      m_LEDSubsystem.setToGreen();
+    } else {
+      m_LEDSubsystem.setToOrange();
+    }
   }
 
   @Override
