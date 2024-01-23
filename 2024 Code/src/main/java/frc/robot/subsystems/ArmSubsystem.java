@@ -21,6 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double lastError;
   private double PIDoutput;
   private double m_angle;
+  public int i = 0;
 
   public ArmSubsystem() {
     m_arm.restoreFactoryDefaults();
@@ -30,15 +31,15 @@ public class ArmSubsystem extends SubsystemBase {
     return m_armEncoder.getAbsolutePosition() * 100.0;
   }
 
-  public void armPID(double targetAngle) {
+  public boolean armPID(double targetAngle) {
     double error = targetAngle - m_angle;
     errorSum += error;
     double change = error - lastError;
     PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_kd * errorSum + ArmConstants.Arm_kd * change;
     lastError = error;
     armChecker(PIDoutput);
+    return ArmDebouncer(targetAngle);
   }
-
   private void armChecker(double desiredVolt) {
     if ((m_angle >= ArmConstants.INTAKE_LIMIT && desiredVolt > 0) ||
         (m_angle <= ArmConstants.AMP_LIMIT && desiredVolt < 0)) {
@@ -46,6 +47,16 @@ public class ArmSubsystem extends SubsystemBase {
     } else {
       m_arm.setVoltage(desiredVolt);
     }
+  }
+
+  private boolean ArmDebouncer(double targetAngle) {
+    if(Math.abs(getArmPose() - targetAngle) <=5) {
+      i++;
+    }
+    else {
+      i = 0;
+    }
+    return i >= 10;
   }
 
   @Override
