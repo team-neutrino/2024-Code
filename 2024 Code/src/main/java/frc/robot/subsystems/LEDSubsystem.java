@@ -2,12 +2,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.PWMConstants;
-import frc.robot.Constants.DigitalConstants;
 import java.lang.Math;
 
 public class LEDSubsystem extends SubsystemBase {
@@ -22,7 +20,6 @@ public class LEDSubsystem extends SubsystemBase {
         m_addressableLED.setData(m_LEDBuffer);
         m_addressableLED.start();
         setToOrange();
-        // sarahStrobe();
         timer.start();
     }
 
@@ -45,7 +42,6 @@ public class LEDSubsystem extends SubsystemBase {
     }
 
     // false = broken
-
     public void sarahStrobe() {
         double timeConst = Math.PI;
         int r = (int) Math.round(126 * Math.cos(timeConst / 4 * timer.get()) + 126);

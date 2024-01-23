@@ -7,23 +7,23 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.SubsystemContainer;
 
-public class ClimbExtendCommand extends Command {
-  /** Creates a new ClimbExtendCommand. */
-  public ClimbExtendCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(SubsystemContainer.climbSubsystem);
+public class ArmAngleCommand extends Command {
+  private double m_angle;
+
+  public ArmAngleCommand(double p_angle) {
+    addRequirements(SubsystemContainer.armSubsystem);
+    m_angle = p_angle;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.climbSubsystem.extendClimber();
+    SubsystemContainer.armSubsystem.armChecker(SubsystemContainer.armSubsystem.armPID(m_angle));
   }
 
   // Called once the command ends or is interrupted.

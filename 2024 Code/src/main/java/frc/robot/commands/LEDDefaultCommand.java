@@ -13,22 +13,20 @@ public class LEDDefaultCommand extends Command {
   public LEDDefaultCommand() {
     m_LEDSubsystem = SubsystemContainer.LEDSubsystem;
     m_IntakeSubsystem = SubsystemContainer.intakeSubsystem;
-    addRequirements(m_LEDSubsystem, m_IntakeSubsystem);
+    addRequirements(m_LEDSubsystem);
   }
 
   @Override
   public void initialize() {
     m_LEDSubsystem.setToOrange();
-    if (m_IntakeSubsystem.getBeamBreak() == false) {
-      m_LEDSubsystem.setToGreen();
-    }
   }
 
   @Override
   public void execute() {
-    m_LEDSubsystem.setToOrange();
-    if (m_IntakeSubsystem.getBeamBreak() == false) {
+    if (!m_IntakeSubsystem.getBeamBreak()) {
       m_LEDSubsystem.setToGreen();
+    } else {
+      m_LEDSubsystem.setToOrange();
     }
   }
 
