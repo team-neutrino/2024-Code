@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.util.SubsystemContainer;
@@ -26,12 +27,11 @@ public class ArmManualCommand extends Command {
 
   @Override
   public void execute() {
-    double targetAngle = 0;
     if (Math.abs(m_controller.getLeftX()) > ArmConstants.ARM_ADJUST_DEADZONE) {
       m_shiftAngle += m_controller.getLeftX() / 10;
     }
-    targetAngle = SubsystemContainer.armSubsystem.armPID(m_shiftAngle);
-    SubsystemContainer.armSubsystem.armChecker(targetAngle);
+    SubsystemContainer.armSubsystem.armPID(m_shiftAngle);
+    m_shiftAngle = SubsystemContainer.armSubsystem.getArmPose();
   }
 
   @Override

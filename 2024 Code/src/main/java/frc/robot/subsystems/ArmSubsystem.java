@@ -30,16 +30,16 @@ public class ArmSubsystem extends SubsystemBase {
     return m_armEncoder.getAbsolutePosition() * 100.0;
   }
 
-  public double armPID(double targetAngle) {
+  public void armPID(double targetAngle) {
     double error = targetAngle - m_angle;
     errorSum += error;
     double change = error - lastError;
     PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_kd * errorSum + ArmConstants.Arm_kd * change;
     lastError = error;
-    return PIDoutput;
+    armChecker(PIDoutput);
   }
 
-  public void armChecker(double desiredVolt) {
+  private void armChecker(double desiredVolt) {
     if ((m_angle >= ArmConstants.INTAKE_LIMIT && desiredVolt > 0) ||
         (m_angle <= ArmConstants.AMP_LIMIT && desiredVolt < 0)) {
       m_arm.setVoltage(0);
