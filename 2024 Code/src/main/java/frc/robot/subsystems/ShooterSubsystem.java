@@ -82,10 +82,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean approveShoot() {
-    if (getshooterRpm() >= getTargetRPM() - 7 && getshooterRpm() <= getTargetRPM() + 7) {
-      return true;
-    }
-    return false;
+    return Math.abs(getshooterRpm() - getTargetRPM()) <= 7;
   }
 
   public double getFF() {

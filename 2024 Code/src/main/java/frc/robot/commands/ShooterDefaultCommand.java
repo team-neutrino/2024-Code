@@ -1,12 +1,10 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ShooterDefaultCommand extends Command {
-    @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     private ShooterSubsystem m_shooterSubsystem;
 
     public ShooterDefaultCommand() {
