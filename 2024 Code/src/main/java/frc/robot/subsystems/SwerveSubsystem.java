@@ -177,13 +177,6 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
-
-    if (omega == 0) {
-      omegaZero = true;
-    } else {
-      omegaZero = false;
-    }
-
   }
 
   public boolean omegaZero() {
