@@ -13,6 +13,7 @@ import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ArmAngleCommand;
+import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeDefaultCommand;
@@ -35,7 +36,6 @@ public class RobotContainer {
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
-
   public RobotContainer() {
 
     configureBindings();
@@ -47,7 +47,7 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
-    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(0));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
@@ -69,6 +69,9 @@ public class RobotContainer {
     // shooter buttons
     m_controller.y().whileTrue(new ShootSpeakerCommand());
     m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+
+    // arm buttons
+    m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
   }
 
   public Command getAutonomousCommand() {
