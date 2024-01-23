@@ -36,7 +36,6 @@ public class RobotContainer {
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
-  ShooterDefaultCommand m_shooterDefaultCommand = new ShooterDefaultCommand();
   public RobotContainer() {
 
     configureBindings();
@@ -49,7 +48,7 @@ public class RobotContainer {
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(0));
-    SubsystemContainer.ShooterSubsystem.setDefaultCommand(m_shooterDefaultCommand);
+    SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // LED buttons
