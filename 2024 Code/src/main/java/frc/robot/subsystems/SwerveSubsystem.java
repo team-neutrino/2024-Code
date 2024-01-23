@@ -57,7 +57,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private SwerveDriveOdometry m_swerveOdometry;
 
-  private PIDController m_angleController = new PIDController(0.1, 0, 0);
+  private PIDController m_angleController = new PIDController(0.08, 0, 0);
   private Timer m_timer = new Timer();
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
@@ -69,6 +69,7 @@ public class SwerveSubsystem extends SubsystemBase {
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
   double cycle = 0;
+  boolean omegaZero = false;
 
   Field2d field = new Field2d();
   Pose2d autonPose = new Pose2d();
@@ -167,6 +168,17 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+
+    if (omega == 0) {
+      omegaZero = true;
+    } else {
+      omegaZero = false;
+    }
+
+  }
+
+  public boolean omegaZero() {
+    return omegaZero;
   }
 
   public void robotRelativeSwerve(ChassisSpeeds referenceSpeeds) {
@@ -223,6 +235,24 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_kinematics.toChassisSpeeds(m_frontRight.getModuleState(),
         m_frontLeft.getModuleState(),
         m_backRight.getModuleState(), m_backLeft.getModuleState());
+  }
+
+  /**
+   * Returns true if the current alliance is red, false otherwise.
+   * 
+   * @throws IllegalStateException if no alliance is present
+   * @return boolean representing the current alliance as retrieved from the
+   *         Driver Station.
+   */
+  public boolean getCurrentAlliance() {
+    boolean isRed = false;
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+      isRed = alliance.get() == DriverStation.Alliance.Red;
+    } else {
+      throw new IllegalStateException();
+    }
+    return isRed;
   }
 
   @Override
