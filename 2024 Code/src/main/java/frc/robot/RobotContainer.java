@@ -8,12 +8,14 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
+import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.ArmAngleCommand;
+import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeDefaultCommand;
@@ -36,7 +38,6 @@ public class RobotContainer {
 
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
-  ShooterDefaultCommand m_ShooterDefaultCommand = new ShooterDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
 
@@ -51,8 +52,8 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_controller));
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
-    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
-    SubsystemContainer.ShooterSubsystem.setDefaultCommand(m_ShooterDefaultCommand);
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(0));
+    SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // LED buttons
@@ -76,9 +77,15 @@ public class RobotContainer {
 
     m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
-    m_controller.rightBumper().onTrue(AutoBuilder.pathfindToPose(
+    m_controller.rightTrigger().onTrue(AutoBuilder.pathfindToPose(
         SubsystemContainer.swerveSubsystem.getPathfindingTargetPose(), SwerveConstants.PATH_CONSTRAINTS));
-    //m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+    // m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+    // shooter buttons
+    m_controller.y().whileTrue(new ShootSpeakerCommand());
+    m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+
+    // arm buttons
+    m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
   }
 
   public Command getAutonomousCommand() {

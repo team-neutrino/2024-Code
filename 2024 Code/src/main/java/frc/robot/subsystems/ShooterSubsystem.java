@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -14,15 +15,13 @@ import frc.robot.Constants.MotorIDs;
 
 public class ShooterSubsystem extends SubsystemBase {
   private CANSparkMax m_shooter = new CANSparkMax(MotorIDs.SHOOTER_MOTOR, MotorType.kBrushless);
-
-
   private RelativeEncoder m_shooterEncoder;
   private SparkPIDController m_pidController;
   private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
-  private double WHEEL_P = 0.25;
-  private double WHEEL_I = 0.0006;
+  private double WHEEL_P = 0.0000005;
+  private double WHEEL_I = 0.0000003;
   private double WHEEL_D = 0;
-  private double WHEEL_FF = 0.0975;
+  private double WHEEL_FF = 0.000155;
   private double m_targetRPM;
 
   public ShooterSubsystem() {
@@ -76,6 +75,14 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setTargetRPM(double p_targetRpm) {
     m_targetRPM = p_targetRpm;
     m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
+  }
+
+  public void stopShooter() {
+    setVoltage(0);
+  }
+
+  public boolean approveShoot() {
+    return Math.abs(getshooterRpm() - getTargetRPM()) <= 7;
   }
 
   public double getFF() {

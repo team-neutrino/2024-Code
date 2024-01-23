@@ -26,7 +26,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_arm.restoreFactoryDefaults();
   }
 
-  private double getArmPose() {
+  public double getArmPose() {
     return m_armEncoder.getAbsolutePosition() * 100.0;
   }
 

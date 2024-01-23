@@ -110,6 +110,7 @@ public final class Constants {
     public static double AMP_LIMIT = 15;
     public static double INTAKE_POSE = 90;
     public static double AMP_POSE = 20;
+    public static double ARM_ADJUST_DEADZONE = 0.2;
 
   }
 
