@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.MotorIDs;
@@ -75,6 +76,7 @@ public class SwerveSubsystem extends SubsystemBase {
   Field2d field = new Field2d();
   Pose2d autonPose = new Pose2d();
   Pose2d generalSimPose = new Pose2d();
+  public Command m_pathfind;
 
   public SwerveSubsystem() {
     modulePositions[0] = new SwerveModulePosition();
@@ -300,6 +302,10 @@ public class SwerveSubsystem extends SubsystemBase {
     double f = distanceFormula(closestPose);
     System.out.println("returned " + f);
     return closestPose;
+  }
+
+  public void updatePathfindCommand() {
+    m_pathfind = AutoBuilder.pathfindToPose(getPathfindingTargetPose(), SwerveConstants.PATH_CONSTRAINTS);
   }
 
   @Override
