@@ -12,6 +12,7 @@ import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignCommand;
+import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.ClimbRetractCommand;
@@ -33,7 +34,6 @@ public class RobotContainer {
   CommandXboxController m_controller = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
   CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
 
-  SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   ShooterDefaultCommand m_ShooterDefaultCommand = new ShooterDefaultCommand();
@@ -48,7 +48,7 @@ public class RobotContainer {
   private void configureBindings() {
     // set default commands
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
-    SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
+    SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_controller));
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
@@ -72,7 +72,7 @@ public class RobotContainer {
     m_controller.start().onTrue(
         new SequentialCommandGroup(
             new InstantCommand(() -> SubsystemContainer.swerveSubsystem.updatePathfindCommand()),
-            SubsystemContainer.swerveSubsystem.m_pathfind));
+            SubsystemContainer.swerveSubsystem.m_pathfind, new AutoAlignSequentialCommand()));
 
     m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
