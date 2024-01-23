@@ -6,7 +6,6 @@ import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ShootSpeakerCommand extends Command {
-    @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
 
     private ShooterSubsystem m_shooterSubsystem;
     private IntakeSubsystem m_indexSubsystem;
