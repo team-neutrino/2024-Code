@@ -22,7 +22,6 @@ public class ArmManualCommand extends Command {
 
   @Override
   public void initialize() {
-    SubsystemContainer.armSubsystem.i = 0;
     m_shiftAngle = SubsystemContainer.armSubsystem.getArmPose();
   }
 
