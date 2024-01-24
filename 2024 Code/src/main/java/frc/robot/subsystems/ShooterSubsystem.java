@@ -23,6 +23,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private double WHEEL_D = 0;
   private double WHEEL_FF = 0.000155;
   private double m_targetRPM;
+  private int counter;
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooter.getEncoder();
@@ -82,7 +83,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean approveShoot() {
-    return Math.abs(getshooterRpm() - getTargetRPM()) <= 7;
+    return (Math.abs(getshooterRpm() - getTargetRPM()) <= 7) && (counter > 9);
   }
 
   public double getFF() {
@@ -117,6 +118,16 @@ public class ShooterSubsystem extends SubsystemBase {
     return Math.abs(RPM - TRPM) <= 10;
   }
 
+  public void countCounter(){
+      if (Math.abs(getTargetRPM() - getshooterRpm()) < 10 ){
+        counter ++;
+      }
+      else{
+        counter = 0;
+    }
+  }
+
+               
   public void periodic() {
   }
 }
