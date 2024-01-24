@@ -123,7 +123,7 @@ public class ShooterSubsystem extends SubsystemBase {
     return Math.abs(RPM - TRPM) <= 10;
   }
 
-  public void countCounter() {
+  private void countCounter() {
     if (Math.abs(getTargetRPM() - getshooterRpm()) < COUNTER_ERROR_THRESHOLD) {
       counter++;
     } else {
