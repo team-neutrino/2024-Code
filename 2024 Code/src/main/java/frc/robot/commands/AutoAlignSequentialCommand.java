@@ -21,7 +21,7 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
                 && SubsystemContainer.limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY) {
             return true;
         }
-        if (SubsystemContainer.swerveSubsystem.getCurrentAlliance() == false
+        if (SubsystemContainer.swerveSubsystem.isRedAlliance() == false
                 && SubsystemContainer.limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
             return true;
         }
