@@ -73,7 +73,7 @@ public class RobotContainer {
 
     // shooter buttons
     m_controller.y().whileTrue(new ShootSpeakerCommand());
-    // m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+    m_controller.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
