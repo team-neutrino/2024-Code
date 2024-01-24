@@ -21,6 +21,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double lastError;
   private double PIDoutput;
   private double m_angle;
+  private double m_targetAngle;
+  private boolean m_inPosisition;
   public int i = 0;
 
   public ArmSubsystem() {
@@ -31,15 +33,16 @@ public class ArmSubsystem extends SubsystemBase {
     return m_armEncoder.getAbsolutePosition() * 100.0;
   }
 
-  public boolean armPID(double targetAngle) {
+  public void armPID(double targetAngle) {
+    m_targetAngle = targetAngle;
     double error = targetAngle - m_angle;
-    errorSum += error;
-    double change = error - lastError;
-    PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_kd * errorSum + ArmConstants.Arm_kd * change;
+    errorSum += error * ArmConstants.Arm_kd;
+    double change = (error - lastError) / .02;
     lastError = error;
+    PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_ki * errorSum + ArmConstants.Arm_kd * change;
     armChecker(PIDoutput);
-    return ArmDebouncer(targetAngle);
   }
+
   private void armChecker(double desiredVolt) {
     if ((m_angle >= ArmConstants.INTAKE_LIMIT && desiredVolt > 0) ||
         (m_angle <= ArmConstants.AMP_LIMIT && desiredVolt < 0)) {
@@ -49,18 +52,23 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-  private boolean ArmDebouncer(double targetAngle) {
-    if(Math.abs(getArmPose() - targetAngle) <=5) {
+  private boolean ArmDebouncer() {
+    if (Math.abs(m_angle - m_targetAngle) <= 5) {
       i++;
-    }
-    else {
+    } else {
       i = 0;
     }
     return i >= 10;
   }
 
+  public boolean getInPosisition() {
+    return m_inPosisition;
+  }
+
   @Override
   public void periodic() {
     m_angle = getArmPose();
+    m_inPosisition = ArmDebouncer();
+    System.out.println(m_angle);
   }
 }
