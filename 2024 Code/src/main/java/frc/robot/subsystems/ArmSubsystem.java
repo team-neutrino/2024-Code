@@ -73,5 +73,6 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     m_angle = getArmPose();
     m_inPosisition = ArmDebouncer();
+    System.out.println("target angle: " + m_targetAngle + " current position: " + m_angle);
   }
 }

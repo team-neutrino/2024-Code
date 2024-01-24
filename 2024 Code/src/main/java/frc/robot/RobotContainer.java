@@ -15,6 +15,7 @@ import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.ClimbDefaultCommand;
+import frc.robot.commands.ClimbExtendCommand;
 import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
@@ -23,6 +24,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
@@ -59,9 +61,10 @@ public class RobotContainer {
     m_controller.y().whileTrue(new IntakeReverseCommand());
 
     // Climb buttons
-    m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
-
-    m_controller.start().whileTrue(new ArmAngleCommand(Constants.ArmConstants.AMP_POSE));
+    // m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
+    // m_controller.rightTrigger().toggleOnTrue(new ClimbExtendCommand());
+    m_controller.leftTrigger().toggleOnTrue(new SequentialCommandGroup(new ClimbExtendCommand(),
+        new ClimbRetractCommand()));
 
     // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
@@ -73,6 +76,7 @@ public class RobotContainer {
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
+    m_controller.start().whileTrue(new ArmAngleCommand(Constants.ArmConstants.AMP_POSE));
   }
 
   public Command getAutonomousCommand() {

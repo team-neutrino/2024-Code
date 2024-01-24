@@ -125,7 +125,7 @@ public class ClimbSubsystem extends SubsystemBase {
      */
 
     public double[] getArmEncoderVelocity() {
-        return new double[] { m_armEncoder1.getVelocity(), m_armEncoder2.getPosition() };
+        return new double[] { m_armEncoder1.getVelocity(), m_armEncoder2.getVelocity() };
     }
 
     @Override

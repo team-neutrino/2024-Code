@@ -47,11 +47,15 @@ public class ClimbExtendCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_armSubsystem.removeDefaultCommand();
+    m_armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.CLIMB_POSITION));
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    // return m_climbSubsystem.getArmEncoderPosition()[1] >=
+    // Constants.ClimbConstants.CLIMB_LIMIT_UP;
+    return m_armSubsystem.getArmPose() >= Constants.ClimbConstants.CLIMB_LIMIT_UP;
   }
 }
