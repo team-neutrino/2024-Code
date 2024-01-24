@@ -11,7 +11,6 @@ import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
@@ -85,6 +84,7 @@ public class RobotContainer {
 
   public void simulationInit() {
     SubsystemContainer.ShooterSubsystem.simulationInit();
+    SubsystemContainer.intakeSubsystem.simulationInit();
   }
 
   public void simulationPeriodic() {
