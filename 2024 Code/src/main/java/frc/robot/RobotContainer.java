@@ -70,19 +70,24 @@ public class RobotContainer {
     // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
 
-    m_controller.start().onTrue(
+    m_controller.rightBumper().onTrue(
         new SequentialCommandGroup(
-            new InstantCommand(() -> SubsystemContainer.swerveSubsystem.updatePathfindCommand()),
+            new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setPathfindCommand()),
             SubsystemContainer.swerveSubsystem.m_pathfind, new AutoAlignSequentialCommand()));
 
+    // m_controller.rightTrigger()
+    // .onTrue(new InstantCommand(() ->
+    // SubsystemContainer.swerveSubsystem.setPathfindCommand()));
     m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
-    m_controller.rightTrigger().onTrue(AutoBuilder.pathfindToPose(
-        SubsystemContainer.swerveSubsystem.getPathfindingTargetPose(), SwerveConstants.PATH_CONSTRAINTS));
+    // m_controller.rightTrigger().onTrue(AutoBuilder.pathfindToPose(
+    // SubsystemContainer.swerveSubsystem.getPathfindingTargetPose(),
+    // SwerveConstants.PATH_CONSTRAINTS));
     // m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+
     // shooter buttons
     m_controller.y().whileTrue(new ShootSpeakerCommand());
-    m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+    // m_controller.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));

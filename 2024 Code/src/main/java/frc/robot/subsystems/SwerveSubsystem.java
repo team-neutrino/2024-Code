@@ -23,11 +23,17 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.SwerveModule;
+import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
+import frc.robot.util.SubsystemContainer;
 
 public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
@@ -77,6 +83,10 @@ public class SwerveSubsystem extends SubsystemBase {
   Pose2d autonPose = new Pose2d();
   Pose2d generalSimPose = new Pose2d();
   public Command m_pathfind;
+  public Command m_pathfindBlue1;
+  public Command m_pathfindBlue2;
+  public Command m_pathfindBlue3;
+  public Command m_pathfindBlue4;
 
   public SwerveSubsystem() {
     modulePositions[0] = new SwerveModulePosition();
@@ -111,6 +121,14 @@ public class SwerveSubsystem extends SubsystemBase {
           return false;
         },
         this);
+
+    m_pathfind = AutoBuilder.pathfindToPose(new Pose2d(2, 2, new Rotation2d()),
+        Constants.SwerveConstants.PATH_CONSTRAINTS);
+
+    m_pathfindBlue1 = AutoBuilder.pathfindToPose(SwerveConstants.BLUE_TARGET_POSE1, SwerveConstants.PATH_CONSTRAINTS);
+    m_pathfindBlue2 = AutoBuilder.pathfindToPose(SwerveConstants.BLUE_TARGET_POSE2, SwerveConstants.PATH_CONSTRAINTS);
+    m_pathfindBlue3 = AutoBuilder.pathfindToPose(SwerveConstants.BLUE_TARGET_POSE3, SwerveConstants.PATH_CONSTRAINTS);
+    m_pathfindBlue4 = AutoBuilder.pathfindToPose(SwerveConstants.BLUE_TARGET_POSE4, SwerveConstants.PATH_CONSTRAINTS);
   }
 
   public void Swerve(double vx, double vy, double omega) {
@@ -257,13 +275,14 @@ public class SwerveSubsystem extends SubsystemBase {
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
       isRed = alliance.get() == DriverStation.Alliance.Red;
-    } else {
-      throw new IllegalStateException();
     }
+    // } else {
+    // throw new IllegalStateException();
+    // }
     return isRed;
   }
 
-  public Pose2d getPathfindingTargetPose() {
+  public void setPathfindCommand() {
     boolean isRed = getCurrentAlliance();
 
     Pose2d closestPose;
@@ -280,6 +299,7 @@ public class SwerveSubsystem extends SubsystemBase {
       }
     } else {
       closestPose = SwerveConstants.BLUE_TARGET_POSE1;
+      m_pathfind = m_pathfindBlue1;
 
       double d1 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE1);
       double d2 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE2);
@@ -288,25 +308,38 @@ public class SwerveSubsystem extends SubsystemBase {
 
       System.out.println("pose 1 " + d1 + "\npose 2 " + d2 + "\npose 3 " + d3 + "\npose 4 " + d4);
 
-      if (distanceFormula(SwerveConstants.BLUE_TARGET_POSE2) < distanceFormula(closestPose)) {
+      if (d2 < distanceFormula(closestPose)) {
         closestPose = SwerveConstants.BLUE_TARGET_POSE2;
+        m_pathfind = m_pathfindBlue2;
       }
-      if (distanceFormula(SwerveConstants.BLUE_TARGET_POSE3) < distanceFormula(closestPose)) {
+      if (d3 < distanceFormula(closestPose)) {
         closestPose = SwerveConstants.BLUE_TARGET_POSE3;
+        m_pathfind = m_pathfindBlue3;
       }
-      if (distanceFormula(SwerveConstants.BLUE_TARGET_POSE4) < distanceFormula(closestPose)) {
+      if (d4 < distanceFormula(closestPose)) {
         closestPose = SwerveConstants.BLUE_TARGET_POSE4;
+        m_pathfind = m_pathfindBlue4;
       }
     }
 
     double f = distanceFormula(closestPose);
     System.out.println("returned " + f);
-    return closestPose;
+
+    // if (closestPose.equals(SwerveConstants.BLUE_TARGET_POSE1)) {
+    // m_pathfind = m_pathfindBlue1;
+    // } else if (closestPose.equals(SwerveConstants.BLUE_TARGET_POSE3)) {
+    // m_pathfind = m_pathfindBlue2;
+    // } else if (closestPose.equals(SwerveConstants.BLUE_TARGET_POSE4)) {
+    // m_pathfind = m_pathfindBlue3;
+    // } else if (closestPose.equals(SwerveConstants.BLUE_TARGET_POSE4)) {
+    // m_pathfind = m_pathfindBlue4;
+    // }
   }
 
-  public void updatePathfindCommand() {
-    m_pathfind = AutoBuilder.pathfindToPose(getPathfindingTargetPose(), SwerveConstants.PATH_CONSTRAINTS);
-  }
+  // public void updatePathfindCommand() {
+  // m_pathfind = AutoBuilder.pathfindToPose(getPathfindingTargetPose(),
+  // SwerveConstants.PATH_CONSTRAINTS);
+  // }
 
   @Override
   public void periodic() {
