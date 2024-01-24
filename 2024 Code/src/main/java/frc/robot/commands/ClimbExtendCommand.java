@@ -10,40 +10,38 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.util.SubsystemContainer;
 
-public class ClimbRetractCommand extends Command {
+public class ClimbExtendCommand extends Command {
 
   /**
-   * A reference to the ONE instance of the climb subsystem in the subsystem
-   * container initialized here for easy access.
+   * A reference to the ONE instance of the climb and arm subsystems in the
+   * subsystem container initialized here for easy access.
    */
   private ClimbSubsystem m_climbSubsystem = SubsystemContainer.climbSubsystem;
 
   private ArmSubsystem m_armSubsystem = SubsystemContainer.armSubsystem;
 
-  /** Creates a new ClimbRetractCommand. */
-  public ClimbRetractCommand() {
+  /** Creates a new ClimbExtendCommand. */
+  public ClimbExtendCommand() {
+    addRequirements(m_climbSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_climbSubsystem, m_armSubsystem);
   }
 
-  // Called when the command is initially scheduled.
+  // Called every 20 ms
   @Override
   public void initialize() {
+
   }
 
-  // Called every 20ms
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /**
-     * this logic is to prevent the climber from retracting until the arm
-     * is in the designated position for climbing (otherwise the arm
-     * would bend the chain and we'd get a foul)
+    /*
+     * This code assumes that if we are raising the climber we are going to
+     * pull ourselves up directly afterward, so this command proactively puts
+     * the arm to the correct position for climbing.
      */
-    if (m_armSubsystem.getCurrentTargetAngle() != Constants.ArmConstants.CLIMB_POSITION) {
-      m_armSubsystem.armPID(Constants.ArmConstants.CLIMB_POSITION);
-    } else if (m_armSubsystem.getInPosisition()) {
-      m_climbSubsystem.rectractClimberArms();
-    }
+    m_armSubsystem.armPID(Constants.ArmConstants.CLIMB_POSITION);
+    m_climbSubsystem.extendClimberArms();
   }
 
   // Called once the command ends or is interrupted.

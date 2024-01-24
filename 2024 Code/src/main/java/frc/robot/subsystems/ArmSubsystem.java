@@ -65,6 +65,10 @@ public class ArmSubsystem extends SubsystemBase {
     return m_inPosisition;
   }
 
+  public double getCurrentTargetAngle() {
+    return m_targetAngle;
+  }
+
   @Override
   public void periodic() {
     m_angle = getArmPose();
