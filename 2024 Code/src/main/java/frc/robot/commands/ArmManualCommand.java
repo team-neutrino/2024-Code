@@ -31,7 +31,6 @@ public class ArmManualCommand extends Command {
       m_shiftAngle += m_controller.getLeftX() / conversionFactor;
     }
     SubsystemContainer.armSubsystem.armPID(m_shiftAngle);
-    System.out.println(m_shiftAngle);
   }
 
   @Override
