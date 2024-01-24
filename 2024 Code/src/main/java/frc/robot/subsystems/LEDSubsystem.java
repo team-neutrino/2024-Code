@@ -12,6 +12,7 @@ public class LEDSubsystem extends SubsystemBase {
     private AddressableLED m_addressableLED;
     private AddressableLEDBuffer m_LEDBuffer;
     private Timer timer = new Timer();
+    private Timer blueTimer = new Timer();
 
     public LEDSubsystem() {
         m_addressableLED = new AddressableLED(PWMConstants.LED);
@@ -39,6 +40,17 @@ public class LEDSubsystem extends SubsystemBase {
 
     public void setToBlue() {
         setToColor(0, 0, 255);
+    }
+
+    public void setToYellow() {
+        setToColor(255, 255, 0);
+    }
+
+    public void blueTimer() {
+        if (blueTimer.get() < 3) {
+            setToBlue();
+        }
+        setToOrange();
     }
 
     // false = broken
