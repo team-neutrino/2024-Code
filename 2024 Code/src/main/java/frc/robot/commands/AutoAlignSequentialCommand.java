@@ -5,38 +5,28 @@
 package frc.robot.commands;
 
 import frc.robot.FieldConstants;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
-import edu.wpi.first.hal.AllianceStationID;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.Command;
 
-/** An example command that uses an example subsystem. */
-public class AutoAlignSequentialCommand extends AutoAlignCommand{
+public class AutoAlignSequentialCommand extends AutoAlignCommand {
     double currentYaw;
     double targetYaw;
-    private LimelightSubsystem m_limelight;
-    private SwerveSubsystem m_swerveSubsystem;
 
     public AutoAlignSequentialCommand() {
-        m_limelight = SubsystemContainer.limelightSubsystem;
-        m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
-        addRequirements(m_limelight);
+        addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
     @Override
     public boolean isFinished() {
-        if (m_swerveSubsystem.getCurrentAlliance() == true
-                && m_limelight.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY) {
+        if (SubsystemContainer.swerveSubsystem.getCurrentAlliance() == true
+                && SubsystemContainer.limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY) {
             return true;
         }
-        if (m_swerveSubsystem.getCurrentAlliance() == false
-                && m_limelight.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
+        if (SubsystemContainer.swerveSubsystem.getCurrentAlliance() == false
+                && SubsystemContainer.limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
             return true;
         }
 
-        if (!m_swerveSubsystem.omegaZero()) {
+        if (!SubsystemContainer.swerveSubsystem.omegaZero()) {
             return true;
         }
 
