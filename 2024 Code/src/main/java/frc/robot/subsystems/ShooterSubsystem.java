@@ -26,7 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private int counter;
   final private double APPROVE_ERROR_THRESHOLD = 7;
   final private double APPROVE_COUNTER_THRESHOLD = 9;
-  final private double COUNTER_ERROR_THRESHOLD = 100;
+  final private double COUNTER_ERROR_THRESHOLD = 10;
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooter.getEncoder();

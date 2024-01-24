@@ -58,7 +58,7 @@ public class ArmSubsystem extends SubsystemBase {
     } else {
       i = 0;
     }
-    return i >= 100;
+    return i >= 10;
   }
 
   public boolean getInPosisition() {
