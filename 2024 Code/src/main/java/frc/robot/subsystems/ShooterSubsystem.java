@@ -26,7 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private int counter;
   final private double APPROVE_ERROR_THRESHOLD = 7;
   final private double APPROVE_COUNTER_THRESHOLD = 9;
-  final private double COUNTER_ERROR_THRESHOLD = 10;
+  final private double COUNTER_ERROR_THRESHOLD = 100;
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooter.getEncoder();
@@ -86,7 +86,9 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean approveShoot() {
-    return (Math.abs(getshooterRpm() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD) && (counter > APPROVE_COUNTER_THRESHOLD);
+    countCounter();
+    return (Math.abs(getshooterRpm() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD)
+        && (counter > APPROVE_COUNTER_THRESHOLD);
   }
 
   public double getFF() {
@@ -121,13 +123,16 @@ public class ShooterSubsystem extends SubsystemBase {
     return Math.abs(RPM - TRPM) <= 10;
   }
 
-  public void countCounter(){
-      if (Math.abs(getTargetRPM() - getshooterRpm()) < COUNTER_ERROR_THRESHOLD ){
-        counter ++;
-      }
-      else{
-        counter = 0;
+  public void countCounter() {
+    if (Math.abs(getTargetRPM() - getshooterRpm()) < COUNTER_ERROR_THRESHOLD) {
+      counter++;
+    } else {
+      counter = 0;
     }
+  }
+
+  @Override
+  public void periodic() {
   }
 
 }
