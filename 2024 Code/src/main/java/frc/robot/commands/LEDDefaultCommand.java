@@ -9,8 +9,7 @@ public class LEDDefaultCommand extends Command {
 
   private LEDSubsystem m_LEDSubsystem;
   private IntakeSubsystem m_IntakeSubsystem;
-  private AutoAlignCommand m_AutoAlignCommand;
-  private AutoAlignSequentialCommand m_AutoAlignSequentialCommand;
+  private SwerveDefaultCommand m_SwerveDefaultCommand;
 
   // ask aneesh what the diff between AutoAlignCommand
   // and AutoAlignSequentialCommand is
@@ -30,9 +29,9 @@ public class LEDDefaultCommand extends Command {
   public void execute() {
     if (!m_IntakeSubsystem.getBeamBreak()) {
       m_LEDSubsystem.setToGreen();
-    } else if () {
+    } else if (!m_SwerveDefaultCommand.isRunning) {
       m_LEDSubsystem.setToYellow();
-    } else if () {
+    } else if (m_SwerveDefaultCommand.isRunning) {
       m_LEDSubsystem.blueTimer();
     } else {
       m_LEDSubsystem.setToOrange();

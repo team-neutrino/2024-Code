@@ -11,6 +11,7 @@ import frc.robot.util.SubsystemContainer;
 
 public class SwerveDefaultCommand extends Command {
   XboxController m_xboxController;
+  boolean isRunning;
 
   public SwerveDefaultCommand(CommandXboxController p_controller) {
     m_xboxController = p_controller.getHID();
@@ -27,11 +28,13 @@ public class SwerveDefaultCommand extends Command {
   public void execute() {
     SubsystemContainer.swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1, m_xboxController.getLeftX() * -1,
         m_xboxController.getRightX() * -1);
+    isRunning = true;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    isRunning = false;
   }
 
   // Returns true when the command should end.
