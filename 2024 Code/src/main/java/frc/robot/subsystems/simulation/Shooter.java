@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.simulation;
 
 import com.revrobotics.REVPhysicsSim;
 
@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class Shooter extends ShooterSubsystem {
     Mechanism2d m_mech = new Mechanism2d(3, 3);
@@ -49,7 +50,8 @@ public class Shooter extends ShooterSubsystem {
         m_flywheel_sim.update(0.02);
 
         double rev_per_s = m_flywheel_sim.getAngularVelocityRPM();
-        System.out.println("flywheel velocity ()RPM " + m_flywheel_sim.getAngularVelocityRPM());
+        // System.out.println("flywheel velocity ()RPM " +
+        // m_flywheel_sim.getAngularVelocityRPM());
         m_last_position_rev = m_last_position_rev + rev_per_s * 0.02;
         m_wheel_ligament.setAngle(m_last_position_rev * 6);
 

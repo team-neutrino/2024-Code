@@ -11,8 +11,10 @@ import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmManualCommand;
+import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeDefaultCommand;
@@ -71,7 +73,7 @@ public class RobotContainer {
 
     // shooter buttons
     m_controller.y().whileTrue(new ShootSpeakerCommand());
-    m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+    // m_controller.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
@@ -82,10 +84,9 @@ public class RobotContainer {
   }
 
   public void simulationInit() {
-    ShooterSubsystem.simulationInit();
+    SubsystemContainer.ShooterSubsystem.simulationInit();
   }
 
-  @Override
   public void simulationPeriodic() {
     REVPhysicsSim.getInstance().run();
   }
