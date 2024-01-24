@@ -76,8 +76,8 @@ public class IntakeSubsystem extends SubsystemBase {
         return m_intakeBeamBreak.get();
     }
 
-    public void indexTraffic(boolean status) {
-        if(status) {
+    public void indexApprove(boolean allow) {
+        if(allow) {
             runIndex();
         }
         else {
