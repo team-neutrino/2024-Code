@@ -5,7 +5,6 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.LimelightDefaultCommand;
@@ -56,20 +55,17 @@ public class RobotContainer {
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
-    // LED buttons
-    m_controller.a().whileTrue(new LEDCommand());
-
     // Intake buttons
-    m_controller.y().whileTrue(new IntakeReverseCommand());
+    m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
 
     // Climb buttons
-    m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
-
+    // climb up should be start
+    m_controller.back().whileTrue(new ClimbRetractCommand());
     m_controller.start().whileTrue(new ArmAngleCommand(Constants.ArmConstants.AMP_POSE));
 
     // swerve buttons
-    m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
+    m_driverController.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_driverController.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
     // shooter buttons
     m_controller.y().whileTrue(new ShootSpeakerCommand());
