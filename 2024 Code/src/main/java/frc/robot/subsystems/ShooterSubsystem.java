@@ -83,10 +83,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stopShooter() {
     setVoltage(0);
+    m_targetRPM = 0;
   }
 
   public boolean approveShoot() {
-    return (Math.abs(getshooterRpm() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD) && (counter > APPROVE_COUNTER_THRESHOLD);
+    return (Math.abs(getshooterRpm() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD)
+        && (counter > APPROVE_COUNTER_THRESHOLD);
   }
 
   public double getFF() {
@@ -121,12 +123,11 @@ public class ShooterSubsystem extends SubsystemBase {
     return Math.abs(RPM - TRPM) <= 10;
   }
 
-  public void countCounter(){
-      if (Math.abs(getTargetRPM() - getshooterRpm()) < COUNTER_ERROR_THRESHOLD ){
-        counter ++;
-      }
-      else{
-        counter = 0;
+  public void countCounter() {
+    if (Math.abs(getTargetRPM() - getshooterRpm()) < COUNTER_ERROR_THRESHOLD) {
+      counter++;
+    } else {
+      counter = 0;
     }
   }
 
