@@ -28,17 +28,17 @@ public class ClimbSubsystem extends SubsystemBase {
      * Motor controllers
      * Variable names may be changed
      */
-    private CANSparkMax m_climbArm1 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR1,
+    protected CANSparkMax m_climbArm1 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR1,
             MotorType.kBrushless);
-    private CANSparkMax m_climbArm2 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR2, MotorType.kBrushless);
+    protected CANSparkMax m_climbArm2 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR2, MotorType.kBrushless);
 
     /**
      * Encoders - assumed to be relative, subject to change
      * Encoders are initialized in the constructor with the helper method
      * "initializeMotor"
      */
-    private RelativeEncoder m_armEncoder1;
-    private RelativeEncoder m_armEncoder2;
+    protected RelativeEncoder m_armEncoder1;
+    protected RelativeEncoder m_armEncoder2;
 
     /**
      * Public constructor to be invoked in RobotContainer

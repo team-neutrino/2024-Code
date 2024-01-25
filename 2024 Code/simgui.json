@@ -2,10 +2,27 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Climb1": "Mechanism2d",
+      "/SmartDashboard/Climb2": "Mechanism2d",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Mech2d": "Mechanism2d"
     },
     "windows": {
+      "/SmartDashboard/Climb1": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Climb2": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Field": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Mech2d": {
         "window": {
           "visible": true
@@ -15,7 +32,10 @@
   },
   "NetworkTables": {
     "transitory": {
-      "shooter": {
+      "climb1": {
+        "open": true
+      },
+      "climb2": {
         "open": true
       }
     }
@@ -70,6 +90,22 @@
           ]
         }
       ]
+    },
+    "Plot <1>": {
+      "plots": [
+        {
+          "backgroundColor": [
+            0.9399999976158142,
+            0.9399999976158142,
+            0.9399999976158142,
+            1.0
+          ],
+          "height": 332
+        }
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

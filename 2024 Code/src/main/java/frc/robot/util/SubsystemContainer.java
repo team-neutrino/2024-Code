@@ -7,6 +7,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.simulation.Climb;
 import frc.robot.subsystems.simulation.Shooter;
 
 public class SubsystemContainer {
@@ -15,7 +16,7 @@ public class SubsystemContainer {
     public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     public static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     public static final Shooter ShooterSubsystem = new Shooter();
-    public static final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+    public static final Climb climbSubsystem = new Climb();
     public static final ArmSubsystem armSubsystem = new ArmSubsystem();
 
 }
