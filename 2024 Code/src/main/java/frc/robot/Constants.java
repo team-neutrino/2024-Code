@@ -87,7 +87,7 @@ public final class Constants {
   }
 
   public class ArmConstants {
-    public static double Arm_kp = 0.01;
+    public static double Arm_kp = 1.0;
     public static double Arm_ki = 0;
     public static double Arm_kd = 0;
     public static double INTAKE_LIMIT = 95;

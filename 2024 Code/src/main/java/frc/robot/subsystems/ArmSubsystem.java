@@ -29,6 +29,10 @@ public class ArmSubsystem extends SubsystemBase {
     m_arm.restoreFactoryDefaults();
   }
 
+  public double getTargetAngle() {
+    return m_targetAngle;
+  }
+
   public double getArmPose() {
     return m_armEncoder.getAbsolutePosition() * 100.0;
   }
@@ -40,7 +44,8 @@ public class ArmSubsystem extends SubsystemBase {
     double change = (error - lastError) / .02;
     lastError = error;
     PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_ki * errorSum + ArmConstants.Arm_kd * change;
-    armChecker(PIDoutput);
+    // armChecker(PIDoutput);
+    m_arm.setVoltage(PIDoutput);
   }
 
   private void armChecker(double desiredVolt) {

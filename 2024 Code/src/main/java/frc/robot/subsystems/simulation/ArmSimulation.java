@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.simulations;
+package frc.robot.subsystems.simulation;
 
 import com.revrobotics.REVPhysicsSim;
 
@@ -23,23 +23,30 @@ public class ArmSimulation extends ArmSubsystem {
     Mechanism2d m_armMech = new Mechanism2d(10, 10);
     MechanismRoot2d m_root = m_armMech.getRoot("shoulder", 3, 3);
     MechanismLigament2d m_upperArm;
+
     SingleJointedArmSim m_armSim;
-    double m_last_position_radian;
+
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
-    DoubleTopic encoder_Angle = nt.getDoubleTopic("Arm Angle");
-    final DoublePublisher armAnglesim;
-    final DoublePublisher armAngle;
+    DoubleTopic Sim_Angle = nt.getDoubleTopic("arm/sim_angle");
+    DoubleTopic Encoder_Angle = nt.getDoubleTopic("arm/encoder_angle");
+    DoubleTopic Target_Angle = nt.getDoubleTopic("arm/target_angle");
+    final DoublePublisher simAnglePub;
+    final DoublePublisher encoderAnglePub;
+    final DoublePublisher targetAnglePub;
 
     public ArmSimulation() {
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 4, 0));
         m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 392, 690, 0.6555486, 0.5148721, 1.43117, true, 0.872665);
         SmartDashboard.putData("Arm", m_armMech);
 
-        armAnglesim = encoder_Angle.publish();
-        armAnglesim.setDefault(0.0);
+        simAnglePub = Sim_Angle.publish();
+        simAnglePub.setDefault(0.0);
 
-        armAngle = encoder_Angle.publish();
-        armAngle.setDefault(0.0);
+        encoderAnglePub = Encoder_Angle.publish();
+        encoderAnglePub.setDefault(0.0);
+
+        targetAnglePub = Target_Angle.publish();
+        targetAnglePub.setDefault(0.0);
 
     }
 
@@ -54,14 +61,15 @@ public class ArmSimulation extends ArmSubsystem {
         m_armSim.update(0.02);
 
         double get_angle = m_armSim.getAngleRads();
-        System.out.println("Arm Rad per Sec" + m_armSim.getVelocityRadPerSec());
+        // System.out.println("Arm Rad per Sec" + m_armSim.getVelocityRadPerSec());
         m_upperArm.setAngle(get_angle * (180 / Math.PI));
     }
 
     @Override
     public void periodic() {
         super.periodic();
-        armAngle.set(m_armEncoder.getAbsolutePosition(), NetworkTablesJNI.now());
+        targetAnglePub.set(getTargetAngle(), NetworkTablesJNI.now());
+        encoderAnglePub.set(m_armEncoder.getAbsolutePosition(), NetworkTablesJNI.now());
     }
 }
 // 688.78 is CG inertia Distance bwetwwn cg and axis is 15.17247438

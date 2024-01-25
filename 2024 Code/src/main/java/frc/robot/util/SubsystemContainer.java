@@ -7,7 +7,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.simulations.ArmSimulation;
+import frc.robot.subsystems.simulation.ArmSimulation;
 import frc.robot.subsystems.simulation.Shooter;
 
 public class SubsystemContainer {
