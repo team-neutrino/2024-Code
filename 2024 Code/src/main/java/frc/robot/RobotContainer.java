@@ -12,7 +12,6 @@ import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmManualCommand;
@@ -22,8 +21,11 @@ import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.SubsystemContainer;
 
-import com.pathplanner.lib.auto.AutoBuilder;
+import java.util.HashMap;
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -41,7 +43,26 @@ public class RobotContainer {
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
 
+  Command m_twoNoteAutonCommand;
+  Command m_allCloseNoteAutonCommand;
+  Command m_closeThenMidAutonCommand;
+  Command m_midNoteAutonCommand;
+
+  HashMap<Command, Translation2d> m_redCoordMap = SwerveConstants.m_redCoordMap;
+  HashMap<Command, Translation2d> m_blueCoordMap = SwerveConstants.m_blueCoordMap;
+
   public RobotContainer() {
+    m_redCoordMap.put(m_twoNoteAutonCommand, SwerveConstants.TWO_NOTE_TARGET_POSE_RED);
+    m_blueCoordMap.put(m_twoNoteAutonCommand, SwerveConstants.TWO_NOTE_TARGET_POSE_BLUE);
+
+    m_redCoordMap.put(m_allCloseNoteAutonCommand, SwerveConstants.CLOSE_NOTE_TARGET_POSE_RED);
+    m_blueCoordMap.put(m_allCloseNoteAutonCommand, SwerveConstants.CLOSE_NOTE_TARGET_POSE_BLUE);
+
+    m_redCoordMap.put(m_closeThenMidAutonCommand, SwerveConstants.CLOSE_THEN_MID_TARGET_POSE_RED);
+    m_blueCoordMap.put(m_closeThenMidAutonCommand, SwerveConstants.CLOSE_THEN_MID_TARGET_POSE_BLUE);
+
+    m_redCoordMap.put(m_midNoteAutonCommand, SwerveConstants.MID_TARGET_POSE_RED);
+    m_blueCoordMap.put(m_midNoteAutonCommand, SwerveConstants.MID_TARGET_POSE_BLUE);
 
     configureBindings();
   }
@@ -70,13 +91,9 @@ public class RobotContainer {
     // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
 
-    m_controller.rightBumper().onTrue(
-        new SequentialCommandGroup(
-            new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setPathfindCommand()),
-            SubsystemContainer.swerveSubsystem.m_pathfind, new AutoAlignSequentialCommand()));
+    m_controller.rightBumper().onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp,
+        new AutoAlignSequentialCommand()));
 
-    // m_controller.rightTrigger()
-    // .onTrue(new InstantCommand(() ->
     // SubsystemContainer.swerveSubsystem.setPathfindCommand()));
     m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 

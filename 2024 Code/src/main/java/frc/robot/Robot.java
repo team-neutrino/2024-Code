@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.util.SubsystemContainer;
 
 // =============================================================================
 public class Robot extends TimedRobot {
@@ -40,6 +43,13 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    Translation2d startPose;
+    if (SubsystemContainer.swerveSubsystem.getCurrentAlliance()) {
+      startPose = SwerveConstants.m_redCoordMap.get(m_autonomousCommand);
+    } else {
+      startPose = SwerveConstants.m_blueCoordMap.get(m_autonomousCommand);
+    }
+    SubsystemContainer.swerveSubsystem.resetStartPosition(startPose);
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

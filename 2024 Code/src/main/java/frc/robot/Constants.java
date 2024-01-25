@@ -1,10 +1,11 @@
 package frc.robot;
 
+import java.util.HashMap;
+
 import com.pathplanner.lib.path.PathConstraints;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.Command;
 
 public final class Constants {
   public static class OperatorConstants {
@@ -52,15 +53,20 @@ public final class Constants {
 
     public static PathConstraints PATH_CONSTRAINTS = new PathConstraints(1, 1, 1.5 * Math.PI, 4 * Math.PI);
 
-    public static Pose2d RED_TARGET_POSE1;
-    public static Pose2d RED_TARGET_POSE2;
-    public static Pose2d RED_TARGET_POSE3;
-    public static Pose2d RED_TARGET_POSE4;
+    public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(1.9304, 1);
+    public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(12.7254, 1);
 
-    public static Pose2d BLUE_TARGET_POSE1 = new Pose2d(2.636, 1, new Rotation2d());
-    public static Pose2d BLUE_TARGET_POSE2 = new Pose2d(2.688, 2, new Rotation2d());
-    public static Pose2d BLUE_TARGET_POSE3 = new Pose2d(0.75, 3.86, new Rotation2d());
-    public static Pose2d BLUE_TARGET_POSE4 = new Pose2d(3, 1, new Rotation2d());
+    public static Translation2d TWO_NOTE_TARGET_POSE_RED = new Translation2d();
+    public static Translation2d TWO_NOTE_TARGET_POSE_BLUE = new Translation2d();
+    public static Translation2d CLOSE_NOTE_TARGET_POSE_RED = new Translation2d();
+    public static Translation2d CLOSE_NOTE_TARGET_POSE_BLUE = new Translation2d();
+    public static Translation2d CLOSE_THEN_MID_TARGET_POSE_RED = new Translation2d();
+    public static Translation2d CLOSE_THEN_MID_TARGET_POSE_BLUE = new Translation2d();
+    public static Translation2d MID_TARGET_POSE_RED = new Translation2d();
+    public static Translation2d MID_TARGET_POSE_BLUE = new Translation2d();
+
+    public static HashMap<Command, Translation2d> m_blueCoordMap = new HashMap<>();
+    public static HashMap<Command, Translation2d> m_redCoordMap = new HashMap<>();
   }
 
   public final class DigitalConstants {
