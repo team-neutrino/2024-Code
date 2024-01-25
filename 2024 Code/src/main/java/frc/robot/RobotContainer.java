@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.LimelightDefaultCommand;
+import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -54,6 +55,9 @@ public class RobotContainer {
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
+
+    // LED buttons
+    m_controller.a().whileTrue(new MagicAmpCommand());
 
     // Intake buttons
     m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
