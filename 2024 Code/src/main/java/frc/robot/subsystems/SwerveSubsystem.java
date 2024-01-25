@@ -270,6 +270,72 @@ public class SwerveSubsystem extends SubsystemBase {
     return isRed;
   }
 
+  public Command setPathfindCommand() {
+    boolean isRed = getCurrentAlliance();
+
+    Pose2d closestPose;
+    if (isRed) {
+      closestPose = SwerveConstants.RED_TARGET_POSE1;
+      if (distanceFormula(SwerveConstants.RED_TARGET_POSE2) < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.RED_TARGET_POSE2;
+      }
+      if (distanceFormula(SwerveConstants.RED_TARGET_POSE3) < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.RED_TARGET_POSE3;
+      }
+      if (distanceFormula(SwerveConstants.RED_TARGET_POSE4) < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.RED_TARGET_POSE4;
+      }
+    } else {
+      closestPose = SwerveConstants.BLUE_TARGET_POSE1;
+      m_pathfind = m_pathfindBlue1;
+
+      double d1 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE1);
+      double d2 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE2);
+      double d3 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE3);
+      double d4 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE4);
+
+      System.out.println("pose 1 " + d1 + "\npose 2 " + d2 + "\npose 3 " + d3 + "\npose 4 " + d4);
+
+      if (d2 < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.BLUE_TARGET_POSE2;
+        m_pathfind = m_pathfindBlue2;
+      }
+      if (d3 < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.BLUE_TARGET_POSE3;
+        m_pathfind = m_pathfindBlue3;
+      }
+      if (d4 < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.BLUE_TARGET_POSE4;
+        m_pathfind = m_pathfindBlue4;
+      }
+    }
+
+    double f = distanceFormula(closestPose);
+    System.out.println("returned " + f);
+
+    // if (closestPose.equals(SwerveConstants.BLUE_TARGET_POSE1)) {
+    // m_pathfind = m_pathfindBlue1;
+    // } else if (closestPose.equals(SwerveConstants.BLUE_TARGET_POSE3)) {
+    // m_pathfind = m_pathfindBlue2;
+    // } else if (closestPose.equals(SwerveConstants.BLUE_TARGET_POSE4)) {
+    // m_pathfind = m_pathfindBlue3;
+    // } else if (closestPose.equals(SwerveConstants.BLUE_TARGET_POSE4)) {
+    // m_pathfind = m_pathfindBlue4;
+    // }
+    
+  }
+
+  // public void updatePathfindCommand() {
+  // m_pathfind = AutoBuilder.pathfindToPose(getPathfindingTargetPose(),
+  // SwerveConstants.PATH_CONSTRAINTS);
+  // }
+
+public double distanceFormula(Pose2d targetPose) {
+    Pose2d current = currentPose;
+    return Math.sqrt(Math.pow(targetPose.getX() - current.getX(), 2)
+        + Math.pow(targetPose.getY() - current.getY(), 2));
+  }
+
   @Override
   public void periodic() {
     modulePositions[0] = m_frontRight.getModulePosition();

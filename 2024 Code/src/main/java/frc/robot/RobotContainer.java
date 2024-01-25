@@ -33,6 +33,7 @@ import com.revrobotics.REVPhysicsSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -94,8 +95,11 @@ public class RobotContainer {
     // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
 
-    m_controller.rightBumper().onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp,
-        new AutoAlignSequentialCommand()));
+    // m_controller.rightBumper().onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp,
+    //     new AutoAlignSequentialCommand()));
+    m_controller.rightBumper().onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::setPathfindCommand))));
+
+
 
     // SubsystemContainer.swerveSubsystem.setPathfindCommand()));
     m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
