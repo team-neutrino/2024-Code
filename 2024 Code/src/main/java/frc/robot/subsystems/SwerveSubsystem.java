@@ -115,7 +115,7 @@ public class SwerveSubsystem extends SubsystemBase {
         },
         this);
 
-    if (getCurrentAlliance() == true) {
+    if (isRedAlliance() == true) {
       m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d()),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     } else {
@@ -261,7 +261,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * @return boolean representing the current alliance as retrieved from the
    *         Driver Station.
    */
-  public boolean getCurrentAlliance() {
+  public boolean isRedAlliance() {
     boolean isRed = false;
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
@@ -272,7 +272,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public Command getPathfindCommand() {
-    boolean isRed = getCurrentAlliance();
+    boolean isRed = isRedAlliance();
 
     Pose2d closestPose;
     if (isRed) {

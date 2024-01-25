@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     Translation2d startPose;
-    if (SubsystemContainer.swerveSubsystem.getCurrentAlliance()) {
+    if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
       startPose = SwerveConstants.m_redCoordMap.get(m_autonomousCommand);
     } else {
       startPose = SwerveConstants.m_blueCoordMap.get(m_autonomousCommand);
