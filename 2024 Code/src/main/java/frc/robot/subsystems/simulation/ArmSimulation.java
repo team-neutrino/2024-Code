@@ -63,6 +63,7 @@ public class ArmSimulation extends ArmSubsystem {
         double get_angle = m_armSim.getAngleRads();
         // System.out.println("Arm Rad per Sec" + m_armSim.getVelocityRadPerSec());
         m_upperArm.setAngle(get_angle * (180 / Math.PI));
+        simAnglePub.set(m_upperArm.getAngle());
     }
 
     @Override
