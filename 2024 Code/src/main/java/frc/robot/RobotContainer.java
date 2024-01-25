@@ -65,8 +65,6 @@ public class RobotContainer {
     m_controller.y().whileTrue(new IntakeReverseCommand());
 
     // Climb buttons
-    // m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
-    // m_controller.rightTrigger().toggleOnTrue(new ClimbExtendCommand());
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
 
     // swerve buttons
