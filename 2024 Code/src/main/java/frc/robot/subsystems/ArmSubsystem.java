@@ -45,7 +45,7 @@ public class ArmSubsystem extends SubsystemBase {
     lastError = error;
     PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_ki * errorSum + ArmConstants.Arm_kd * change;
     // armChecker(PIDoutput);
-    m_arm.setVoltage(PIDoutput);
+    m_arm.set(PIDoutput);
   }
 
   private void armChecker(double desiredVolt) {
