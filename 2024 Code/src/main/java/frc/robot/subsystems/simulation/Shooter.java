@@ -23,10 +23,12 @@ public class Shooter extends ShooterSubsystem {
     double m_last_position_rev = 0.0;
 
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    DoubleTopic wheel_sim_speed_topic = inst.getDoubleTopic("/wheel/sim/speed");
-    DoubleTopic wheel_enc_speed_topic = inst.getDoubleTopic("wheel/speed");
+    DoubleTopic wheel_sim_speed_topic = inst.getDoubleTopic("shooter/sim_speed");
+    DoubleTopic wheel_enc_speed_topic = inst.getDoubleTopic("shooter/encoder_speed");
+    DoubleTopic wheel_target_speed_topic = inst.getDoubleTopic("shooter/target_speed");
     final DoublePublisher wheel_sim_speed_pub;
     final DoublePublisher wheel_speed_pub;
+    final DoublePublisher wheel_target_speed_pub;
 
     public Shooter() {
         m_wheel_ligament = m_root.append(new MechanismLigament2d("wheel", 1, 0));
@@ -38,6 +40,9 @@ public class Shooter extends ShooterSubsystem {
 
         wheel_speed_pub = wheel_enc_speed_topic.publish();
         wheel_speed_pub.setDefault(0.0);
+
+        wheel_target_speed_pub = wheel_target_speed_topic.publish();
+        wheel_target_speed_pub.setDefault(0.0);
     }
 
     public void simulationInit() {
@@ -61,6 +66,7 @@ public class Shooter extends ShooterSubsystem {
     public void periodic() {
         super.periodic();
         wheel_speed_pub.set(m_shooterEncoder.getVelocity(), NetworkTablesJNI.now());
+        wheel_target_speed_pub.set(getTargetRPM(), NetworkTablesJNI.now());
     }
 
 }
