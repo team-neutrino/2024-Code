@@ -76,7 +76,6 @@ public class RobotContainer {
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
-    m_controller.start().whileTrue(new ArmAngleCommand(Constants.ArmConstants.AMP_POSE));
   }
 
   public Command getAutonomousCommand() {
