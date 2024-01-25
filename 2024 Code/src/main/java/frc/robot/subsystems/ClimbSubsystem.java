@@ -28,24 +28,24 @@ public class ClimbSubsystem extends SubsystemBase {
      * Motor controllers
      * Variable names may be changed
      */
-    private CANSparkMax m_climbArm1 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR1,
+    private CANSparkMax m_climb1 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR1,
             MotorType.kBrushless);
-    private CANSparkMax m_climbArm2 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR2, MotorType.kBrushless);
+    private CANSparkMax m_climb2 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR2, MotorType.kBrushless);
 
     /**
      * Encoders - assumed to be relative, subject to change
      * Encoders are initialized in the constructor with the helper method
      * "initializeMotor"
      */
-    private RelativeEncoder m_armEncoder1;
-    private RelativeEncoder m_armEncoder2;
+    private RelativeEncoder m_climbEncoder1;
+    private RelativeEncoder m_climbEncoder2;
 
     /**
      * Public constructor to be invoked in RobotContainer
      */
     public ClimbSubsystem() {
-        m_armEncoder1 = initializeMotor(m_climbArm1, false);
-        m_armEncoder2 = initializeMotor(m_climbArm2, false);
+        m_climbEncoder1 = initializeMotor(m_climb1, false);
+        m_climbEncoder2 = initializeMotor(m_climb2, false);
     }
 
     /**
@@ -78,16 +78,16 @@ public class ClimbSubsystem extends SubsystemBase {
      * NOTE: THIS METHOD MAY NOT BE NEEDED WHEN MORE DETAILS ARE KNOWN
      */
     public void extendClimberArms() {
-        m_climbArm1.set(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
-        m_climbArm2.set(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
+        m_climb1.set(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
+        m_climb2.set(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
     }
 
     /**
      * Stops the arm motors.
      */
     public void stopClimberArms() {
-        m_climbArm1.stopMotor();
-        m_climbArm2.stopMotor();
+        m_climb1.stopMotor();
+        m_climb2.stopMotor();
     }
 
     /**
@@ -97,16 +97,16 @@ public class ClimbSubsystem extends SubsystemBase {
      * just negative - should there be a separate value?
      */
     public void rectractClimberArms() {
-        m_climbArm1.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
-        m_climbArm2.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
+        m_climb1.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
+        m_climb2.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
     }
 
     /**
      * Resets all encoders
      */
     public void resetEncoders() {
-        m_armEncoder1.setPosition(0);
-        m_armEncoder2.setPosition(0);
+        m_climbEncoder1.setPosition(0);
+        m_climbEncoder2.setPosition(0);
     }
 
     /**
@@ -115,7 +115,7 @@ public class ClimbSubsystem extends SubsystemBase {
      * @return An array of the arm motors' positions.
      */
     public double[] getArmEncoderPosition() {
-        return new double[] { m_armEncoder1.getPosition(), m_armEncoder2.getPosition() };
+        return new double[] { m_climbEncoder1.getPosition(), m_climbEncoder2.getPosition() };
     }
 
     /**
@@ -125,7 +125,7 @@ public class ClimbSubsystem extends SubsystemBase {
      */
 
     public double[] getArmEncoderVelocity() {
-        return new double[] { m_armEncoder1.getVelocity(), m_armEncoder2.getVelocity() };
+        return new double[] { m_climbEncoder1.getVelocity(), m_climbEncoder2.getVelocity() };
     }
 
     @Override
