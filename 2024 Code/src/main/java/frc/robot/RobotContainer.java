@@ -5,15 +5,16 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.LimelightDefaultCommand;
+import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.AutoAlignCommand;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmManualCommand;
+import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeDefaultCommand;
@@ -28,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
+
   SubsystemContainer m_subsystem_container = new SubsystemContainer();
 
   CommandXboxController m_controller = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
@@ -55,19 +57,19 @@ public class RobotContainer {
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // LED buttons
-    m_controller.a().whileTrue(new LEDCommand());
+    m_controller.a().whileTrue(new MagicAmpCommand());
 
     // Intake buttons
-    m_controller.y().whileTrue(new IntakeReverseCommand());
+    m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
 
     // Climb buttons
-    m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
-
+    // climb up should be start
+    m_controller.back().whileTrue(new ClimbRetractCommand());
     m_controller.start().whileTrue(new ArmAngleCommand(Constants.ArmConstants.AMP_POSE));
 
     // swerve buttons
-    m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
+    m_driverController.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_driverController.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
     // shooter buttons
     m_controller.y().whileTrue(new ShootSpeakerCommand());
@@ -83,6 +85,7 @@ public class RobotContainer {
 
   public void simulationInit() {
     SubsystemContainer.armSubsystem.simulationInit();
+    SubsystemContainer.ShooterSubsystem.simulationInit();
   }
 
   public void simulationPeriodic() {
