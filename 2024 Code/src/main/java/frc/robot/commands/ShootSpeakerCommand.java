@@ -22,12 +22,8 @@ public class ShootSpeakerCommand extends Command {
 
     @Override
     public void execute() {
-        SubsystemContainer.ShooterSubsystem.setTargetRPM(1000);
-        if (m_shooterSubsystem.approveShoot()) {
-            m_indexSubsystem.runIndex();
-        } else {
-            m_indexSubsystem.stopIndex();
-        }
+        m_shooterSubsystem.setTargetRPM(1000);
+        m_indexSubsystem.indexApprove(m_shooterSubsystem.approveShoot());
     }
 
     @Override

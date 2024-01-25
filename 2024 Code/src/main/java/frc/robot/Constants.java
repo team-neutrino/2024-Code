@@ -20,6 +20,7 @@ public final class Constants {
   public static class ClimbConstants {
     public static final double CLIMB_EXTEND_MOTOR_SPEED = .2; // PLACEHOLDER VALUE
     public static final double CLIMB_RETRACT_MOTOR_SPEED = -.2; // PLACEHOLDER VALUE
+    public static final double CLIMB_LIMIT_UP = 50; // PLACEHOLDER VALUE
   }
 
   public static class DimensionConstants {
@@ -117,7 +118,7 @@ public final class Constants {
     public static double INTAKE_POSE = 90;
     public static double AMP_POSE = 20;
     public static double ARM_ADJUST_DEADZONE = 0.2;
-
+    public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {

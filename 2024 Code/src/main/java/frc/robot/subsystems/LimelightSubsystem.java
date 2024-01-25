@@ -49,8 +49,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public double[] getBotPose() {
     pose = limelight.getEntry("botpose").getDoubleArray(pastPose);
-    if (getTv())
-    {
+    if (getTv()) {
       pastPose = pose;
     }
     return pose;
@@ -58,11 +57,14 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public double[] getTargetPose() {
     targetPose = limelight.getEntry("targetpose_robotspace").getDoubleArray(pastTargetPose);
-    if (getTv())
-    {
+    if (getTv()) {
       pastTargetPose = targetPose;
     }
     return targetPose;
+  }
+
+  public void setPipeline(int pipeline) {
+    limelight.getEntry("pipeline").setNumber(pipeline);
   }
 
 }

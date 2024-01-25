@@ -4,37 +4,28 @@
 
 package frc.robot.commands;
 
-import frc.robot.FieldConstants;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
-import edu.wpi.first.hal.AllianceStationID;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
     double currentYaw;
     double targetYaw;
-    private LimelightSubsystem m_limelight;
-    private SwerveSubsystem m_swerveSubsystem;
 
     public AutoAlignCommand() {
-        m_limelight = SubsystemContainer.limelightSubsystem;
-        m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
-        addRequirements(m_limelight);
+        addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
     @Override
     public void initialize() {
+        SubsystemContainer.limelightSubsystem.setPipeline(1);
     }
 
     @Override
     public void execute() {
-        // in degrees?
-        currentYaw = m_swerveSubsystem.getYaw();
-        targetYaw = m_limelight.getTx();
-        m_swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
+        currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
+        targetYaw = SubsystemContainer.limelightSubsystem.getTx();
+        SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
     }
 
     @Override

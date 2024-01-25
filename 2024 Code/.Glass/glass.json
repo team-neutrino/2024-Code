@@ -2,10 +2,16 @@
   "NetworkTables": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/SmartDashboard/Field": "Field2d"
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Mech2d": "Mechanism2d"
     },
     "windows": {
       "/SmartDashboard/Field": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Mech2d": {
         "window": {
           "visible": true
         }
@@ -16,6 +22,7 @@
     "visible": true
   },
   "NetworkTables Settings": {
-    "mode": "Client (NT3)"
+    "mode": "Client (NT4)",
+    "serverTeam": "127.0.0.1"
   }
 }
