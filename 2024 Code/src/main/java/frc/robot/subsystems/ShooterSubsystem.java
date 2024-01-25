@@ -87,6 +87,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean approveShoot() {
+    countCounter();
     return (Math.abs(getshooterRpm() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD)
         && (counter > APPROVE_COUNTER_THRESHOLD);
   }
@@ -123,12 +124,16 @@ public class ShooterSubsystem extends SubsystemBase {
     return Math.abs(RPM - TRPM) <= 10;
   }
 
-  public void countCounter() {
+  private void countCounter() {
     if (Math.abs(getTargetRPM() - getshooterRpm()) < COUNTER_ERROR_THRESHOLD) {
       counter++;
     } else {
       counter = 0;
     }
+  }
+
+  @Override
+  public void periodic() {
   }
 
 }

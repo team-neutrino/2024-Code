@@ -23,7 +23,6 @@ public class ShootSpeakerCommand extends Command {
     @Override
     public void execute() {
         m_shooterSubsystem.setTargetRPM(1000);
-        m_shooterSubsystem.countCounter();
         m_indexSubsystem.indexApprove(m_shooterSubsystem.approveShoot());
     }
 
