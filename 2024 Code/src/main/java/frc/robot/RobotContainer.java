@@ -5,7 +5,6 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.LEDCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.LimelightDefaultCommand;
@@ -62,14 +61,15 @@ public class RobotContainer {
     m_controller.a().whileTrue(new MagicAmpCommand());
 
     // Intake buttons
-    m_controller.y().whileTrue(new IntakeReverseCommand());
+    m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
 
     // Climb buttons
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
+    m_controller.start().whileTrue(new ArmAngleCommand(Constants.ArmConstants.AMP_POSE));
 
     // swerve buttons
-    m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
+    m_driverController.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_driverController.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
     // shooter buttons
     m_controller.y().whileTrue(new ShootSpeakerCommand());
