@@ -65,7 +65,6 @@ public class RobotContainer {
 
     // Climb buttons
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
-    m_controller.start().whileTrue(new ArmAngleCommand(Constants.ArmConstants.AMP_POSE));
 
     // swerve buttons
     m_driverController.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
