@@ -12,6 +12,7 @@ import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignCommand;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.ClimbDefaultCommand;
@@ -63,8 +64,7 @@ public class RobotContainer {
     // Climb buttons
     // m_controller.leftTrigger().whileTrue(new ClimbRetractCommand());
     // m_controller.rightTrigger().toggleOnTrue(new ClimbExtendCommand());
-    m_controller.leftTrigger().toggleOnTrue(new SequentialCommandGroup(new ClimbExtendCommand(),
-        new ClimbRetractCommand()));
+    m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
 
     // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
