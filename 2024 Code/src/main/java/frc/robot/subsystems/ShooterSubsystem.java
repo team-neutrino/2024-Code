@@ -83,6 +83,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stopShooter() {
     setVoltage(0);
+    m_targetRPM = 0;
   }
 
   public boolean approveShoot() {
