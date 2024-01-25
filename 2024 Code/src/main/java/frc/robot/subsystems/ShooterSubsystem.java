@@ -14,8 +14,8 @@ import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private CANSparkMax m_shooter = new CANSparkMax(MotorIDs.SHOOTER_MOTOR, MotorType.kBrushless);
-  private RelativeEncoder m_shooterEncoder;
+  protected CANSparkMax m_shooter = new CANSparkMax(MotorIDs.SHOOTER_MOTOR, MotorType.kBrushless);
+  protected RelativeEncoder m_shooterEncoder;
   private SparkPIDController m_pidController;
   private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
   private double WHEEL_P = 0.0000005;
@@ -23,6 +23,10 @@ public class ShooterSubsystem extends SubsystemBase {
   private double WHEEL_D = 0;
   private double WHEEL_FF = 0.000155;
   private double m_targetRPM;
+  private int counter;
+  final private double APPROVE_ERROR_THRESHOLD = 7;
+  final private double APPROVE_COUNTER_THRESHOLD = 9;
+  final private double COUNTER_ERROR_THRESHOLD = 10;
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooter.getEncoder();
@@ -79,10 +83,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stopShooter() {
     setVoltage(0);
+    m_targetRPM = 0;
   }
 
   public boolean approveShoot() {
-    return Math.abs(getshooterRpm() - getTargetRPM()) <= 7;
+    countCounter();
+    return (Math.abs(getshooterRpm() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD)
+        && (counter > APPROVE_COUNTER_THRESHOLD);
   }
 
   public double getFF() {
@@ -117,6 +124,16 @@ public class ShooterSubsystem extends SubsystemBase {
     return Math.abs(RPM - TRPM) <= 10;
   }
 
+  private void countCounter() {
+    if (Math.abs(getTargetRPM() - getshooterRpm()) < COUNTER_ERROR_THRESHOLD) {
+      counter++;
+    } else {
+      counter = 0;
+    }
+  }
+
+  @Override
   public void periodic() {
   }
+
 }

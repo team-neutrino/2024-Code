@@ -260,7 +260,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * @return boolean representing the current alliance as retrieved from the
    *         Driver Station.
    */
-  public boolean getCurrentAlliance() {
+  public boolean isRedAlliance() {
     boolean isRed = false;
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {

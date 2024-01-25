@@ -5,21 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.Constants;
 import frc.robot.util.SubsystemContainer;
 
-public class ClimbRetractCommand extends Command {
+public class MagicAmpCommand extends Command {
 
-  /**
-   * A reference to the ONE instance of the climb subsystem in the subsystem
-   * container initialized here for easy access.
-   */
-  private ClimbSubsystem m_climbSubsystem = SubsystemContainer.climbSubsystem;
+  /** Creates a new MagicAmpCommand. */
+  public MagicAmpCommand() {
 
-  /** Creates a new ClimbRetractCommand. */
-  public ClimbRetractCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_climbSubsystem);
+    addRequirements(SubsystemContainer.armSubsystem, SubsystemContainer.ShooterSubsystem,
+        SubsystemContainer.intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -27,10 +22,14 @@ public class ClimbRetractCommand extends Command {
   public void initialize() {
   }
 
-  // Called every 20ms
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climbSubsystem.rectractClimberArms();
+    SubsystemContainer.armSubsystem.armPID(Constants.ArmConstants.AMP_POSE);
+    SubsystemContainer.ShooterSubsystem.setTargetRPM(500);
+    if (SubsystemContainer.armSubsystem.getInPosisition() && SubsystemContainer.ShooterSubsystem.approveShoot()) {
+      SubsystemContainer.intakeSubsystem.runIndex();
+    }
   }
 
   // Called once the command ends or is interrupted.
