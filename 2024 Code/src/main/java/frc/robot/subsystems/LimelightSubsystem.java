@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSubsystem extends SubsystemBase {
   private NetworkTable limelight;
+  private double height = .3;
+  private double LLAngle = 30;
   private double[] pose = new double[6];
   private double[] targetPose = new double[6];
   private double[] pastPose = new double[6];
@@ -16,7 +18,6 @@ public class LimelightSubsystem extends SubsystemBase {
   public LimelightSubsystem() {
     // global instance of the network table and gets the limelight table
     limelight = NetworkTableInstance.getDefault().getTable("limelight");
-
     // turns off LED
     limelight.getEntry("ledMode").setNumber(1);
   }
@@ -67,4 +68,7 @@ public class LimelightSubsystem extends SubsystemBase {
     limelight.getEntry("pipeline").setNumber(pipeline);
   }
 
+  public double getDistance() {
+    return height / Math.tan(Math.toRadians(getTy() + LLAngle));
+  }
 }
