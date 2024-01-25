@@ -27,14 +27,12 @@ public class SwerveDefaultCommand extends Command {
   @Override
   public void execute() {
     SubsystemContainer.swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1, m_xboxController.getLeftX() * -1,
-        m_xboxController.getRightX() * -1);
-    isRunning = true;
+        m_xboxController.getRightX() * -1)
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    isRunning = false;
   }
 
   // Returns true when the command should end.
