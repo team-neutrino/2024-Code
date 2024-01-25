@@ -12,6 +12,8 @@ public class LEDSubsystem extends SubsystemBase {
     private AddressableLEDBuffer m_LEDBuffer;
     private Timer timer = new Timer();
     private Timer blueTimer = new Timer();
+    private boolean isRunning = false; 
+    private boolean doneRunning = false;
 
     public LEDSubsystem() {
         m_addressableLED = new AddressableLED(PWMConstants.LED);
@@ -49,12 +51,24 @@ public class LEDSubsystem extends SubsystemBase {
         blueTimer.start();
         if (blueTimer.get() < 3) {
             setToBlue();
+            doneRunning = false;
         } else {
             setToOrange();
             blueTimer.reset();
         }
     }
+    
+    public boolean isPathing() {
+        if (isRunning) {
+            return true;
+        }
+    }
 
+    public boolean donePathing() {
+        if (doneRunning) {
+            return true; 
+        }
+    }
     // false = broken
     public void sarahStrobe() {
         double timeConst = Math.PI;

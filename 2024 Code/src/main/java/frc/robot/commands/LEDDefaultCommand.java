@@ -11,9 +11,6 @@ public class LEDDefaultCommand extends Command {
   private IntakeSubsystem m_IntakeSubsystem;
   private SwerveDefaultCommand m_SwerveDefaultCommand;
 
-  // ask aneesh what the diff between AutoAlignCommand
-  // and AutoAlignSequentialCommand is
-
   public LEDDefaultCommand() {
     m_LEDSubsystem = SubsystemContainer.LEDSubsystem;
     m_IntakeSubsystem = SubsystemContainer.intakeSubsystem;
@@ -29,9 +26,9 @@ public class LEDDefaultCommand extends Command {
   public void execute() {
     if (!m_IntakeSubsystem.getBeamBreak()) {
       m_LEDSubsystem.setToGreen();
-    } else if () {
+    } else if (m_LEDSubsystem.isPathing()) {
       m_LEDSubsystem.setToYellow();
-    } else if () {
+    } else if (m_LEDSubsystem.donePathing()) {
       m_LEDSubsystem.blueTimer();
     } else {
       m_LEDSubsystem.setToOrange();

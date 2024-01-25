@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.SubsystemContainer;
+import frc.robot.subystems.LEDSubsystem;
 
 public class SwerveDefaultCommand extends Command {
   XboxController m_xboxController;
-  boolean isRunning;
+  LEDSubsystem m_LEDSubsystem;
 
   public SwerveDefaultCommand(CommandXboxController p_controller) {
     m_xboxController = p_controller.getHID();
@@ -33,6 +34,7 @@ public class SwerveDefaultCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_LEDSubsystem.isRunning = true;
   }
 
   // Returns true when the command should end.
