@@ -9,7 +9,6 @@ public class LEDDefaultCommand extends Command {
 
   private LEDSubsystem m_LEDSubsystem;
   private IntakeSubsystem m_IntakeSubsystem;
-  private SwerveDefaultCommand m_SwerveDefaultCommand;
 
   public LEDDefaultCommand() {
     m_LEDSubsystem = SubsystemContainer.LEDSubsystem;
