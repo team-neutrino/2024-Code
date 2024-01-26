@@ -13,16 +13,35 @@ public class CalculateAngle {
     public CalculateAngle() {
         m_limelight = SubsystemContainer.limelightSubsystem;
 
-        m_distanceAngleData.put(2.0, 40.0);
+        m_distanceAngleData.put(-10.0, 40.0);
         m_distanceAngleData.put(4.0, 60.0);
-        m_distanceAngleData.put(5.0, 70.0);
+        m_distanceAngleData.put(10.0, 70.0);
     }
 
-    public double Interpolate() {
+    public double InterpolateAngle() {
         double smallerDistance = 0;
         double largerDistance = 0;
         double resultAngle = 0;
-        double distance = m_limelight.getDistance();
+        double distance = m_limelight.getTy();
 
+        if (distance <= m_distanceAngleData.firstKey()) {
+            return m_distanceAngleData.get(m_distanceAngleData.firstKey());
+        } else if (distance >= m_distanceAngleData.lastKey()) {
+            return m_distanceAngleData.get(m_distanceAngleData.lastKey());
+        } else {
+            for (Double a : m_distanceAngleData.keySet()) {
+                if (a >= distance) {
+                    largerDistance = a;
+                    break;
+                } else {
+                    smallerDistance = a;
+                }
+            }
+        }
+        resultAngle = m_distanceAngleData.get(smallerDistance)
+                + ((distance - smallerDistance))
+                        * ((m_distanceAngleData.get(largerDistance) - m_distanceAngleData.get(smallerDistance))
+                                / (largerDistance - smallerDistance));
+        return resultAngle;
     }
 }
