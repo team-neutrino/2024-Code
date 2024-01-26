@@ -94,6 +94,6 @@ public class RobotContainer {
     REVPhysicsSim.getInstance().run();
   }
 
-  public void periodic() {
+  public void teleopperiodic() {
   }
 }

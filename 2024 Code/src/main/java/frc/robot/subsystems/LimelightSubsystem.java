@@ -8,9 +8,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSubsystem extends SubsystemBase {
   private NetworkTable limelight;
-  private double height = 1; // This is from the limelight to the April Tag on the Speaker, It is unknown
-                             // Currently.
-  private double LLAngle = 30;
   private double[] pose = new double[6];
   private double[] targetPose = new double[6];
   private double[] pastPose = new double[6];
@@ -68,9 +65,4 @@ public class LimelightSubsystem extends SubsystemBase {
   public void setPipeline(int pipeline) {
     limelight.getEntry("pipeline").setNumber(pipeline);
   }
-
-  public double getDistance() {
-    return height / Math.tan(Math.toRadians(getTy() + LLAngle));
-  }
-
 }
