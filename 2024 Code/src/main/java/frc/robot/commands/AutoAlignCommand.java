@@ -32,7 +32,6 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-
     }
 
     @Override

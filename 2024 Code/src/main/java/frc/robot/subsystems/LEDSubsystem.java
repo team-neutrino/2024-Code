@@ -11,7 +11,6 @@ public class LEDSubsystem extends SubsystemBase {
     private AddressableLED m_addressableLED;
     private AddressableLEDBuffer m_LEDBuffer;
     private Timer timer = new Timer();
-    private Timer blueTimer = new Timer();
 
     public LEDSubsystem() {
         m_addressableLED = new AddressableLED(PWMConstants.LED);
