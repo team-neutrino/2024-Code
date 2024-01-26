@@ -16,7 +16,6 @@ public class LimelightSubsystem extends SubsystemBase {
   public LimelightSubsystem() {
     // global instance of the network table and gets the limelight table
     limelight = NetworkTableInstance.getDefault().getTable("limelight");
-
     // turns off LED
     limelight.getEntry("ledMode").setNumber(1);
   }
@@ -66,5 +65,4 @@ public class LimelightSubsystem extends SubsystemBase {
   public void setPipeline(int pipeline) {
     limelight.getEntry("pipeline").setNumber(pipeline);
   }
-
 }
