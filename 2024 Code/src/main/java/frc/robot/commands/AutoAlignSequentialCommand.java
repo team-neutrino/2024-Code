@@ -17,11 +17,11 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
 
     @Override
     public boolean isFinished() {
-        if (SubsystemContainer.swerveSubsystem.getCurrentAlliance() == true
+        if (SubsystemContainer.swerveSubsystem.isRedAlliance() == true
                 && SubsystemContainer.limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY) {
             return true;
         }
-        if (SubsystemContainer.swerveSubsystem.getCurrentAlliance() == false
+        if (SubsystemContainer.swerveSubsystem.isRedAlliance() == false
                 && SubsystemContainer.limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
             return true;
         }
