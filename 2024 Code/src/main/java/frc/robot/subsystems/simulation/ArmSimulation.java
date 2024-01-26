@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
 
-/** Add your docs here. */
 public class ArmSimulation extends ArmSubsystem {
     double get_angle;
     DutyCycleEncoderSim m_armEncoderSim;
@@ -67,9 +66,6 @@ public class ArmSimulation extends ArmSubsystem {
         m_armSim.update(0.02);
 
         get_angle = m_armSim.getAngleRads();
-        // System.out.println("Arm Rad per Sec" + m_armSim.getVelocityRadPerSec());
-        // System.out.println("motor volts " + m_arm.getBusVoltage() + ", " +
-        // m_arm.getAppliedOutput());
         m_armEncoderSim.setAbsolutePosition(get_angle * (180 / Math.PI) / 100.0);
         m_upperArm.setAngle(get_angle * (180 / Math.PI));
         simAnglePub.set(m_upperArm.getAngle());
