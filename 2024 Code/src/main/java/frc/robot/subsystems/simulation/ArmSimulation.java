@@ -20,6 +20,8 @@ import frc.robot.subsystems.ArmSubsystem;
 
 /** Add your docs here. */
 public class ArmSimulation extends ArmSubsystem {
+    static double get_angle;
+
     Mechanism2d m_armMech = new Mechanism2d(10, 10);
     MechanismRoot2d m_root = m_armMech.getRoot("shoulder", 3, 3);
     MechanismLigament2d m_upperArm;
@@ -36,7 +38,8 @@ public class ArmSimulation extends ArmSubsystem {
 
     public ArmSimulation() {
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 4, 0));
-        m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 392, 690, 0.6555486, 0.5148721, 1.43117, true, 0.872665);
+        m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, 690, 0.6555486, 0.507867133, 1.781293706, true,
+                0.872665);
         SmartDashboard.putData("Arm", m_armMech);
 
         simAnglePub = Sim_Angle.publish();
@@ -60,10 +63,17 @@ public class ArmSimulation extends ArmSubsystem {
         m_armSim.setInputVoltage(motor_volts);
         m_armSim.update(0.02);
 
-        double get_angle = m_armSim.getAngleRads();
+        get_angle = m_armSim.getAngleRads();
         // System.out.println("Arm Rad per Sec" + m_armSim.getVelocityRadPerSec());
+        // System.out.println("motor volts " + m_arm.getBusVoltage() + ", " +
+        // m_arm.getAppliedOutput());
+        m_angle = get_angle * (180 / Math.PI);
         m_upperArm.setAngle(get_angle * (180 / Math.PI));
         simAnglePub.set(m_upperArm.getAngle());
+    }
+
+    public static double getAngle() {
+        return get_angle;
     }
 
     @Override

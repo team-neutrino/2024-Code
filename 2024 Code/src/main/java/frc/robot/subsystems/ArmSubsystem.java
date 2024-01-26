@@ -20,7 +20,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double errorSum;
   private double lastError;
   private double PIDoutput;
-  private double m_angle;
+  protected double m_angle;
   private double m_targetAngle;
   private boolean m_inPosisition;
   public int i = 0;
@@ -40,12 +40,14 @@ public class ArmSubsystem extends SubsystemBase {
   public void armPID(double targetAngle) {
     m_targetAngle = targetAngle;
     double error = targetAngle - m_angle;
-    errorSum += error * ArmConstants.Arm_kd;
+    errorSum += error;
     double change = (error - lastError) / .02;
     lastError = error;
     PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_ki * errorSum + ArmConstants.Arm_kd * change;
-    // armChecker(PIDoutput);
-    m_arm.setVoltage(PIDoutput * 12);
+
+    armChecker(PIDoutput);
+    System.out.println(m_angle);
+    m_arm.setVoltage(PIDoutput);
   }
 
   private void armChecker(double desiredVolt) {
