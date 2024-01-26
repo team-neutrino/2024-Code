@@ -1,0 +1,50 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.1149354110405783,
+      "y": 7.0
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Two Note Part I"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Two Note Part II"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Close to Mid"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Mid to Shoot"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
