@@ -61,24 +61,6 @@ public class LEDSubsystem extends SubsystemBase {
         }
     }
 
-    public boolean isPathing() {
-        if (isRunning) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean donePathing() {
-        if (doneRunning) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isRunnin() {
-        return true;
-    }
-
     // false = broken
     public void sarahStrobe() {
         double timeConst = Math.PI;
