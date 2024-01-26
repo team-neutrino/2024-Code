@@ -44,7 +44,9 @@ public class LEDSubsystem extends SubsystemBase {
     }
 
     public void setToYellow() {
-        setToColor(255, 255, 0);
+        if (isRunning) {
+            setToColor(255, 255, 0);
+        }
     }
 
     public void blueTimer() {
@@ -54,6 +56,7 @@ public class LEDSubsystem extends SubsystemBase {
         } else {
             setToOrange();
             blueTimer.reset();
+            blueTimer.stop();
             doneRunning = false;
         }
     }

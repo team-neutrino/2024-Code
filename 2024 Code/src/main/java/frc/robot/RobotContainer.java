@@ -11,8 +11,6 @@ import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.TempCommandBlue;
-import frc.robot.commands.TempCommandYellow;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
@@ -62,9 +60,6 @@ public class RobotContainer {
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
-    // TEMP buttons
-    m_controller.b().whileTrue(new TempCommandBlue());
-    m_controller.x().whileTrue(new TempCommandYellow());
     // LED buttons
     m_controller.a().whileTrue(new MagicAmpCommand());
 

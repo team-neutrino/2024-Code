@@ -26,9 +26,9 @@ public class LEDDefaultCommand extends Command {
   public void execute() {
     if (!m_IntakeSubsystem.getBeamBreak()) {
       m_LEDSubsystem.setToGreen();
-    } else if (m_LEDSubsystem.isPathing()) {
+    } else if (LEDSubsystem.isRunning) {
       m_LEDSubsystem.setToYellow();
-    } else if (m_LEDSubsystem.donePathing()) {
+    } else if (LEDSubsystem.doneRunning) {
       m_LEDSubsystem.blueTimer();
     } else {
       m_LEDSubsystem.setToOrange();
