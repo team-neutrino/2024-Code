@@ -12,7 +12,6 @@ import frc.robot.subsystems.LEDSubsystem;
 
 public class SwerveDefaultCommand extends Command {
   XboxController m_xboxController;
-  LEDSubsystem m_LEDSubsystem;
 
   public SwerveDefaultCommand(CommandXboxController p_controller) {
     m_xboxController = p_controller.getHID();
