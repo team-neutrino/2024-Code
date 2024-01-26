@@ -127,7 +127,7 @@ public class ClimbSubsystem extends SubsystemBase {
     public double[] getArmEncoderVelocity() {
         return new double[] { m_armEncoder1.getVelocity(), m_armEncoder2.getPosition() };
     }
-
+     
     @Override
     public void periodic() {
         // This method will be called once per scheduler run

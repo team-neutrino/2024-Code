@@ -7,7 +7,10 @@ import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -16,15 +19,16 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 public class Climb extends ClimbSubsystem {
 
-    Mechanism2d m_mech = new Mechanism2d(6, 6);
-    MechanismRoot2d m_root1 = m_mech.getRoot("chassis", 3, 3);
-    MechanismRoot2d m_root2 = m_mech.getRoot("chassis", 1, 1);
+    Mechanism2d m_mech1 = new Mechanism2d(6,3);
+    MechanismRoot2d m_root1 = m_mech1.getRoot("chassis", 1, 1);
     MechanismLigament2d m_elevator_ligament1;
-    MechanismLigament2d m_elevator_ligament2;
-
     ElevatorSim m_elevator_sim1;
-    ElevatorSim m_elevator_sim2;
     double m_last_position_rev1 = 0.0;
+
+    Mechanism2d m_mech2 = new Mechanism2d(6,3);
+    MechanismRoot2d m_root2 = m_mech2.getRoot("chassis", 3, 1);
+    MechanismLigament2d m_elevator_ligament2;
+    ElevatorSim m_elevator_sim2;
     double m_last_position_rev2 = 0.0;
 
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
@@ -47,12 +51,12 @@ public class Climb extends ClimbSubsystem {
 
         //fix smartdashboard so equals one button
         m_elevator_ligament1 = m_root1.append(new MechanismLigament2d("elevator1", 2, 0));
-        m_elevator_sim1 = new Ele
-        SmartDashboard.putData("Climb1", m_mech);
+        m_elevator_sim1 = new ElevatorSim(DCMotor.getNEO(1), 1.0, 4.0, 0.03, 0.01, 1.0, true, 0.01);
+        SmartDashboard.putData("Climb1", m_mech1);
 
         m_elevator_ligament2 = m_root2.append(new MechanismLigament2d("elevator2", 1, 0));
-        m_elevator_sim2 = new 
-        SmartDashboard.putData("Climb1", m_mech);
+        m_elevator_sim2 = new ElevatorSim(DCMotor.getNEO(1), 1.0, 4.0, 0.03, 0.01, 1.0, true, 0.01);
+        SmartDashboard.putData("Climb2", m_mech2);
 
         elevator_sim_speed_pub1 = elevator_sim_speed_topic1.publish();
         elevator_sim_speed_pub1.setDefault(0.0);
@@ -79,28 +83,29 @@ public class Climb extends ClimbSubsystem {
     }
 
     public void simulationPeriodic() {
+            // In this method, we update our simulation of what our elevator is doing
+    // First, we set our "inputs" (voltages)
+    m_elevator_sim1.setInput(m_armEncoder1.getVelocity() * RobotController.getBatteryVoltage());
 
-        // redo logic?
-        double motor_volts1 = m_climbArm1.getAppliedOutput() * m_climbArm1.getBusVoltage();
-        m_elevator_sim1.setInputVoltage(motor_volts1);
-        m_elevator_sim1.update(0.02);
+    // Next, we update it. The standard loop time is 20ms.
+    m_elevator_sim1.update(0.020);
 
-        double motor_volts2 = m_climbArm2.getAppliedOutput() * m_climbArm2.getBusVoltage();
-        m_elevator_sim2.setInputVoltage(motor_volts2);
-        m_elevator_sim2.update(0.02);
+    // Finally, we set our simulated encoder's readings and simulated battery voltage
+    m_armEncoder1.setPosition(m_elevator_sim1.getPositionMeters());
+    // SimBattery estimates loaded battery voltages
+    RoboRioSim.setVInVoltage(
+        BatterySim.calculateDefaultBatteryLoadedVoltage(m_elevator_sim1.getCurrentDrawAmps()));
 
-        // redo math
-        double rev_per_s1 = m_elevator_sim1.getAngularVelocityRPM();
-        m_last_position_rev1 = m_last_position_rev1 + rev_per_s1 * 0.02;
-        m_elevator_ligament1.setAngle(m_last_position_rev1 * 6);
+    m_elevator_sim2.setInput(m_armEncoder2.getVelocity() * RobotController.getBatteryVoltage());
 
-        // redo math
-        double rev_per_s2 = m_elevator_sim2.getAngularVelocityRPM();
-        m_last_position_rev2 = m_last_position_rev2 + rev_per_s2 * 0.02;
-        m_elevator_ligament2.setAngle(m_last_position_rev2 * 6);
+    // Next, we update it. The standard loop time is 20ms.
+    m_elevator_sim2.update(0.020);
 
-        elevator_sim_speed_pub1.set(rev_per_s1, NetworkTablesJNI.now());
-        elevator_sim_speed_pub2.set(rev_per_s2, NetworkTablesJNI.now());
+    // Finally, we set our simulated encoder's readings and simulated battery voltage
+    m_armEncoder2.setPosition(m_elevator_sim2.getPositionMeters());
+    // SimBattery estimates loaded battery voltages
+    RoboRioSim.setVInVoltage(
+        BatterySim.calculateDefaultBatteryLoadedVoltage(m_elevator_sim2.getCurrentDrawAmps()));
     }
 
     public void periodic() {

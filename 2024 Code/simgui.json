@@ -2,10 +2,11 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Climb": "Mechanism2d",
       "/SmartDashboard/Climb1": "Mechanism2d",
       "/SmartDashboard/Climb2": "Mechanism2d",
       "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/Mech2d": "Mechanism2d"
+      "/SmartDashboard/Shooter": "Mechanism2d"
     },
     "windows": {
       "/SmartDashboard/Climb1": {
@@ -19,93 +20,19 @@
         }
       },
       "/SmartDashboard/Field": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875,
         "window": {
           "visible": true
         }
-      },
-      "/SmartDashboard/Mech2d": {
-        "window": {
-          "visible": true
-        }
-      }
-    }
-  },
-  "NetworkTables": {
-    "transitory": {
-      "climb1": {
-        "open": true
-      },
-      "climb2": {
-        "open": true
       }
     }
   },
   "NetworkTables Info": {
-    "Clients": {
-      "open": true
-    },
-    "Connections": {
-      "open": true
-    },
-    "Server": {
-      "open": true
-    },
     "visible": true
-  },
-  "Plot": {
-    "Plot <0>": {
-      "plots": [
-        {
-          "axis": [
-            {
-              "autoFit": true
-            }
-          ],
-          "backgroundColor": [
-            0.0,
-            0.0,
-            0.0,
-            0.8500000238418579
-          ],
-          "height": 464,
-          "series": [
-            {
-              "color": [
-                0.2980392277240753,
-                0.44705885648727417,
-                0.6901960968971252,
-                1.0
-              ],
-              "id": "NT:shooter/sim_speed"
-            },
-            {
-              "color": [
-                0.8666667342185974,
-                0.5176470875740051,
-                0.32156863808631897,
-                1.0
-              ],
-              "id": "NT:shooter/encoder_speed"
-            }
-          ]
-        }
-      ]
-    },
-    "Plot <1>": {
-      "plots": [
-        {
-          "backgroundColor": [
-            0.9399999976158142,
-            0.9399999976158142,
-            0.9399999976158142,
-            1.0
-          ],
-          "height": 332
-        }
-      ],
-      "window": {
-        "visible": false
-      }
-    }
   }
 }
