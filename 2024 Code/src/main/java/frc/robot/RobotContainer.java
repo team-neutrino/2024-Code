@@ -102,7 +102,7 @@ public class RobotContainer {
         .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand))));
 
     // SubsystemContainer.swerveSubsystem.setPathfindCommand()));
-    m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
+    m_controller.leftBumper().onTrue(new PathPlannerAuto("test pause auto"));
 
     // m_controller.rightTrigger().onTrue(AutoBuilder.pathfindToPose(
     // SubsystemContainer.swerveSubsystem.getPathfindingTargetPose(),
