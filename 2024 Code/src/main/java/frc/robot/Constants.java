@@ -88,9 +88,9 @@ public final class Constants {
   }
 
   public class ArmConstants {
-    public static double Arm_kp = 0.01;
-    public static double Arm_ki = 0;
-    public static double Arm_kd = 0;
+    public static double Arm_kp = 0.8;
+    public static double Arm_ki = 0.01;
+    public static double Arm_kd = 0.07;
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
     public static double INTAKE_POSE = 90;

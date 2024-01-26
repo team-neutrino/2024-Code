@@ -15,18 +15,22 @@ import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
 
 public class ArmSubsystem extends SubsystemBase {
-  private CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
-  private DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCODER);
+  protected CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
+  protected DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCODER);
   private double errorSum;
   private double lastError;
   private double PIDoutput;
-  private double m_angle;
+  protected double m_angle;
   private double m_targetAngle;
   private boolean m_inPosisition;
   public int i = 0;
 
   public ArmSubsystem() {
     m_arm.restoreFactoryDefaults();
+  }
+
+  public double getTargetAngle() {
+    return m_targetAngle;
   }
 
   public double getArmPose() {
@@ -36,10 +40,11 @@ public class ArmSubsystem extends SubsystemBase {
   public void armPID(double targetAngle) {
     m_targetAngle = targetAngle;
     double error = targetAngle - m_angle;
-    errorSum += error * ArmConstants.Arm_kd;
+    errorSum += error;
     double change = (error - lastError) / .02;
     lastError = error;
     PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_ki * errorSum + ArmConstants.Arm_kd * change;
+
     armChecker(PIDoutput);
   }
 
