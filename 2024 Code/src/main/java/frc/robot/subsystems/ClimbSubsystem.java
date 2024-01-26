@@ -6,7 +6,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.*;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import frc.robot.Constants;
 
@@ -46,6 +48,9 @@ public class ClimbSubsystem extends SubsystemBase {
     public ClimbSubsystem() {
         m_climbEncoder1 = initializeMotor(m_climb1, false);
         m_climbEncoder2 = initializeMotor(m_climb2, false);
+        // makes the second climb motor turn the same direction with the same
+        // voltage as the first one
+        m_climb2.follow(m_climb1);
     }
 
     /**
@@ -62,14 +67,20 @@ public class ClimbSubsystem extends SubsystemBase {
         p_motorController.restoreFactoryDefaults();
         p_motorController.setIdleMode(IdleMode.kBrake);
         p_motorController.setInverted(inverted);
+        p_motorController.getEncoder();
 
-        // .setOpenLoopRampRate(int rate) used in 2022 climb - not needed here?
+        // p_motorController.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+        // p_motorController.enableSoftLimit(SoftLimitDirection.kForward, true);
+        // p_motorController.setSmartCurrentLimit();
+        // p_motorController.setSoftLimit(SoftLimitDirection.kForward, 2000);
+
+        // m_climb1.setOpenLoopRampRate(4); used in 2022 climb - not needed here?
 
         // .setPositionConversionFactor(DriverConstants.ENCODER_POSITION_CONVERSION);
         // .setVelocityConversionFactor(DriverConstants.ENCODER_VELOCITY_CONVERSION);
-        // ^^ May be needed in the future?
+        // ^^ May be needed in the future, keep these comments pls
 
-        return p_motorController.getEncoder();
+        return p_motorController.getEncoder(SparkRelativeEncoder.Type.kHallSensor, 1);
     }
 
     /**
@@ -84,14 +95,19 @@ public class ClimbSubsystem extends SubsystemBase {
 
     /**
      * Stops the arm motors.
+     * 
+     * The {@link com.revrobotics.CANSparkBase#follow(CANSparkBase)}
+     * method was used on m_climb2 to connect the motors, meaning that method
+     * calls changing the state of m_climb1 equally change the state of m_climb2,
+     * removing the need to call both the motors.
      */
     public void stopClimberArms() {
         m_climb1.stopMotor();
-        m_climb2.stopMotor();
     }
 
     /**
-     * Starts the arm motors to the constant determined retract speed.
+     * Starts the arm motors to the constant speed
+     * {@link frc.robot.Constants.ClimbConstants#CLIMB_RETRACT_MOTOR_SPEED}
      * 
      * TODO: current constant is the same as the extend climber,
      * just negative - should there be a separate value?
