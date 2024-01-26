@@ -11,6 +11,7 @@ import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
+import edu.wpi.first.wpilibj.simulation.DutyCycleEncoderSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -20,7 +21,8 @@ import frc.robot.subsystems.ArmSubsystem;
 
 /** Add your docs here. */
 public class ArmSimulation extends ArmSubsystem {
-    static double get_angle;
+    double get_angle;
+    DutyCycleEncoderSim m_armEncoderSim;
 
     Mechanism2d m_armMech = new Mechanism2d(10, 10);
     MechanismRoot2d m_root = m_armMech.getRoot("shoulder", 3, 3);
@@ -37,6 +39,7 @@ public class ArmSimulation extends ArmSubsystem {
     final DoublePublisher targetAnglePub;
 
     public ArmSimulation() {
+        m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 4, 0));
         m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, 690, 0.6555486, 0.507867133, 1.781293706, true,
                 0.872665);
@@ -67,13 +70,9 @@ public class ArmSimulation extends ArmSubsystem {
         // System.out.println("Arm Rad per Sec" + m_armSim.getVelocityRadPerSec());
         // System.out.println("motor volts " + m_arm.getBusVoltage() + ", " +
         // m_arm.getAppliedOutput());
-        m_angle = get_angle * (180 / Math.PI);
+        m_armEncoderSim.setAbsolutePosition(get_angle * (180 / Math.PI) / 100.0);
         m_upperArm.setAngle(get_angle * (180 / Math.PI));
         simAnglePub.set(m_upperArm.getAngle());
-    }
-
-    public static double getAngle() {
-        return get_angle;
     }
 
     @Override

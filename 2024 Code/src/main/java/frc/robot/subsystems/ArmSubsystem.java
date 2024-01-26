@@ -46,7 +46,6 @@ public class ArmSubsystem extends SubsystemBase {
     PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_ki * errorSum + ArmConstants.Arm_kd * change;
 
     armChecker(PIDoutput);
-    System.out.println(m_angle);
     m_arm.setVoltage(PIDoutput);
   }
 
