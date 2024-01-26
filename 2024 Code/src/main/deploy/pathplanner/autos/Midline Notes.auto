@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.94,
+      "y": 1.97
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Midline notes I"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Midline Notes V"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Midline Notes II"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
