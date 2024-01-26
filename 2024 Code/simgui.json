@@ -1,11 +1,26 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [10]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Arm": "Mechanism2d",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Mech2d": "Mechanism2d"
     },
     "windows": {
+      "/SmartDashboard/Arm": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Mech2d": {
         "window": {
           "visible": true
@@ -15,6 +30,9 @@
   },
   "NetworkTables": {
     "transitory": {
+      "arm": {
+        "open": true
+      },
       "shooter": {
         "open": true
       }
@@ -28,6 +46,9 @@
       "open": true
     },
     "Server": {
+      "Publishers": {
+        "open": true
+      },
       "open": true
     },
     "visible": true
@@ -47,7 +68,7 @@
             0.0,
             0.8500000238418579
           ],
-          "height": 464,
+          "height": 176,
           "series": [
             {
               "color": [
@@ -66,6 +87,40 @@
                 1.0
               ],
               "id": "NT:shooter/encoder_speed"
+            }
+          ]
+        },
+        {
+          "axis": [
+            {
+              "max": 100.0
+            }
+          ],
+          "backgroundColor": [
+            0.9399999976158142,
+            0.9399999976158142,
+            0.9399999976158142,
+            1.0
+          ],
+          "height": 176,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:arm/target_angle"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:arm/sim_angle"
             }
           ]
         }
