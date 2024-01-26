@@ -27,12 +27,12 @@ public class AutoAlignCommand extends Command {
         currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
         targetYaw = SubsystemContainer.limelightSubsystem.getTx();
         SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
-        LEDSubsystem.isRunning = false;
-        LEDSubsystem.doneRunning = true;
+        SubsystemContainer.swerveSubsystem.setCommandState("autoalign");
     }
 
     @Override
     public void end(boolean interrupted) {
+
     }
 
     @Override

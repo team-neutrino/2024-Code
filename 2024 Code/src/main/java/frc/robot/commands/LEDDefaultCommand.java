@@ -25,10 +25,10 @@ public class LEDDefaultCommand extends Command {
   public void execute() {
     if (!m_IntakeSubsystem.getBeamBreak()) {
       m_LEDSubsystem.setToGreen();
-    } else if (LEDSubsystem.isRunning) {
+    } else if (SubsystemContainer.swerveSubsystem.getCommandState().equals("pathfinding")) {
       m_LEDSubsystem.setToYellow();
-    } else if (LEDSubsystem.doneRunning) {
-      m_LEDSubsystem.blueTimer();
+    } else if (SubsystemContainer.swerveSubsystem.getCommandState().equals("autoalign")) {
+      m_LEDSubsystem.setToBlue();
     } else {
       m_LEDSubsystem.setToOrange();
     }
