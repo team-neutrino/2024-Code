@@ -12,7 +12,6 @@ import frc.robot.subsystems.LEDSubsystem;
 public class AutoAlignCommand extends Command {
     double currentYaw;
     double targetYaw;
-    LEDSubsystem m_LEDSubsystem;
 
     public AutoAlignCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
