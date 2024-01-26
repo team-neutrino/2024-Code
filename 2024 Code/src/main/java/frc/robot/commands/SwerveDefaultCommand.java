@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.SubsystemContainer;
-import frc.robot.subystems.LEDSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 
 public class SwerveDefaultCommand extends Command {
   XboxController m_xboxController;
@@ -28,7 +28,7 @@ public class SwerveDefaultCommand extends Command {
   @Override
   public void execute() {
     SubsystemContainer.swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1, m_xboxController.getLeftX() * -1,
-        m_xboxController.getRightX() * -1)
+        m_xboxController.getRightX() * -1);
   }
 
   // Called once the command ends or is interrupted.
