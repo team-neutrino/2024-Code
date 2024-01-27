@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
@@ -39,7 +40,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void armPID(double targetAngle) {
     m_targetAngle = targetAngle;
-    targetAngle = rangeFinder(targetAngle);
+    m_targetAngle = withinRange(m_targetAngle);
     double error = targetAngle - m_angle;
     errorSum += error;
     double change = (error - lastError) / .02;
@@ -71,12 +72,12 @@ public class ArmSubsystem extends SubsystemBase {
     return m_inPosisition;
   }
 
-  public double rangeFinder(double check) {
-    if (check >= 100) {
-      return check = 100;
+  private double withinRange(double check) {
+    if (check >= Constants.ArmConstants.INTAKE_LIMIT) {
+      return ArmConstants.INTAKE_LIMIT;
 
-    } else if (check <= 0) {
-      return 0;
+    } else if (check <= ArmConstants.AMP_LIMIT) {
+      return ArmConstants.AMP_LIMIT;
 
     } else {
       return check;
