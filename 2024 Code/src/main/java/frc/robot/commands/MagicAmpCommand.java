@@ -29,6 +29,8 @@ public class MagicAmpCommand extends Command {
     SubsystemContainer.ShooterSubsystem.setTargetRPM(500);
     if (SubsystemContainer.armSubsystem.getInPosisition() && SubsystemContainer.ShooterSubsystem.approveShoot()) {
       SubsystemContainer.intakeSubsystem.runIndex();
+    } else {
+      SubsystemContainer.intakeSubsystem.stopIndex();
     }
   }
 

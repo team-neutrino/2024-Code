@@ -20,6 +20,7 @@ import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
+import frc.robot.commands.MagicSpeakerCommand;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.revrobotics.REVPhysicsSim;
@@ -74,7 +75,7 @@ public class RobotContainer {
     m_driverController.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
     // shooter buttons
-    m_controller.y().whileTrue(new ShootSpeakerCommand());
+    m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
     m_controller.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
