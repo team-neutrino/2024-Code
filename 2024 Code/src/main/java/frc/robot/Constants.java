@@ -84,8 +84,8 @@ public final class Constants {
 
     public static int Arm = 10;
 
-    public static int INTAKE_MOTOR = 33;
-    public static int INDEX_MOTOR = 31;
+    public static int INTAKE_MOTOR = 20;
+    public static int INDEX_MOTOR = 21;
 
     public static int SHOOTER_MOTOR = 30;
 
