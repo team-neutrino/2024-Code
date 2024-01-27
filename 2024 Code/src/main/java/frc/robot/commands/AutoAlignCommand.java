@@ -26,6 +26,7 @@ public class AutoAlignCommand extends Command {
         currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
         targetYaw = SubsystemContainer.limelightSubsystem.getTx();
         SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
+        SubsystemContainer.swerveSubsystem.setCommandState("autoalign");
     }
 
     @Override

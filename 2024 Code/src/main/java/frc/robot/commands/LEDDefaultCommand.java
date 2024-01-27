@@ -1,8 +1,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class LEDDefaultCommand extends Command {
@@ -25,6 +25,10 @@ public class LEDDefaultCommand extends Command {
   public void execute() {
     if (!m_IntakeSubsystem.getBeamBreak()) {
       m_LEDSubsystem.setToGreen();
+    } else if (SubsystemContainer.swerveSubsystem.getCommandState().equals("pathfinding")) {
+      m_LEDSubsystem.setToYellow();
+    } else if (SubsystemContainer.swerveSubsystem.getCommandState().equals("autoalign")) {
+      m_LEDSubsystem.setToBlue();
     } else {
       m_LEDSubsystem.setToOrange();
     }

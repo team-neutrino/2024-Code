@@ -70,6 +70,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   double cycle = 0;
   boolean omegaZero = false;
+  String commandState;
 
   Field2d field = new Field2d();
   Pose2d autonPose = new Pose2d();
@@ -253,6 +254,14 @@ public class SwerveSubsystem extends SubsystemBase {
       throw new IllegalStateException();
     }
     return isRed;
+  }
+
+  public String getCommandState() {
+    return commandState;
+  }
+
+  public void setCommandState(String state) {
+    commandState = state;
   }
 
   @Override
