@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.simulation.CanSparkMaxPidSim;
 
 public class Shooter extends ShooterSubsystem {
     Mechanism2d m_mech = new Mechanism2d(3, 3);
@@ -30,6 +31,7 @@ public class Shooter extends ShooterSubsystem {
     final DoublePublisher wheel_sim_speed_pub;
     final DoublePublisher wheel_speed_pub;
     final DoublePublisher wheel_target_speed_pub;
+    CanSparkMaxPidSim m_spark_max_pid_sim = null;
 
     public Shooter() {
         m_wheel_ligament = m_root.append(new MechanismLigament2d("wheel", 1, 0));
@@ -48,16 +50,20 @@ public class Shooter extends ShooterSubsystem {
 
     public void simulationInit() {
         REVPhysicsSim.getInstance().addSparkMax(m_shooter, DCMotor.getNEO(1));
+        m_spark_max_pid_sim = new CanSparkMaxPidSim();
     }
 
     public void simulationPeriodic() {
-        double motor_volts = m_shooter.getAppliedOutput() * m_shooter.getBusVoltage();
+        double motor_volts = 0.0;
+        if (m_spark_max_pid_sim != null) {
+            motor_volts = m_spark_max_pid_sim.runPid(WHEEL_P, WHEEL_I, WHEEL_D, WHEEL_FF, m_targetRPM,
+                    m_flywheel_sim.getAngularVelocityRPM(), m_rpm_izone, 0.0, 100.0);
+        }
+
         m_flywheel_sim.setInputVoltage(motor_volts);
         m_flywheel_sim.update(0.02);
 
         double rev_per_s = m_flywheel_sim.getAngularVelocityRPM();
-        // System.out.println("flywheel velocity ()RPM " +
-        // m_flywheel_sim.getAngularVelocityRPM());
         m_last_position_rev = m_last_position_rev + rev_per_s * 0.02;
         m_wheel_ligament.setAngle(m_last_position_rev * 6);
 
