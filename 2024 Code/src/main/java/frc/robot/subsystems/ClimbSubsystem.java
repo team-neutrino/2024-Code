@@ -14,8 +14,8 @@ import frc.robot.Constants.ClimbConstants;
 
 /**
  * NOTES:
- * 1/26 it is still unclear how locking the mechanism in place during teleop
- * will work.
+ * 1/26 it is still unclear how locking the mechanism in place will work, both
+ * after climbing and before.
  * 
  * TODO: soft upper (use encoder revolutions?) and lower limits (limit switch)
  * maybe also current limit failsafes?
@@ -39,25 +39,27 @@ public class ClimbSubsystem extends SubsystemBase {
      * Limit switch for the base of the climber, when it is pressed
      * it should reset the encoders and stop the climber from retracting
      * further.
+     * 
+     * NOTE: the motor limiting function is automatic hence why it
+     * does not appear in this class at all.
      */
     private SparkLimitSwitch m_limitSwitch;
 
     /**
      * Public constructor to be invoked in RobotContainer,
-     * instantiates encoders and sets soft limits.
+     * instantiates encoders, sets soft limits, and gets
+     * the limit switch.
      */
     public ClimbSubsystem() {
         m_climbEncoder1 = initializeMotor(m_climb1, false);
         m_climbEncoder2 = initializeMotor(m_climb2, false);
         resetEncoders();
 
-        m_limitSwitch = m_climb1.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+        m_limitSwitch = m_climb1.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
         m_limitSwitch.enableLimitSwitch(true);
 
         enableSoftLimits();
 
-        // makes the second climb motor turn the same direction with the same
-        // power as the first one
         m_climb2.follow(m_climb1);
     }
 
@@ -75,13 +77,9 @@ public class ClimbSubsystem extends SubsystemBase {
         p_motorController.setIdleMode(IdleMode.kBrake);
         p_motorController.setInverted(inverted);
 
-        // p_motorController.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-        // p_motorController.enableSoftLimit(SoftLimitDirection.kForward, true);
         // p_motorController.setSmartCurrentLimit();
-        // p_motorController.setSoftLimit(SoftLimitDirection.kForward, 2000);
 
         // m_climb1.setOpenLoopRampRate(4); used in 2022 climb - not needed here?
-
         // .setPositionConversionFactor(DriverConstants.ENCODER_POSITION_CONVERSION);
         // .setVelocityConversionFactor(DriverConstants.ENCODER_VELOCITY_CONVERSION);
         // ^^ May be needed in the future, keep these comments pls
@@ -91,17 +89,15 @@ public class ClimbSubsystem extends SubsystemBase {
     /**
      * Sets soft limits for the climb motors as determined in Constants:
      * {@link ClimbConstants#CLIMB_LIMIT_UP} {@link ClimbConstants#CLIMB_LIMIT_DOWN}
+     * 
+     * The {@link CANSparkBase#follow(CANSparkBase leader)}
+     * method was used on m_climb2 to connect the motors, meaning that method
+     * calls changing the state of m_climb1 equally change the state of m_climb2,
+     * removing the need to call both motors in mutators.
      */
     private void enableSoftLimits() {
         m_climb1.setSoftLimit(CANSparkBase.SoftLimitDirection.kForward, ClimbConstants.CLIMB_LIMIT_UP);
-        m_climb1.setSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, ClimbConstants.CLIMB_LIMIT_DOWN);
         m_climb1.enableSoftLimit(SoftLimitDirection.kForward, true);
-        m_climb1.enableSoftLimit(SoftLimitDirection.kReverse, true);
-
-        m_climb2.setSoftLimit(SoftLimitDirection.kForward, ClimbConstants.CLIMB_LIMIT_UP);
-        m_climb2.setSoftLimit(SoftLimitDirection.kReverse, ClimbConstants.CLIMB_LIMIT_DOWN);
-        m_climb2.enableSoftLimit(SoftLimitDirection.kForward, true);
-        m_climb2.enableSoftLimit(SoftLimitDirection.kReverse, true);
     }
 
     /**
@@ -118,7 +114,9 @@ public class ClimbSubsystem extends SubsystemBase {
      * {@link ClimbConstants#CLIMB_EXTEND_MOTOR_SPEED}
      * 
      * Soft limits: if the limit switch is pressed, it will stop the
-     * motors and reset the encoders' positions to 0.
+     * motors and reset the encoders' positions to 0. The motor
+     * stoppage is automatic as initialized in the constructor line
+     * with the method: {@link SparkLimitSwitch#enableLimitSwitch(boolean value)}
      * 
      * The {@link CANSparkBase#follow(CANSparkBase leader)}
      * method was used on m_climb2 to connect the motors, meaning that method
@@ -128,24 +126,10 @@ public class ClimbSubsystem extends SubsystemBase {
      * NOTE: CURRENT CONSTANT IS A PLACEHOLDER VALUE
      */
     public void retractClimberArms() {
-        if (!limitSwitchCheck()) {
-            m_climb1.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
-        } else {
-            stopClimberArms();
+        if (limitSwitchCheck()) {
             resetEncoders();
         }
-    }
-
-    /**
-     * Stops the arm motors.
-     * 
-     * The {@link CANSparkBase#follow(CANSparkBase leader)}
-     * method was used on m_climb2 to connect the motors, meaning that method
-     * calls changing the state of m_climb1 equally change the state of m_climb2,
-     * removing the need to call both motors in mutators.
-     */
-    public void stopClimberArms() {
-        m_climb1.stopMotor();
+        m_climb1.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
     }
 
     /**
@@ -168,10 +152,22 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     /**
+     * Stops the arm motors.
+     * 
+     * The {@link CANSparkBase#follow(CANSparkBase leader)}
+     * method was used on m_climb2 to connect the motors, meaning that method
+     * calls changing the state of m_climb1 equally change the state of m_climb2,
+     * removing the need to call both motors in mutators.
+     */
+    public void stopClimberArms() {
+        m_climb1.stopMotor();
+    }
+
+    /**
      * Resets all encoders
      */
     public void resetEncoders() {
-        System.out.println("resetEncoders() run");
+        System.out.println("resetEncoders has run");
         m_climbEncoder1.setPosition(0);
         m_climbEncoder2.setPosition(0);
     }
@@ -197,11 +193,15 @@ public class ClimbSubsystem extends SubsystemBase {
         return new double[] { m_climbEncoder1.getVelocity(), m_climbEncoder2.getVelocity() };
     }
 
+    private static int i = 0;
+
+    static boolean dumbDebouncer() {
+        i++;
+        return i % 50 == 0;
+    }
+
     @Override
     public void periodic() {
-        // System.out.println(m_climbEncoder1.getPosition() + ", " +
-        // m_climbEncoder2.getPosition());
-        // System.out.println(limitSwitchCheck());
-        System.out.println(m_limitSwitch.isLimitSwitchEnabled());
+        System.out.println((int) m_climbEncoder1.getPosition());
     }
 }

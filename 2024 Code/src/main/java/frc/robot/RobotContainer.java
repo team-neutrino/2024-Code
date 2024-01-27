@@ -26,7 +26,6 @@ import com.revrobotics.REVPhysicsSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
@@ -34,7 +33,8 @@ public class RobotContainer {
   SubsystemContainer m_subsystem_container = new SubsystemContainer();
 
   CommandXboxController m_controller = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
-  CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
+  // CommandXboxController m_driverController = new
+  // CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
 
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
@@ -67,8 +67,9 @@ public class RobotContainer {
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
 
     // swerve buttons
-    m_driverController.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_driverController.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
+    // m_driverController.b().onTrue(new InstantCommand(() ->
+    // SubsystemContainer.swerveSubsystem.resetNavX()));
+    // m_driverController.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
     // shooter buttons
     m_controller.y().whileTrue(new ShootSpeakerCommand());

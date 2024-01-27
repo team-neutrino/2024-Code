@@ -16,7 +16,6 @@ public final class Constants {
     public static final double CLIMB_EXTEND_MOTOR_SPEED = .2; // PLACEHOLDER VALUE
     public static final double CLIMB_RETRACT_MOTOR_SPEED = -.2; // PLACEHOLDER VALUE
     public static final float CLIMB_LIMIT_UP = 200; // PLACEHOLDER VALUE
-    public static final float CLIMB_LIMIT_DOWN = -200; // PLACEHOLDER VALUE
   }
 
   public static class DimensionConstants {
