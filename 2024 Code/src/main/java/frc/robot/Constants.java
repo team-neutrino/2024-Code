@@ -82,15 +82,15 @@ public final class Constants {
     public static int BLS = 7;
     public static int BRS = 5;
 
-    public static int Arm = 40; // change back
+    public static int Arm = 10;
 
-    public static int INTAKE_MOTOR = 20; // change back
-    public static int INDEX_MOTOR = 41;
+    public static int INTAKE_MOTOR = 33;
+    public static int INDEX_MOTOR = 31;
 
     public static int SHOOTER_MOTOR = 30;
 
-    public static final int CLIMB_MOTOR1 = 10;
-    public static final int CLIMB_MOTOR2 = 21;
+    public static final int CLIMB_MOTOR1 = 40;
+    public static final int CLIMB_MOTOR2 = 41;
   }
 
   public class ArmConstants {

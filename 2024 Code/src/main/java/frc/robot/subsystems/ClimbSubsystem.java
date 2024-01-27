@@ -193,15 +193,7 @@ public class ClimbSubsystem extends SubsystemBase {
         return new double[] { m_climbEncoder1.getVelocity(), m_climbEncoder2.getVelocity() };
     }
 
-    private static int i = 0;
-
-    static boolean dumbDebouncer() {
-        i++;
-        return i % 50 == 0;
-    }
-
     @Override
     public void periodic() {
-        System.out.println((int) m_climbEncoder1.getPosition());
     }
 }

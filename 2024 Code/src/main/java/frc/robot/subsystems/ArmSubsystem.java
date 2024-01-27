@@ -90,10 +90,5 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_angle = getArmPose();
-    m_inPosisition = ArmDebouncer();
-    if (ClimbSubsystem.dumbDebouncer()) {
-      System.out.println((int) m_angle);
-    }
   }
 }
