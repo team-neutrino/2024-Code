@@ -7,8 +7,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import frc.robot.Constants;
+import frc.robot.Constants.ClimbConstants;
 
 /**
  * NOTES:
@@ -26,19 +28,28 @@ public class ClimbSubsystem extends SubsystemBase {
     private CANSparkMax m_climb2 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR2, MotorType.kBrushless);
 
     /**
-     * Relative encorders, initialized in the constructor with the 
+     * Relative encorders, initialized in the constructor with the
      * helper method "initializeMotor"
      */
     private RelativeEncoder m_climbEncoder1;
     private RelativeEncoder m_climbEncoder2;
 
+    private SparkLimitSwitch m_limitSwitch;
+
     /**
      * Public constructor to be invoked in RobotContainer,
-     * instantiates encoders.
+     * instantiates encoders and sets soft limits.
      */
     public ClimbSubsystem() {
         m_climbEncoder1 = initializeMotor(m_climb1, false);
         m_climbEncoder2 = initializeMotor(m_climb2, false);
+        resetEncoders();
+
+        m_limitSwitch = m_climb1.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+        m_limitSwitch.enableLimitSwitch(true);
+
+        enableSoftLimits();
+
         // makes the second climb motor turn the same direction with the same
         // power as the first one
         m_climb2.follow(m_climb1);
@@ -49,7 +60,7 @@ public class ClimbSubsystem extends SubsystemBase {
      * relative encoder and sets the motor controller's default behaviours.
      * 
      * @param motorController The motor controller to configure.
-     * @param inverted Inversion state of the encoder, true means inverted.
+     * @param inverted        Inversion state of the encoder, true means inverted.
      * @return An instance of the given motor controller's encoder.
      */
     private RelativeEncoder initializeMotor(CANSparkMax p_motorController, boolean inverted) {
@@ -68,57 +79,82 @@ public class ClimbSubsystem extends SubsystemBase {
         // .setPositionConversionFactor(DriverConstants.ENCODER_POSITION_CONVERSION);
         // .setVelocityConversionFactor(DriverConstants.ENCODER_VELOCITY_CONVERSION);
         // ^^ May be needed in the future, keep these comments pls
-
         return p_motorController.getEncoder();
     }
 
     /**
-     * Starts the arm motors to the constant determined extend speed.
+     * Sets soft limits for the climb motors as determined in Constants.
+     * {@link frc.robot.Constants.ClimbConstants#CLIMB_LIMIT_UP}
+     */
+    private void enableSoftLimits() {
+        m_climb1.setSoftLimit(CANSparkBase.SoftLimitDirection.kForward, ClimbConstants.CLIMB_LIMIT_UP);
+        m_climb1.setSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, ClimbConstants.CLIMB_LIMIT_DOWN);
+        m_climb1.enableSoftLimit(SoftLimitDirection.kForward, true);
+        m_climb1.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+        m_climb2.setSoftLimit(SoftLimitDirection.kForward, ClimbConstants.CLIMB_LIMIT_UP);
+        m_climb2.setSoftLimit(SoftLimitDirection.kReverse, ClimbConstants.CLIMB_LIMIT_DOWN);
+        m_climb2.enableSoftLimit(SoftLimitDirection.kForward, true);
+        m_climb2.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    }
+
+    private boolean limitSwitchCheck() {
+        return m_limitSwitch.isPressed();
+    }
+
+    /**
+     * Sets the arm motors to the constant determined retract speed.
      * {@link frc.robot.Constants.ClimbConstants#CLIMB_EXTEND_MOTOR_SPEED}
      * 
      * The {@link com.revrobotics.CANSparkBase#follow(CANSparkBase leader)}
      * method was used on m_climb2 to connect the motors, meaning that method
      * calls changing the state of m_climb1 equally change the state of m_climb2,
-     * removing the need to call both the motors.
+     * removing the need to call both motors in mutators.
      * 
      * NOTE: CURRENT CONSTANT IS A PLACEHOLDER VALUE
      */
-    public void extendClimberArms() {
-        m_climb1.set(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
+    public void retractClimberArms() {
+        if (!limitSwitchCheck()) {
+            m_climb1.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
+        } else {
+            resetEncoders();
+        }
     }
 
     /**
      * Stops the arm motors.
      * 
-     * The {@link com.revrobotics.CANSparkBase#follow(CANSparkBase)}
+     * The {@link com.revrobotics.CANSparkBase#follow(CANSparkBase leader)}
      * method was used on m_climb2 to connect the motors, meaning that method
      * calls changing the state of m_climb1 equally change the state of m_climb2,
-     * removing the need to call both the motors.
+     * removing the need to call both motors in mutators.
      */
     public void stopClimberArms() {
         m_climb1.stopMotor();
     }
 
     /**
-     * Starts the arm motors to the constant speed
+     * Starts the arm motors to the constant determined extend speed
      * {@link frc.robot.Constants.ClimbConstants#CLIMB_RETRACT_MOTOR_SPEED}
      * 
-     * The {@link com.revrobotics.CANSparkBase#follow(CANSparkBase)}
+     * The {@link com.revrobotics.CANSparkBase#follow(CANSparkBase leader)}
      * method was used on m_climb2 to connect the motors, meaning that method
      * calls changing the state of m_climb1 equally change the state of m_climb2,
-     * removing the need to call both the motors.
+     * removing the need to call both motors in mutators.
      * 
      * NOTE: current constant is the same as the extend climber,
      * just negative - should there be a separate value?
      */
-    public void rectractClimberArms() {
-        m_climb1.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
+    public void extendClimberArms() {
+        m_climb1.set(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
+        resetEncoders();
     }
 
     /**
      * Resets all encoders
      */
     public void resetEncoders() {
+        System.out.println("resetEncoders() run");
         m_climbEncoder1.setPosition(0);
         m_climbEncoder2.setPosition(0);
     }
@@ -129,7 +165,7 @@ public class ClimbSubsystem extends SubsystemBase {
      * @return An array of the arm motors' positions, index 0 being
      *         {@link #m_climbEncoder1} and index 1 being {@link #m_climbEncoder2}.
      */
-    public double[] getArmEncoderPosition() {
+    public double[] getArmEncoderPositions() {
         return new double[] { m_climbEncoder1.getPosition(), m_climbEncoder2.getPosition() };
     }
 
@@ -140,12 +176,15 @@ public class ClimbSubsystem extends SubsystemBase {
      *         {@link #m_climbEncoder1} and index 1 being {@link #m_climbEncoder2}.
      */
 
-    public double[] getArmEncoderVelocity() {
+    public double[] getArmEncoderVelocities() {
         return new double[] { m_climbEncoder1.getVelocity(), m_climbEncoder2.getVelocity() };
     }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        // System.out.println(m_climbEncoder1.getPosition() + ", " +
+        // m_climbEncoder2.getPosition());
+        // System.out.println(limitSwitchCheck());
+        System.out.println(m_limitSwitch.isLimitSwitchEnabled());
     }
 }

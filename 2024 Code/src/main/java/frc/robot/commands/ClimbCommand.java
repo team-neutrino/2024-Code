@@ -55,10 +55,11 @@ public class ClimbCommand extends Command {
       m_climbSubsystem.extendClimberArms();
 
     } else if (controllerPos < -Constants.ArmConstants.ARM_ADJUST_DEADZONE && m_armSubsystem.getInPosisition()) {
-      m_climbSubsystem.rectractClimberArms();
+      m_climbSubsystem.retractClimberArms();
 
     } else {
       m_climbSubsystem.stopClimberArms();
+
     }
 
   }
