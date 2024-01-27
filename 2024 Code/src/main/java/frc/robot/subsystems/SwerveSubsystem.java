@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.SwerveModule;
-import frc.robot.Constants.LEDConstants;
+import frc.robot.Constants.LEDConstants.States;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
@@ -71,7 +71,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   double cycle = 0;
   boolean omegaZero = false;
-  LEDConstants.States commandState;
+  States commandState;
 
   Field2d field = new Field2d();
   Pose2d autonPose = new Pose2d();
@@ -257,11 +257,11 @@ public class SwerveSubsystem extends SubsystemBase {
     return isRed;
   }
 
-  public LEDConstants.States getCommandState() {
+  public States getCommandState() {
     return commandState;
   }
 
-  public void setCommandState(LEDConstants.States state) {
+  public void setCommandState(States state) {
     commandState = state;
   }
 
