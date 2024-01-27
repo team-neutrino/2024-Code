@@ -36,8 +36,7 @@ public class RobotContainer {
   SubsystemContainer m_subsystem_container = new SubsystemContainer();
 
   CommandXboxController m_controller = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
-  // CommandXboxController m_driverController = new
-  // CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
+  CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
 
   SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
@@ -71,9 +70,8 @@ public class RobotContainer {
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
 
     // swerve buttons
-    // m_driverController.b().onTrue(new InstantCommand(() ->
-    // SubsystemContainer.swerveSubsystem.resetNavX()));
-    // m_driverController.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
+    m_driverController.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_driverController.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
     // shooter buttons
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
