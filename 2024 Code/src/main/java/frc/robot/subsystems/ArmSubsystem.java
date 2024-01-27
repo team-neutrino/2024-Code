@@ -10,7 +10,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
@@ -73,7 +72,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private double withinRange(double check) {
-    if (check >= Constants.ArmConstants.INTAKE_LIMIT) {
+    if (check >= ArmConstants.INTAKE_LIMIT) {
       return ArmConstants.INTAKE_LIMIT;
 
     } else if (check <= ArmConstants.AMP_LIMIT) {
