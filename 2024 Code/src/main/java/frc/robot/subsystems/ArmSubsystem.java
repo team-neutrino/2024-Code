@@ -14,7 +14,6 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.subsystems.simulation.PIDChangerSimulation;
-import frc.robot.util.SubsystemContainer;
 
 public class ArmSubsystem extends SubsystemBase {
   protected CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
