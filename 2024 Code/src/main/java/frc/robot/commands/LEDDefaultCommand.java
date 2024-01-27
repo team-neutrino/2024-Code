@@ -23,6 +23,9 @@ public class LEDDefaultCommand extends Command {
 
   @Override
   public void execute() {
+    if (SubsystemContainer.swerveSubsystem == null) {
+      return;
+    }
     if (!m_IntakeSubsystem.getBeamBreak()) {
       m_LEDSubsystem.setToGreen();
     } else if (SubsystemContainer.swerveSubsystem
