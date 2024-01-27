@@ -167,7 +167,6 @@ public class ClimbSubsystem extends SubsystemBase {
      * Resets all encoders
      */
     public void resetEncoders() {
-        System.out.println("resetEncoders has run");
         m_climbEncoder1.setPosition(0);
         m_climbEncoder2.setPosition(0);
     }
