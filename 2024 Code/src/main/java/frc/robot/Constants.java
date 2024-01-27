@@ -61,6 +61,12 @@ public final class Constants {
 
   public final class LEDConstants {
     public static int LEDBufferLen = 60;
+
+    public enum States {
+      DEFAULT,
+      PATHFINDING,
+      AUTOALIGN
+    }
   }
 
   public final class MotorIDs {
