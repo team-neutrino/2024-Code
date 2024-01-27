@@ -39,6 +39,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void armPID(double targetAngle) {
     m_targetAngle = targetAngle;
+    targetAngle = rangeFinder(targetAngle);
     double error = targetAngle - m_angle;
     errorSum += error;
     double change = (error - lastError) / .02;
@@ -68,6 +69,18 @@ public class ArmSubsystem extends SubsystemBase {
 
   public boolean getInPosisition() {
     return m_inPosisition;
+  }
+
+  public double rangeFinder(double check) {
+    if (check >= 100) {
+      return check = 100;
+
+    } else if (check <= 0) {
+      return 0;
+
+    } else {
+      return check;
+    }
   }
 
   @Override

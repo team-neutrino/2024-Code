@@ -53,13 +53,13 @@ public class RobotContainer {
 
   private void configureBindings() {
     // set default commands
-    SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmInterpolateCommand(m_angleCalculate));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
+    SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
 
     // LED buttons
     m_controller.a().whileTrue(new MagicAmpCommand());
