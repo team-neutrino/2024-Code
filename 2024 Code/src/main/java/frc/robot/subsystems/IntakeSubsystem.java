@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel;
 
+import frc.robot.Constants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MotorIDs;
@@ -17,14 +18,14 @@ public class IntakeSubsystem extends SubsystemBase {
     private RelativeEncoder m_indexEncoder;
 
     private CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
-    private CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR,CANSparkLowLevel.MotorType.kBrushless);
-
+    private CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
 
     private DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
 
     public IntakeSubsystem() {
         m_intakeMotor.restoreFactoryDefaults();
         m_indexMotor.restoreFactoryDefaults();
+        m_indexMotor.setSmartCurrentLimit(Constants.IntakeConstants.INDEX_CURRENT_LIMIT);
 
     }
 
@@ -32,7 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SPEED);
     }
 
-    public void runIndex(){
+    public void runIndex() {
         m_indexMotor.set(IntakeConstants.INDEX_MOTOR_SPEED);
     }
 
@@ -40,15 +41,15 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor.set(-IntakeConstants.INTAKE_MOTOR_SPEED);
     }
 
-    public void runIndexReverse(){
+    public void runIndexReverse() {
         m_indexMotor.set(-IntakeConstants.INDEX_MOTOR_SPEED);
     }
 
     public void stopIntake() {
         m_intakeMotor.set(0);
     }
-    
-    public void stopIndex(){
+
+    public void stopIndex() {
         m_indexMotor.stopMotor();
     }
 
@@ -56,10 +57,9 @@ public class IntakeSubsystem extends SubsystemBase {
         return m_intakeEncoder.getVelocity();
     }
 
-    public double getIndexVelocity(){
+    public double getIndexVelocity() {
         return m_indexEncoder.getVelocity();
     }
-
 
     public void resetEncoders() {
         m_intakeEncoder.setPosition(0);
@@ -77,12 +77,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void indexApprove(boolean allow) {
-        if(allow) {
+        if (allow) {
             runIndex();
-        }
-        else {
+        } else {
             stopIndex();
         }
     }
-    
+
 }

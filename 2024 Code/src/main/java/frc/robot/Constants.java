@@ -61,6 +61,12 @@ public final class Constants {
 
   public final class LEDConstants {
     public static int LEDBufferLen = 60;
+
+    public enum States {
+      DEFAULT,
+      PATHFINDING,
+      AUTOALIGN
+    }
   }
 
   public final class MotorIDs {
@@ -88,9 +94,9 @@ public final class Constants {
   }
 
   public class ArmConstants {
-    public static double Arm_kp = 0.01;
-    public static double Arm_ki = 0;
-    public static double Arm_kd = 0;
+    public static double Arm_kp = 0.8;
+    public static double Arm_ki = 0.01;
+    public static double Arm_kd = 0.07;
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
     public static double INTAKE_POSE = 90;
@@ -102,5 +108,6 @@ public final class Constants {
   public final class IntakeConstants {
     public static double INTAKE_MOTOR_SPEED = 0.2;
     public static double INDEX_MOTOR_SPEED = 0.1;
+    public static int INDEX_CURRENT_LIMIT = 20;
   }
 }
