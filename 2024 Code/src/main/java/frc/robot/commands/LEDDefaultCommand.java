@@ -25,9 +25,11 @@ public class LEDDefaultCommand extends Command {
   public void execute() {
     if (!m_IntakeSubsystem.getBeamBreak()) {
       m_LEDSubsystem.setToGreen();
-    } else if (SubsystemContainer.swerveSubsystem.getCommandState().equals("pathfinding")) {
+    } else if (SubsystemContainer.swerveSubsystem
+        .getCommandState() == frc.robot.Constants.LEDConstants.States.PATHFINDING) {
       m_LEDSubsystem.setToYellow();
-    } else if (SubsystemContainer.swerveSubsystem.getCommandState().equals("autoalign")) {
+    } else if (SubsystemContainer.swerveSubsystem.getCommandState()
+        .equals(frc.robot.Constants.LEDConstants.States.AUTOALIGN)) {
       m_LEDSubsystem.setToBlue();
     } else {
       m_LEDSubsystem.setToOrange();

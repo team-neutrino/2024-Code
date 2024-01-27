@@ -27,13 +27,13 @@ public class SwerveDefaultCommand extends Command {
   public void execute() {
     SubsystemContainer.swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1, m_xboxController.getLeftX() * -1,
         m_xboxController.getRightX() * -1);
-    SubsystemContainer.swerveSubsystem.setCommandState("default");
+    SubsystemContainer.swerveSubsystem.setCommandState(frc.robot.Constants.LEDConstants.States.DEFAULT);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SubsystemContainer.swerveSubsystem.setCommandState("pathfinding");
+    SubsystemContainer.swerveSubsystem.setCommandState(frc.robot.Constants.LEDConstants.States.PATHFINDING);
   }
 
   // Returns true when the command should end.
