@@ -17,7 +17,8 @@ import frc.robot.Constants.ClimbConstants;
  * 1/26 it is still unclear how locking the mechanism in place during teleop
  * will work.
  * 
- * TODO: soft upper (use encoder revs?) and lower limits (limit switch)
+ * TODO: soft upper (use encoder revolutions?) and lower limits (limit switch)
+ * maybe also current limit failsafes?
  */
 public class ClimbSubsystem extends SubsystemBase {
     /*
@@ -34,6 +35,11 @@ public class ClimbSubsystem extends SubsystemBase {
     private RelativeEncoder m_climbEncoder1;
     private RelativeEncoder m_climbEncoder2;
 
+    /**
+     * Limit switch for the base of the climber, when it is pressed
+     * it should reset the encoders and stop the climber from retracting
+     * further.
+     */
     private SparkLimitSwitch m_limitSwitch;
 
     /**
@@ -83,8 +89,8 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     /**
-     * Sets soft limits for the climb motors as determined in Constants.
-     * {@link frc.robot.Constants.ClimbConstants#CLIMB_LIMIT_UP}
+     * Sets soft limits for the climb motors as determined in Constants:
+     * {@link ClimbConstants#CLIMB_LIMIT_UP} {@link ClimbConstants#CLIMB_LIMIT_DOWN}
      */
     private void enableSoftLimits() {
         m_climb1.setSoftLimit(CANSparkBase.SoftLimitDirection.kForward, ClimbConstants.CLIMB_LIMIT_UP);
@@ -98,15 +104,23 @@ public class ClimbSubsystem extends SubsystemBase {
         m_climb2.enableSoftLimit(SoftLimitDirection.kReverse, true);
     }
 
+    /**
+     * Helper method that returns the state of the limit switch.
+     * 
+     * @return The state of the limit switch.
+     */
     private boolean limitSwitchCheck() {
         return m_limitSwitch.isPressed();
     }
 
     /**
      * Sets the arm motors to the constant determined retract speed.
-     * {@link frc.robot.Constants.ClimbConstants#CLIMB_EXTEND_MOTOR_SPEED}
+     * {@link ClimbConstants#CLIMB_EXTEND_MOTOR_SPEED}
      * 
-     * The {@link com.revrobotics.CANSparkBase#follow(CANSparkBase leader)}
+     * Soft limits: if the limit switch is pressed, it will stop the
+     * motors and reset the encoders' positions to 0.
+     * 
+     * The {@link CANSparkBase#follow(CANSparkBase leader)}
      * method was used on m_climb2 to connect the motors, meaning that method
      * calls changing the state of m_climb1 equally change the state of m_climb2,
      * removing the need to call both motors in mutators.
@@ -117,6 +131,7 @@ public class ClimbSubsystem extends SubsystemBase {
         if (!limitSwitchCheck()) {
             m_climb1.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
         } else {
+            stopClimberArms();
             resetEncoders();
         }
     }
@@ -124,7 +139,7 @@ public class ClimbSubsystem extends SubsystemBase {
     /**
      * Stops the arm motors.
      * 
-     * The {@link com.revrobotics.CANSparkBase#follow(CANSparkBase leader)}
+     * The {@link CANSparkBase#follow(CANSparkBase leader)}
      * method was used on m_climb2 to connect the motors, meaning that method
      * calls changing the state of m_climb1 equally change the state of m_climb2,
      * removing the need to call both motors in mutators.
@@ -134,20 +149,22 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     /**
-     * Starts the arm motors to the constant determined extend speed
-     * {@link frc.robot.Constants.ClimbConstants#CLIMB_RETRACT_MOTOR_SPEED}
+     * Starts the arm motors to the constant determined extend speed:
+     * {@link ClimbConstants#CLIMB_RETRACT_MOTOR_SPEED}.
      * 
-     * The {@link com.revrobotics.CANSparkBase#follow(CANSparkBase leader)}
+     * Soft limits: if the encoder reads rotations past the constant
+     * determined limit {@link ClimbConstants#CLIMB_LIMIT_UP} it will stop
+     * the climber arms as implemented in {@link #enableSoftLimits()}
+     * 
+     * The {@link CANSparkBase#follow(CANSparkBase leader)}
      * method was used on m_climb2 to connect the motors, meaning that method
      * calls changing the state of m_climb1 equally change the state of m_climb2,
      * removing the need to call both motors in mutators.
      * 
-     * NOTE: current constant is the same as the extend climber,
-     * just negative - should there be a separate value?
+     * NOTE: CURRENT CONSTANT IS A PLACEHOLDER VALUE
      */
     public void extendClimberArms() {
         m_climb1.set(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
-        resetEncoders();
     }
 
     /**
