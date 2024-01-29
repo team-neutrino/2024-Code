@@ -95,8 +95,8 @@ public final class Constants {
 
   public final class ArmConstants {
     public static double Arm_kp = 0.8;
-    public static double Arm_ki = 0.01;
-    public static double Arm_kd = 0.07;
+    public static double Arm_ki = 0.0;
+    public static double Arm_kd = 0.0;
 
     // TODO: FeedForward Constants are PLACEHOLDERS
     public static double FF_ks = 0.0;
