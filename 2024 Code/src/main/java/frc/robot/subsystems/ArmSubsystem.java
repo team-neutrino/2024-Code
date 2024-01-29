@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.subsystems.simulation.PIDChangerSimulation;
 
 public class ArmSubsystem extends SubsystemBase {
   protected CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
@@ -24,6 +25,9 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_targetAngle;
   private boolean m_inPosisition;
   public int i = 0;
+
+  public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
+      ArmConstants.Arm_kd);
 
   public ArmSubsystem() {
     m_arm.restoreFactoryDefaults();
@@ -39,11 +43,13 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void armPID(double targetAngle) {
     m_targetAngle = targetAngle;
+    m_targetAngle = withinRange(m_targetAngle);
     double error = targetAngle - m_angle;
     errorSum += error;
     double change = (error - lastError) / .02;
     lastError = error;
-    PIDoutput = ArmConstants.Arm_kp * error + ArmConstants.Arm_ki * errorSum + ArmConstants.Arm_kd * change;
+    PIDoutput = PIDSimulation.GetP() * error + PIDSimulation.GetI() * errorSum
+        + PIDSimulation.GetD() * change;
 
     armChecker(PIDoutput);
   }
@@ -70,9 +76,22 @@ public class ArmSubsystem extends SubsystemBase {
     return m_inPosisition;
   }
 
+  private double withinRange(double check) {
+    if (check >= ArmConstants.INTAKE_LIMIT) {
+      return ArmConstants.INTAKE_LIMIT;
+
+    } else if (check <= ArmConstants.AMP_LIMIT) {
+      return ArmConstants.AMP_LIMIT;
+
+    } else {
+      return check;
+    }
+  }
+
   @Override
   public void periodic() {
     m_angle = getArmPose();
     m_inPosisition = ArmDebouncer();
+
   }
 }

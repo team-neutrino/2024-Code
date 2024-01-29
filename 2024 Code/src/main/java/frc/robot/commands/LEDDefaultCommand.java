@@ -1,9 +1,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.util.SubsystemContainer;
+import frc.robot.Constants.LEDConstants.States;
 
 public class LEDDefaultCommand extends Command {
 
@@ -23,8 +24,17 @@ public class LEDDefaultCommand extends Command {
 
   @Override
   public void execute() {
+    if (SubsystemContainer.swerveSubsystem == null) {
+      return;
+    }
     if (!m_IntakeSubsystem.getBeamBreak()) {
       m_LEDSubsystem.setToGreen();
+    } else if (SubsystemContainer.swerveSubsystem
+        .getCommandState() == States.PATHFINDING) {
+      m_LEDSubsystem.setToYellow();
+    } else if (SubsystemContainer.swerveSubsystem
+        .getCommandState() == (States.AUTOALIGN)) {
+      m_LEDSubsystem.setToBlue();
     } else {
       m_LEDSubsystem.setToOrange();
     }

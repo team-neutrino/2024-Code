@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.LEDConstants.States;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
@@ -26,6 +27,7 @@ public class AutoAlignCommand extends Command {
         currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
         targetYaw = SubsystemContainer.limelightSubsystem.getTx();
         SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
+        SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
 
     @Override

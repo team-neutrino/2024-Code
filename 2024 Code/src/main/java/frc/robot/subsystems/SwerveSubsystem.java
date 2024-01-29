@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.SwerveModule;
+import frc.robot.Constants.LEDConstants.States;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
@@ -65,7 +66,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
 
-  boolean omegaZero = false;
+  //boolean omegaZero = false;
 
   SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
   SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
@@ -74,6 +75,8 @@ public class SwerveSubsystem extends SubsystemBase {
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
   double cycle = 0;
+  boolean omegaZero = false;
+  States commandState;
 
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
@@ -317,6 +320,14 @@ public class SwerveSubsystem extends SubsystemBase {
     Pose2d current = currentPose;
     return Math.sqrt(Math.pow(targetPose.getX() - current.getX(), 2)
         + Math.pow(targetPose.getY() - current.getY(), 2));
+  }
+
+  public States getCommandState() {
+    return commandState;
+  }
+
+  public void setCommandState(States state) {
+    commandState = state;
   }
 
   @Override

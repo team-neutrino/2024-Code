@@ -22,6 +22,7 @@ import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
+import frc.robot.commands.MagicSpeakerCommand;
 import frc.robot.util.SubsystemContainer;
 
 import java.util.HashMap;
@@ -113,8 +114,8 @@ public class RobotContainer {
     // m_controller.rightBumper().whileTrue(new AutoAlignCommand());
 
     // shooter buttons
-    m_controller.y().whileTrue(new ShootSpeakerCommand());
-    // m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+    m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
+    m_controller.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));

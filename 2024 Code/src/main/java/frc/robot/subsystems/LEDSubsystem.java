@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.PWMConstants;
-import java.lang.Math;
 
 public class LEDSubsystem extends SubsystemBase {
     private AddressableLED m_addressableLED;
@@ -39,6 +38,10 @@ public class LEDSubsystem extends SubsystemBase {
 
     public void setToBlue() {
         setToColor(0, 0, 255);
+    }
+
+    public void setToYellow() {
+        setToColor(255, 255, 0);
     }
 
     // false = broken
