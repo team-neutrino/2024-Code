@@ -16,7 +16,7 @@ import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
-import frc.robot.commands.ClimbRetractCommand;
+//import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.SubsystemContainer;
@@ -64,7 +64,7 @@ public class RobotContainer {
 
     // Climb buttons
     // climb up should be start
-    m_controller.back().whileTrue(new ClimbRetractCommand());
+    // m_controller.back().whileTrue(new ClimbRetractCommand());
     m_controller.start().whileTrue(new ArmAngleCommand(Constants.ArmConstants.AMP_POSE));
 
     // swerve buttons
@@ -89,5 +89,10 @@ public class RobotContainer {
 
   public void simulationPeriodic() {
     REVPhysicsSim.getInstance().run();
+  }
+
+  public void teleopperiodic() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'teleopperiodic'");
   }
 }
