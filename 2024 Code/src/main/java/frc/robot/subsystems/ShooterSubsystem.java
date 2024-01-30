@@ -29,6 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
   final private double APPROVE_COUNTER_THRESHOLD = 9;
   final private double COUNTER_ERROR_THRESHOLD = 10;
 
+  public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulationShooter(WHEEL_P,WHEEL_I, WHEEL_D, WHEEL_FF);
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooter.getEncoder();
     m_pidController = m_shooter.getPIDController();
