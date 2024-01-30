@@ -16,9 +16,21 @@
           "data": {
             "commands": [
               {
+                "type": "named",
+                "data": {
+                  "name": "ShootSpeakerCommand"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
                   "pathName": "Close Then Mid Part I"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootSpeakerCommand"
                 }
               },
               {
@@ -37,6 +49,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "Close Then Mid Part III"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootSpeakerCommand"
                 }
               }
             ]

@@ -2,19 +2,31 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.11,
+      "x": 1.0,
       "y": 7.0
     },
-    "rotation": 0
+    "rotation": 40.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "ShootSpeakerCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "All Close Part I"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSpeakerCommand"
           }
         },
         {
@@ -30,6 +42,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ShootSpeakerCommand"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 1.0
@@ -39,6 +57,12 @@
           "type": "path",
           "data": {
             "pathName": "All Close Part III"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSpeakerCommand"
           }
         }
       ]

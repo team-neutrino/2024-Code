@@ -2,15 +2,21 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.94,
-      "y": 1.97
+      "x": 1.15,
+      "y": 4.0
     },
-    "rotation": 0
+    "rotation": -40.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSpeakerCommand"
+          }
+        },
         {
           "type": "path",
           "data": {
@@ -33,6 +39,12 @@
           "type": "path",
           "data": {
             "pathName": "Midline III"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootSpeakerCommand"
           }
         }
       ]
