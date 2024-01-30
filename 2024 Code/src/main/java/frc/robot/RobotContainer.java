@@ -7,22 +7,24 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.LEDDefaultCommand;
-import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
+import frc.robot.commands.MagicSpeakerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
+import frc.robot.commands.ShooterInterpolateCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
-import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
-import frc.robot.commands.MagicSpeakerCommand;
+import frc.robot.util.CalculateAngle;
+import frc.robot.util.CalculateRPM;
 import frc.robot.util.SubsystemContainer;
 
 import java.util.HashMap;
@@ -38,7 +40,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.util.CalculateAngle;
 
 public class RobotContainer {
 
@@ -83,7 +84,7 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_controller));
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
-    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmInterpolateCommand(m_angleCalculate));
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
@@ -115,6 +116,7 @@ public class RobotContainer {
 
     // shooter buttons
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
+    m_controller.x().whileTrue(new ShooterInterpolateCommand(new CalculateRPM()));
     m_controller.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
