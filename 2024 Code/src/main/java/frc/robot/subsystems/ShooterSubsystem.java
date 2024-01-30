@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -12,6 +11,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.subsystems.simulation.PIDChangerSimulationShooter;
+
 
 public class ShooterSubsystem extends SubsystemBase {
   protected CANSparkMax m_shooter = new CANSparkMax(MotorIDs.SHOOTER_MOTOR, MotorType.kBrushless);
@@ -31,7 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   //this is a change and a test
 
-  public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulationShooter(WHEEL_P,WHEEL_I, WHEEL_D, WHEEL_FF);
+  public final PIDChangerSimulationShooter PIDSimulationShooter = new PIDChangerSimulationShooter(WHEEL_P,WHEEL_I, WHEEL_D, WHEEL_FF);
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooter.getEncoder();
     m_pidController = m_shooter.getPIDController();

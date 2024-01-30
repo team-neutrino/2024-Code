@@ -26,7 +26,7 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean m_inPosisition;
   public int i = 0;
 
-  public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulationArm(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
+  public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
 
   public ArmSubsystem() {

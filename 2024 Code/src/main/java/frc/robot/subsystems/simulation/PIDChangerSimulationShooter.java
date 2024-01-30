@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems.simulation;
 
 import edu.wpi.first.networktables.DoublePublisher;
@@ -10,23 +6,25 @@ import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.PubSubOption;
 
-/** Add your docs here. */
-public class PIDChangerSimulation {
+public class PIDChangerSimulationShooter {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
 
-    DoubleTopic simP = nt.getDoubleTopic("arm/simP");
-    DoubleTopic simI = nt.getDoubleTopic("arm/sim_I");
-    DoubleTopic simD = nt.getDoubleTopic("arm/sim__D");
+    DoubleTopic simP = nt.getDoubleTopic("shooter/sim_P");
+    DoubleTopic simI = nt.getDoubleTopic("shooter/sim_I");
+    DoubleTopic simD = nt.getDoubleTopic("shooter/sim_D");
+    DoubleTopic simFF = nt.getDoubleTopic("shooter/sim_FF");
 
     DoublePublisher simP_pub;
     DoublePublisher simI_pub;
     DoublePublisher simD_pub;
+    DoublePublisher simFF_pub;
 
     DoubleSubscriber simP_sub;
     DoubleSubscriber simI_sub;
     DoubleSubscriber simD_sub;
+    DoubleSubscriber simFF_sub;
 
-    public PIDChangerSimulation(double p, double i, double d) {
+    public PIDChangerSimulationShooter(double p, double i, double d, double ff) {
 
         simP_pub = simP.publish();
         simP_pub.setDefault(p);
@@ -39,6 +37,10 @@ public class PIDChangerSimulation {
         simD_pub = simD.publish();
         simD_pub.setDefault(d);
         simD_sub = simD.subscribe(d, PubSubOption.sendAll(true));
+
+        simFF_pub = simFF.publish();
+        simFF_pub.setDefault(ff);
+        simFF_sub = simFF.subscribe(ff, PubSubOption.sendAll(true));
 
     }
     
@@ -54,5 +56,7 @@ public class PIDChangerSimulation {
     public double GetD() {
         return simD_sub.get();
     }
-
+    public double GetFF() {
+        return simFF_sub.get();
+    }
 }
