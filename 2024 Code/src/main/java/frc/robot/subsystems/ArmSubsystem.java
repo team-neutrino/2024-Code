@@ -4,8 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.SparkAbsoluteEncoder;
+import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkMax;
-
+import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -25,12 +27,20 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_targetAngle;
   private boolean m_inPosisition;
   public int i = 0;
+  private SparkAbsoluteEncoder feedbackSensor;
+  private SparkPIDController pidController;
+  SparkAbsoluteEncoder m;
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
 
   public ArmSubsystem() {
     m_arm.restoreFactoryDefaults();
+
+    feedbackSensor = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+
+    pidController = m_arm.getPIDController();
+    pidController.setFeedbackDevice(feedbackSensor);
   }
 
   public double getTargetAngle() {
@@ -42,16 +52,26 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void armPID(double targetAngle) {
-    m_targetAngle = targetAngle;
-    m_targetAngle = withinRange(m_targetAngle);
-    double error = targetAngle - m_angle;
-    errorSum += error;
-    double change = (error - lastError) / .02;
-    lastError = error;
-    PIDoutput = PIDSimulation.GetP() * error + PIDSimulation.GetI() * errorSum
-        + PIDSimulation.GetD() * change;
 
-    armChecker(PIDoutput);
+
+
+    if ((m_angle >= ArmConstants.INTAKE_LIMIT) ||
+        (m_angle <= ArmConstants.AMP_LIMIT)) {
+      
+    } else {
+      
+    }
+
+    // m_targetAngle = targetAngle;
+    // m_targetAngle = withinRange(m_targetAngle);
+    // double error = targetAngle - m_angle;
+    // errorSum += error;
+    // double change = (error - lastError) / .02;
+    // lastError = error;
+    // PIDoutput = PIDSimulation.GetP() * error + PIDSimulation.GetI() * errorSum
+    //     + PIDSimulation.GetD() * change;
+
+    // armChecker(PIDoutput);
   }
 
   private void armChecker(double desiredVolt) {
