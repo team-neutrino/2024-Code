@@ -78,12 +78,18 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getTargetRPM() {
     return m_targetRPM;
+    
 
   }
 
   public void setTargetRPM(double p_targetRpm) {
     m_targetRPM = p_targetRpm;
+    WHEEL_P = PIDSimulationShooter.GetP();
+    WHEEL_I = PIDSimulationShooter.GetI();
+    WHEEL_D = PIDSimulationShooter.GetD();
+    WHEEL_FF = PIDSimulationShooter.GetFF();
     m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
+    
   }
 
   public void stopShooter() {

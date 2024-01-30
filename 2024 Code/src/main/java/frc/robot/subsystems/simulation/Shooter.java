@@ -36,7 +36,7 @@ public class Shooter extends ShooterSubsystem {
     public Shooter() {
         m_wheel_ligament = m_root.append(new MechanismLigament2d("wheel", 1, 0));
         m_flywheel_sim = new FlywheelSim(DCMotor.getNEO(1), 1.0, 0.02);
-        SmartDashboard.putData("Shooter", m_mech);
+        SmartDashboard.putData("Mech2d", m_mech);
 
         wheel_sim_speed_pub = wheel_sim_speed_topic.publish();
         wheel_sim_speed_pub.setDefault(0.0);
