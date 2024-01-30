@@ -10,6 +10,7 @@ import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.ShooterDefaultCommand;
+import frc.robot.commands.ShooterInterpolateCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.ArmAngleCommand;
@@ -18,6 +19,7 @@ import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
+import frc.robot.util.CalculateRPM;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.revrobotics.REVPhysicsSim;
@@ -72,6 +74,7 @@ public class RobotContainer {
 
     // shooter buttons
     m_controller.y().whileTrue(new ShootSpeakerCommand());
+    m_controller.x().whileTrue(new ShooterInterpolateCommand(new CalculateRPM()));
     m_controller.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
@@ -88,10 +91,5 @@ public class RobotContainer {
 
   public void simulationPeriodic() {
     REVPhysicsSim.getInstance().run();
-  }
-
-  public void teleopperiodic() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'teleopperiodic'");
   }
 }
