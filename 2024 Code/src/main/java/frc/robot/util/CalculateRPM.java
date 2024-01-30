@@ -3,7 +3,6 @@ package frc.robot.util;
 import java.util.TreeMap;
 
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.util.SubsystemContainer;
 
 public class CalculateRPM {
 
@@ -13,9 +12,9 @@ public class CalculateRPM {
     public CalculateRPM() {
         m_armSubsystem = SubsystemContainer.armSubsystem;
 
-        m_angleRPMData.put(-10.0, 40.0);
-        m_angleRPMData.put(4.0, 60.0);
-        m_angleRPMData.put(10.0, 70.0);
+        m_angleRPMData.put(25.0, 500.0);
+        m_angleRPMData.put(50.0, 700.0);
+        m_angleRPMData.put(75.0, 1000.0);
     }
 
     public double InterpolateRPM() {
