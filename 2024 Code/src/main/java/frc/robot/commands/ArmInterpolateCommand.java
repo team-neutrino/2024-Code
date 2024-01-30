@@ -5,16 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.util.SubsystemContainer;
+import frc.robot.util.CalculateAngle;
 
-public class MagicAmpCommand extends Command {
+public class ArmInterpolateCommand extends Command {
+  CalculateAngle m_angleCalculate;
 
-  /** Creates a new MagicAmpCommand. */
-  public MagicAmpCommand() {
-
-    addRequirements(SubsystemContainer.armSubsystem, SubsystemContainer.ShooterSubsystem,
-        SubsystemContainer.intakeSubsystem);
+  public ArmInterpolateCommand(CalculateAngle p_angleCalculate) {
+    m_angleCalculate = p_angleCalculate;
+    addRequirements(SubsystemContainer.armSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +24,7 @@ public class MagicAmpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.armSubsystem.armPID(Constants.ArmConstants.AMP_POSE);
-    SubsystemContainer.ShooterSubsystem.setTargetRPM(500);
-    if (SubsystemContainer.armSubsystem.getInPosition() && SubsystemContainer.ShooterSubsystem.approveShoot()) {
-      SubsystemContainer.intakeSubsystem.runIndex();
-    } else {
-      SubsystemContainer.intakeSubsystem.stopIndex();
-    }
+    SubsystemContainer.armSubsystem.armPID(m_angleCalculate.InterpolateAngle());
   }
 
   // Called once the command ends or is interrupted.

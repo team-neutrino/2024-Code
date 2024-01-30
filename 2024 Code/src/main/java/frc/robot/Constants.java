@@ -15,6 +15,7 @@ public final class Constants {
   public static class ClimbConstants {
     public static final double CLIMB_EXTEND_MOTOR_SPEED = .2; // PLACEHOLDER VALUE
     public static final double CLIMB_RETRACT_MOTOR_SPEED = -.2; // PLACEHOLDER VALUE
+    public static final double CLIMB_LIMIT_UP = 50; // PLACEHOLDER VALUE
   }
 
   public static class DimensionConstants {
@@ -60,6 +61,12 @@ public final class Constants {
 
   public final class LEDConstants {
     public static int LEDBufferLen = 60;
+
+    public enum States {
+      DEFAULT,
+      PATHFINDING,
+      AUTOALIGN
+    }
   }
 
   public final class MotorIDs {
@@ -86,20 +93,28 @@ public final class Constants {
     public static final int CLIMB_MOTOR2 = 41;
   }
 
-  public class ArmConstants {
-    public static double Arm_kp = 0.01;
-    public static double Arm_ki = 0;
-    public static double Arm_kd = 0;
+  public final class ArmConstants {
+    public static double Arm_kp = 0.8;
+    public static double Arm_ki = 0.01;
+    public static double Arm_kd = 0.07;
+
+    // TODO: FeedForward Constants are PLACEHOLDERS
+    public static double FF_ks = 0.0;
+    public static double FF_kg = 0.0;
+    public static double FF_kv = 0.0;
+    public static double FF_ka = 0.0;
+
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
     public static double INTAKE_POSE = 90;
     public static double AMP_POSE = 20;
     public static double ARM_ADJUST_DEADZONE = 0.2;
-
+    public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {
     public static double INTAKE_MOTOR_SPEED = 0.2;
     public static double INDEX_MOTOR_SPEED = 0.1;
+    public static int INDEX_CURRENT_LIMIT = 20;
   }
 }

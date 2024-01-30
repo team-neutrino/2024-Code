@@ -6,19 +6,21 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDDefaultCommand;
-import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
+import frc.robot.commands.MagicSpeakerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
+import frc.robot.commands.ShooterInterpolateCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ClimbDefaultCommand;
-import frc.robot.commands.ClimbRetractCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
+import frc.robot.util.CalculateAngle;
+import frc.robot.util.CalculateRPM;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.revrobotics.REVPhysicsSim;
@@ -40,6 +42,7 @@ public class RobotContainer {
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
+  CalculateAngle m_angleCalculate = new CalculateAngle();
 
   public RobotContainer() {
 
@@ -63,16 +66,15 @@ public class RobotContainer {
     m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
 
     // Climb buttons
-    // climb up should be start
-    m_controller.back().whileTrue(new ClimbRetractCommand());
-    m_controller.start().whileTrue(new ArmAngleCommand(Constants.ArmConstants.AMP_POSE));
+    m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
 
     // swerve buttons
     m_driverController.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_driverController.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
     // shooter buttons
-    m_controller.y().whileTrue(new ShootSpeakerCommand());
+    m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
+    m_controller.x().whileTrue(new ShooterInterpolateCommand(new CalculateRPM()));
     m_controller.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
@@ -84,11 +86,15 @@ public class RobotContainer {
   }
 
   public void simulationInit() {
+    SubsystemContainer.armSubsystem.simulationInit();
     SubsystemContainer.ShooterSubsystem.simulationInit();
     SubsystemContainer.climbSubsystem.simulationInit();
   }
 
   public void simulationPeriodic() {
     REVPhysicsSim.getInstance().run();
+  }
+
+  public void teleopperiodic() {
   }
 }

@@ -18,11 +18,12 @@ public class ShooterSubsystem extends SubsystemBase {
   protected RelativeEncoder m_shooterEncoder;
   private SparkPIDController m_pidController;
   private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
-  private double WHEEL_P = 0.0000005;
-  private double WHEEL_I = 0.0000003;
-  private double WHEEL_D = 0;
-  private double WHEEL_FF = 0.000155;
-  private double m_targetRPM;
+  protected double WHEEL_P = 0.5;
+  protected double WHEEL_I = 0.0000003;
+  protected double WHEEL_D = 0;
+  protected double WHEEL_FF = 0.000155;
+  protected double m_targetRPM;
+  protected double m_rpm_izone = 0.0;
   private int counter;
   final private double APPROVE_ERROR_THRESHOLD = 7;
   final private double APPROVE_COUNTER_THRESHOLD = 9;
