@@ -40,7 +40,7 @@ public class ArmSimulation extends ArmSubsystem {
     public ArmSimulation() {
         m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 4, 0));
-        m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, 690, 0.6555486, 0.507867133, 1.781293706, true,
+        m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, 4.2974, 0.6555486, 0.507867133, 1.781293706, true,
                 0.872665);
         SmartDashboard.putData("Arm", m_armMech);
 

@@ -99,10 +99,9 @@ public final class Constants {
     public static double Arm_kd = 0.07;
 
     // TODO: FeedForward Constants are PLACEHOLDERS
-    public static double FF_ks = 0.0;
-    public static double FF_kg = 0.0;
-    public static double FF_kv = 0.0;
-    public static double FF_ka = 0.0;
+    public static double FF_K = 1;
+    public static double ARM_MASS = 10;
+    public static double ARM_LENGTH = 0.6555486;
 
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
