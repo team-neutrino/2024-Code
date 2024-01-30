@@ -54,7 +54,7 @@ public class ClimbCommand extends Command {
     if (controllerPos > Constants.ArmConstants.ARM_ADJUST_DEADZONE) {
       m_climbSubsystem.extendClimberArms();
 
-    } else if (controllerPos < -Constants.ArmConstants.ARM_ADJUST_DEADZONE && m_armSubsystem.getInPosisition()) {
+    } else if (controllerPos < -Constants.ArmConstants.ARM_ADJUST_DEADZONE && m_armSubsystem.getInPosition()) {
       m_climbSubsystem.rectractClimberArms();
 
     } else {

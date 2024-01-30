@@ -127,10 +127,17 @@ public final class Constants {
     public static final int CLIMB_MOTOR2 = 41;
   }
 
-  public class ArmConstants {
+  public final class ArmConstants {
     public static double Arm_kp = 0.8;
     public static double Arm_ki = 0.01;
     public static double Arm_kd = 0.07;
+
+    // TODO: FeedForward Constants are PLACEHOLDERS
+    public static double FF_ks = 0.0;
+    public static double FF_kg = 0.0;
+    public static double FF_kv = 0.0;
+    public static double FF_ka = 0.0;
+
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
     public static double INTAKE_POSE = 90;
