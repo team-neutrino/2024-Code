@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.SparkAbsoluteEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
@@ -44,11 +45,13 @@ public class ArmSubsystem extends SubsystemBase {
       ArmConstants.FF_ka);
 
   public ArmSubsystem() {
-    m_arm.restoreFactoryDefaults();
+    //reading a chief delphi thread saying factory changing the status frame too soon after a factory reset might not go through?
+    //maybe delete this line?
+    m_arm.restoreFactoryDefaults(); 
 
     feedbackSensor = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
-    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 1);
+    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 1);
 
     pidController = m_arm.getPIDController();
     pidController.setFeedbackDevice(feedbackSensor);
@@ -68,14 +71,19 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void armPID(double targetAngle, double feedforward) {
 
-    
-
-    if ((m_angle >= ArmConstants.INTAKE_LIMIT) ||
-        (m_angle <= ArmConstants.AMP_LIMIT)) {
-      
-    } else {
-      
+    if(targetAngle > ArmConstants.INTAKE_LIMIT)
+    {
+      targetAngle -= 5;
+    } 
+    else if(targetAngle < ArmConstants.AMP_LIMIT)
+    {
+      targetAngle += 5;
     }
+
+    pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
+
+
+   
 
     // m_targetAngle = targetAngle;
     // m_targetAngle = withinRange(m_targetAngle);
