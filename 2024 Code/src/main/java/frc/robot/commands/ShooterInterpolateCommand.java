@@ -25,8 +25,6 @@ public class ShooterInterpolateCommand extends Command {
   @Override
   public void execute() {
     SubsystemContainer.ShooterSubsystem.setTargetRPM(m_RPMCalculate.InterpolateRPM());
-    System.out.println(SubsystemContainer.ShooterSubsystem.getTargetRPM());
-    System.out.println(SubsystemContainer.armSubsystem.getCurrentAngle());
   }
 
   // Called once the command ends or is interrupted.

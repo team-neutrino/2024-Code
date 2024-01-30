@@ -16,7 +16,6 @@ public class SubsystemContainer {
     public static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     public static final Shooter ShooterSubsystem = new Shooter();
     public static final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
-    public static final ArmSimulation armSimulation = new ArmSimulation();
-    public static final ArmSubsystem armSubsystem = new ArmSubsystem();
+    public static final ArmSimulation armSubsystem = new ArmSimulation();
     public static final LEDSubsystem LEDSubsystem = new LEDSubsystem();
 }

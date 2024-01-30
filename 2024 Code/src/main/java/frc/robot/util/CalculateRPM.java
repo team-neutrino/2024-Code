@@ -12,6 +12,7 @@ public class CalculateRPM {
     public CalculateRPM() {
         m_armSubsystem = SubsystemContainer.armSubsystem;
 
+        // placeholder values
         m_angleRPMData.put(25.0, 500.0);
         m_angleRPMData.put(50.0, 700.0);
         m_angleRPMData.put(75.0, 1000.0);
