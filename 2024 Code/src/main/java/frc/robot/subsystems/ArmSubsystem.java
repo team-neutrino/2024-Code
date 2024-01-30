@@ -13,6 +13,7 @@ import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
@@ -25,10 +26,12 @@ public class ArmSubsystem extends SubsystemBase {
   protected DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCODER);
   private double errorSum;
   private double lastError;
+  private double lastAngle;
+  private double lastVelocity;
   private double PIDoutput;
   protected double m_angle;
   private double m_targetAngle;
-  private boolean m_inPosisition;
+  private boolean m_inPosition;
   public int i = 0;
   private SparkAbsoluteEncoder feedbackSensor;
   private SparkPIDController pidController;
@@ -36,6 +39,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
+
+  public ArmFeedforward feedforward = new ArmFeedforward(ArmConstants.FF_ks, ArmConstants.FF_kg, ArmConstants.FF_ks,
+      ArmConstants.FF_ka);
 
   public ArmSubsystem() {
     m_arm.restoreFactoryDefaults();
@@ -50,6 +56,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getTargetAngle() {
     return m_targetAngle;
+  }
+
+  public double getCurrentAngle() {
+    return m_angle;
   }
 
   public double getArmPose() {
@@ -79,7 +89,7 @@ public class ArmSubsystem extends SubsystemBase {
     // armChecker(PIDoutput);
   }
 
-  private void armChecker(double desiredVolt) {
+  private void setArmVoltage(double desiredVolt) {
     if ((m_angle >= ArmConstants.INTAKE_LIMIT && desiredVolt > 0) ||
         (m_angle <= ArmConstants.AMP_LIMIT && desiredVolt < 0)) {
       m_arm.setVoltage(0);
@@ -97,8 +107,8 @@ public class ArmSubsystem extends SubsystemBase {
     return i >= 10;
   }
 
-  public boolean getInPosisition() {
-    return m_inPosisition;
+  public boolean getInPosition() {
+    return m_inPosition;
   }
 
   private double withinRange(double check) {
@@ -116,7 +126,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_angle = getArmPose();
-    m_inPosisition = ArmDebouncer();
+    m_inPosition = ArmDebouncer();
 
   }
 }
