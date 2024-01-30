@@ -6,9 +6,12 @@ package frc.robot.subsystems;
 
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,7 +32,7 @@ public class ArmSubsystem extends SubsystemBase {
   public int i = 0;
   private SparkAbsoluteEncoder feedbackSensor;
   private SparkPIDController pidController;
-  SparkAbsoluteEncoder m;
+  //SparkAbsoluteEncoder m;
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -38,6 +41,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_arm.restoreFactoryDefaults();
 
     feedbackSensor = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+
+    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 1);
 
     pidController = m_arm.getPIDController();
     pidController.setFeedbackDevice(feedbackSensor);
@@ -51,9 +56,9 @@ public class ArmSubsystem extends SubsystemBase {
     return m_armEncoder.getAbsolutePosition() * 100.0;
   }
 
-  public void armPID(double targetAngle) {
+  public void armPID(double targetAngle, double feedforward) {
 
-
+    
 
     if ((m_angle >= ArmConstants.INTAKE_LIMIT) ||
         (m_angle <= ArmConstants.AMP_LIMIT)) {
