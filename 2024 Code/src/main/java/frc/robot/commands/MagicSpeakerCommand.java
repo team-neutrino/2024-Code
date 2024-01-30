@@ -35,7 +35,7 @@ public class MagicSpeakerCommand extends Command {
   public void execute() {
     m_arm.armPID(m_calculateAngle.InterpolateAngle());
     m_shooter.setTargetRPM(2000);
-    if (m_arm.getInPosisition() && m_shooter.approveShoot()) {
+    if (m_arm.getInPosition() && m_shooter.approveShoot()) {
       m_intake.runIndex();
     } else {
       m_intake.stopIndex();
