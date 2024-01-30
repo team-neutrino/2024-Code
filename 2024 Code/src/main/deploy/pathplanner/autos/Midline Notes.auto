@@ -18,15 +18,21 @@
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Midline Notes V"
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Midline Notes II"
+            "pathName": "Midline II"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Midline III"
           }
         }
       ]

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.1149354110405783,
+      "x": 0.74,
       "y": 7.0
     },
-    "rotation": 0
+    "rotation": 50.0
   },
   "command": {
     "type": "sequential",
@@ -18,25 +18,25 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Two Note Part I"
+                  "pathName": "Close Then Mid Part I"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Two Note Part II"
+                  "pathName": "Close Then Mid Part II"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Close to Mid"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Mid to Shoot"
+                  "pathName": "Close Then Mid Part III"
                 }
               }
             ]

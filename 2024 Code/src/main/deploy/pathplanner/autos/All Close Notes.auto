@@ -14,19 +14,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "all close notes 1"
+            "pathName": "All Close Part I"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "all close notes 2"
+            "pathName": "All Close Part II"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "all close notes 3"
+            "pathName": "All Close Part III"
           }
         }
       ]
