@@ -5,16 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.util.SubsystemContainer;
+import frc.robot.util.CalculateRPM;
 
-public class MagicAmpCommand extends Command {
+public class ShooterInterpolateCommand extends Command {
+  CalculateRPM m_RPMCalculate;
 
-  /** Creates a new MagicAmpCommand. */
-  public MagicAmpCommand() {
-
-    addRequirements(SubsystemContainer.armSubsystem, SubsystemContainer.ShooterSubsystem,
-        SubsystemContainer.intakeSubsystem);
+  public ShooterInterpolateCommand(CalculateRPM p_RPMCalculate) {
+    m_RPMCalculate = p_RPMCalculate;
+    addRequirements(SubsystemContainer.ShooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +24,7 @@ public class MagicAmpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.armSubsystem.armPID(Constants.ArmConstants.AMP_POSE);
-    SubsystemContainer.ShooterSubsystem.setTargetRPM(500);
-    if (SubsystemContainer.armSubsystem.getInPosition() && SubsystemContainer.ShooterSubsystem.approveShoot()) {
-      SubsystemContainer.intakeSubsystem.runIndex();
-    } else {
-      SubsystemContainer.intakeSubsystem.stopIndex();
-    }
+    SubsystemContainer.ShooterSubsystem.setTargetRPM(m_RPMCalculate.InterpolateRPM());
   }
 
   // Called once the command ends or is interrupted.
