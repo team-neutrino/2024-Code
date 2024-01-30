@@ -39,7 +39,7 @@ public class CalculateRPM {
         }
         resultRPM = m_angleRPMData.get(smallerAngle)
                 + ((angle - smallerAngle))
-                        * ((m_angleRPMData.get(largerAngle) - m_angleRPMData.get(largerAngle))
+                        * ((m_angleRPMData.get(largerAngle) - m_angleRPMData.get(smallerAngle))
                                 / (largerAngle - smallerAngle));
         return resultRPM;
     }
