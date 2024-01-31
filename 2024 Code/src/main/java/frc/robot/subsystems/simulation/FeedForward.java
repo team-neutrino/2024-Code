@@ -13,11 +13,8 @@ import edu.wpi.first.networktables.PubSubOption;
 /** Add your docs here. */
 public class FeedForward {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
-
     DoubleTopic simFFK = nt.getDoubleTopic("arm/FFk");
-
     DoublePublisher simFFK_pub;
-
     DoubleSubscriber simFFK_sub;
 
     public FeedForward(double k) {

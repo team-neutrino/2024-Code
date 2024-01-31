@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class ArmSimulation extends ArmSubsystem {
+public class Arm extends ArmSubsystem {
     double get_angle;
     DutyCycleEncoderSim m_armEncoderSim;
 
