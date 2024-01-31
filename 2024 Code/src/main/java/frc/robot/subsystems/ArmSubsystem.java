@@ -43,6 +43,10 @@ public class ArmSubsystem extends SubsystemBase {
     return m_targetAngle;
   }
 
+  public double getCurrentAngle() {
+    return m_angle;
+  }
+
   public double getArmPose() {
     return m_armEncoder.getAbsolutePosition() * 100.0;
   }
@@ -60,7 +64,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     double acceleration = (velocity - lastVelocity) / 0.02;
     lastVelocity = velocity;
-    
+
     PIDoutput = PIDSimulation.GetP() * error + PIDSimulation.GetI() * errorSum
         + PIDSimulation.GetD() * change;
     double FFoutput = feedforward.calculate(m_angle, velocity, acceleration);

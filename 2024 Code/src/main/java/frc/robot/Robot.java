@@ -80,12 +80,11 @@ public class Robot extends TimedRobot {
   }
 
   // ===========================================================================
-  // ===========================================================================
-
   public void simulationInit() {
     m_robotContainer.simulationInit();
   }
 
+  // ===========================================================================
   public void simulationPeriodic() {
     m_robotContainer.simulationPeriodic();
   }
