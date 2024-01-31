@@ -13,7 +13,6 @@ import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.subsystems.simulation.PIDChangerSimulationShooter;
 
-
 public class ShooterSubsystem extends SubsystemBase {
   protected CANSparkMax m_shooter = new CANSparkMax(MotorIDs.SHOOTER_MOTOR, MotorType.kBrushless);
   protected RelativeEncoder m_shooterEncoder;
@@ -29,10 +28,13 @@ public class ShooterSubsystem extends SubsystemBase {
   final private double APPROVE_ERROR_THRESHOLD = 7;
   final private double APPROVE_COUNTER_THRESHOLD = 9;
   final private double COUNTER_ERROR_THRESHOLD = 10;
+  private boolean approve = false;
 
-  //this is a change and a test
+  // this is a change and a test
 
-  public final PIDChangerSimulationShooter PIDSimulationShooter = new PIDChangerSimulationShooter(WHEEL_P,WHEEL_I, WHEEL_D, WHEEL_FF);
+  public final PIDChangerSimulationShooter PIDSimulationShooter = new PIDChangerSimulationShooter(WHEEL_P, WHEEL_I,
+      WHEEL_D, WHEEL_FF, approve);
+
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooter.getEncoder();
     m_pidController = m_shooter.getPIDController();
@@ -78,18 +80,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getTargetRPM() {
     return m_targetRPM;
-    
 
   }
 
   public void setTargetRPM(double p_targetRpm) {
     m_targetRPM = p_targetRpm;
-    WHEEL_P = PIDSimulationShooter.GetP();
-    WHEEL_I = PIDSimulationShooter.GetI();
-    WHEEL_D = PIDSimulationShooter.GetD();
-    WHEEL_FF = PIDSimulationShooter.GetFF();
+    approvePIDChanges();
     m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
-    
+
   }
 
   public void stopShooter() {
@@ -140,6 +138,23 @@ public class ShooterSubsystem extends SubsystemBase {
       counter++;
     } else {
       counter = 0;
+    }
+  }
+
+  public void approvePIDChanges() {
+    if (PIDSimulationShooter.simPIDChangeApprove()) {
+      approve = true;
+      WHEEL_P = PIDSimulationShooter.GetP();
+      WHEEL_I = PIDSimulationShooter.GetI();
+      WHEEL_D = PIDSimulationShooter.GetD();
+      WHEEL_FF = PIDSimulationShooter.GetFF();
+      m_pidController.setP(WHEEL_P);
+      m_pidController.setI(WHEEL_I);
+      m_pidController.setD(WHEEL_D);
+      m_pidController.setFF(WHEEL_FF);
+    } else {
+      System.out.println("Change simPIDChangeAprove to true to approve PID chnages");
+      approve = false;
     }
   }
 
