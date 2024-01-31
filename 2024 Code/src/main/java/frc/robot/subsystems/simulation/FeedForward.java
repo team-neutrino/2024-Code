@@ -9,8 +9,9 @@ import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.PubSubOption;
+import frc.robot.Constants;
 
-/** Add your docs here. */
+
 public class FeedForward {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
     DoubleTopic simFFK = nt.getDoubleTopic("arm/FFk");
@@ -23,6 +24,13 @@ public class FeedForward {
         simFFK_pub.setDefault(k);
         simFFK_sub = simFFK.subscribe(k, PubSubOption.sendAll(true));
 
+    }
+
+    public double calculate(double angle){
+        double calculation = Constants.ArmConstants.ARM_MASS * Constants.ArmConstants.ARM_LENGTH * 0.5 * Math.cos(angle);
+
+        return calculation;
+    
     }
 
     public double getK() {

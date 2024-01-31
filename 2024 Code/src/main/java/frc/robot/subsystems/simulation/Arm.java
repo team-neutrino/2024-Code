@@ -33,11 +33,11 @@ public class Arm extends ArmSubsystem {
     DoubleTopic Sim_Angle = nt.getDoubleTopic("arm/sim_angle");
     DoubleTopic Encoder_Angle = nt.getDoubleTopic("arm/encoder_angle");
     DoubleTopic Target_Angle = nt.getDoubleTopic("arm/target_angle");
-    final DoublePublisher simAnglePub;
-    final DoublePublisher encoderAnglePub;
-    final DoublePublisher targetAnglePub;
+    DoublePublisher simAnglePub;
+    DoublePublisher encoderAnglePub;
+    DoublePublisher targetAnglePub;
 
-    public ArmSimulation() {
+    public Arm() {
         m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 4, 0));
         m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, 4.2974, 0.6555486, 0.507867133, 1.781293706, true,

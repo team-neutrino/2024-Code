@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.subsystems.simulation.FeedForward;
 import frc.robot.subsystems.simulation.PIDChangerSimulation;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -32,8 +33,7 @@ public class ArmSubsystem extends SubsystemBase {
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
 
-  public ArmFeedforward feedforward = new ArmFeedforward(ArmConstants.FF_ks, ArmConstants.FF_kg, ArmConstants.FF_ks,
-      ArmConstants.FF_ka);
+  public FeedForward feedforward = new FeedForward(ArmConstants.FF_K);
 
   public ArmSubsystem() {
     m_arm.restoreFactoryDefaults();
@@ -59,15 +59,9 @@ public class ArmSubsystem extends SubsystemBase {
     double change = (error - lastError) / 0.02;
     lastError = error;
 
-    double velocity = (m_angle - lastAngle) / 0.02;
-    lastAngle = m_angle;
-
-    double acceleration = (velocity - lastVelocity) / 0.02;
-    lastVelocity = velocity;
-
     PIDoutput = PIDSimulation.GetP() * error + PIDSimulation.GetI() * errorSum
         + PIDSimulation.GetD() * change;
-    double FFoutput = feedforward.calculate(m_angle, velocity, acceleration);
+    double FFoutput = feedforward.calculate(m_angle);
 
     setArmVoltage(PIDoutput + FFoutput);
   }
