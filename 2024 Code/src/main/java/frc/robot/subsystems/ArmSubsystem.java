@@ -110,6 +110,5 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     m_angle = getArmPose();
     m_inPosition = ArmDebouncer();
-
   }
 }
