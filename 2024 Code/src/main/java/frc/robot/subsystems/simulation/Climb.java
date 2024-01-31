@@ -49,7 +49,6 @@ public class Climb extends ClimbSubsystem {
 
     public Climb() {
 
-        // fix smartdashboard so equals one button
         m_elevator_ligament1 = m_root1.append(new MechanismLigament2d("elevator1", 2, 0));
         m_elevator_sim1 = new ElevatorSim(DCMotor.getNEO(1), 1.0, 4.0, 0.03, 0.01, 1.0, true, 0.01);
         SmartDashboard.putData("Climb1", m_mech1);
@@ -78,33 +77,33 @@ public class Climb extends ClimbSubsystem {
     }
 
     public void simulationInit() {
-        REVPhysicsSim.getInstance().addSparkMax(m_climbArm1, DCMotor.getNEO(1));
-        REVPhysicsSim.getInstance().addSparkMax(m_climbArm2, DCMotor.getNEO(1));
+        REVPhysicsSim.getInstance().addSparkMax(m_climb1, DCMotor.getNEO(1));
+        REVPhysicsSim.getInstance().addSparkMax(m_climb2, DCMotor.getNEO(1));
     }
 
     public void simulationPeriodic() {
         // In this method, we update our simulation of what our elevator is doing
         // First, we set our "inputs" (voltages)
-        m_elevator_sim1.setInput(m_armEncoder1.getVelocity() * RobotController.getBatteryVoltage());
+        m_elevator_sim1.setInput(m_climbEncoder1.getVelocity() * RobotController.getBatteryVoltage());
 
         // Next, we update it. The standard loop time is 20ms.
         m_elevator_sim1.update(0.020);
 
         // Finally, we set our simulated encoder's readings and simulated battery
         // voltage
-        m_armEncoder1.setPosition(m_elevator_sim1.getPositionMeters());
+        m_climbEncoder1.setPosition(m_elevator_sim1.getPositionMeters());
         // SimBattery estimates loaded battery voltages
         RoboRioSim.setVInVoltage(
                 BatterySim.calculateDefaultBatteryLoadedVoltage(m_elevator_sim1.getCurrentDrawAmps()));
 
-        m_elevator_sim2.setInput(m_armEncoder2.getVelocity() * RobotController.getBatteryVoltage());
+        m_elevator_sim2.setInput(m_climbEncoder2.getVelocity() * RobotController.getBatteryVoltage());
 
         // Next, we update it. The standard loop time is 20ms.
         m_elevator_sim2.update(0.020);
 
         // Finally, we set our simulated encoder's readings and simulated battery
         // voltage
-        m_armEncoder2.setPosition(m_elevator_sim2.getPositionMeters());
+        m_climbEncoder2.setPosition(m_elevator_sim2.getPositionMeters());
         // SimBattery estimates loaded battery voltages
         RoboRioSim.setVInVoltage(
                 BatterySim.calculateDefaultBatteryLoadedVoltage(m_elevator_sim2.getCurrentDrawAmps()));
@@ -112,8 +111,8 @@ public class Climb extends ClimbSubsystem {
 
     public void periodic() {
         super.periodic();
-        elevator_speed_pub1.set(m_armEncoder1.getVelocity(), NetworkTablesJNI.now());
-        elevator_speed_pub2.set(m_armEncoder2.getVelocity(), NetworkTablesJNI.now());
+        elevator_speed_pub1.set(m_climbEncoder1.getVelocity(), NetworkTablesJNI.now());
+        elevator_speed_pub2.set(m_climbEncoder2.getVelocity(), NetworkTablesJNI.now());
     }
 
 }

@@ -28,17 +28,17 @@ public class ClimbSubsystem extends SubsystemBase {
      * Motor controllers
      * Variable names may be changed
      */
-    private CANSparkMax m_climb1 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR1,
+    protected CANSparkMax m_climb1 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR1,
             MotorType.kBrushless);
-    private CANSparkMax m_climb2 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR2, MotorType.kBrushless);
+    protected CANSparkMax m_climb2 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR2, MotorType.kBrushless);
 
     /**
      * Encoders - assumed to be relative, subject to change
      * Encoders are initialized in the constructor with the helper method
      * "initializeMotor"
      */
-    private RelativeEncoder m_climbEncoder1;
-    private RelativeEncoder m_climbEncoder2;
+    protected RelativeEncoder m_climbEncoder1;
+    protected RelativeEncoder m_climbEncoder2;
 
     /**
      * Public constructor to be invoked in RobotContainer
@@ -127,9 +127,12 @@ public class ClimbSubsystem extends SubsystemBase {
     public double[] getArmEncoderVelocity() {
         return new double[] { m_climbEncoder1.getVelocity(), m_climbEncoder2.getVelocity() };
     }
-     
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+    }
+
+    public void simulationInit() {
     }
 }
