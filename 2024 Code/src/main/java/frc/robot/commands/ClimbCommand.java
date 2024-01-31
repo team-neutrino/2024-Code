@@ -51,14 +51,15 @@ public class ClimbCommand extends Command {
 
     double controllerPos = m_controller.getRightY();
 
-    if (controllerPos > Constants.ArmConstants.ARM_ADJUST_DEADZONE) {
-      m_climbSubsystem.extendClimberArms();
+    if (controllerPos > Constants.ArmConstants.ARM_ADJUST_DEADZONE && m_armSubsystem.getInPosition()) {
+      m_climbSubsystem.retractClimberArms();
 
-    } else if (controllerPos < -Constants.ArmConstants.ARM_ADJUST_DEADZONE && m_armSubsystem.getInPosition()) {
-      m_climbSubsystem.rectractClimberArms();
+    } else if (controllerPos < -Constants.ArmConstants.ARM_ADJUST_DEADZONE) {
+      m_climbSubsystem.extendClimberArms();
 
     } else {
       m_climbSubsystem.stopClimberArms();
+
     }
 
   }
