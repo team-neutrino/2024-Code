@@ -73,11 +73,11 @@ public class ArmSubsystem extends SubsystemBase {
 
     if(targetAngle > ArmConstants.INTAKE_LIMIT)
     {
-      targetAngle -= 5;
+      targetAngle = ArmConstants.INTAKE_LIMIT;
     } 
     else if(targetAngle < ArmConstants.AMP_LIMIT)
     {
-      targetAngle += 5;
+      targetAngle = ArmConstants.AMP_LIMIT;
     }
 
     pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
