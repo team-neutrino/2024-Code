@@ -71,6 +71,9 @@ public class PIDChangerSimulationShooter {
     }
 
     public boolean simPIDChangeApprove() {
-        return simX_sub.get();
+        boolean x = simX_sub.get();
+        simX_pub.set(false);
+        return x;
     }
+
 }

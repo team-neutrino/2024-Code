@@ -143,7 +143,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void approvePIDChanges() {
     if (PIDSimulationShooter.simPIDChangeApprove()) {
-      approve = true;
       WHEEL_P = PIDSimulationShooter.GetP();
       WHEEL_I = PIDSimulationShooter.GetI();
       WHEEL_D = PIDSimulationShooter.GetD();
@@ -152,10 +151,9 @@ public class ShooterSubsystem extends SubsystemBase {
       m_pidController.setI(WHEEL_I);
       m_pidController.setD(WHEEL_D);
       m_pidController.setFF(WHEEL_FF);
-    } else {
-      System.out.println("Change simPIDChangeAprove to true to approve PID chnages");
-      approve = false;
+      System.out.println("PID values updated");
     }
+
   }
 
   @Override
