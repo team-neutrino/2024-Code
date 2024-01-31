@@ -108,9 +108,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
     m_angle = getArmPose();
     m_inPosition = ArmDebouncer();
-
   }
 }
