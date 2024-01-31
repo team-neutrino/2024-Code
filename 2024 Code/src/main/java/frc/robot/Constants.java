@@ -13,8 +13,8 @@ public final class Constants {
    * are 40s.
    */
   public static class ClimbConstants {
-    public static final double CLIMB_EXTEND_MOTOR_SPEED = .2; // PLACEHOLDER VALUE
-    public static final double CLIMB_RETRACT_MOTOR_SPEED = -.2; // PLACEHOLDER VALUE
+    public static final double CLIMB_EXTEND_MOTOR_SPEED = 1.0; // PLACEHOLDER VALUE
+    public static final double CLIMB_RETRACT_MOTOR_SPEED = -1.0; // PLACEHOLDER VALUE
     public static final float CLIMB_LIMIT_UP = 200; // PLACEHOLDER VALUE
   }
 

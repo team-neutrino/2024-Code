@@ -129,7 +129,7 @@ public class ClimbSubsystem extends SubsystemBase {
         if (limitSwitchCheck()) {
             resetEncoders();
         }
-        m_climb1.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
+        m_climb1.setVoltage(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
     }
 
     /**
@@ -148,7 +148,7 @@ public class ClimbSubsystem extends SubsystemBase {
      * NOTE: CURRENT CONSTANT IS A PLACEHOLDER VALUE
      */
     public void extendClimberArms() {
-        m_climb1.set(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
+        m_climb1.setVoltage(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
     }
 
     /**
@@ -160,7 +160,7 @@ public class ClimbSubsystem extends SubsystemBase {
      * removing the need to call both motors in mutators.
      */
     public void stopClimberArms() {
-        m_climb1.stopMotor();
+        m_climb1.setVoltage(0.0);
     }
 
     /**
