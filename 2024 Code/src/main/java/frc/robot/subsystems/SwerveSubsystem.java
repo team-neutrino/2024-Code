@@ -57,7 +57,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final SwerveModule.MotorCfg back_left_angle = new SwerveModule.MotorCfg(MotorIDs.BLA,
       false, SwerveConstants.BLA_OFFSET);
 
-  public SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
+  private SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
 
   private SwerveDriveOdometry m_swerveOdometry;
 
