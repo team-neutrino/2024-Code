@@ -18,6 +18,7 @@ public class ShooterDefaultCommand extends Command {
 
     @Override
     public void execute() {
+        m_shooterSubsystem.setTargetRPM(3500);
     }
 
     @Override
