@@ -44,10 +44,16 @@ public class ArmSimulation extends ArmSubsystem {
     double ksin = 0.02;
     double kcos = 0.02;
 
+    double kG = 0.001;
+
+    double armMassKg = 7;
+    double armMOI = (double) 7 * Math.pow(0.6555, 2) * ((double) 1/3);
+
     public ArmSimulation() {
+        System.out.println("moment of intertia " + armMOI);
         m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 4, 0));
-        m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, 6.9, 0.6555486, 0.507867133, 1.781293706, true,
+        m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, armMOI, 0.6555486, 0.507867133, 1.781293706, true,
                 0.872665);
         SmartDashboard.putData("Arm", m_armMech);
 
@@ -77,11 +83,16 @@ public class ArmSimulation extends ArmSubsystem {
 
         get_angle = m_armSim.getAngleRads() * (180 / Math.PI);
         // System.out.println("current angle " + get_angle);
-        double ff = (kcos * Math.cos(get_angle * (Math.PI / 180)) +
-                (Math.signum(Math.cos(get_angle * (Math.PI / 180))) * ksin * 0.65
-                        * Math.sin((Math.PI / 180) * get_angle)));
+
+        double gravity_torque_comp = (Math.cos(get_angle * (Math.PI / 180)) * 9.8) / 0.6555 * armMOI ;
+
+        double ff = gravity_torque_comp * kG;
+
+        // double ff = (kcos * Math.cos(get_angle * (Math.PI / 180)) +
+        //         (Math.signum(Math.cos(get_angle * (Math.PI / 180))) * ksin * 0.65
+        //                 * Math.sin((Math.PI / 180) * get_angle)));
         System.out.println(ff);
-        motor_volts = pidSim.runPid(1.1, 0.0, 0.0,
+        motor_volts = pidSim.runPid(0.8, 0.0, 0.0,
                 ff,
                 getTargetAngle(), get_angle, 0.0, -13, 13);
 
