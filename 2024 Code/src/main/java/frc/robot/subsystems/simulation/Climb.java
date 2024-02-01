@@ -70,7 +70,6 @@ public class Climb extends ClimbSubsystem {
 
         m_root1.setPosition(1.5, m_elevator_sim1.getPositionMeters());
 
-        m_elevator_ligament1.setColor(color);
         if (m_elevator_sim1.hasHitUpperLimit()) {
             m_elevator_ligament1.setColor(green);
         } else if (m_elevator_sim1.hasHitLowerLimit()) {
