@@ -24,16 +24,16 @@ public class ClimbSubsystem extends SubsystemBase {
     /*
      * Motor controllers
      */
-    private CANSparkMax m_climb1 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR1,
+    protected CANSparkMax m_climb1 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR1,
             MotorType.kBrushless);
-    private CANSparkMax m_climb2 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR2, MotorType.kBrushless);
+    protected CANSparkMax m_climb2 = new CANSparkMax(Constants.MotorIDs.CLIMB_MOTOR2, MotorType.kBrushless);
 
     /**
      * Relative encorders, initialized in the constructor with the
      * helper method "initializeMotor"
      */
-    private RelativeEncoder m_climbEncoder1;
-    private RelativeEncoder m_climbEncoder2;
+    protected RelativeEncoder m_climbEncoder1;
+    protected RelativeEncoder m_climbEncoder2;
 
     /**
      * Limit switch for the base of the climber, when it is pressed
@@ -129,7 +129,7 @@ public class ClimbSubsystem extends SubsystemBase {
         if (limitSwitchCheck()) {
             resetEncoders();
         }
-        m_climb1.set(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
+        m_climb1.setVoltage(Constants.ClimbConstants.CLIMB_RETRACT_MOTOR_SPEED);
     }
 
     /**
@@ -148,7 +148,7 @@ public class ClimbSubsystem extends SubsystemBase {
      * NOTE: CURRENT CONSTANT IS A PLACEHOLDER VALUE
      */
     public void extendClimberArms() {
-        m_climb1.set(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
+        m_climb1.setVoltage(Constants.ClimbConstants.CLIMB_EXTEND_MOTOR_SPEED);
     }
 
     /**
@@ -160,7 +160,7 @@ public class ClimbSubsystem extends SubsystemBase {
      * removing the need to call both motors in mutators.
      */
     public void stopClimberArms() {
-        m_climb1.stopMotor();
+        m_climb1.setVoltage(0.0);
     }
 
     /**
@@ -194,5 +194,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+    }
+
+    public void simulationInit() {
     }
 }
