@@ -26,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor.restoreFactoryDefaults();
         m_indexMotor.restoreFactoryDefaults();
         m_indexMotor.setSmartCurrentLimit(Constants.IntakeConstants.INDEX_CURRENT_LIMIT);
-
+        m_intakeMotor.setSmartCurrentLimit(70);
     }
 
     public void runIntake() {
