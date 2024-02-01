@@ -73,7 +73,8 @@ public class ArmSimulation extends ArmSubsystem {
         // System.out.println("this function is running");
 
         get_angle = m_armSim.getAngleRads() * (180 / Math.PI);
-        motor_volts = pidSim.runPid(1, 0.0, 0.0, 0.0, getTargetAngle(), get_angle, 0.0, 0.0, 13);
+        System.out.println("current angle " + get_angle);
+        motor_volts = pidSim.runPid(1, 0.0, 0.0, 0.0, getTargetAngle(), get_angle, 0.0, -13, 13);
 
         m_armSim.setInputVoltage(motor_volts);
         m_armSim.update(0.02);
