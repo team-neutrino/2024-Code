@@ -41,6 +41,9 @@ public class ArmSimulation extends ArmSubsystem {
     final DoublePublisher motorVoltagePub;
     CanSparkMaxPidSim pidSim;
 
+    double ksin = 0.02;
+    double kcos = 0.02;
+
     public ArmSimulation() {
         m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 4, 0));
@@ -73,8 +76,14 @@ public class ArmSimulation extends ArmSubsystem {
         // System.out.println("this function is running");
 
         get_angle = m_armSim.getAngleRads() * (180 / Math.PI);
-        System.out.println("current angle " + get_angle);
-        motor_volts = pidSim.runPid(1, 0.0, 0.0, 0.0, getTargetAngle(), get_angle, 0.0, -13, 13);
+        // System.out.println("current angle " + get_angle);
+        double ff = (kcos * Math.cos(get_angle * (Math.PI / 180)) +
+                (Math.signum(Math.cos(get_angle * (Math.PI / 180))) * ksin * 0.65
+                        * Math.sin((Math.PI / 180) * get_angle)));
+        System.out.println(ff);
+        motor_volts = pidSim.runPid(1.1, 0.0, 0.0,
+                ff,
+                getTargetAngle(), get_angle, 0.0, -13, 13);
 
         m_armSim.setInputVoltage(motor_volts);
         m_armSim.update(0.02);
