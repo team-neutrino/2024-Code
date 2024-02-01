@@ -84,7 +84,8 @@ public class ArmSimulation extends ArmSubsystem {
         get_angle = m_armSim.getAngleRads() * (180 / Math.PI);
         // System.out.println("current angle " + get_angle);
 
-        double gravity_torque_comp = (Math.cos(get_angle * (Math.PI / 180)) * 9.8) / 0.6555 * armMOI ;
+        //the cos term * gravity accel * mass = force that is perpendicular to the arm, * center of mass (r / 2) gives the torque
+        double gravity_torque_comp = (Math.cos(get_angle * (Math.PI / 180)) * 9.8 * 7) * 0.32775;
 
         double ff = gravity_torque_comp * kG;
 
