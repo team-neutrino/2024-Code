@@ -61,8 +61,7 @@ public class RobotContainer {
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // LED buttons
-    // m_controller.a().whileTrue(new MagicAmpCommand());
-    m_controller.a().whileTrue(new ShootSpeakerCommand());
+    m_controller.a().whileTrue(new MagicAmpCommand());
 
     // Intake buttons
     m_controller.leftBumper().whileTrue(new IntakeReverseCommand());

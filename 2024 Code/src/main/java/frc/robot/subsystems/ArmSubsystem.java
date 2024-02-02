@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.subsystems.simulation.ArmSimulation;
 import frc.robot.subsystems.simulation.PIDChangerSimulation;
 
 public class ArmSubsystem extends SubsystemBase {
