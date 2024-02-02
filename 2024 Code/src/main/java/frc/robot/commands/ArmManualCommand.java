@@ -28,7 +28,7 @@ public class ArmManualCommand extends Command {
   @Override
   public void execute() {
     if (Math.abs(m_controller.getLeftX()) > ArmConstants.ARM_ADJUST_DEADZONE) {
-      m_shiftAngle -= m_controller.getLeftX();
+      m_shiftAngle -= m_controller.getLeftX() * 1.5;
     }
     SubsystemContainer.armSubsystem.armPID(m_shiftAngle);
   }
