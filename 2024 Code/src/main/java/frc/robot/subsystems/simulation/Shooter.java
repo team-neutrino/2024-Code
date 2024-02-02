@@ -34,7 +34,6 @@ public class Shooter extends ShooterSubsystem {
     CanSparkMaxPidSim m_spark_max_pid_sim = null;
 
     public Shooter() {
-        // m_wheel_ligament = m_root.append(new MechanismLigament2d("wheel", 1, 0));
         m_flywheel_sim = new FlywheelSim(DCMotor.getNEO(1), 1.0, 0.02);
         SmartDashboard.putData("Mech2d", m_mech);
 
