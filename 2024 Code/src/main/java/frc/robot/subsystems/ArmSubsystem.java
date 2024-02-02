@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.subsystems.simulation.ArmSimulation;
 import frc.robot.subsystems.simulation.PIDChangerSimulation;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -70,8 +69,6 @@ public class ArmSubsystem extends SubsystemBase {
     double FFoutput = feedforward.calculate(m_angle, velocity, acceleration);
 
     setArmVoltage(PIDoutput + FFoutput);
-
-    m_targetAngle = targetAngle;
   }
 
   private void setArmVoltage(double desiredVolt) {
