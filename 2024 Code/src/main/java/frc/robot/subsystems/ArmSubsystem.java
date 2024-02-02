@@ -4,9 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -52,6 +51,25 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void armPID(double targetAngle) {
+    m_targetAngle = withinRange(targetAngle);
+
+    double error = targetAngle - m_angle;
+    errorSum += error;
+    double change = (error - lastError) / 0.02;
+    lastError = error;
+
+    double velocity = (m_angle - lastAngle) / 0.02;
+    lastAngle = m_angle;
+
+    double acceleration = (velocity - lastVelocity) / 0.02;
+    lastVelocity = velocity;
+
+    PIDoutput = PIDSimulation.GetP() * error + PIDSimulation.GetI() * errorSum
+        + PIDSimulation.GetD() * change;
+    double FFoutput = feedforward.calculate(m_angle, velocity, acceleration);
+
+    setArmVoltage(PIDoutput + FFoutput);
+
     m_targetAngle = targetAngle;
   }
 
