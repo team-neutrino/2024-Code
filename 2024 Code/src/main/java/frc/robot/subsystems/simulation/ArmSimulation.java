@@ -46,10 +46,10 @@ public class ArmSimulation extends ArmSubsystem {
     static double simTargetAngle;
 
     double armMassKg = 7;
-    double armMOI = 7 * Math.pow(0.6555, 2) * ((double) 1 / 3);
+    double radius = 0.6555;
+    double armMOI = armMassKg * Math.pow(radius, 2) * ((double) 1 / 3);
 
     public ArmSimulation() {
-        System.out.println("moment of intertia " + armMOI);
         m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 4, 0));
         Shooter.m_wheel_ligament = m_upperArm.append(new MechanismLigament2d("wheel", 1, 0));
@@ -84,11 +84,11 @@ public class ArmSimulation extends ArmSubsystem {
         currentSimAngle = m_armSim.getAngleRads() * (180 / Math.PI);
         // the cos term * gravity accel * mass = force that is perpendicular to the arm,
         // * center of mass (r / 2) gives the torque
-        double gravity_torque_comp = (Math.cos(currentSimAngle * (Math.PI / 180)) * 9.8 * 7) * 0.32775;
+        double gravity_torque_comp = (Math.cos(currentSimAngle * (Math.PI / 180)) * 9.8 * armMassKg) * radius / 2;
         double ff = gravity_torque_comp * kG;
         motor_volts = pidSim.runPid(0.8, 0.0, 0.0,
                 ff,
-                getTargetAngle(), currentSimAngle, 0.0, -13, 13);
+                simTargetAngle, currentSimAngle, 0.0, -13, 13);
 
         m_armSim.setInputVoltage(motor_volts);
         m_armSim.update(0.02);
@@ -101,7 +101,7 @@ public class ArmSimulation extends ArmSubsystem {
     @Override
     public void periodic() {
         super.periodic();
-        targetAnglePub.set(getTargetAngle(), NetworkTablesJNI.now());
+        targetAnglePub.set(simTargetAngle, NetworkTablesJNI.now());
         encoderAnglePub.set(m_armEncoder.getAbsolutePosition(), NetworkTablesJNI.now());
         motorVoltagePub.set(motor_volts, NetworkTablesJNI.now());
     }
