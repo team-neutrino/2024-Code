@@ -14,13 +14,13 @@ import frc.robot.Constants.MotorIDs;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-    private RelativeEncoder m_intakeEncoder;
-    private RelativeEncoder m_indexEncoder;
+    protected RelativeEncoder m_intakeEncoder;
+    protected RelativeEncoder m_indexEncoder;
 
-    private CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
-    private CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
+    protected CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
+    protected CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
 
-    private DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
+    protected DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
 
     public IntakeSubsystem() {
         m_intakeMotor.restoreFactoryDefaults();
