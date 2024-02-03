@@ -100,15 +100,14 @@ public class RobotContainer {
     // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
 
-    m_controller.rightBumper().onTrue(new
-    SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp,
-    new AutoAlignSequentialCommand()));
-    
+    m_controller.rightBumper().onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp,
+        new AutoAlignSequentialCommand()));
+
     m_controller.rightBumper()
         .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand))));
 
     // SubsystemContainer.swerveSubsystem.setPathfindCommand()));
-    m_controller.leftBumper().onTrue(new PathPlannerAuto("test pause auto"));
+    m_controller.leftBumper().onTrue(new PathPlannerAuto("Two Note"));
 
     // m_controller.rightTrigger().onTrue(AutoBuilder.pathfindToPose(
     // SubsystemContainer.swerveSubsystem.getPathfindingTargetPose(),

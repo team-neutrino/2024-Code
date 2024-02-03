@@ -66,7 +66,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
 
-  //boolean omegaZero = false;
+  // boolean omegaZero = false;
 
   SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
   SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
@@ -187,10 +187,11 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
     m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
 
-    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond, feedForwardFR);
-    m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
-    m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
-    m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+    // m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond,
+    // feedForwardFR);
+    // m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
+    // m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
+    // m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
   }
 
   public boolean omegaZero() {
@@ -341,9 +342,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
     field.getObject("auton").setPose(currentPose);
 
+    // System.out.println("periodic running");
+
     cycle++;
     if (cycle % 8 == 0) {
-
+      System.out.println(m_backLeft.getRawAbsoluteAngle());
     }
   }
 }
