@@ -18,7 +18,7 @@ import frc.robot.util.SubsystemContainer;
 
 public class IntakeSimulation extends IntakeSubsystem {
     Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
-    MechanismRoot2d m_intakeRoot = m_mech.getRoot("chassis", 2, 4);
+    MechanismRoot2d m_intakeRoot = m_mech.getRoot("intake_root", 26, 10);
     MechanismLigament2d m_intakeWheelLigament;
     Color8Bit green = new Color8Bit(0, 255, 0);
     Color8Bit red = new Color8Bit(255, 0, 0);

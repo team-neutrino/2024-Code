@@ -19,7 +19,7 @@ import frc.robot.util.SubsystemContainer;
 
 public class Shooter extends ShooterSubsystem {
     Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
-    MechanismRoot2d m_root = m_mech.getRoot("chassis", 6, 28);
+    MechanismRoot2d m_root = m_mech.getRoot("shooter_root", 6, 28);
     public static MechanismLigament2d m_wheel_ligament;
 
     FlywheelSim m_flywheel_sim;

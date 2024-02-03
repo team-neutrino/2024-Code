@@ -20,7 +20,7 @@ import frc.robot.util.SubsystemContainer;
 
 public class Climb extends ClimbSubsystem {
     Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
-    MechanismRoot2d m_root1 = m_mech.getRoot("chassis", 18, 10);
+    MechanismRoot2d m_root1 = m_mech.getRoot("climb_root", 18, 10);
     MechanismLigament2d m_elevator_ligament1;
     ElevatorSim m_elevator_sim1;
     double m_last_position_rev1 = 0.0;
@@ -65,7 +65,7 @@ public class Climb extends ClimbSubsystem {
         RoboRioSim.setVInVoltage(
                 BatterySim.calculateDefaultBatteryLoadedVoltage(m_elevator_sim1.getCurrentDrawAmps()));
 
-        m_root1.setPosition(1.5, m_elevator_sim1.getPositionMeters());
+        m_root1.setPosition(12, m_elevator_sim1.getPositionMeters() * 39.3701 + 10);
 
         if (m_elevator_sim1.hasHitUpperLimit()) {
             m_elevator_ligament1.setColor(green);
