@@ -39,17 +39,17 @@ public final class Constants {
     public static Translation2d FRONT_LEFT_COORD = new Translation2d(0.2155261469, 0.2155261469);
     public static Translation2d BACK_RIGHT_COORD = new Translation2d(-0.2155261469, -0.2155261469);
     public static Translation2d BACK_LEFT_COORD = new Translation2d(-0.2155261469, 0.2155261469);
-    public static double DRIVEBASE_RADIUS = 0.381837661841;
+    public static double DRIVEBASE_RADIUS = 0.3;
 
     public static double MAX_CHASSIS_LINEAR_SPEED = 1;
     public static double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static double MAX_MODULE_ROTATION_SPEED;
     public static double MAX_MODULE_LINEAR_SPEED = 7;
 
-    public static double FLA_OFFSET = 285; // 43;
-    public static double FRA_OFFSET = 273; // 336.6;
-    public static double BLA_OFFSET = 1; // 82.7;
-    public static double BRA_OFFSET = 311; // 359.2;
+    public static double FLA_OFFSET = 43;
+    public static double FRA_OFFSET = 336.6;
+    public static double BLA_OFFSET = 82.7;
+    public static double BRA_OFFSET = 359.2;
 
     public static double ks = 0.15;
     public static double kv = 2.6;
@@ -106,15 +106,15 @@ public final class Constants {
   public final class MotorIDs {
     // A means Angular and S means Speed.
 
-    public static int FRA = 3;
-    public static int FLA = 5;
-    public static int BRA = 7;
-    public static int BLA = 9;
+    public static int FRA = 2;
+    public static int FLA = 4;
+    public static int BRA = 6;
+    public static int BLA = 8;
 
-    public static int FRS = 2;
-    public static int FLS = 4;
-    public static int BRS = 6;
-    public static int BLS = 8;
+    public static int FRS = 1;
+    public static int FLS = 3;
+    public static int BRS = 5;
+    public static int BLS = 7;
 
     public static int Arm = 10;
 

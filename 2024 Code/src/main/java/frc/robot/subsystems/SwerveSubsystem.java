@@ -40,13 +40,13 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModuleState[] moduleStates;
 
   private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(MotorIDs.FRS,
-      true);
+      false);
   private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
       true);
   private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
       true);
   private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
-      false);
+      true);
 
   private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(MotorIDs.FRA,
       false, SwerveConstants.FRA_OFFSET);
@@ -104,7 +104,7 @@ public class SwerveSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds,
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
-            new PIDConstants(0.4, 0.0, 0.0),
+            new PIDConstants(0.6, 0.0, 0.0),
             new PIDConstants(1.8, 0.0, 0.0),
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
