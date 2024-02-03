@@ -106,15 +106,15 @@ public final class Constants {
   public final class MotorIDs {
     // A means Angular and S means Speed.
 
-    public static int FLA = 4;
-    public static int FRA = 2;
-    public static int BLA = 8;
-    public static int BRA = 6;
+    public static int FRA = 3;
+    public static int FLA = 5;
+    public static int BRA = 7;
+    public static int BLA = 9;
 
-    public static int FLS = 3;
-    public static int FRS = 1;
-    public static int BLS = 7;
-    public static int BRS = 5;
+    public static int FRS = 2;
+    public static int FLS = 4;
+    public static int BRS = 6;
+    public static int BLS = 8;
 
     public static int Arm = 10;
 
