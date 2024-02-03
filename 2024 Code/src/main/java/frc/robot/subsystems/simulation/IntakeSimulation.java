@@ -6,6 +6,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -50,6 +51,20 @@ public class IntakeSimulation extends IntakeSubsystem {
     }
 
     public void simulationPeriodic() {
+        double motor_volts = 0.0;
 
+        m_intakeFlywheelSim.setInputVoltage(motor_volts);
+        m_intakeFlywheelSim.update(0.02);
+
+        double revPerSec = m_intakeFlywheelSim.getAngularVelocityRPM();
+        m_lastPosition = m_lastPosition + revPerSec * 0.02;
+        m_intakeWheelLigament.setAngle(m_lastPosition * 6);
+
+        intakeWheelSimSpeed_pub.set(revPerSec, NetworkTablesJNI.now());
+    }
+
+    public void periodic() {
+        super.periodic();
+        intakeWheelEncSpeed_pub.set(m_intakeEncoder.getVelocity(), NetworkTablesJNI.now());
     }
 }
