@@ -23,9 +23,8 @@ import frc.robot.util.SubsystemContainer;
 public class ArmSimulation extends ArmSubsystem {
     public static double currentSimAngle;
     DutyCycleEncoderSim m_armEncoderSim;
-
     Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
-    MechanismRoot2d m_root = m_mech.getRoot("shoulder", 3, 3);
+    MechanismRoot2d m_root = m_mech.getRoot("shoulder", 6, 22);
     MechanismLigament2d m_upperArm;
 
     SingleJointedArmSim m_armSim;
@@ -52,7 +51,7 @@ public class ArmSimulation extends ArmSubsystem {
 
     public ArmSimulation() {
         m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
-        m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 4, 0));
+        m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 24, 0));
         Shooter.m_wheel_ligament = m_upperArm.append(new MechanismLigament2d("wheel", 1, 0));
         m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, armMOI, 0.6555486, 0.507867133, 1.781293706, true,
                 0.872665);

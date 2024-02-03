@@ -14,10 +14,11 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.util.SubsystemContainer;
 
 public class IntakeSimulation extends IntakeSubsystem {
-    Mechanism2d m_intakeMech = new Mechanism2d(3, 3);
-    MechanismRoot2d m_intakeRoot = m_intakeMech.getRoot("chassis", 2, 2);
+    Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
+    MechanismRoot2d m_intakeRoot = m_mech.getRoot("chassis", 2, 2);
     MechanismLigament2d m_intakeWheelLigament;
 
     FlywheelSim m_intakeFlywheelSim;
@@ -32,7 +33,6 @@ public class IntakeSimulation extends IntakeSubsystem {
 
     public IntakeSimulation() {
         m_intakeFlywheelSim = new FlywheelSim(DCMotor.getNEO(1), 1, 0.002);
-        SmartDashboard.putData("Intake", m_intakeMech);
 
         intakeWheelSimSpeed_pub = intakeWheelSimSpeed_topic.publish();
         intakeWheelSimSpeed_pub.setDefault(0.0);
