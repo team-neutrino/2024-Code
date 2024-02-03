@@ -12,9 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.simulation.CanSparkMaxPidSim;
 
 public class Shooter extends ShooterSubsystem {
     Mechanism2d m_mech = new Mechanism2d(3, 3);

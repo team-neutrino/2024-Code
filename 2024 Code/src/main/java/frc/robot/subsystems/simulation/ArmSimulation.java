@@ -53,6 +53,7 @@ public class ArmSimulation extends ArmSubsystem {
         m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 4, 0));
         Shooter.m_wheel_ligament = m_upperArm.append(new MechanismLigament2d("wheel", 1, 0));
+        IntakeSimulation.m_beambreakLigament = m_upperArm.append(new MechanismLigament2d("BeamBreak", .5, 0));
         m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, armMOI, 0.6555486, 0.507867133, 1.781293706, true,
                 0.872665);
         SmartDashboard.putData("Arm", m_armMech);
