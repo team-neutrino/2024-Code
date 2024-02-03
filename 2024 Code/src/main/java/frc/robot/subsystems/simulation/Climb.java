@@ -20,7 +20,7 @@ import frc.robot.util.SubsystemContainer;
 
 public class Climb extends ClimbSubsystem {
     Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
-    MechanismRoot2d m_root1 = m_mech.getRoot("chassis", 18, 2);
+    MechanismRoot2d m_root1 = m_mech.getRoot("chassis", 18, 10);
     MechanismLigament2d m_elevator_ligament1;
     ElevatorSim m_elevator_sim1;
     double m_last_position_rev1 = 0.0;

@@ -12,14 +12,17 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class IntakeSimulation extends IntakeSubsystem {
     Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
-    MechanismRoot2d m_intakeRoot = m_mech.getRoot("chassis", 2, 2);
+    MechanismRoot2d m_intakeRoot = m_mech.getRoot("chassis", 2, 4);
     MechanismLigament2d m_intakeWheelLigament;
+    Color8Bit green = new Color8Bit(0, 255, 0);
+    Color8Bit red = new Color8Bit(255, 0, 0);
+    Color8Bit color = new Color8Bit(100, 100, 0);
 
     FlywheelSim m_intakeFlywheelSim;
     double m_lastPosition = 0.0;
@@ -59,6 +62,14 @@ public class IntakeSimulation extends IntakeSubsystem {
         m_intakeWheelLigament.setAngle(m_lastPosition * 6);
 
         intakeWheelSimSpeed_pub.set(revPerSec, NetworkTablesJNI.now());
+
+        if (motor_volts > 0.0) {
+            m_intakeWheelLigament.setColor(green);
+        } else if (motor_volts < 0.0) {
+            m_intakeWheelLigament.setColor(red);
+        } else {
+            m_intakeWheelLigament.setColor(color);
+        }
     }
 
     public void periodic() {
