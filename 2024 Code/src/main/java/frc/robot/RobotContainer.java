@@ -82,7 +82,7 @@ public class RobotContainer {
     // set default commands
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
     SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_controller));
-    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
+    // SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
@@ -92,7 +92,8 @@ public class RobotContainer {
     m_controller.a().whileTrue(new MagicAmpCommand());
 
     // Intake buttons
-    m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
+    // m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
+    m_controller.rightTrigger().whileTrue(m_intakeDefaultCommand);
 
     // Climb buttons
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));

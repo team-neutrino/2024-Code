@@ -5,7 +5,7 @@
       "x": 1.0,
       "y": 7.0
     },
-    "rotation": 40.0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -20,13 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Two Note Part I"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Two Note Part II"
+            "pathName": "Two Note Path"
           }
         },
         {

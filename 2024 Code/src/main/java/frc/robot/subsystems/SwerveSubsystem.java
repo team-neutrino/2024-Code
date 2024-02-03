@@ -40,13 +40,13 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModuleState[] moduleStates;
 
   private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(MotorIDs.FRS,
-      false);
+      true);
   private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
       true);
   private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
       true);
   private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
-      true);
+      false);
 
   private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(MotorIDs.FRA,
       false, SwerveConstants.FRA_OFFSET);
@@ -105,7 +105,7 @@ public class SwerveSubsystem extends SubsystemBase {
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
             new PIDConstants(0.4, 0.0, 0.0),
-            new PIDConstants(1.4, 0.0, 0.0),
+            new PIDConstants(1.8, 0.0, 0.0),
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -187,11 +187,11 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
     m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
 
-    // m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond,
-    // feedForwardFR);
-    // m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
-    // m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
-    // m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond,
+        feedForwardFR);
+    m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
+    m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
+    m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
   }
 
   public boolean omegaZero() {
@@ -346,7 +346,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     cycle++;
     if (cycle % 8 == 0) {
-      System.out.println(m_backLeft.getRawAbsoluteAngle());
+      // System.out.println(m_frontLeft.getRawAbsoluteAngle());
     }
   }
 }

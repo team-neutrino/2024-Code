@@ -39,17 +39,17 @@ public final class Constants {
     public static Translation2d FRONT_LEFT_COORD = new Translation2d(0.2155261469, 0.2155261469);
     public static Translation2d BACK_RIGHT_COORD = new Translation2d(-0.2155261469, -0.2155261469);
     public static Translation2d BACK_LEFT_COORD = new Translation2d(-0.2155261469, 0.2155261469);
-    public static double DRIVEBASE_RADIUS = 0.304799999992;
+    public static double DRIVEBASE_RADIUS = 0.381837661841;
 
     public static double MAX_CHASSIS_LINEAR_SPEED = 1;
     public static double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static double MAX_MODULE_ROTATION_SPEED;
     public static double MAX_MODULE_LINEAR_SPEED = 7;
 
-    public static double FLA_OFFSET = 43;
-    public static double FRA_OFFSET = 336.6;
-    public static double BLA_OFFSET = 82.7;
-    public static double BRA_OFFSET = 359.2;
+    public static double FLA_OFFSET = 285; // 43;
+    public static double FRA_OFFSET = 273; // 336.6;
+    public static double BLA_OFFSET = 1; // 82.7;
+    public static double BRA_OFFSET = 311; // 359.2;
 
     public static double ks = 0.15;
     public static double kv = 2.6;
@@ -147,8 +147,8 @@ public final class Constants {
   }
 
   public final class IntakeConstants {
-    public static double INTAKE_MOTOR_SPEED = 0.2;
+    public static double INTAKE_MOTOR_SPEED = 0.75;
     public static double INDEX_MOTOR_SPEED = 0.1;
-    public static int INDEX_CURRENT_LIMIT = 20;
+    public static int INDEX_CURRENT_LIMIT = 35;
   }
 }
