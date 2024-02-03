@@ -9,6 +9,7 @@ import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.MagicSpeakerCommand;
+import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShooterInterpolateCommand;
 import frc.robot.commands.SwerveDefaultCommand;
@@ -88,6 +89,7 @@ public class RobotContainer {
   public void simulationInit() {
     SubsystemContainer.armSubsystem.simulationInit();
     SubsystemContainer.ShooterSubsystem.simulationInit();
+    SubsystemContainer.climbSubsystem.simulationInit();
   }
 
   public void simulationPeriodic() {
