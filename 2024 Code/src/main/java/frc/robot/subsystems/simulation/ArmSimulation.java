@@ -18,13 +18,14 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.util.SubsystemContainer;
 
 public class ArmSimulation extends ArmSubsystem {
     public static double currentSimAngle;
     DutyCycleEncoderSim m_armEncoderSim;
 
-    Mechanism2d m_armMech = new Mechanism2d(10, 10);
-    MechanismRoot2d m_root = m_armMech.getRoot("shoulder", 3, 3);
+    Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
+    MechanismRoot2d m_root = m_mech.getRoot("shoulder", 3, 3);
     MechanismLigament2d m_upperArm;
 
     SingleJointedArmSim m_armSim;
@@ -55,7 +56,6 @@ public class ArmSimulation extends ArmSubsystem {
         Shooter.m_wheel_ligament = m_upperArm.append(new MechanismLigament2d("wheel", 1, 0));
         m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, armMOI, 0.6555486, 0.507867133, 1.781293706, true,
                 0.872665);
-        SmartDashboard.putData("Arm", m_armMech);
 
         simAnglePub = Sim_Angle.publish();
         simAnglePub.setDefault(0.0);

@@ -15,9 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.simulation.CanSparkMaxPidSim;
+import frc.robot.util.SubsystemContainer;
 
 public class Shooter extends ShooterSubsystem {
-    Mechanism2d m_mech = new Mechanism2d(3, 3);
+    Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
     MechanismRoot2d m_root = m_mech.getRoot("chassis", 2, 2);
     public static MechanismLigament2d m_wheel_ligament;
 
@@ -35,7 +36,6 @@ public class Shooter extends ShooterSubsystem {
 
     public Shooter() {
         m_flywheel_sim = new FlywheelSim(DCMotor.getNEO(1), 1.0, 0.02);
-        SmartDashboard.putData("Shooter", m_mech);
 
         wheel_sim_speed_pub = wheel_sim_speed_topic.publish();
         wheel_sim_speed_pub.setDefault(0.0);
