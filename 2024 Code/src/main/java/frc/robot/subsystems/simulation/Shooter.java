@@ -23,7 +23,7 @@ public class Shooter extends ShooterSubsystem {
     double m_last_position_rev = 0.0;
 
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    DoubleTopic wheel_sim_speed_topic = inst.getDoubleTopic("/shooter/sim_speed");
+    DoubleTopic wheel_sim_speed_topic = inst.getDoubleTopic("shooter/sim_speed");
     DoubleTopic wheel_enc_speed_topic = inst.getDoubleTopic("shooter/encoder_speed");
     DoubleTopic wheel_target_speed_topic = inst.getDoubleTopic("shooter/target_speed");
     final DoublePublisher wheel_sim_speed_pub;
