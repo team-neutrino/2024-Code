@@ -115,6 +115,7 @@ public final class Constants {
   public final class IntakeConstants {
     public static double INTAKE_MOTOR_SPEED = .75;
     public static double INDEX_MOTOR_SPEED = 0.1;
+    public static double INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
   }
 }
