@@ -11,10 +11,7 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.simulation.CanSparkMaxPidSim;
 import frc.robot.util.SubsystemContainer;
 
 public class Shooter extends ShooterSubsystem {
@@ -74,5 +71,4 @@ public class Shooter extends ShooterSubsystem {
         wheel_speed_pub.set(m_shooterEncoder.getVelocity(), NetworkTablesJNI.now());
         wheel_target_speed_pub.set(getTargetRPM(), NetworkTablesJNI.now());
     }
-
 }

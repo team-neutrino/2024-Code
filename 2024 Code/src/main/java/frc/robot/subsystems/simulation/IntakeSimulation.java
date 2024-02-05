@@ -20,19 +20,30 @@ public class IntakeSimulation extends IntakeSubsystem {
     Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
     MechanismRoot2d m_intakeRoot = m_mech.getRoot("intake_root", 26, 10);
     MechanismLigament2d m_intakeWheelLigament;
+
+    MechanismRoot2d m_indexRoot = m_mech.getRoot("index_root", 14, 20);
+    MechanismLigament2d m_indexWheelLigament;
+
     Color8Bit green = new Color8Bit(0, 255, 0);
     Color8Bit red = new Color8Bit(255, 0, 0);
     Color8Bit color = new Color8Bit(100, 100, 0);
 
     FlywheelSim m_intakeFlywheelSim;
-    double m_lastPosition = 0.0;
+    double m_intakeLastPosition = 0.0;
+
+    FlywheelSim m_indexFlywheelSim;
+    double m_indexLastPosition = 0.0;
 
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     DoubleTopic intakeWheelSimSpeed_topic = inst.getDoubleTopic("Intake/sim_speed");
     DoubleTopic intakeWheelEncSpeed_topic = inst.getDoubleTopic("Intake/encoder_speed");
     final DoublePublisher intakeWheelSimSpeed_pub;
     final DoublePublisher intakeWheelEncSpeed_pub;
-    CanSparkMaxPidSim m_SparkMaxPidSim = null;
+
+    DoubleTopic indexWheelSimSpeed_topic = inst.getDoubleTopic("Index/sim_speed");
+    DoubleTopic indexWheelEncSpeed_topic = inst.getDoubleTopic("Index/encoder_speed");
+    final DoublePublisher indexWheelSimSpeed_pub;
+    final DoublePublisher indexWheelEncSpeed_pub;
 
     public IntakeSimulation() {
         m_intakeFlywheelSim = new FlywheelSim(DCMotor.getNEO(1), 1, 0.002);
@@ -43,12 +54,17 @@ public class IntakeSimulation extends IntakeSubsystem {
         intakeWheelEncSpeed_pub = intakeWheelEncSpeed_topic.publish();
         intakeWheelEncSpeed_pub.setDefault(0.0);
 
+        indexWheelSimSpeed_pub = indexWheelSimSpeed_topic.publish();
+        indexWheelSimSpeed_pub.setDefault(0.0);
+
+        indexWheelEncSpeed_pub = indexWheelEncSpeed_topic.publish();
+        indexWheelEncSpeed_pub.setDefault(0.0);
         m_intakeWheelLigament = m_intakeRoot.append(new MechanismLigament2d("intake", 2, 0));
     }
 
     public void simulationInit() {
         REVPhysicsSim.getInstance().addSparkMax(m_intakeMotor, DCMotor.getNEO(1));
-        m_SparkMaxPidSim = new CanSparkMaxPidSim();
+        REVPhysicsSim.getInstance().addSparkMax(m_indexMotor, DCMotor.getNEO(1));
     }
 
     public void simulationPeriodic() {
@@ -58,8 +74,8 @@ public class IntakeSimulation extends IntakeSubsystem {
         m_intakeFlywheelSim.update(0.02);
 
         double revPerSec = m_intakeFlywheelSim.getAngularVelocityRPM();
-        m_lastPosition = m_lastPosition + revPerSec * 0.02;
-        m_intakeWheelLigament.setAngle(m_lastPosition * 6);
+        m_intakeLastPosition = m_intakeLastPosition + revPerSec * 0.02;
+        m_intakeWheelLigament.setAngle(m_intakeLastPosition * 6);
 
         intakeWheelSimSpeed_pub.set(revPerSec, NetworkTablesJNI.now());
 
