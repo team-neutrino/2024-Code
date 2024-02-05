@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.subsystems.ClimbSubsystem;
 
 public class Climb extends ClimbSubsystem {
@@ -24,6 +25,9 @@ public class Climb extends ClimbSubsystem {
     MechanismLigament2d m_elevator_ligament1;
     ElevatorSim m_elevator_sim1;
     double m_last_position_rev1 = 0.0;
+    Color8Bit green = new Color8Bit(0, 255, 0);
+    Color8Bit red = new Color8Bit(255, 0, 0);
+    Color8Bit color = new Color8Bit(100, 100, 0);
 
     NetworkTableInstance inst1 = NetworkTableInstance.getDefault();
     DoubleTopic elevator_sim_position_topic1 = inst1.getDoubleTopic("climb1/sim_position1");
@@ -34,7 +38,7 @@ public class Climb extends ClimbSubsystem {
     public Climb() {
 
         m_elevator_ligament1 = m_root1.append(new MechanismLigament2d("elevator1", 2, 0));
-        m_elevator_sim1 = new ElevatorSim(DCMotor.getNEO(1), 100.0, 4.0, 0.03, 0.00, 1.0, false, 0.01);
+        m_elevator_sim1 = new ElevatorSim(DCMotor.getNEO(1), 25.0, 36.29, 0.022225, 0.00, 0.5334, true, 0.00);
         SmartDashboard.putData("Climb1", m_mech1);
 
         elevator_sim_position_pub1 = elevator_sim_position_topic1.publish();
@@ -65,6 +69,14 @@ public class Climb extends ClimbSubsystem {
                 BatterySim.calculateDefaultBatteryLoadedVoltage(m_elevator_sim1.getCurrentDrawAmps()));
 
         m_root1.setPosition(1.5, m_elevator_sim1.getPositionMeters());
+
+        if (m_elevator_sim1.hasHitUpperLimit()) {
+            m_elevator_ligament1.setColor(green);
+        } else if (m_elevator_sim1.hasHitLowerLimit()) {
+            m_elevator_ligament1.setColor(red);
+        } else {
+            m_elevator_ligament1.setColor(color);
+        }
     }
 
     public void periodic() {

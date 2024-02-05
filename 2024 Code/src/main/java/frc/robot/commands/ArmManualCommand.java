@@ -8,12 +8,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.simulation.ArmSimulation;
 import frc.robot.util.SubsystemContainer;
 
 public class ArmManualCommand extends Command {
   private double m_shiftAngle;
   private XboxController m_controller;
-  private final int conversionFactor = 10;
+  private double m_simShiftAngle;
 
   public ArmManualCommand(CommandXboxController p_controller) {
     m_controller = p_controller.getHID();
@@ -23,14 +24,17 @@ public class ArmManualCommand extends Command {
   @Override
   public void initialize() {
     m_shiftAngle = SubsystemContainer.armSubsystem.getArmPose();
+    m_simShiftAngle = ArmSimulation.currentSimAngle;
   }
 
   @Override
   public void execute() {
     if (Math.abs(m_controller.getLeftX()) > ArmConstants.ARM_ADJUST_DEADZONE) {
-      m_shiftAngle += m_controller.getLeftX() / conversionFactor;
+      m_shiftAngle -= m_controller.getLeftX();
+      m_simShiftAngle -= m_controller.getLeftX();
     }
     SubsystemContainer.armSubsystem.armPID(m_shiftAngle);
+    ArmSimulation.setSimTargetAngle(m_simShiftAngle);
   }
 
   @Override
