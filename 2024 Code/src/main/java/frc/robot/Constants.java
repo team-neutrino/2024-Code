@@ -20,9 +20,9 @@ public final class Constants {
    * are 40s.
    */
   public static class ClimbConstants {
-    public static final double CLIMB_EXTEND_MOTOR_SPEED = .2; // PLACEHOLDER VALUE
-    public static final double CLIMB_RETRACT_MOTOR_SPEED = -.2; // PLACEHOLDER VALUE
-    public static final double CLIMB_LIMIT_UP = 50; // PLACEHOLDER VALUE
+    public static final double CLIMB_EXTEND_MOTOR_SPEED = 1.0; // PLACEHOLDER VALUE
+    public static final double CLIMB_RETRACT_MOTOR_SPEED = -1.0; // PLACEHOLDER VALUE
+    public static final float CLIMB_LIMIT_UP = 200; // PLACEHOLDER VALUE
   }
 
   public static class DimensionConstants {
@@ -147,8 +147,9 @@ public final class Constants {
   }
 
   public final class IntakeConstants {
-    public static double INTAKE_MOTOR_SPEED = 0.75;
+    public static double INTAKE_MOTOR_SPEED = .75;
     public static double INDEX_MOTOR_SPEED = 0.1;
-    public static int INDEX_CURRENT_LIMIT = 35;
+    public static int INTAKE_CURRENT_LIMIT = 70;
+    public static int INDEX_CURRENT_LIMIT = 20;
   }
 }

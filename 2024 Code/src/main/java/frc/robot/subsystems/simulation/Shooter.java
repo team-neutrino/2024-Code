@@ -11,15 +11,13 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.simulation.CanSparkMaxPidSim;
+import frc.robot.util.SubsystemContainer;
 
 public class Shooter extends ShooterSubsystem {
-    Mechanism2d m_mech = new Mechanism2d(3, 3);
-    MechanismRoot2d m_root = m_mech.getRoot("chassis", 2, 2);
-    MechanismLigament2d m_wheel_ligament;
+    Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
+    MechanismRoot2d m_root = m_mech.getRoot("shooter_root", 6, 28);
+    public static MechanismLigament2d m_wheel_ligament;
 
     FlywheelSim m_flywheel_sim;
     double m_last_position_rev = 0.0;
@@ -34,9 +32,7 @@ public class Shooter extends ShooterSubsystem {
     CanSparkMaxPidSim m_spark_max_pid_sim = null;
 
     public Shooter() {
-        m_wheel_ligament = m_root.append(new MechanismLigament2d("wheel", 1, 0));
         m_flywheel_sim = new FlywheelSim(DCMotor.getNEO(1), 1.0, 0.02);
-        SmartDashboard.putData("Mech2d", m_mech);
 
         wheel_sim_speed_pub = wheel_sim_speed_topic.publish();
         wheel_sim_speed_pub.setDefault(0.0);
@@ -75,5 +71,4 @@ public class Shooter extends ShooterSubsystem {
         wheel_speed_pub.set(m_shooterEncoder.getVelocity(), NetworkTablesJNI.now());
         wheel_target_speed_pub.set(getTargetRPM(), NetworkTablesJNI.now());
     }
-
 }

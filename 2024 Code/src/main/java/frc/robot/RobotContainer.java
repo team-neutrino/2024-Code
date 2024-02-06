@@ -84,7 +84,7 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_controller));
     // SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
-    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
@@ -131,6 +131,7 @@ public class RobotContainer {
   public void simulationInit() {
     SubsystemContainer.armSubsystem.simulationInit();
     SubsystemContainer.ShooterSubsystem.simulationInit();
+    SubsystemContainer.climbSubsystem.simulationInit();
   }
 
   public void simulationPeriodic() {

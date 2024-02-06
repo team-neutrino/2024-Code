@@ -4,9 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -110,6 +109,5 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     m_angle = getArmPose();
     m_inPosition = ArmDebouncer();
-
   }
 }
