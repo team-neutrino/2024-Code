@@ -1,13 +1,9 @@
 package frc.robot;
 
-import edu.wpi.first.math.*;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Unit;
 
-import java.util.List;
 import java.util.Map;
 
 // All values for the pose3d are in inches and the values for the rotation3d are in radians!
