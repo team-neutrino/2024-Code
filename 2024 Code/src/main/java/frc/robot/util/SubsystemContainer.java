@@ -11,10 +11,11 @@ import frc.robot.subsystems.simulation.Climb;
 import frc.robot.subsystems.simulation.IntakeSimulation;
 import frc.robot.subsystems.simulation.ArmSimulation;
 import frc.robot.subsystems.simulation.Shooter;
+import frc.robot.subsystems.simulation.Swerve;
 
 public class SubsystemContainer {
     public static final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-    public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+    public static final Swerve swerveSubsystem = new Swerve();
     public static final IntakeSimulation intakeSubsystem = new IntakeSimulation();
     public static final Shooter ShooterSubsystem = new Shooter();
     public static final Climb climbSubsystem = new Climb();
