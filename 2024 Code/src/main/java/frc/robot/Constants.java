@@ -35,11 +35,11 @@ public final class Constants {
     public static double ANGLE_P = 0.01;
     public static double SPEED_P = 0.01;
 
-    public static Translation2d FRONT_RIGHT_COORD = new Translation2d(0.2155261469, -0.2155261469);
-    public static Translation2d FRONT_LEFT_COORD = new Translation2d(0.2155261469, 0.2155261469);
-    public static Translation2d BACK_RIGHT_COORD = new Translation2d(-0.2155261469, -0.2155261469);
-    public static Translation2d BACK_LEFT_COORD = new Translation2d(-0.2155261469, 0.2155261469);
-    public static double DRIVEBASE_RADIUS = 0.381837661841;
+    public static Translation2d FRONT_RIGHT_COORD = new Translation2d(0.339725, -0.3175);
+    public static Translation2d FRONT_LEFT_COORD = new Translation2d(0.339725, 0.3175);
+    public static Translation2d BACK_RIGHT_COORD = new Translation2d(-0.339725, -0.3175);
+    public static Translation2d BACK_LEFT_COORD = new Translation2d(-0.339725, 0.3175);
+    public static double DRIVEBASE_RADIUS = 0.465074;
 
     public static double MAX_CHASSIS_LINEAR_SPEED = 1;
     public static double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;

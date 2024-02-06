@@ -61,7 +61,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private SwerveDriveOdometry m_swerveOdometry;
 
-  private PIDController m_angleController = new PIDController(0.08, 0, 0);
+  private PIDController m_angleController = new PIDController(0.06, 0, 0);
   private Timer m_timer = new Timer();
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
@@ -104,8 +104,8 @@ public class SwerveSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds,
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
-            new PIDConstants(0.4, 0.0, 0.0),
-            new PIDConstants(1.8, 0.0, 0.0),
+            new PIDConstants(5, 0.0, 0.0),
+            new PIDConstants(0.6, 0.0, 0.0),
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -237,7 +237,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_navX.reset();
     m_referenceAngle = 0;
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
-        new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+        new Pose2d(1, 7, Rotation2d.fromDegrees(0)));
   }
 
   public void resetStartPosition(Translation2d startPosition) {
@@ -347,6 +347,8 @@ public class SwerveSubsystem extends SubsystemBase {
     cycle++;
     if (cycle % 8 == 0) {
       // System.out.println(m_frontLeft.getRawAbsoluteAngle());
+      System.out.println("odometry x " + m_swerveOdometry.getPoseMeters().getX());
+      System.out.println("odometry y " + m_swerveOdometry.getPoseMeters().getY());
     }
   }
 }

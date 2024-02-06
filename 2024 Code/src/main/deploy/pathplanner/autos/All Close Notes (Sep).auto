@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.74,
+      "x": 1.0,
       "y": 7.0
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -16,45 +16,33 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "ShootSpeakerCommand"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
-                  "pathName": "Close Then Mid Part I"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootSpeakerCommand"
+                  "pathName": "All Close Part I"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
+                  "waitTime": 2.0
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Close Then Mid Part II"
+                  "pathName": "All Close Part II"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Close Then Mid Part III"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootSpeakerCommand"
+                  "pathName": "All Close Part III"
                 }
               }
             ]
