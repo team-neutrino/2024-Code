@@ -14,14 +14,13 @@ import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.util.SubsystemContainer;
 
 public class Climb extends ClimbSubsystem {
-
-    Mechanism2d m_mech1 = new Mechanism2d(3, 3);
-    MechanismRoot2d m_root1 = m_mech1.getRoot("chassis", 1.5, 0);
+    Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
+    MechanismRoot2d m_root1 = m_mech.getRoot("climb_root", 18, 10);
     MechanismLigament2d m_elevator_ligament1;
     ElevatorSim m_elevator_sim1;
     double m_last_position_rev1 = 0.0;
@@ -36,10 +35,8 @@ public class Climb extends ClimbSubsystem {
     final DoublePublisher elevator_position_pub1;
 
     public Climb() {
-
-        m_elevator_ligament1 = m_root1.append(new MechanismLigament2d("elevator1", 2, 0));
+        m_elevator_ligament1 = m_root1.append(new MechanismLigament2d("elevator1", 12, 0));
         m_elevator_sim1 = new ElevatorSim(DCMotor.getNEO(1), 25.0, 36.29, 0.022225, 0.00, 0.5334, true, 0.00);
-        SmartDashboard.putData("Climb1", m_mech1);
 
         elevator_sim_position_pub1 = elevator_sim_position_topic1.publish();
         elevator_sim_position_pub1.setDefault(0.0);
@@ -68,7 +65,7 @@ public class Climb extends ClimbSubsystem {
         RoboRioSim.setVInVoltage(
                 BatterySim.calculateDefaultBatteryLoadedVoltage(m_elevator_sim1.getCurrentDrawAmps()));
 
-        m_root1.setPosition(1.5, m_elevator_sim1.getPositionMeters());
+        m_root1.setPosition(12, m_elevator_sim1.getPositionMeters() * 39.3701 + 10);
 
         if (m_elevator_sim1.hasHitUpperLimit()) {
             m_elevator_ligament1.setColor(green);
