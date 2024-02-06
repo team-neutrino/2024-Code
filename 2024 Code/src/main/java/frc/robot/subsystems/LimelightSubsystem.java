@@ -64,4 +64,9 @@ public class LimelightSubsystem extends SubsystemBase {
   public void setPipeline(int pipeline) {
     limelight.getEntry("pipeline").setNumber(pipeline);
   }
+
+  public void simulationInit() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'simulationInit'");
+  }
 }
