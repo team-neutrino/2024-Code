@@ -8,7 +8,6 @@ public class SimulationOverview {
 
     public SimulationOverview() {
         SmartDashboard.putData("robot", m_mech);
-
     }
 
     public void simulationInit() {
@@ -16,5 +15,4 @@ public class SimulationOverview {
 
     public void simulationPeriodic() {
     }
-
 }
