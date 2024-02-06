@@ -93,7 +93,7 @@ public class ShooterSubsystem extends SubsystemBase {
     setVoltage(0);
     m_targetRPM = 0;
   }
-
+  
   public boolean approveShoot() {
     countCounter();
     return (Math.abs(getshooterRpm() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD)
