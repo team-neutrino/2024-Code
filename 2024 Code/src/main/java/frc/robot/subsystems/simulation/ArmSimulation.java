@@ -25,8 +25,8 @@ public class ArmSimulation extends ArmSubsystem {
     Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
     MechanismRoot2d m_root = m_mech.getRoot("shoulder", 6, 22);
     MechanismLigament2d m_upperArm;
-    MechanismRoot2d m_mounterRoot = m_mech.getRoot("mounter", 6, 22);
-    MechanismLigament2d m_mounterLigament;
+    MechanismRoot2d m_indexMounterRoot = m_mech.getRoot("mounter", 6, 22);
+    MechanismLigament2d m_indexMounterLigament;
     MechanismRoot2d m_shooterMounterRoot = m_mech.getRoot("shoter_mounter", 6, 22);
     MechanismLigament2d m_shooterMounterLigament;
 
@@ -55,11 +55,11 @@ public class ArmSimulation extends ArmSubsystem {
     public ArmSimulation() {
         m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 24, 0));
-        m_mounterLigament = m_mounterRoot.append(new MechanismLigament2d("mounter", 12, 0));
-        m_shooterMounterLigament = m_shooterMounterRoot.append(new MechanismLigament2d("shooterMounter", 14.5, 0));
+        m_indexMounterLigament = m_indexMounterRoot.append(new MechanismLigament2d("mounter", 12, 0));
+        m_shooterMounterLigament = m_shooterMounterRoot.append(new MechanismLigament2d("shooterMounter", 18, 0));
         IntakeSimulation.m_beambreakLigament = m_upperArm.append(new MechanismLigament2d("BeamBreak", .5, 0));
-        Shooter.m_wheel_ligament = m_shooterMounterLigament.append(new MechanismLigament2d("wheel", 2, 0));
-        IntakeSimulation.m_indexWheelLigament = m_mounterLigament.append(new MechanismLigament2d("index", 2, 0));
+        Shooter.m_wheel_ligament = m_shooterMounterLigament.append(new MechanismLigament2d("wheel", 3, 0));
+        IntakeSimulation.m_indexWheelLigament = m_indexMounterLigament.append(new MechanismLigament2d("index", 3, 0));
         m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, armMOI, 0.6555486, 0.507867133, 1.781293706, true,
                 0.872665);
 
@@ -103,7 +103,7 @@ public class ArmSimulation extends ArmSubsystem {
         m_upperArm.setAngle(currentSimAngle);
         simAnglePub.set(m_upperArm.getAngle());
 
-        m_mounterLigament.setAngle(currentSimAngle);
+        m_indexMounterLigament.setAngle(currentSimAngle);
         m_shooterMounterLigament.setAngle(currentSimAngle);
     }
 
