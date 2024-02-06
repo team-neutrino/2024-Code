@@ -24,7 +24,7 @@ public class ArmInterpolateCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.armSubsystem.armPID(m_angleCalculate.InterpolateAngle());
+    SubsystemContainer.armSubsystem.setArmReferenceAngle(m_angleCalculate.InterpolateAngle());
   }
 
   // Called once the command ends or is interrupted.

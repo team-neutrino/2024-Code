@@ -23,7 +23,7 @@ public class ArmManualCommand extends Command {
 
   @Override
   public void initialize() {
-    m_shiftAngle = SubsystemContainer.armSubsystem.getArmPose();
+    m_shiftAngle = SubsystemContainer.armSubsystem.getArmAngleDegrees();
     m_simShiftAngle = ArmSimulation.currentSimAngle;
   }
 
@@ -33,8 +33,8 @@ public class ArmManualCommand extends Command {
       m_shiftAngle -= m_controller.getLeftX();
       m_simShiftAngle -= m_controller.getLeftX();
     }
-    SubsystemContainer.armSubsystem.armPID(m_shiftAngle);
-    ArmSimulation.setSimTargetAngle(m_simShiftAngle);
+    SubsystemContainer.armSubsystem.setArmReferenceAngle(m_shiftAngle);
+    //ArmSimulation.setSimTargetAngle(m_simShiftAngle);
   }
 
   @Override

@@ -6,6 +6,13 @@ package frc.robot.util;
 
 /** Add your docs here. */
 public class Limiter {
+    /**
+     * Scale desired input between min and max. Input value should be between [-1, 1]
+     * @param in input value
+     * @param min minimum possible value that is desired for output
+     * @param max maximum possible value that is desired for output
+     * @return A value that is scaled for the min and max values
+     */
     public static double scale(double in, double min, double max){
         return (max-min)*(in+1)/(2)+min;
     }
