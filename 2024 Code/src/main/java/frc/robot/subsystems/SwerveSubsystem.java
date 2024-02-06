@@ -73,7 +73,7 @@ public class SwerveSubsystem extends SubsystemBase {
   boolean omegaZero = false;
   States commandState;
 
-  Field2d field = new Field2d();
+  protected Field2d field = new Field2d();
   Pose2d autonPose = new Pose2d();
   Pose2d generalSimPose = new Pose2d();
 

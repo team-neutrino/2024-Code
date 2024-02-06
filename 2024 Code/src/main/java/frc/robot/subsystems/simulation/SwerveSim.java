@@ -3,6 +3,7 @@ package frc.robot.subsystems.simulation;
 import com.revrobotics.REVPhysicsSim;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
@@ -17,22 +18,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class SwerveSim extends SwerveSubsystem {
-    public Field2d m_Field2d = new Field2d();
-    public Pose2d m_Pose2d = new Pose2d();
-    // update with correct values
-
-    NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    public double x;
+    public double y;
+    public double angle;
 
     public SwerveSim() {
-        SmartDashboard.putData("Drivetrain", m_Field2d);
     }
 
     public void simulationInit() {
-
+        x = 0.0;
+        y = 0.0;
+        angle = 0.0;
     }
 
     public void simulationPeriodic() {
-
+        field.setRobotPose(x, y, new Rotation2d(angle));
     }
 
     public void periodic() {
@@ -42,6 +42,9 @@ public class SwerveSim extends SwerveSubsystem {
 
     @Override
     public void Swerve(double vx, double vy, double omega) {
-        m_Field2d.setRobotPose(vy, omega, null);
+        // how many times command runs in a second and divide by that number
+        x += vx;
+        y += vy;
+        angle += omega;
     }
 }
