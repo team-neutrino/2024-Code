@@ -22,7 +22,9 @@ import frc.robot.util.SubsystemContainer;
 public class IntakeSimulation extends IntakeSubsystem {
     Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
     MechanismRoot2d m_intakeRoot = m_mech.getRoot("intake_root", 26, 10);
-    MechanismRoot2d m_beamRoot = m_beamBreak.getRoot("beam", 2, 2);
+
+    MechanismRoot2d m_beamRoot = m_mech.getRoot("beam", 2, 2);
+
     Mechanism2d m_beamBreak = new Mechanism2d(1, 1);
     MechanismLigament2d m_intakeWheelLigament;
     static MechanismLigament2d m_beambreakLigament;
