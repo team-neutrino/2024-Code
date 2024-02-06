@@ -105,7 +105,7 @@ public class IntakeSimulation extends IntakeSubsystem {
         m_indexFlywheelSim.update(0.02);
         double indexRevPerMin = m_indexFlywheelSim.getAngularVelocityRPM();
         m_indexLastPosition = m_indexLastPosition + indexRevPerMin * 0.02;
-        m_indexWheelLigament.setAngle(m_intakeLastPosition * 6);
+        m_indexWheelLigament.setAngle(m_indexLastPosition * 6);
         indexWheelSimSpeed_pub.set(indexRevPerMin, NetworkTablesJNI.now());
 
         if (indexMotor_Volts > 0.0) {
