@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
@@ -57,7 +58,7 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
-    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(ArmConstants.INTAKE_POSE));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
