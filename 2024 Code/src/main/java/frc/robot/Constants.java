@@ -104,12 +104,13 @@ public final class Constants {
     public static double FF_kv = 0.0;
     public static double FF_ka = 0.0;
 
-    public static double INTAKE_LIMIT = 95;
-    public static double AMP_LIMIT = 15;
-    public static double INTAKE_POSE = 90;
-    public static double AMP_POSE = 20;
+    public static double INTAKE_LIMIT = 95; // PLACEHOLDER VALUE
+    public static double AMP_LIMIT = 15; // PLACEHOLDER VALUE
+    public static double INTAKE_POSE = 90; // PLACEHOLDER VALUE
+    public static double AMP_POSE = 20; // PLACEHOLDER VALUE
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
+    public static double PODIUM_POSE = 50; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {
@@ -117,5 +118,10 @@ public final class Constants {
     public static double INDEX_MOTOR_SPEED = 0.1;
     public static int INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
+  }
+
+  public final class ShooterSpeeds {
+    public static double SUBWOOFER_SPEED = 3000;
+    public static double PODIUM_SPEED = 4500;
   }
 }

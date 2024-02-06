@@ -9,7 +9,8 @@ import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.MagicSpeakerCommand;
-import frc.robot.commands.ShootSpeakerCommand;
+import frc.robot.commands.ShootPodiumCommand;
+import frc.robot.commands.ShootSubwooferCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShooterInterpolateCommand;
 import frc.robot.commands.SwerveDefaultCommand;
@@ -60,9 +61,6 @@ public class RobotContainer {
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
-    // LED buttons
-    m_controller.a().whileTrue(new MagicAmpCommand());
-
     // Intake buttons
     m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
 
@@ -70,12 +68,14 @@ public class RobotContainer {
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
 
     // swerve buttons
-    m_driverController.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_driverController.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
     // shooter buttons
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
-    m_controller.x().whileTrue(new ShooterInterpolateCommand(new CalculateRPM()));
+    m_controller.x().whileTrue(new ShootPodiumCommand());
+    m_controller.b().whileTrue(new ShootSubwooferCommand());
+    m_controller.a().whileTrue(new MagicAmpCommand());
+
     m_controller.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
