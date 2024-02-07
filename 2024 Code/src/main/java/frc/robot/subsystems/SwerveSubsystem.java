@@ -135,6 +135,12 @@ public class SwerveSubsystem extends SubsystemBase {
     omega = Limiter.scale(Limiter.deadzone(omega, 0.2), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
 
+    double deltaX = vx * 0.02;
+    double deltaY = vy * 0.02;
+    double deltaO = omega * 0.02;
+    generalSimPose = new Pose2d(new Translation2d(currentPose.getX() + deltaX, currentPose.getY() + deltaY),
+        new Rotation2d(currentPose.getRotation().getDegrees() + deltaO));
+
     if (omega == 0) {
       omegaZero = true;
     } else {
@@ -223,6 +229,14 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+
+    double vx = referenceSpeeds.vxMetersPerSecond * Math.cos(referenceSpeeds.omegaRadiansPerSecond)
+        - referenceSpeeds.vyMetersPerSecond * Math.sin(referenceSpeeds.omegaRadiansPerSecond);
+    double vy = referenceSpeeds.vxMetersPerSecond * Math.sin(referenceSpeeds.omegaRadiansPerSecond)
+        + referenceSpeeds.vyMetersPerSecond * Math.cos(referenceSpeeds.omegaRadiansPerSecond);
+    double deltaO = referenceSpeeds.omegaRadiansPerSecond * 0.02;
+    generalSimPose = new Pose2d(new Translation2d(vx * 0.02 + currentPose.getX(), vy * 0.02 + currentPose.getY()),
+        new Rotation2d(referenceSpeeds.omegaRadiansPerSecond + deltaO));
   }
 
   public void setRobotYaw(double angle) {
