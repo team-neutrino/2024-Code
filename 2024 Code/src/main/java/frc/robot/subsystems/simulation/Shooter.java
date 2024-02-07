@@ -69,7 +69,7 @@ public class Shooter extends ShooterSubsystem {
 
         wheel_sim_speed_pub.set(rev_per_s, NetworkTablesJNI.now());
 
-        if (motor_volts > 0) {
+        if (m_targetRPM > 0) {
             m_wheel_ligament.setColor(blue);
         } else {
             m_wheel_ligament.setColor(grey);
