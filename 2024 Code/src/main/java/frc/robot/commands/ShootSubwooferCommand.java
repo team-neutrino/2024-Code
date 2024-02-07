@@ -27,7 +27,7 @@ public class ShootSubwooferCommand extends Command {
 
     @Override
     public void execute() {
-        m_armSubsystem.armPID(Constants.ArmConstants.INTAKE_LIMIT);
+        m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.INTAKE_LIMIT);
         m_shooterSubsystem.setTargetRPM(ShooterSpeeds.SUBWOOFER_SPEED);
         if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
             m_indexSubsystem.runIndex();

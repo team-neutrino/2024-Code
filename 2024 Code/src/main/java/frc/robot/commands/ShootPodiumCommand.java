@@ -30,7 +30,7 @@ public class ShootPodiumCommand extends Command {
 
   @Override
   public void execute() {
-    m_armSubsystem.armPID(Constants.ArmConstants.PODIUM_POSE);
+    m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.PODIUM_POSE);
     m_shooterSubsystem.setTargetRPM(ShooterSpeeds.PODIUM_SPEED);
     if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
       m_intakeSubsystem.runIndex();
