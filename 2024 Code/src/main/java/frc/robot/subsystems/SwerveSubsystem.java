@@ -33,7 +33,7 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
       SwerveConstants.FRONT_LEFT_COORD,
       SwerveConstants.BACK_RIGHT_COORD, SwerveConstants.BACK_LEFT_COORD);
-  AHRS m_navX = new AHRS();
+  protected AHRS m_navX = new AHRS();
   SwerveModuleState[] moduleStates;
 
   private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(MotorIDs.FRS,

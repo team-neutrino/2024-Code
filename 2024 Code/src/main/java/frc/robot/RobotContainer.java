@@ -38,7 +38,7 @@ public class RobotContainer {
   CommandXboxController m_controller = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
   CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
 
-  SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
+  SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_driverController);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
