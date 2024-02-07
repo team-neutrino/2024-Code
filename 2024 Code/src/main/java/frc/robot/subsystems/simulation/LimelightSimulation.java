@@ -84,5 +84,16 @@ public class LimelightSimulation extends LimelightSubsystem {
         return super.getTv();
     }
 
+    public void periodic(){
+        super.periodic();
+        simTv_pub.set(GetTv());
+        simTy_pub.set(GetTy());
+        simTx_pub.set(GetTx());
+        simTid_pub.set(GetId());
+
+
+
+    }
+
 
 }
