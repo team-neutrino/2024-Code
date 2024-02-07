@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
@@ -29,18 +28,12 @@ import frc.robot.subsystems.simulation.PIDChangerSimulation;
 public class ArmSubsystem extends SubsystemBase {
   protected CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
   protected DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCODER);
-  private double errorSum;
-  private double lastError;
-  private double lastAngle;
-  private double lastVelocity;
-  private double PIDoutput;
   protected double m_angle;
   protected double m_targetAngle;
   private boolean m_inPosition;
   public int i = 0;
   private SparkAbsoluteEncoder absEncoder;
   private SparkPIDController pidController;
-  //SparkAbsoluteEncoder m;
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -49,8 +42,6 @@ public class ArmSubsystem extends SubsystemBase {
       ArmConstants.FF_ka);
 
   public ArmSubsystem() {
-    //reading a chief delphi thread saying factory changing the status frame too soon after a factory reset might not go through?
-    //maybe delete this line?
     m_arm.restoreFactoryDefaults(); 
 
     absEncoder = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
@@ -66,14 +57,6 @@ public class ArmSubsystem extends SubsystemBase {
   public double getTargetAngle() {
     return m_targetAngle;
   }
-
-  // public double getCurrentAngle() {
-  //   return m_angle;
-  // }
-
-  // public double getArmPose() {
-  //   return m_armEncoder.getAbsolutePosition() * 100.0;
-  // }
 
   public double getArmAngleDegrees()
   {
@@ -109,34 +92,11 @@ public class ArmSubsystem extends SubsystemBase {
     {
       targetAngle = ArmConstants.AMP_LIMIT;
     }
-
+    
     double feedforward = ArmConstants.FF_kg * ((ArmConstants.ARM_RADIUS / 2) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
 
     pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
-
-
-   
-
-    // m_targetAngle = targetAngle;
-    // m_targetAngle = withinRange(m_targetAngle);
-    // double error = targetAngle - m_angle;
-    // errorSum += error;
-    // double change = (error - lastError) / .02;
-    // lastError = error;
-    // PIDoutput = PIDSimulation.GetP() * error + PIDSimulation.GetI() * errorSum
-    //     + PIDSimulation.GetD() * change;
-
-    // armChecker(PIDoutput);
   }
-
-  // private void setArmVoltage(double desiredVolt) {
-  //   if ((m_angle >= ArmConstants.INTAKE_LIMIT && desiredVolt > 0) ||
-  //       (m_angle <= ArmConstants.AMP_LIMIT && desiredVolt < 0)) {
-  //     m_arm.setVoltage(0);
-  //   } else {
-  //     m_arm.setVoltage(desiredVolt);
-  //   }
-  // }
 
   private boolean ArmDebouncer() {
     if (Math.abs(m_angle - m_targetAngle) <= 5) {
@@ -165,7 +125,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //m_angle = getArmPose();
     m_inPosition = ArmDebouncer();
   }
 }
