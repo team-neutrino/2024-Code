@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.SubsystemContainer;
 
@@ -30,6 +31,9 @@ public class Shooter extends ShooterSubsystem {
     final DoublePublisher wheel_speed_pub;
     final DoublePublisher wheel_target_speed_pub;
     CanSparkMaxPidSim m_spark_max_pid_sim = null;
+
+    Color8Bit blue = new Color8Bit(0, 0, 255);
+    Color8Bit grey = new Color8Bit(128, 128, 128);
 
     public Shooter() {
         m_flywheel_sim = new FlywheelSim(DCMotor.getNEO(1), 1.0, 0.02);
@@ -64,6 +68,12 @@ public class Shooter extends ShooterSubsystem {
         m_wheel_ligament.setAngle(m_last_position_rev * 6);
 
         wheel_sim_speed_pub.set(rev_per_s, NetworkTablesJNI.now());
+
+        if (motor_volts > 0) {
+            m_wheel_ligament.setColor(blue);
+        } else {
+            m_wheel_ligament.setColor(grey);
+        }
     }
 
     public void periodic() {

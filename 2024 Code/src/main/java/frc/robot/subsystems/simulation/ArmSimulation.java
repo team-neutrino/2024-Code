@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.util.SubsystemContainer;
 
@@ -27,7 +28,7 @@ public class ArmSimulation extends ArmSubsystem {
     MechanismLigament2d m_upperArm;
     MechanismRoot2d m_indexMounterRoot = m_mech.getRoot("mounter", 6, 22);
     MechanismLigament2d m_indexMounterLigament;
-    MechanismRoot2d m_shooterMounterRoot = m_mech.getRoot("shoter_mounter", 6, 22);
+    MechanismRoot2d m_shooterMounterRoot = m_mech.getRoot("shooter_mounter", 6, 22.6);
     MechanismLigament2d m_shooterMounterLigament;
 
     SingleJointedArmSim m_armSim;
@@ -52,13 +53,15 @@ public class ArmSimulation extends ArmSubsystem {
     double radius = 0.6555;
     double armMOI = armMassKg * Math.pow(radius, 2) * ((double) 1 / 3);
 
+    Color8Bit background = new Color8Bit(0, 0, 32);
+
     public ArmSimulation() {
         m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 24, 0));
         m_indexMounterLigament = m_indexMounterRoot.append(new MechanismLigament2d("mounter", 12, 0));
-        m_shooterMounterLigament = m_shooterMounterRoot.append(new MechanismLigament2d("shooterMounter", 18, 0));
+        m_shooterMounterLigament = m_shooterMounterRoot.append(new MechanismLigament2d("shooterMounter", 15, 0));
         IntakeSimulation.m_beambreakLigament = m_upperArm.append(new MechanismLigament2d("BeamBreak", .5, 0));
-        Shooter.m_wheel_ligament = m_shooterMounterLigament.append(new MechanismLigament2d("wheel", 3, 0));
+        Shooter.m_wheel_ligament = m_shooterMounterLigament.append(new MechanismLigament2d("wheel", 5, 0));
         IntakeSimulation.m_indexWheelLigament = m_indexMounterLigament.append(new MechanismLigament2d("index", 3, 0));
         m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, armMOI, 0.6555486, 0.507867133, 1.781293706, true,
                 0.872665);
@@ -74,6 +77,8 @@ public class ArmSimulation extends ArmSubsystem {
 
         motorVoltagePub = Arm_Voltage.publish();
         motorVoltagePub.setDefault(0.0);
+
+        m_shooterMounterLigament.setColor(background);
     }
 
     public void simulationInit() {
