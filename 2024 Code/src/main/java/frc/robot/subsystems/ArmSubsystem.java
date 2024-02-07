@@ -12,13 +12,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.subsystems.simulation.ArmSimulation;
 import frc.robot.subsystems.simulation.PIDChangerSimulation;
+import frc.robot.util.ArmEncoderContainer;
 
 public class ArmSubsystem extends SubsystemBase {
   protected CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
@@ -27,8 +26,8 @@ public class ArmSubsystem extends SubsystemBase {
   protected double m_targetAngle;
   private boolean m_inPosition;
   public int i = 0;
-  private SparkAbsoluteEncoder absEncoder;
   private SparkPIDController pidController;
+  private ArmEncoderContainer armEncoderContainer;
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -37,11 +36,11 @@ public class ArmSubsystem extends SubsystemBase {
       ArmConstants.FF_ka);
 
   public ArmSubsystem() {
-    m_arm.restoreFactoryDefaults(); 
+    m_arm.restoreFactoryDefaults();
 
-    absEncoder = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-    absEncoder.setPositionConversionFactor(360);
-    absEncoder.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
+    armEncoderContainer = new ArmEncoderContainer(m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle));
+    armEncoderContainer.setPositionConversionFactor(360);
+    armEncoderContainer.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
 
     m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 1);
 
@@ -49,28 +48,19 @@ public class ArmSubsystem extends SubsystemBase {
     pidController.setP(ArmConstants.Arm_kp, 0);
     pidController.setI(ArmConstants.Arm_ki, 0);
     pidController.setD(ArmConstants.Arm_kd, 0);
-    pidController.setFeedbackDevice(absEncoder);
+    pidController.setFeedbackDevice(armEncoderContainer.m_armEncoder);
   }
 
   public double getTargetAngle() {
     return m_targetAngle;
   }
 
-  public double getArmAngleDegrees()
-  {
-    if(RobotBase.isSimulation())
-    {
-      return ArmSimulation.currentSimAngle;
-    }
-    else
-    {
-      return absEncoder.getPosition();
-    }
+  public double getArmAngleDegrees() {
+    return armEncoderContainer.getPosition();
   }
 
-  public double getArmAngleRadians()
-  {
-    return absEncoder.getPosition() * (Math.PI / 180);
+  public double getArmAngleRadians() {
+    return armEncoderContainer.getPosition() * (Math.PI / 180);
   }
 
   /**
@@ -82,16 +72,14 @@ public class ArmSubsystem extends SubsystemBase {
 
     m_targetAngle = targetAngle;
 
-    if(targetAngle > ArmConstants.INTAKE_LIMIT)
-    {
+    if (targetAngle > ArmConstants.INTAKE_LIMIT) {
       targetAngle = ArmConstants.INTAKE_LIMIT;
-    } 
-    else if(targetAngle < ArmConstants.AMP_LIMIT)
-    {
+    } else if (targetAngle < ArmConstants.AMP_LIMIT) {
       targetAngle = ArmConstants.AMP_LIMIT;
     }
 
-    double feedforward = ArmConstants.FF_kg * ((ArmConstants.ARM_RADIUS / 2) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
+    double feedforward = ArmConstants.FF_kg
+        * ((ArmConstants.ARM_RADIUS / 2) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
 
     pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
   }
