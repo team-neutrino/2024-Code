@@ -78,6 +78,7 @@ public class RobotContainer {
     m_controller.a().whileTrue(new MagicAmpCommand());
 
     m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+    m_controller.a().whileTrue(new MagicAmpCommand());
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));

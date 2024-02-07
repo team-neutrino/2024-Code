@@ -37,7 +37,7 @@ public class ClimbCommand extends Command {
    */
   @Override
   public void initialize() {
-    m_armSubsystem.armPID(Constants.ArmConstants.CLIMB_POSITION);
+    m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.CLIMB_POSITION);
   }
 
   /**
