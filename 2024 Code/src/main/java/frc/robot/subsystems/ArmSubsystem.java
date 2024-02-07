@@ -4,29 +4,31 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.subsystems.simulation.ArmSimulation;
 import frc.robot.subsystems.simulation.PIDChangerSimulation;
 
 public class ArmSubsystem extends SubsystemBase {
   protected CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
   protected DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCODER);
-  private double errorSum;
-  private double lastError;
-  private double lastAngle;
-  private double lastVelocity;
-  private double PIDoutput;
   protected double m_angle;
-  private double m_targetAngle;
+  protected double m_targetAngle;
   private boolean m_inPosition;
   public int i = 0;
+  private SparkAbsoluteEncoder absEncoder;
+  private SparkPIDController pidController;
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -35,49 +37,63 @@ public class ArmSubsystem extends SubsystemBase {
       ArmConstants.FF_ka);
 
   public ArmSubsystem() {
-    m_arm.restoreFactoryDefaults();
+    m_arm.restoreFactoryDefaults(); 
+
+    absEncoder = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+    absEncoder.setPositionConversionFactor(360);
+    absEncoder.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
+
+    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 1);
+
+    pidController = m_arm.getPIDController();
+    pidController.setP(ArmConstants.Arm_kp, 0);
+    pidController.setI(ArmConstants.Arm_ki, 0);
+    pidController.setD(ArmConstants.Arm_kd, 0);
+    pidController.setFeedbackDevice(absEncoder);
   }
 
   public double getTargetAngle() {
     return m_targetAngle;
   }
 
-  public double getCurrentAngle() {
-    return m_angle;
-  }
-
-  public double getArmPose() {
-    return m_armEncoder.getAbsolutePosition() * 100.0;
-  }
-
-  public void armPID(double targetAngle) {
-    m_targetAngle = withinRange(targetAngle);
-
-    double error = targetAngle - m_angle;
-    errorSum += error;
-    double change = (error - lastError) / 0.02;
-    lastError = error;
-
-    double velocity = (m_angle - lastAngle) / 0.02;
-    lastAngle = m_angle;
-
-    double acceleration = (velocity - lastVelocity) / 0.02;
-    lastVelocity = velocity;
-
-    PIDoutput = PIDSimulation.GetP() * error + PIDSimulation.GetI() * errorSum
-        + PIDSimulation.GetD() * change;
-    double FFoutput = feedforward.calculate(m_angle, velocity, acceleration);
-
-    setArmVoltage(PIDoutput + FFoutput);
-  }
-
-  private void setArmVoltage(double desiredVolt) {
-    if ((m_angle >= ArmConstants.INTAKE_LIMIT && desiredVolt > 0) ||
-        (m_angle <= ArmConstants.AMP_LIMIT && desiredVolt < 0)) {
-      m_arm.setVoltage(0);
-    } else {
-      m_arm.setVoltage(desiredVolt);
+  public double getArmAngleDegrees()
+  {
+    if(RobotBase.isSimulation())
+    {
+      return ArmSimulation.currentSimAngle;
     }
+    else
+    {
+      return absEncoder.getPosition();
+    }
+  }
+
+  public double getArmAngleRadians()
+  {
+    return absEncoder.getPosition() * (Math.PI / 180);
+  }
+
+  /**
+   * Set arm reference angle, target angle should be in degrees
+   * 
+   * @param targetAngle must be in degrees
+   */
+  public void setArmReferenceAngle(double targetAngle) {
+
+    m_targetAngle = targetAngle;
+
+    if(targetAngle > ArmConstants.INTAKE_LIMIT)
+    {
+      targetAngle = ArmConstants.INTAKE_LIMIT;
+    } 
+    else if(targetAngle < ArmConstants.AMP_LIMIT)
+    {
+      targetAngle = ArmConstants.AMP_LIMIT;
+    }
+
+    double feedforward = ArmConstants.FF_kg * ((ArmConstants.ARM_RADIUS / 2) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
+
+    pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
   }
 
   private boolean ArmDebouncer() {
@@ -107,7 +123,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_angle = getArmPose();
     m_inPosition = ArmDebouncer();
   }
 }

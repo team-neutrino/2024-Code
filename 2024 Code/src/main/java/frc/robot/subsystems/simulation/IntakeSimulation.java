@@ -29,7 +29,7 @@ public class IntakeSimulation extends IntakeSubsystem {
     static MechanismLigament2d m_beambreakLigament;
 
     MechanismRoot2d m_indexRoot = m_mech.getRoot("index_root", 14, 20);
-    MechanismLigament2d m_indexWheelLigament;
+    static MechanismLigament2d m_indexWheelLigament;
 
     Color8Bit green = new Color8Bit(0, 255, 0);
     Color8Bit red = new Color8Bit(255, 0, 0);
@@ -60,7 +60,6 @@ public class IntakeSimulation extends IntakeSubsystem {
         m_intakeWheelLigament = m_intakeRoot.append(new MechanismLigament2d("intake", 2, 0));
 
         m_indexFlywheelSim = new FlywheelSim(DCMotor.getNEO(1), 1, 0.002);
-        m_indexWheelLigament = m_indexRoot.append(new MechanismLigament2d("index", 2, 0));
 
         intakeWheelSimSpeed_pub = intakeWheelSimSpeed_topic.publish();
         intakeWheelSimSpeed_pub.setDefault(0.0);
@@ -106,7 +105,7 @@ public class IntakeSimulation extends IntakeSubsystem {
         m_indexFlywheelSim.update(0.02);
         double indexRevPerMin = m_indexFlywheelSim.getAngularVelocityRPM();
         m_indexLastPosition = m_indexLastPosition + indexRevPerMin * 0.02;
-        m_indexWheelLigament.setAngle(m_intakeLastPosition * 6);
+        m_indexWheelLigament.setAngle(m_indexLastPosition * 6);
         indexWheelSimSpeed_pub.set(indexRevPerMin, NetworkTablesJNI.now());
 
         if (indexMotor_Volts > 0.0) {
