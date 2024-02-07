@@ -9,12 +9,7 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
-
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -92,7 +87,7 @@ public class ArmSubsystem extends SubsystemBase {
     {
       targetAngle = ArmConstants.AMP_LIMIT;
     }
-    
+
     double feedforward = ArmConstants.FF_kg * ((ArmConstants.ARM_RADIUS / 2) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
 
     pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
