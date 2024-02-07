@@ -47,8 +47,6 @@ public class ArmSimulation extends ArmSubsystem {
 
     double kG = 0.001;
 
-    static double simTargetAngle;
-
     double armMassKg = 7;
     double radius = 0.6555;
     double armMOI = armMassKg * Math.pow(radius, 2) * ((double) 1 / 3);
@@ -86,20 +84,17 @@ public class ArmSimulation extends ArmSubsystem {
         pidSim = new CanSparkMaxPidSim();
     }
 
-    public static void setSimTargetAngle(double targetAngle) {
-        simTargetAngle = targetAngle;
-    }
-
     @Override
     public void simulationPeriodic() {
         currentSimAngle = m_armSim.getAngleRads() * (180 / Math.PI);
+
         // the cos term * gravity accel * mass = force that is perpendicular to the arm,
         // * center of mass (r / 2) gives the torque
         double gravity_torque_comp = (Math.cos(currentSimAngle * (Math.PI / 180)) * 9.8 * armMassKg) * radius / 2;
         double ff = gravity_torque_comp * kG;
         motor_volts = pidSim.runPid(0.8, 0.0, 0.0,
                 ff,
-                simTargetAngle, currentSimAngle, 0.0, -13, 13);
+                m_targetAngle, currentSimAngle, 0.0, -13, 13);
 
         m_armSim.setInputVoltage(motor_volts);
         m_armSim.update(0.02);
@@ -115,7 +110,7 @@ public class ArmSimulation extends ArmSubsystem {
     @Override
     public void periodic() {
         super.periodic();
-        targetAnglePub.set(simTargetAngle, NetworkTablesJNI.now());
+        targetAnglePub.set(m_targetAngle, NetworkTablesJNI.now());
         encoderAnglePub.set(m_armEncoder.getAbsolutePosition(), NetworkTablesJNI.now());
         motorVoltagePub.set(motor_volts, NetworkTablesJNI.now());
     }

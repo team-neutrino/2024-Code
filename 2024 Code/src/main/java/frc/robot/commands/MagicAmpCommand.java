@@ -25,7 +25,7 @@ public class MagicAmpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.armSubsystem.armPID(Constants.ArmConstants.AMP_POSE);
+    SubsystemContainer.armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
     SubsystemContainer.ShooterSubsystem.setTargetRPM(500);
     if (SubsystemContainer.armSubsystem.getInPosition() && SubsystemContainer.ShooterSubsystem.approveShoot()) {
       SubsystemContainer.intakeSubsystem.runIndex();
