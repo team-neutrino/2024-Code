@@ -49,6 +49,8 @@ public class SwerveSim extends SwerveSubsystem {
     }
 
     public void simulationPeriodic() {
+
+        // Thanks Urbana!!! https://motion.cs.illinois.edu/RoboticSystems/CoordinateTransformations.html
         fieldX = Math.cos(convTheta) * botX - Math.sin(convTheta) * botY;
         fieldY = Math.sin(convTheta) * botX + Math.cos(convTheta) * botY;
         fieldTheta = convTheta + botTheta;
