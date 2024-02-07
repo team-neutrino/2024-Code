@@ -42,8 +42,6 @@ public class ArmSimulation extends ArmSubsystem {
 
     double kG = 0.001;
 
-    //static double simTargetAngle;
-
     double armMassKg = 7;
     double radius = 0.6555;
     double armMOI = armMassKg * Math.pow(radius, 2) * ((double) 1 / 3);

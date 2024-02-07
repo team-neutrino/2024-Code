@@ -47,6 +47,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     pidController = m_arm.getPIDController();
     pidController.setP(ArmConstants.Arm_kp, 0);
+    pidController.setI(ArmConstants.Arm_ki, 0);
+    pidController.setD(ArmConstants.Arm_kd, 0);
     pidController.setFeedbackDevice(absEncoder);
   }
 
