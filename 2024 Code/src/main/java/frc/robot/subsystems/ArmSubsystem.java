@@ -46,6 +46,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 1);
 
     pidController = m_arm.getPIDController();
+    pidController.setP(ArmConstants.Arm_kp, 0);
     pidController.setFeedbackDevice(absEncoder);
   }
 

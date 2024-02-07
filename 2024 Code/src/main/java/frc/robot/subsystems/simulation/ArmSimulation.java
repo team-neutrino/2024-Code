@@ -74,10 +74,6 @@ public class ArmSimulation extends ArmSubsystem {
         pidSim = new CanSparkMaxPidSim();
     }
 
-    // public static void setSimTargetAngle(double targetAngle) {
-    //     simTargetAngle = targetAngle;
-    // }
-
     @Override
     public void simulationPeriodic() {
         currentSimAngle = m_armSim.getAngleRads() * (180 / Math.PI);
@@ -88,7 +84,7 @@ public class ArmSimulation extends ArmSubsystem {
         double ff = gravity_torque_comp * kG;
         motor_volts = pidSim.runPid(0.8, 0.0, 0.0,
                 ff,
-                super.m_targetAngle, currentSimAngle, 0.0, -13, 13);
+                m_targetAngle, currentSimAngle, 0.0, -13, 13);
 
         m_armSim.setInputVoltage(motor_volts);
         m_armSim.update(0.02);
@@ -102,7 +98,7 @@ public class ArmSimulation extends ArmSubsystem {
     @Override
     public void periodic() {
         super.periodic();
-        targetAnglePub.set(super.m_targetAngle, NetworkTablesJNI.now());
+        targetAnglePub.set(m_targetAngle, NetworkTablesJNI.now());
         encoderAnglePub.set(m_armEncoder.getAbsolutePosition(), NetworkTablesJNI.now());
         motorVoltagePub.set(motor_volts, NetworkTablesJNI.now());
     }
