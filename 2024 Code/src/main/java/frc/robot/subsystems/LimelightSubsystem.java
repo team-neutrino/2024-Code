@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+
 public class LimelightSubsystem extends SubsystemBase {
   private NetworkTable limelight;
   private double[] pose = new double[6];
@@ -19,10 +20,10 @@ public class LimelightSubsystem extends SubsystemBase {
     limelight.getEntry("ledMode").setNumber(1);
   }
 
+
   public boolean getTv() {
     NetworkTableEntry tv = limelight.getEntry("tv");
     double validTarget = tv.getDouble(0.0);
-
     return validTarget == 1;
   }
 
@@ -33,16 +34,19 @@ public class LimelightSubsystem extends SubsystemBase {
 
   // gets the x offest between the center of vision and the detected object
   public double getTx() {
-    return limelight.getEntry("tx").getDouble(0.0);
+    Double tx = limelight.getEntry("tx").getDouble(0.0);
+    return tx;
   }
 
   // gets the y offest between the center of vision and the detected object
   public double getTy() {
-    return limelight.getEntry("ty").getDouble(0.0);
+    Double ty = limelight.getEntry("ty").getDouble(0.0);
+    return ty;
   }
 
   public void periodic() {
-    limelight.getEntry("ledMode").setNumber(1);
+    limelight.getEntry("ledMode").setNumber(
+      1);
   }
 
   public double[] getBotPose() {
@@ -66,7 +70,6 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public void simulationInit() {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'simulationInit'");
   }
 }

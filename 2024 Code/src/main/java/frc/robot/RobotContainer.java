@@ -89,7 +89,6 @@ public class RobotContainer {
     SubsystemContainer.armSubsystem.simulationInit();
     SubsystemContainer.ShooterSubsystem.simulationInit();
     SubsystemContainer.climbSubsystem.simulationInit();
-    SubsystemContainer.limelightSubsystem.simulationInit();
   }
 
   public void simulationPeriodic() {

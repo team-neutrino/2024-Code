@@ -12,23 +12,27 @@ import frc.robot.subsystems.LimelightSubsystem;
 
 public class LimelightSimulation extends LimelightSubsystem {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
-
-    DoubleTopic simTx = nt.getDoubleTopic("shooter/tx");
-    DoubleTopic simTid = nt.getDoubleTopic("shooter/tid");
-    DoubleTopic simTy = nt.getDoubleTopic("shooter/ty");
-    DoubleTopic simTv = nt.getDoubleTopic("shooter/tv");
+    
+    DoubleTopic simTx = nt.getDoubleTopic("limelight/tx");
+    DoubleTopic simTid = nt.getDoubleTopic("limelight/tid");
+    DoubleTopic simTy = nt.getDoubleTopic("limelight/ty");
+    BooleanTopic simTv = nt.getBooleanTopic("limelight/tv");
+    BooleanTopic simApprove = nt.getBooleanTopic("limelight/approve");
 
     DoublePublisher simTx_pub;
     DoublePublisher simTid_pub;
     DoublePublisher simTy_pub;
-    DoublePublisher simTv_pub;
+    BooleanPublisher simTv_pub;
+    BooleanPublisher simApprove_pub;
 
     DoubleSubscriber simTx_sub;
     DoubleSubscriber simTid_sub;
     DoubleSubscriber simTy_sub;
-    DoubleSubscriber simTv_sub;
+    BooleanSubscriber simTv_sub;
+    BooleanSubscriber simApprove_sub;
+
     public LimelightSimulation(){
-    simTx_pub = simTx.publish();
+        simTx_pub = simTx.publish();
         simTx_pub.setDefault(0);
         simTx_sub = simTx.subscribe(0, PubSubOption.sendAll(true));
 
@@ -41,23 +45,43 @@ public class LimelightSimulation extends LimelightSubsystem {
         simTy_sub = simTy.subscribe(0, PubSubOption.sendAll(true));
 
         simTv_pub = simTv.publish();
-        simTv_pub.setDefault(0);
-        simTv_sub = simTv.subscribe(0, PubSubOption.sendAll(true));
+        simTv_pub.setDefault(false);
+        simTv_sub = simTv.subscribe(false, PubSubOption.sendAll(true));
+
+        simApprove_pub = simApprove.publish();
+        simApprove_pub.setDefault(false);
+        simApprove_sub = simApprove.subscribe(false, PubSubOption.sendAll(true)); 
+    }
+
+    public Boolean getApprove(){
+        return simApprove_sub.get();
     }
     public double GetId() {
-        return simTid_sub.get();
+        if(getApprove()){
+            return simTid_sub.get();
+        }
+        return super.getID();
     }
 
     public double GetTx() {
-        return simTx_sub.get();
+       if(getApprove()){
+            return simTx_sub.get();        
+        } 
+        return super.getTx();
     }
 
     public double GetTy() {
-        return simTy_sub.get();
+         if(getApprove()){
+            return simTy_sub.get();
+        } 
+            return super.getTy();
     }
 
-    public double GetTv() {
-        return simTv_sub.get();
+    public boolean GetTv() {
+        if(getApprove()){
+            return simTv_sub.get();
+        } 
+        return super.getTv();
     }
 
 
