@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import java.io.File;
+import java.util.Scanner;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -263,6 +266,19 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void setCommandState(States state) {
     commandState = state;
+  }
+
+  public void tryRun() {
+    try {
+      File WASD = new File("C://Users//neutr//Documents//GlovePIE project(s)//WASDMouseSwerveStart.PIE");
+      Scanner scanner = new Scanner(WASD);
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        System.out.println(line);
+      }
+    } catch (Exception ex) {
+      return;
+    }
   }
 
   @Override
