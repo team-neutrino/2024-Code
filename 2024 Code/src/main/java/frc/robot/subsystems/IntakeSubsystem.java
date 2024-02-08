@@ -33,11 +33,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake() {
-        m_intakeMotor.setVoltage(IntakeConstants.INTAKE_MOTOR_SPEED);
+        m_intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SPEED);
     }
 
     public void runIndex() {
-        m_indexMotor.setVoltage(IntakeConstants.INDEX_MOTOR_SPEED);
+        m_indexMotor.set(IntakeConstants.INDEX_MOTOR_SPEED);
     }
 
     public void runIntakeReverse() {
@@ -87,4 +87,8 @@ public class IntakeSubsystem extends SubsystemBase {
         }
     }
 
+    @Override
+    public void periodic() {
+        System.out.println("intake motor velocity: " + m_intakeEncoder.getVelocity());
+    }
 }
