@@ -52,7 +52,7 @@ public class RobotContainer {
   private void configureBindings() {
     // set default commands
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
-    SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
+    // SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
