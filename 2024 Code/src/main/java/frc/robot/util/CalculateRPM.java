@@ -22,7 +22,7 @@ public class CalculateRPM {
         double smallerAngle = 0;
         double largerAngle = 0;
         double resultRPM = 0;
-        double angle = m_armSubsystem.getCurrentAngle();
+        double angle = m_armSubsystem.getArmAngleDegrees();
 
         if (angle <= m_angleRPMData.firstKey()) {
             return m_angleRPMData.get(m_angleRPMData.firstKey());

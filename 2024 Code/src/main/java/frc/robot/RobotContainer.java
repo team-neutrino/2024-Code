@@ -55,12 +55,9 @@ public class RobotContainer {
     // SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
-    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(50));
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
-
-    // LED buttons
-    m_controller.a().whileTrue(new MagicAmpCommand());
 
     // Intake buttons
     m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
@@ -76,6 +73,7 @@ public class RobotContainer {
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
     m_controller.x().whileTrue(new ShooterInterpolateCommand(new CalculateRPM()));
     m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+    m_controller.a().whileTrue(new MagicAmpCommand());
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
@@ -88,6 +86,7 @@ public class RobotContainer {
   public void simulationInit() {
     SubsystemContainer.armSubsystem.simulationInit();
     SubsystemContainer.ShooterSubsystem.simulationInit();
+    SubsystemContainer.climbSubsystem.simulationInit();
   }
 
   public void simulationPeriodic() {

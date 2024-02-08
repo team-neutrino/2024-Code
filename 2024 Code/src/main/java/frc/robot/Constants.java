@@ -13,8 +13,8 @@ public final class Constants {
    * are 40s.
    */
   public static class ClimbConstants {
-    public static final double CLIMB_EXTEND_MOTOR_SPEED = .2; // PLACEHOLDER VALUE
-    public static final double CLIMB_RETRACT_MOTOR_SPEED = -.2; // PLACEHOLDER VALUE
+    public static final double CLIMB_EXTEND_MOTOR_SPEED = 1.0; // PLACEHOLDER VALUE
+    public static final double CLIMB_RETRACT_MOTOR_SPEED = -1.0; // PLACEHOLDER VALUE
     public static final float CLIMB_LIMIT_UP = 200; // PLACEHOLDER VALUE
   }
 
@@ -94,13 +94,17 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-    public static double Arm_kp = 0.8;
-    public static double Arm_ki = 0.01;
-    public static double Arm_kd = 0.07;
+    public static double Arm_kp = 0.01;
+    public static double Arm_ki = 0.0;
+    public static double Arm_kd = 0.0;
+
+    public static double FF_kg = 0.0;
+    public static double ARM_MASS_KG = 7;
+    public static double ARM_ABS_ENCODER_ZERO_OFFSET = 0.0;
+    public static double ARM_RADIUS = 0.6555;
 
     // TODO: FeedForward Constants are PLACEHOLDERS
     public static double FF_ks = 0.0;
-    public static double FF_kg = 0.0;
     public static double FF_kv = 0.0;
     public static double FF_ka = 0.0;
 
@@ -115,6 +119,7 @@ public final class Constants {
   public final class IntakeConstants {
     public static double INTAKE_MOTOR_SPEED = 1;
     public static double INDEX_MOTOR_SPEED = 0.1;
+    public static int INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
   }
 }

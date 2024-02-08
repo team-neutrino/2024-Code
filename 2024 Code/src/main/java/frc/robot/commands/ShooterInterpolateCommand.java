@@ -5,15 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.util.SubsystemContainer;
 import frc.robot.util.CalculateRPM;
+import frc.robot.util.SubsystemContainer;
 
 public class ShooterInterpolateCommand extends Command {
   CalculateRPM m_RPMCalculate;
 
   public ShooterInterpolateCommand(CalculateRPM p_RPMCalculate) {
     m_RPMCalculate = p_RPMCalculate;
-    addRequirements(SubsystemContainer.ShooterSubsystem);
+    addRequirements(SubsystemContainer.ShooterSubsystem, SubsystemContainer.armSubsystem,
+        SubsystemContainer.intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +26,11 @@ public class ShooterInterpolateCommand extends Command {
   @Override
   public void execute() {
     SubsystemContainer.ShooterSubsystem.setTargetRPM(m_RPMCalculate.InterpolateRPM());
+    if (SubsystemContainer.armSubsystem.getInPosition() && SubsystemContainer.ShooterSubsystem.approveShoot()) {
+      SubsystemContainer.intakeSubsystem.runIndex();
+    } else {
+      SubsystemContainer.intakeSubsystem.stopIndex();
+    }
   }
 
   // Called once the command ends or is interrupted.
