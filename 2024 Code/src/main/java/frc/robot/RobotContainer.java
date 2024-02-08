@@ -108,7 +108,7 @@ public class RobotContainer {
         .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand))));
 
     // SubsystemContainer.swerveSubsystem.setPathfindCommand()));
-    m_controller.leftBumper().onTrue(new PathPlannerAuto("All Close Notes (Sep)"));
+    m_controller.leftBumper().onTrue(new PathPlannerAuto("Very Swag"));
 
     // m_controller.rightTrigger().onTrue(AutoBuilder.pathfindToPose(
     // SubsystemContainer.swerveSubsystem.getPathfindingTargetPose(),
