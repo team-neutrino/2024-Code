@@ -37,7 +37,7 @@ public class ArmSubsystem extends SubsystemBase {
       ArmConstants.FF_ka);
 
   public ArmSubsystem() {
-    m_arm.restoreFactoryDefaults(); 
+    m_arm.restoreFactoryDefaults();
 
     absEncoder = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     absEncoder.setPositionConversionFactor(360);
@@ -56,20 +56,15 @@ public class ArmSubsystem extends SubsystemBase {
     return m_targetAngle;
   }
 
-  public double getArmAngleDegrees()
-  {
-    if(RobotBase.isSimulation())
-    {
+  public double getArmAngleDegrees() {
+    if (RobotBase.isSimulation()) {
       return ArmSimulation.currentSimAngle;
-    }
-    else
-    {
+    } else {
       return absEncoder.getPosition();
     }
   }
 
-  public double getArmAngleRadians()
-  {
+  public double getArmAngleRadians() {
     return absEncoder.getPosition() * (Math.PI / 180);
   }
 
@@ -82,16 +77,14 @@ public class ArmSubsystem extends SubsystemBase {
 
     m_targetAngle = targetAngle;
 
-    if(targetAngle > ArmConstants.INTAKE_LIMIT)
-    {
+    if (targetAngle > ArmConstants.INTAKE_LIMIT) {
       targetAngle = ArmConstants.INTAKE_LIMIT;
-    } 
-    else if(targetAngle < ArmConstants.AMP_LIMIT)
-    {
+    } else if (targetAngle < ArmConstants.AMP_LIMIT) {
       targetAngle = ArmConstants.AMP_LIMIT;
     }
 
-    double feedforward = ArmConstants.FF_kg * ((ArmConstants.ARM_RADIUS / 2) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
+    double feedforward = ArmConstants.FF_kg
+        * ((ArmConstants.ARM_RADIUS / 2) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
 
     pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
   }
@@ -109,7 +102,7 @@ public class ArmSubsystem extends SubsystemBase {
     return m_inPosition;
   }
 
-  private double withinRange(double check) {
+  public double withinRange(double check) {
     if (check >= ArmConstants.INTAKE_LIMIT) {
       return ArmConstants.INTAKE_LIMIT;
 
