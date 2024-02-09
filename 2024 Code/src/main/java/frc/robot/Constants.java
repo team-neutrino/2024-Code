@@ -100,7 +100,7 @@ public final class Constants {
 
     public static double FF_kg = 0.0;
     public static double ARM_MASS_KG = 7;
-    public static double ARM_ABS_ENCODER_ZERO_OFFSET = 0.0;
+    public static double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static double ARM_RADIUS = 0.6555;
 
     // TODO: FeedForward Constants are PLACEHOLDERS
