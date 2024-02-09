@@ -5,6 +5,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -47,6 +48,8 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController.setFF(WHEEL_FF);
     m_pidController.setIZone(500);
     m_pidController.setOutputRange(0, 1);
+
+    m_shooter.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 10);
   }
 
   public boolean detectedGamePiece() {

@@ -51,6 +51,9 @@ public class ClimbSubsystem extends SubsystemBase {
      * the limit switch.
      */
     public ClimbSubsystem() {
+        m_climb1.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 10);
+        m_climb2.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 10);
+
         m_climbEncoder1 = initializeMotor(m_climb1, false);
         m_climbEncoder2 = initializeMotor(m_climb2, false);
         resetEncoders();

@@ -43,7 +43,7 @@ public class ArmSubsystem extends SubsystemBase {
     absEncoder.setPositionConversionFactor(360);
     absEncoder.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
 
-    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 1);
+    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 10);
 
     pidController = m_arm.getPIDController();
     pidController.setP(ArmConstants.Arm_kp, 0);

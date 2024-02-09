@@ -54,6 +54,9 @@ public class SwerveModule {
         angleMotor = new CANSparkMax(angle_motor_cfg.CanId(), CANSparkLowLevel.MotorType.kBrushless);
         speedMotor = new CANSparkMax(speed_motor_cfg.CanId(), CANSparkLowLevel.MotorType.kBrushless);
 
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 10);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 10);
+
         angleMotor.restoreFactoryDefaults();
         speedMotor.restoreFactoryDefaults();
 

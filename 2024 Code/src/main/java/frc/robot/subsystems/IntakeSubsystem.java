@@ -28,6 +28,9 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexMotor.setSmartCurrentLimit(Constants.IntakeConstants.INDEX_CURRENT_LIMIT);
         m_intakeMotor.setSmartCurrentLimit(Constants.IntakeConstants.INTAKE_CURRENT_LIMIT);
 
+        m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 10);
+        m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 10);
+
         m_intakeEncoder = m_intakeMotor.getEncoder();
         m_indexEncoder = m_indexMotor.getEncoder();
     }
