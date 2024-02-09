@@ -2,6 +2,7 @@ package frc.robot.subsystems.simulation;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class SwerveSim extends SwerveSubsystem {
@@ -18,9 +19,9 @@ public class SwerveSim extends SwerveSubsystem {
     public double convTheta;
 
     public void simulationInit() {
-        fieldX = 0.0;
-        fieldY = 0.0;
-        fieldTheta = 90.0;
+        botX = 0.0;
+        botY = 0.0;
+        botTheta = 90.0;
     }
 
     public void simulationPeriodic() {
@@ -65,13 +66,20 @@ public class SwerveSim extends SwerveSubsystem {
 
     @Override
     public double getYaw() {
-        if ()
-        return botTheta;
+        if (RobotBase.isSimulation()) {
+            return botTheta;
+        } else {
+            return super.getYaw();
+        }
     }
 
     @Override
     public Pose2d getPose() {
-        return new Pose2d(botX, botY, new Rotation2d(botTheta));
-    }
 
+        if (RobotBase.isSimulation()) {
+            return new Pose2d(botX, botY, new Rotation2d(botTheta));
+        } else {
+            return super.getPose();
+        }
+    }
 }
