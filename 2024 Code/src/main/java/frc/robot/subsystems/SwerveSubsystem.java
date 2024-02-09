@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.security.GeneralSecurityException;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -138,8 +140,8 @@ public class SwerveSubsystem extends SubsystemBase {
     double deltaX = vx * 0.02;
     double deltaY = vy * 0.02;
     double deltaO = omega * 0.02;
-    generalSimPose = new Pose2d(new Translation2d(currentPose.getX() + deltaX, currentPose.getY() + deltaY),
-        new Rotation2d(currentPose.getRotation().getDegrees() + deltaO));
+    generalSimPose = new Pose2d(new Translation2d(generalSimPose.getX() + deltaX, generalSimPose.getY() + deltaY),
+        new Rotation2d(generalSimPose.getRotation().getRadians() + deltaO));
 
     if (omega == 0) {
       omegaZero = true;
@@ -235,7 +237,7 @@ public class SwerveSubsystem extends SubsystemBase {
     double vy = referenceSpeeds.vxMetersPerSecond * Math.sin(referenceSpeeds.omegaRadiansPerSecond)
         + referenceSpeeds.vyMetersPerSecond * Math.cos(referenceSpeeds.omegaRadiansPerSecond);
     double deltaO = referenceSpeeds.omegaRadiansPerSecond * 0.02;
-    generalSimPose = new Pose2d(new Translation2d(vx * 0.02 + currentPose.getX(), vy * 0.02 + currentPose.getY()),
+    generalSimPose = new Pose2d(new Translation2d(vx * 0.02 + generalSimPose.getX(), vy * 0.02 + generalSimPose.getY()),
         new Rotation2d(referenceSpeeds.omegaRadiansPerSecond + deltaO));
   }
 
@@ -355,6 +357,7 @@ public class SwerveSubsystem extends SubsystemBase {
     currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
     field.getObject("auton").setPose(currentPose);
+    field.getObject("reference").setPose(generalSimPose);
 
     // System.out.println("periodic running");
 

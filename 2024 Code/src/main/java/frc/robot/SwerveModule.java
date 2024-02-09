@@ -80,6 +80,7 @@ public class SwerveModule {
         speedPID.setP(Constants.SwerveConstants.SPEED_P, 0);
 
         speedMotor.burnFlash();
+        angleMotor.burnFlash();
     }
 
     public Rotation2d getOptimizationAngle() {
