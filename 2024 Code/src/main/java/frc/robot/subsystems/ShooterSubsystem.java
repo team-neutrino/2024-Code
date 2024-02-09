@@ -6,7 +6,6 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DigitalConstants;
@@ -14,8 +13,10 @@ import frc.robot.Constants.MotorIDs;
 import frc.robot.subsystems.simulation.PIDChangerSimulationShooter;
 
 public class ShooterSubsystem extends SubsystemBase {
-  protected CANSparkMax m_shooter = new CANSparkMax(MotorIDs.SHOOTER_MOTOR, MotorType.kBrushless);
-  protected RelativeEncoder m_shooterEncoder;
+  protected CANSparkMax m_shooter1 = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
+  protected CANSparkMax m_shooter2 = new CANSparkMax(MotorIDs.SHOOTER_MOTOR2, MotorType.kBrushless);
+  protected RelativeEncoder m_shooterEncoder1;
+  protected RelativeEncoder m_shooterEncoder2;
   private SparkPIDController m_pidController;
   private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
   protected double WHEEL_P = 0.51;
@@ -35,11 +36,15 @@ public class ShooterSubsystem extends SubsystemBase {
       WHEEL_D, WHEEL_FF, approve);
 
   public ShooterSubsystem() {
-    m_shooterEncoder = m_shooter.getEncoder();
-    m_pidController = m_shooter.getPIDController();
-    m_pidController.setFeedbackDevice(m_shooterEncoder);
-    m_shooter.restoreFactoryDefaults();
-    m_shooter.setIdleMode(IdleMode.kCoast);
+    m_shooterEncoder1 = m_shooter1.getEncoder();
+    m_pidController = m_shooter1.getPIDController();
+    m_pidController.setFeedbackDevice(m_shooterEncoder1);
+    m_shooter1.restoreFactoryDefaults();
+    m_shooter1.setIdleMode(IdleMode.kCoast);
+
+    m_shooterEncoder2 = m_shooter2.getEncoder();
+    m_shooter2.restoreFactoryDefaults();
+    m_shooter2.setIdleMode(IdleMode.kCoast);
 
     m_pidController.setP(WHEEL_P);
     m_pidController.setI(WHEEL_I);
@@ -47,6 +52,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController.setFF(WHEEL_FF);
     m_pidController.setIZone(500);
     m_pidController.setOutputRange(0, 1);
+    m_shooter2.follow(m_shooter1);
   }
 
   public boolean detectedGamePiece() {
@@ -54,11 +60,11 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getshooterEncoder() {
-    return m_shooterEncoder.getPosition();
+    return m_shooterEncoder1.getPosition();
   }
 
   public double getshooterRpm() {
-    return m_shooterEncoder.getVelocity();
+    return m_shooterEncoder1.getVelocity();
   }
 
   public void resetEncoders(RelativeEncoder encoder) {
@@ -66,11 +72,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setVoltage(double voltage) {
-    m_shooter.setVoltage(voltage);
-  }
-
-  public void getVoltage(double voltage) {
-    m_shooter.setVoltage(voltage);
+    m_shooter1.setVoltage(voltage);
   }
 
   public double getP() {
@@ -79,7 +81,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getTargetRPM() {
     return m_targetRPM;
-
   }
 
   public void setTargetRPM(double p_targetRpm) {
@@ -93,7 +94,7 @@ public class ShooterSubsystem extends SubsystemBase {
     setVoltage(0);
     m_targetRPM = 0;
   }
-  
+
   public boolean approveShoot() {
     countCounter();
     return (Math.abs(getshooterRpm() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD)

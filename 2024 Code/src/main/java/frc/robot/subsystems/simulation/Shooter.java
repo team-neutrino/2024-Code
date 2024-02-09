@@ -49,7 +49,7 @@ public class Shooter extends ShooterSubsystem {
     }
 
     public void simulationInit() {
-        REVPhysicsSim.getInstance().addSparkMax(m_shooter, DCMotor.getNEO(1));
+        REVPhysicsSim.getInstance().addSparkMax(m_shooter1, DCMotor.getNEO(1));
         m_spark_max_pid_sim = new CanSparkMaxPidSim();
     }
 
@@ -78,7 +78,7 @@ public class Shooter extends ShooterSubsystem {
 
     public void periodic() {
         super.periodic();
-        wheel_speed_pub.set(m_shooterEncoder.getVelocity(), NetworkTablesJNI.now());
+        wheel_speed_pub.set(m_shooterEncoder1.getVelocity(), NetworkTablesJNI.now());
         wheel_target_speed_pub.set(getTargetRPM(), NetworkTablesJNI.now());
     }
 }
