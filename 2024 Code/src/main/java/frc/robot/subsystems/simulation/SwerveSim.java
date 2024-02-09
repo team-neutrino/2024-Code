@@ -1,22 +1,8 @@
 package frc.robot.subsystems.simulation;
 
-import com.revrobotics.REVPhysicsSim;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.networktables.DoublePublisher;
-import edu.wpi.first.networktables.DoubleTopic;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTablesJNI;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.simulation.EncoderSim;
-import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.util.SubsystemContainer;
 
 public class SwerveSim extends SwerveSubsystem {
     public double fieldX;
@@ -31,17 +17,6 @@ public class SwerveSim extends SwerveSubsystem {
     public double convY;
     public double convTheta;
 
-    @Override
-    public void resetNavX() {
-        convX = fieldX;
-        convY = fieldY;
-        convTheta = fieldTheta;
-
-        botX = 0.0;
-        botY = 0.0;
-        botTheta = 0.0;
-    }
-
     public void simulationInit() {
         fieldX = 0.0;
         fieldY = 0.0;
@@ -50,9 +25,10 @@ public class SwerveSim extends SwerveSubsystem {
 
     public void simulationPeriodic() {
 
-        // Thanks Urbana!!! https://motion.cs.illinois.edu/RoboticSystems/CoordinateTransformations.html
-        fieldX = Math.cos(convTheta) * botX - Math.sin(convTheta) * botY;
-        fieldY = Math.sin(convTheta) * botX + Math.cos(convTheta) * botY;
+        // Thanks Urbana!!!
+        // https://motion.cs.illinois.edu/RoboticSystems/CoordinateTransformations.html
+        fieldX = Math.cos(convTheta) * (botX) - Math.sin(convTheta) * (botY) + convX;
+        fieldY = Math.sin(convTheta) * (botX) + Math.cos(convTheta) * (botY) + convY;
         fieldTheta = convTheta + botTheta;
         field.getObject("robot").setPose(fieldX, fieldY, new Rotation2d(fieldTheta));
 
@@ -66,9 +42,36 @@ public class SwerveSim extends SwerveSubsystem {
 
     @Override
     public void Swerve(double vx, double vy, double omega) {
-        // how m a ny times command runs in a second and divide by that number
+        super.Swerve(vx, vy, omega);
+
+        // how many times command runs in a second and divide by that number
         botX += (vx / 50.0);
         botY += (vy / 50.0);
         botTheta += (omega / 50.0);
     }
+
+    @Override
+    public void resetPose(Pose2d pose) {
+        super.resetPose(pose);
+
+        convX = fieldX;
+        convY = fieldY;
+        convTheta = fieldTheta;
+
+        botX = pose.getX();
+        botY = pose.getY();
+        botTheta = pose.getRotation().getDegrees();
+    }
+
+    @Override
+    public double getYaw() {
+        if ()
+        return botTheta;
+    }
+
+    @Override
+    public Pose2d getPose() {
+        return new Pose2d(botX, botY, new Rotation2d(botTheta));
+    }
+
 }

@@ -131,7 +131,7 @@ public class SwerveSubsystem extends SubsystemBase {
       m_referenceSet = false;
 
     } else if (omega == 0 && m_referenceSet) {
-      omega += m_angleController.calculate(getYaw(), m_referenceAngle);
+      omega = m_angleController.calculate(getYaw(), m_referenceAngle);
     }
 
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(vx, vy, omega);
@@ -221,8 +221,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public void resetNavX() {
     m_navX.reset();
     m_referenceAngle = 0;
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
-        new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+    resetPose(new Pose2d(0, 0, Rotation2d.fromDegrees(0.0)));
   }
 
   public Pose2d getPose() {
