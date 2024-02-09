@@ -77,7 +77,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     m_targetAngle = targetAngle;
 
-    if (targetAngle > ArmConstants.INTAKE_LIMIT) {
+    if (targetAngle > ArmConstants.AMP_LIMIT) {
       targetAngle = ArmConstants.INTAKE_LIMIT;
     } else if (targetAngle < ArmConstants.AMP_LIMIT) {
       targetAngle = ArmConstants.AMP_LIMIT;
