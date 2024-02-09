@@ -12,8 +12,11 @@ import frc.robot.subsystems.simulation.IntakeSimulation;
 import frc.robot.subsystems.simulation.ArmSimulation;
 import frc.robot.subsystems.simulation.Shooter;
 import frc.robot.subsystems.simulation.SwerveSim;
+import frc.robot.subsystems.simulation.SimulationOverview;
 
 public class SubsystemContainer {
+
+    public static final SimulationOverview simOverview = new SimulationOverview();
     public static final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
     public static final SwerveSim swerveSubsystem = new SwerveSim();
     public static final IntakeSimulation intakeSubsystem = new IntakeSimulation();

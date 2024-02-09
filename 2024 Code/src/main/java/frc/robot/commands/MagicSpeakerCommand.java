@@ -33,7 +33,7 @@ public class MagicSpeakerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_arm.armPID(m_calculateAngle.InterpolateAngle());
+    m_arm.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
     m_shooter.setTargetRPM(2000);
     if (m_arm.getInPosition() && m_shooter.approveShoot()) {
       m_intake.runIndex();

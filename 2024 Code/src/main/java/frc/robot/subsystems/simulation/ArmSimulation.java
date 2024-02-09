@@ -16,16 +16,20 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.util.SubsystemContainer;
 
 public class ArmSimulation extends ArmSubsystem {
     public static double currentSimAngle;
     DutyCycleEncoderSim m_armEncoderSim;
-
-    Mechanism2d m_armMech = new Mechanism2d(10, 10);
-    MechanismRoot2d m_root = m_armMech.getRoot("shoulder", 3, 3);
+    Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
+    MechanismRoot2d m_root = m_mech.getRoot("shoulder", 6, 22);
     MechanismLigament2d m_upperArm;
+    MechanismRoot2d m_indexMounterRoot = m_mech.getRoot("mounter", 6, 22);
+    MechanismLigament2d m_indexMounterLigament;
+    MechanismRoot2d m_shooterMounterRoot = m_mech.getRoot("shooter_mounter", 6, 22.6);
+    MechanismLigament2d m_shooterMounterLigament;
 
     SingleJointedArmSim m_armSim;
     double motor_volts;
@@ -43,20 +47,22 @@ public class ArmSimulation extends ArmSubsystem {
 
     double kG = 0.001;
 
-    static double simTargetAngle;
-
     double armMassKg = 7;
     double radius = 0.6555;
     double armMOI = armMassKg * Math.pow(radius, 2) * ((double) 1 / 3);
 
+    Color8Bit background = new Color8Bit(0, 0, 32);
+
     public ArmSimulation() {
         m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
-        m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 4, 0));
-        Shooter.m_wheel_ligament = m_upperArm.append(new MechanismLigament2d("wheel", 1, 0));
+        m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 24, 0));
+        m_indexMounterLigament = m_indexMounterRoot.append(new MechanismLigament2d("mounter", 12, 0));
+        m_shooterMounterLigament = m_shooterMounterRoot.append(new MechanismLigament2d("shooterMounter", 15, 0));
         IntakeSimulation.m_beambreakLigament = m_upperArm.append(new MechanismLigament2d("BeamBreak", .5, 0));
+        Shooter.m_wheel_ligament = m_shooterMounterLigament.append(new MechanismLigament2d("wheel", 5, 0));
+        IntakeSimulation.m_indexWheelLigament = m_indexMounterLigament.append(new MechanismLigament2d("index", 3, 0));
         m_armSim = new SingleJointedArmSim(DCMotor.getNEO(1), 212.59, armMOI, 0.6555486, 0.507867133, 1.781293706, true,
                 0.872665);
-        SmartDashboard.putData("Arm", m_armMech);
 
         simAnglePub = Sim_Angle.publish();
         simAnglePub.setDefault(0.0);
@@ -69,6 +75,8 @@ public class ArmSimulation extends ArmSubsystem {
 
         motorVoltagePub = Arm_Voltage.publish();
         motorVoltagePub.setDefault(0.0);
+
+        m_shooterMounterLigament.setColor(background);
     }
 
     public void simulationInit() {
@@ -76,20 +84,17 @@ public class ArmSimulation extends ArmSubsystem {
         pidSim = new CanSparkMaxPidSim();
     }
 
-    public static void setSimTargetAngle(double targetAngle) {
-        simTargetAngle = targetAngle;
-    }
-
     @Override
     public void simulationPeriodic() {
         currentSimAngle = m_armSim.getAngleRads() * (180 / Math.PI);
+
         // the cos term * gravity accel * mass = force that is perpendicular to the arm,
         // * center of mass (r / 2) gives the torque
         double gravity_torque_comp = (Math.cos(currentSimAngle * (Math.PI / 180)) * 9.8 * armMassKg) * radius / 2;
         double ff = gravity_torque_comp * kG;
         motor_volts = pidSim.runPid(0.8, 0.0, 0.0,
                 ff,
-                simTargetAngle, currentSimAngle, 0.0, -13, 13);
+                m_targetAngle, currentSimAngle, 0.0, -13, 13);
 
         m_armSim.setInputVoltage(motor_volts);
         m_armSim.update(0.02);
@@ -97,12 +102,15 @@ public class ArmSimulation extends ArmSubsystem {
         m_armEncoderSim.setAbsolutePosition(currentSimAngle);
         m_upperArm.setAngle(currentSimAngle);
         simAnglePub.set(m_upperArm.getAngle());
+
+        m_indexMounterLigament.setAngle(currentSimAngle);
+        m_shooterMounterLigament.setAngle(currentSimAngle);
     }
 
     @Override
     public void periodic() {
         super.periodic();
-        targetAnglePub.set(simTargetAngle, NetworkTablesJNI.now());
+        targetAnglePub.set(m_targetAngle, NetworkTablesJNI.now());
         encoderAnglePub.set(m_armEncoder.getAbsolutePosition(), NetworkTablesJNI.now());
         motorVoltagePub.set(motor_volts, NetworkTablesJNI.now());
     }
