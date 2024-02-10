@@ -18,7 +18,6 @@ public class ShooterSubsystem extends SubsystemBase {
   protected RelativeEncoder m_shooterEncoder1;
   protected RelativeEncoder m_shooterEncoder2;
   private SparkPIDController m_pidController1;
-  private SparkPIDController m_pidController2;
   private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
   protected double WHEEL_P = 0.51;
   protected double WHEEL_I = 0.0002;
@@ -42,12 +41,17 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController1.setFeedbackDevice(m_shooterEncoder1);
     m_shooter1.restoreFactoryDefaults();
     m_shooter1.setIdleMode(IdleMode.kCoast);
+    m_shooter1.setInverted(false);
+    m_shooter1.setSmartCurrentLimit(40);
+    m_shooter1.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
 
     m_shooterEncoder2 = m_shooter2.getEncoder();
     m_shooter2.restoreFactoryDefaults();
     m_shooter2.setIdleMode(IdleMode.kCoast);
-    m_pidController2 = m_shooter2.getPIDController();
-    m_pidController2.setFeedbackDevice(m_shooterEncoder2);
+    m_shooter2.setInverted(true);
+    m_shooter2.setSmartCurrentLimit(40);
+    m_shooter2.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
+    m_shooter2.follow(m_shooter1);
 
     m_pidController1.setP(WHEEL_P);
     m_pidController1.setI(WHEEL_I);
@@ -56,12 +60,8 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController1.setIZone(500);
     m_pidController1.setOutputRange(0, 1);
 
-    m_pidController2.setP(WHEEL_P);
-    m_pidController2.setI(WHEEL_I);
-    m_pidController2.setD(WHEEL_D);
-    m_pidController2.setFF(WHEEL_FF);
-    m_pidController2.setIZone(500);
-    m_pidController2.setOutputRange(0, 1);
+    m_shooter1.burnFlash();
+    m_shooter2.burnFlash();
   }
 
   public boolean detectedGamePiece() {
@@ -72,16 +72,8 @@ public class ShooterSubsystem extends SubsystemBase {
     return m_shooterEncoder1.getPosition();
   }
 
-  public double getShooterEncoder2() {
-    return m_shooterEncoder2.getPosition();
-  }
-
   public double getShooterRpm1() {
     return m_shooterEncoder1.getVelocity();
-  }
-
-  public double getShooterRpm2() {
-    return m_shooterEncoder2.getVelocity();
   }
 
   public void resetEncoders() {
@@ -91,7 +83,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setVoltage(double voltage) {
     m_shooter1.setVoltage(voltage);
-    m_shooter2.setVoltage(voltage);
   }
 
   public double getP() {
@@ -106,7 +97,6 @@ public class ShooterSubsystem extends SubsystemBase {
     m_targetRPM = p_targetRpm;
     approvePIDChanges();
     m_pidController1.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
-    m_pidController2.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
   }
 
   public void stopShooter() {
@@ -116,8 +106,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public boolean approveShoot() {
     countCounter();
-    return (Math.abs(getShooterRpm1() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD
-        && Math.abs(getShooterRpm2() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD)
+    return (Math.abs(getShooterRpm1() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD)
         && (counter > APPROVE_COUNTER_THRESHOLD);
   }
 
@@ -127,7 +116,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setP(double P) {
     m_pidController1.setP(P / 1000.0);
-    m_pidController2.setP(P / 1000.0);
   }
 
   public double getI() {
@@ -136,7 +124,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setI(double I) {
     m_pidController1.setI(I / 1000.0);
-    m_pidController2.setI(I / 1000.0);
   }
 
   public double getD() {
@@ -145,17 +132,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setD(double D) {
     m_pidController1.setD(D / 1000.0);
-    m_pidController2.setD(D / 1000.0);
   }
 
   public void setFF(double FF) {
     m_pidController1.setFF(FF / 1000.0);
-    m_pidController2.setFF(FF / 1000.0);
   }
 
   private void countCounter() {
-    if (Math.abs(getTargetRPM() - getShooterRpm1()) < COUNTER_ERROR_THRESHOLD
-        && Math.abs(getTargetRPM() - getShooterRpm2()) < COUNTER_ERROR_THRESHOLD) {
+    if (Math.abs(getTargetRPM() - getShooterRpm1()) < COUNTER_ERROR_THRESHOLD) {
       counter++;
     } else {
       counter = 0;
@@ -172,10 +156,6 @@ public class ShooterSubsystem extends SubsystemBase {
       m_pidController1.setI(WHEEL_I);
       m_pidController1.setD(WHEEL_D);
       m_pidController1.setFF(WHEEL_FF);
-      m_pidController2.setP(WHEEL_P);
-      m_pidController2.setI(WHEEL_I);
-      m_pidController2.setD(WHEEL_D);
-      m_pidController2.setFF(WHEEL_FF);
       System.out.println("PID values updated");
     }
 
