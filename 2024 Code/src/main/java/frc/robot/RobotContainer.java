@@ -61,7 +61,6 @@ public class RobotContainer {
 
     // Intake buttons
     m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
-    m_controller.rightTrigger().whileTrue(m_intakeDefaultCommand);
 
     // Climb buttons
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
@@ -69,7 +68,8 @@ public class RobotContainer {
     // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_driverController.rightBumper()
-    .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand), new AutoAlignSequentialCommand())));
+        .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand),
+            new AutoAlignSequentialCommand())));
     m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
     // shooter buttons
