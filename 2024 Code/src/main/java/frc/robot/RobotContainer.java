@@ -59,22 +59,7 @@ public class RobotContainer {
   Command m_closeThenMidAutonCommand;
   Command m_midNoteAutonCommand;
 
-  HashMap<Command, Translation2d> m_redCoordMap = SwerveConstants.m_redCoordMap;
-  HashMap<Command, Translation2d> m_blueCoordMap = SwerveConstants.m_blueCoordMap;
-
   public RobotContainer() {
-    m_redCoordMap.put(m_twoNoteAutonCommand, SwerveConstants.TWO_NOTE_TARGET_POSE_RED);
-    m_blueCoordMap.put(m_twoNoteAutonCommand, SwerveConstants.TWO_NOTE_TARGET_POSE_BLUE);
-
-    m_redCoordMap.put(m_allCloseNoteAutonCommand, SwerveConstants.CLOSE_NOTE_TARGET_POSE_RED);
-    m_blueCoordMap.put(m_allCloseNoteAutonCommand, SwerveConstants.CLOSE_NOTE_TARGET_POSE_BLUE);
-
-    m_redCoordMap.put(m_closeThenMidAutonCommand, SwerveConstants.CLOSE_THEN_MID_TARGET_POSE_RED);
-    m_blueCoordMap.put(m_closeThenMidAutonCommand, SwerveConstants.CLOSE_THEN_MID_TARGET_POSE_BLUE);
-
-    m_redCoordMap.put(m_midNoteAutonCommand, SwerveConstants.MID_TARGET_POSE_RED);
-    m_blueCoordMap.put(m_midNoteAutonCommand, SwerveConstants.MID_TARGET_POSE_BLUE);
-
     configureBindings();
   }
 

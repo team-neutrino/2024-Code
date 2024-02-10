@@ -59,15 +59,6 @@ public final class Constants {
     public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(1.9304, 1);
     public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(12.7254, 1);
 
-    public static Translation2d TWO_NOTE_TARGET_POSE_RED = new Translation2d();
-    public static Translation2d TWO_NOTE_TARGET_POSE_BLUE = new Translation2d();
-    public static Translation2d CLOSE_NOTE_TARGET_POSE_RED = new Translation2d();
-    public static Translation2d CLOSE_NOTE_TARGET_POSE_BLUE = new Translation2d();
-    public static Translation2d CLOSE_THEN_MID_TARGET_POSE_RED = new Translation2d();
-    public static Translation2d CLOSE_THEN_MID_TARGET_POSE_BLUE = new Translation2d();
-    public static Translation2d MID_TARGET_POSE_RED = new Translation2d();
-    public static Translation2d MID_TARGET_POSE_BLUE = new Translation2d();
-
     public static Pose2d BLUE_TARGET_POSE1 = new Pose2d(2, 4, new Rotation2d());
     public static Pose2d BLUE_TARGET_POSE2 = new Pose2d(0.1, 4.8, new Rotation2d());
     public static Pose2d BLUE_TARGET_POSE3 = new Pose2d(2.1, 2.1, new Rotation2d());
