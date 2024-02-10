@@ -88,6 +88,7 @@ public final class Constants {
     public static int INDEX_MOTOR = 21;
 
     public static int SHOOTER_MOTOR = 30;
+    public static int SHOOTER_MOTOR_TWO = 31;
 
     public static final int CLIMB_MOTOR1 = 40;
     public static final int CLIMB_MOTOR2 = 41;
@@ -109,9 +110,12 @@ public final class Constants {
     public static double FF_kv = 0.0;
     public static double FF_ka = 0.0;
 
+    public static double ARM_UPPER_LIMIT = 105;
+    public static double ARM_LOWER_LIMIT = -25;
+
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
-    public static double INTAKE_POSE = 30;
+    public static double INTAKE_POSE = -25;
     public static double AMP_POSE = 20;
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE

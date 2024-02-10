@@ -15,6 +15,7 @@ import frc.robot.subsystems.simulation.PIDChangerSimulationShooter;
 
 public class ShooterSubsystem extends SubsystemBase {
   protected CANSparkMax m_shooter = new CANSparkMax(MotorIDs.SHOOTER_MOTOR, MotorType.kBrushless);
+  protected CANSparkMax m_secondMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR_TWO, MotorType.kBrushless);
   protected RelativeEncoder m_shooterEncoder;
   private SparkPIDController m_pidController;
   private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);

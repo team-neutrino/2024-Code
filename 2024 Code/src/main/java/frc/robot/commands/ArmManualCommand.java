@@ -36,6 +36,8 @@ public class ArmManualCommand extends Command {
       System.out.println("shift angle " + m_shiftAngle);
     }
 
+    m_shiftAngle = SubsystemContainer.armSubsystem.limitShiftAngle(m_shiftAngle);
+
     SubsystemContainer.armSubsystem.setArmReferenceAngle(m_shiftAngle);
   }
 

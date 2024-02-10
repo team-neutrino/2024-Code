@@ -56,8 +56,7 @@ public class RobotContainer {
     // SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     // SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
-    // SubsystemContainer.ShooterSubsystem.setDefaultCommand(new
-    // ShooterDefaultCommand());
+    SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     // SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // Intake buttons

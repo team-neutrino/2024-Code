@@ -7,6 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
+
+import java.nio.file.attribute.AclEntryPermission;
+
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
@@ -88,10 +91,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     m_targetAngle = targetAngle;
 
-    if (targetAngle > 90) {
-      targetAngle = 90;
-    } else if (targetAngle < -10) {
-      targetAngle = -10;
+    if (targetAngle > ArmConstants.ARM_UPPER_LIMIT) {
+      targetAngle = ArmConstants.ARM_UPPER_LIMIT;
+    } else if (targetAngle < ArmConstants.ARM_LOWER_LIMIT) {
+      targetAngle = ArmConstants.ARM_LOWER_LIMIT;
     }
 
     double feedforward = ArmConstants.FF_kg
@@ -130,6 +133,15 @@ public class ArmSubsystem extends SubsystemBase {
   private double adjustAngleOut(double angle) {
     if (angle > 180) {
       angle -= 360;
+    }
+    return angle;
+  }
+
+  public double limitShiftAngle(double angle) {
+    if (angle > ArmConstants.ARM_UPPER_LIMIT) {
+      return ArmConstants.ARM_UPPER_LIMIT;
+    } else if (angle < ArmConstants.ARM_LOWER_LIMIT) {
+      return ArmConstants.ARM_LOWER_LIMIT;
     }
     return angle;
   }
