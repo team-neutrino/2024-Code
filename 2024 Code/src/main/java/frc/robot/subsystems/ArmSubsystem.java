@@ -96,9 +96,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     double feedforward = ArmConstants.FF_kg
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
-    // System.out.println("feedforward - " + feedforward);
-    // System.out.println("bus voltage " + m_arm.getBusVoltage());
-    System.out.println("target angle " + targetAngle);
 
     targetAngle = adjustAngleIn(targetAngle);
 
