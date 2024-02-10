@@ -5,7 +5,6 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
@@ -14,26 +13,18 @@ import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShooterInterpolateCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
-import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.CalculateAngle;
 import frc.robot.util.CalculateRPM;
 import frc.robot.util.SubsystemContainer;
-
-import java.util.HashMap;
-
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
-import edu.wpi.first.math.geometry.Translation2d;
 import com.revrobotics.REVPhysicsSim;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -67,14 +58,14 @@ public class RobotContainer {
     // set default commands
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
     SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_controller));
-    // SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
+    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // Intake buttons
-    // m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
+    m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
     m_controller.rightTrigger().whileTrue(m_intakeDefaultCommand);
 
     // Climb buttons
@@ -82,20 +73,9 @@ public class RobotContainer {
 
     // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-
-    m_controller.rightBumper().onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp,
-        new AutoAlignSequentialCommand()));
-
-    m_controller.rightBumper()
-        .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand))));
-
-    // SubsystemContainer.swerveSubsystem.setPathfindCommand()));
-    m_controller.leftBumper().onTrue(new PathPlannerAuto("Midline Notes"));
-
-    // m_controller.rightTrigger().onTrue(AutoBuilder.pathfindToPose(
-    // SubsystemContainer.swerveSubsystem.getPathfindingTargetPose(),
-    // SwerveConstants.PATH_CONSTRAINTS));
-    // m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+    m_driverController.rightBumper()
+        .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand), new AutoAlignSequentialCommand())));
+    m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
     // shooter buttons
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));

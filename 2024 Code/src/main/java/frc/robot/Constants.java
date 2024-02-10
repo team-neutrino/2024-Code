@@ -1,9 +1,6 @@
 package frc.robot;
 
-import java.util.HashMap;
-
 import com.pathplanner.lib.path.PathConstraints;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -68,9 +65,6 @@ public final class Constants {
     public static Pose2d RED_TARGET_POSE2;
     public static Pose2d RED_TARGET_POSE3;
     public static Pose2d RED_TARGET_POSE4;
-
-    public static HashMap<Command, Translation2d> m_blueCoordMap = new HashMap<>();
-    public static HashMap<Command, Translation2d> m_redCoordMap = new HashMap<>();
   }
 
   public final class DigitalConstants {
