@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.security.GeneralSecurityException;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -68,8 +66,6 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
 
-  // boolean omegaZero = false;
-
   SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
   SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
   SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
@@ -84,7 +80,6 @@ public class SwerveSubsystem extends SubsystemBase {
   Pose2d currentPose = new Pose2d();
   Pose2d generalSimPose = new Pose2d();
   public Command m_pathfindAmp;
-  // public Command m_pathfind;
 
   public SwerveSubsystem() {
     modulePositions[0] = new SwerveModulePosition();
@@ -364,8 +359,8 @@ public class SwerveSubsystem extends SubsystemBase {
     cycle++;
     if (cycle % 8 == 0) {
       // System.out.println(m_frontLeft.getRawAbsoluteAngle());
-      System.out.println("odometry x " + m_swerveOdometry.getPoseMeters().getX());
-      System.out.println("odometry y " + m_swerveOdometry.getPoseMeters().getY());
+      // System.out.println("odometry x " + m_swerveOdometry.getPoseMeters().getX());
+      // System.out.println("odometry y " + m_swerveOdometry.getPoseMeters().getY());
     }
   }
 }
