@@ -13,7 +13,8 @@ public class ShooterInterpolateCommand extends Command {
 
   public ShooterInterpolateCommand(CalculateRPM p_RPMCalculate) {
     m_RPMCalculate = p_RPMCalculate;
-    addRequirements(SubsystemContainer.ShooterSubsystem, SubsystemContainer.armSubsystem,
+    addRequirements(SubsystemContainer.ShooterSubsystem,
+        SubsystemContainer.armSubsystem,
         SubsystemContainer.intakeSubsystem);
   }
 
