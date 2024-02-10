@@ -232,12 +232,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_navX.reset();
     m_referenceAngle = 0;
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
-        new Pose2d(1, 7, Rotation2d.fromDegrees(0)));
-  }
-
-  public void resetStartPosition(Translation2d startPosition) {
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
-        new Pose2d(startPosition, Rotation2d.fromDegrees(getYaw())));
+        new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
   }
 
   public Pose2d getPose() {
