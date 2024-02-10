@@ -43,14 +43,14 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooter1.setIdleMode(IdleMode.kCoast);
     m_shooter1.setInverted(false);
     m_shooter1.setSmartCurrentLimit(40);
-    // m_shooter1.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
+    m_shooter1.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
 
     m_shooterEncoder2 = m_shooter2.getEncoder();
     m_shooter2.restoreFactoryDefaults();
     m_shooter2.setIdleMode(IdleMode.kCoast);
     m_shooter2.setInverted(false);
     m_shooter2.setSmartCurrentLimit(40);
-    // m_shooter2.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
+    m_shooter2.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
     m_shooter2.follow(m_shooter1, true);
 
     m_pidController1.setP(WHEEL_P);

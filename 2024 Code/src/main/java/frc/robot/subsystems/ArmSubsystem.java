@@ -174,6 +174,5 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_inPosition = ArmDebouncer();
-    // System.out.println("current angle degrees - " + getArmAngleDegrees());
   }
 }

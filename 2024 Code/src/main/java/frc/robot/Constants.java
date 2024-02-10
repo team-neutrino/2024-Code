@@ -100,7 +100,7 @@ public final class Constants {
     public static double Arm_kd = 0.0;
 
     public static double FF_kg = 0.014;
-    public static double ARM_MASS_KG = 8.3733; // 18.46 lbs
+    public static double ARM_MASS_KG = 8.3733; // LBS 18.46
     public static double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static double ARM_RADIUS = 0.6555;
     public static double ARM_CM = 0.37084; // INCHES 14.6
