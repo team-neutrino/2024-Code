@@ -1,8 +1,5 @@
 package frc.robot.subsystems.simulation;
 
-import edu.wpi.first.networktables.BooleanPublisher;
-import edu.wpi.first.networktables.BooleanSubscriber;
-import edu.wpi.first.networktables.BooleanTopic;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.DoubleTopic;
@@ -26,8 +23,9 @@ public class LimelightSimulation {
     DoubleSubscriber simTid_sub;
     DoubleSubscriber simTy_sub;
     DoubleSubscriber simTv_sub;
-    public LimelightSimulation(){
-    simTx_pub = simTx.publish();
+
+    public LimelightSimulation() {
+        simTx_pub = simTx.publish();
         simTx_pub.setDefault(0);
         simTx_sub = simTx.subscribe(0, PubSubOption.sendAll(true));
 
@@ -43,6 +41,7 @@ public class LimelightSimulation {
         simTv_pub.setDefault(0);
         simTv_sub = simTv.subscribe(0, PubSubOption.sendAll(true));
     }
+
     public double GetId() {
         return simTid_sub.get();
     }
@@ -58,6 +57,5 @@ public class LimelightSimulation {
     public double GetTv() {
         return simTv_sub.get();
     }
-
 
 }
