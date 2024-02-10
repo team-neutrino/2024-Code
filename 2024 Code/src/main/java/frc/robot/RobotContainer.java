@@ -45,11 +45,6 @@ public class RobotContainer {
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
   CalculateAngle m_angleCalculate = new CalculateAngle();
 
-  Command m_twoNoteAutonCommand;
-  Command m_allCloseNoteAutonCommand;
-  Command m_closeThenMidAutonCommand;
-  Command m_midNoteAutonCommand;
-
   public RobotContainer() {
     configureBindings();
   }
@@ -74,7 +69,7 @@ public class RobotContainer {
     // swerve buttons
     m_controller.b().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_driverController.rightBumper()
-        .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand), new AutoAlignSequentialCommand())));
+    .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand), new AutoAlignSequentialCommand())));
     m_controller.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
 
     // shooter buttons

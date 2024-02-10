@@ -339,7 +339,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     cycle++;
     if (cycle % 8 == 0) {
-      
     }
   }
 }
