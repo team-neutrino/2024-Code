@@ -183,8 +183,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
     m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
 
-    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond,
-        feedForwardFR);
+    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond, feedForwardFR);
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
@@ -338,13 +337,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
     field.getObject("auton").setPose(currentPose);
 
-    // System.out.println("periodic running");
-
     cycle++;
     if (cycle % 8 == 0) {
-      // System.out.println(m_frontLeft.getRawAbsoluteAngle());
-      // System.out.println("odometry x " + m_swerveOdometry.getPoseMeters().getX());
-      // System.out.println("odometry y " + m_swerveOdometry.getPoseMeters().getY());
+      
     }
   }
 }
