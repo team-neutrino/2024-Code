@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
@@ -37,52 +38,100 @@ public class ArmSubsystem extends SubsystemBase {
 
   public ArmSubsystem() {
     m_arm.restoreFactoryDefaults();
+    m_arm.setIdleMode(IdleMode.kBrake);
 
     armEncoderContainer = new ArmEncoderContainer(m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle));
-    // armEncoderContainer.setPositionConversionFactor(360);
-    // armEncoderContainer.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
-    // armEncoderContainer.setInverted(true);
+    armEncoderContainer.setPositionConversionFactor(360);
+    armEncoderContainer.setInverted(true);
+    armEncoderContainer.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
 
-    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 1);
+    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
 
     pidController = m_arm.getPIDController();
     pidController.setP(ArmConstants.Arm_kp, 0);
     pidController.setI(ArmConstants.Arm_ki, 0);
     pidController.setD(ArmConstants.Arm_kd, 0);
     pidController.setFeedbackDevice(armEncoderContainer.m_armEncoder);
+    pidController.setPositionPIDWrappingMaxInput(360);
+    pidController.setPositionPIDWrappingMinInput(0);
+    pidController.setPositionPIDWrappingEnabled(true);
   }
 
   public double getTargetAngle() {
     return m_targetAngle;
   }
 
+  /**
+   * 
+   * @return returns current arm angle in degrees (-180, 180)
+   */
   public double getArmAngleDegrees() {
-    return armEncoderContainer.getPosition();
-  }
-
-  public double getArmAngleRadians() {
-    return armEncoderContainer.getPosition() * (Math.PI / 180);
+    return adjustAngleOut(armEncoderContainer.getPosition());
   }
 
   /**
-   * Set arm reference angle, target angle should be in degrees
    * 
-   * @param targetAngle must be in degrees
+   * @return returns current arm angle in radians (-pi, pi)
+   */
+  public double getArmAngleRadians() {
+    return adjustAngleOut(armEncoderContainer.getPosition()) * (Math.PI / 180);
+  }
+
+  /**
+   * Set arm reference angle, target angle should be in degrees. Will be converted
+   * to (0, 360) before sent
+   * to the motor controller
+   * 
+   * @param targetAngle must be in degrees (-180, 180)
    */
   public void setArmReferenceAngle(double targetAngle) {
 
     m_targetAngle = targetAngle;
 
-    if (targetAngle > ArmConstants.INTAKE_LIMIT) {
-      targetAngle = ArmConstants.INTAKE_LIMIT;
-    } else if (targetAngle < ArmConstants.AMP_LIMIT) {
-      targetAngle = ArmConstants.AMP_LIMIT;
+    if (targetAngle > 90) {
+      targetAngle = 90;
+    } else if (targetAngle < -10) {
+      targetAngle = -10;
     }
 
     double feedforward = ArmConstants.FF_kg
-        * ((ArmConstants.ARM_RADIUS / 2) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
+        * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
+    // System.out.println("feedforward - " + feedforward);
+    // System.out.println("bus voltage " + m_arm.getBusVoltage());
+    System.out.println("target angle " + targetAngle);
+
+    targetAngle = adjustAngleIn(targetAngle);
 
     pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
+  }
+
+  /**
+   * Adjusts the angle going into the pid reference logic to conform to the (0,
+   * 360) angle system
+   * 
+   * @param angle desired angle to adjust
+   * @return adjusted angle that is ready to use as a reference
+   */
+  private double adjustAngleIn(double angle) {
+    if (angle < 0) {
+      angle += 360;
+    }
+    return angle;
+  }
+
+  /**
+   * Adjusts the arm angle going out of the subsystem so that it conforms with
+   * (-180, 180)
+   * (like when the position is being accessed).
+   * 
+   * @param angle in (0, 360) (raw return from abs encoder)
+   * @return angle in (-180, 180)
+   */
+  private double adjustAngleOut(double angle) {
+    if (angle > 180) {
+      angle -= 360;
+    }
+    return angle;
   }
 
   private boolean ArmDebouncer() {
@@ -113,5 +162,6 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_inPosition = ArmDebouncer();
+    // System.out.println("current angle degrees - " + getArmAngleDegrees());
   }
 }

@@ -13,6 +13,7 @@ import frc.robot.util.SubsystemContainer;
 public class ArmManualCommand extends Command {
   private double m_shiftAngle;
   private XboxController m_controller;
+  double cycle = 0;
 
   public ArmManualCommand(CommandXboxController p_controller) {
     m_controller = p_controller.getHID();
@@ -26,9 +27,15 @@ public class ArmManualCommand extends Command {
 
   @Override
   public void execute() {
+    cycle++;
     if (Math.abs(m_controller.getLeftX()) > ArmConstants.ARM_ADJUST_DEADZONE) {
       m_shiftAngle -= m_controller.getLeftX();
     }
+
+    if (cycle % 8 == 0) {
+      System.out.println("shift angle " + m_shiftAngle);
+    }
+
     SubsystemContainer.armSubsystem.setArmReferenceAngle(m_shiftAngle);
   }
 
