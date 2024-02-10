@@ -46,10 +46,10 @@ public final class Constants {
     public static double MAX_MODULE_ROTATION_SPEED;
     public static double MAX_MODULE_LINEAR_SPEED = 7;
 
-    public static double FLA_OFFSET = 285; // 43;
-    public static double FRA_OFFSET = 273; // 336.6;
-    public static double BLA_OFFSET = 1; // 82.7;
-    public static double BRA_OFFSET = 311; // 359.2;
+    public static double FLA_OFFSET = 285;
+    public static double FRA_OFFSET = 273;
+    public static double BLA_OFFSET = 1;
+    public static double BRA_OFFSET = 311;
 
     public static double ks = 0.15;
     public static double kv = 2.6;
