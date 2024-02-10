@@ -72,6 +72,7 @@ public class RobotContainer {
     // shooter buttons
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
     m_controller.x().whileTrue(new ShooterInterpolateCommand(new CalculateRPM()));
+
     m_controller.rightBumper().whileTrue(new AutoAlignCommand());
     m_controller.a().whileTrue(new MagicAmpCommand());
 

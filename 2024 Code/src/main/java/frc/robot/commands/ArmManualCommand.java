@@ -29,7 +29,9 @@ public class ArmManualCommand extends Command {
     if (Math.abs(m_controller.getLeftX()) > ArmConstants.ARM_ADJUST_DEADZONE) {
       m_shiftAngle -= m_controller.getLeftX();
     }
-    m_shiftAngle = SubsystemContainer.armSubsystem.withinRange(m_shiftAngle);
+
+    m_shiftAngle = SubsystemContainer.armSubsystem.limitShiftAngle(m_shiftAngle);
+
     SubsystemContainer.armSubsystem.setArmReferenceAngle(m_shiftAngle);
   }
 

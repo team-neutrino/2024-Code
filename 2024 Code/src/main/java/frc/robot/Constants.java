@@ -95,31 +95,35 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-    public static double Arm_kp = 0.01;
+    public static double Arm_kp = 0.011;
     public static double Arm_ki = 0.0;
     public static double Arm_kd = 0.0;
 
-    public static double FF_kg = 0.0;
-    public static double ARM_MASS_KG = 7;
-    public static double ARM_ABS_ENCODER_ZERO_OFFSET = 0.0;
+    public static double FF_kg = 0.014;
+    public static double ARM_MASS_KG = 8.3733; // LBS 18.46
+    public static double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static double ARM_RADIUS = 0.6555;
+    public static double ARM_CM = 0.37084; // INCHES 14.6
 
     // TODO: FeedForward Constants are PLACEHOLDERS
     public static double FF_ks = 0.0;
     public static double FF_kv = 0.0;
     public static double FF_ka = 0.0;
 
+    public static double ARM_UPPER_LIMIT = 105;
+    public static double ARM_LOWER_LIMIT = -25;
+
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
-    public static double INTAKE_POSE = 90;
+    public static double INTAKE_POSE = -25;
     public static double AMP_POSE = 20;
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {
-    public static double INTAKE_MOTOR_SPEED = .75;
-    public static double INDEX_MOTOR_SPEED = 0.1;
+    public static double INTAKE_MOTOR_VOLTAGE = .5 * 12;
+    public static double INDEX_MOTOR_VOLTAGE = 1 * 12;
     public static int INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
   }
