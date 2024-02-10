@@ -147,7 +147,7 @@ public class ArmSubsystem extends SubsystemBase {
     return m_inPosition;
   }
 
-  private double withinRange(double check) {
+  public double withinRange(double check) {
     if (check >= ArmConstants.INTAKE_LIMIT) {
       return ArmConstants.INTAKE_LIMIT;
 
