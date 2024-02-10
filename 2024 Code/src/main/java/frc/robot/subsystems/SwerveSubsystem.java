@@ -78,7 +78,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
-  Pose2d generalSimPose = new Pose2d();
   public Command m_pathfindAmp;
 
   public SwerveSubsystem() {
@@ -131,12 +130,6 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
     omega = Limiter.scale(Limiter.deadzone(omega, 0.2), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
-
-    double deltaX = vx * 0.02;
-    double deltaY = vy * 0.02;
-    double deltaO = omega * 0.02;
-    generalSimPose = new Pose2d(new Translation2d(generalSimPose.getX() + deltaX, generalSimPose.getY() + deltaY),
-        new Rotation2d(generalSimPose.getRotation().getRadians() + deltaO));
 
     if (omega == 0) {
       omegaZero = true;
@@ -226,14 +219,6 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
-
-    double vx = referenceSpeeds.vxMetersPerSecond * Math.cos(referenceSpeeds.omegaRadiansPerSecond)
-        - referenceSpeeds.vyMetersPerSecond * Math.sin(referenceSpeeds.omegaRadiansPerSecond);
-    double vy = referenceSpeeds.vxMetersPerSecond * Math.sin(referenceSpeeds.omegaRadiansPerSecond)
-        + referenceSpeeds.vyMetersPerSecond * Math.cos(referenceSpeeds.omegaRadiansPerSecond);
-    double deltaO = referenceSpeeds.omegaRadiansPerSecond * 0.02;
-    generalSimPose = new Pose2d(new Translation2d(vx * 0.02 + generalSimPose.getX(), vy * 0.02 + generalSimPose.getY()),
-        new Rotation2d(referenceSpeeds.omegaRadiansPerSecond + deltaO));
   }
 
   public void setRobotYaw(double angle) {
@@ -352,7 +337,6 @@ public class SwerveSubsystem extends SubsystemBase {
     currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
     field.getObject("auton").setPose(currentPose);
-    field.getObject("reference").setPose(generalSimPose);
 
     // System.out.println("periodic running");
 
