@@ -74,7 +74,7 @@ public class Shooter extends ShooterSubsystem {
         double motor_volts = 0.0;
         if (m_spark_max_pid_sim != null) {
             motor_volts = m_spark_max_pid_sim.runPid(WHEEL_P, WHEEL_I, WHEEL_D, WHEEL_FF, m_targetRPM,
-                    m_flywheel_sim.getAngularVelocityRPM(), m_rpm_izone, 0.0, 100.0);
+                    m_flywheel_sim.getAngularVelocityRPM(), Izone, 0.0, 100.0);
         }
 
         m_flywheel_sim.setInputVoltage(motor_volts);
