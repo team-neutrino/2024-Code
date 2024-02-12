@@ -66,7 +66,7 @@ public class RobotContainer {
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
 
     // swerve buttons
-    m_controller.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_controller.leftTrigger().onTrue(new PathPlannerAuto("New Auto"));
 
     m_driverController.y()
