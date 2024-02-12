@@ -141,7 +141,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private boolean ArmDebouncer() {
-    if (Math.abs(m_angle - m_targetAngle) <= 5) {
+    if (Math.abs(getArmAngleDegrees() - m_targetAngle) <= 5) {
       i++;
     } else {
       i = 0;
