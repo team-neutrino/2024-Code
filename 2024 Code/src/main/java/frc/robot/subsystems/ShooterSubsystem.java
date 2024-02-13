@@ -26,9 +26,9 @@ public class ShooterSubsystem extends SubsystemBase {
   protected double m_targetRPM;
   protected double Izone = 50;
   private int counter;
-  final private double APPROVE_ERROR_THRESHOLD = 7;
+  final private double APPROVE_ERROR_THRESHOLD = 200;
   final private double APPROVE_COUNTER_THRESHOLD = 9;
-  final private double COUNTER_ERROR_THRESHOLD = 10;
+  final private double COUNTER_ERROR_THRESHOLD = 200;
   private boolean approve = false;
   // this is a change and a test
 
@@ -43,14 +43,16 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooter1.setIdleMode(IdleMode.kCoast);
     m_shooter1.setInverted(false);
     m_shooter1.setSmartCurrentLimit(40);
-    m_shooter1.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
+    // m_shooter1.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
+    // m_shooter1.setSoftLimit(CANSparkBase.SoftLimitDirection.kForward, 0);
 
     m_shooterEncoder2 = m_shooter2.getEncoder();
     m_shooter2.restoreFactoryDefaults();
     m_shooter2.setIdleMode(IdleMode.kCoast);
     m_shooter2.setInverted(false);
     m_shooter2.setSmartCurrentLimit(40);
-    m_shooter2.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
+    // m_shooter2.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
+    // m_shooter2.setSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, 0);
     m_shooter2.follow(m_shooter1, true);
 
     m_pidController1.setP(WHEEL_P);
@@ -106,8 +108,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public boolean approveShoot() {
     countCounter();
-    return (Math.abs(getShooterRpm1() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD)
-        && (counter > APPROVE_COUNTER_THRESHOLD);
+    return (Math.abs(getShooterRpm1() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD
+        && (counter > APPROVE_COUNTER_THRESHOLD));
   }
 
   public double getFF() {
