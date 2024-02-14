@@ -60,7 +60,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private SwerveDriveOdometry m_swerveOdometry;
 
-  private PIDController m_angleController = new PIDController(0.06, 0, 0);
+  private PIDController m_angleController = new PIDController(0.04, 0, 0);
   private Timer m_timer = new Timer();
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
@@ -123,11 +123,11 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void Swerve(double vx, double vy, double omega) {
-    vx = Limiter.scale(Limiter.deadzone(vx, 0.2), -SwerveConstants.MAX_CHASSIS_LINEAR_SPEED,
+    vx = Limiter.scale(Limiter.deadzone(vx, 0.4), -SwerveConstants.MAX_CHASSIS_LINEAR_SPEED,
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
-    vy = Limiter.scale(Limiter.deadzone(vy, 0.2), -SwerveConstants.MAX_CHASSIS_LINEAR_SPEED,
+    vy = Limiter.scale(Limiter.deadzone(vy, 0.4), -SwerveConstants.MAX_CHASSIS_LINEAR_SPEED,
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
-    omega = Limiter.scale(Limiter.deadzone(omega, 0.2), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
+    omega = Limiter.scale(Limiter.deadzone(omega, 0.1), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
 
     if (omega == 0) {
@@ -139,6 +139,7 @@ public class SwerveSubsystem extends SubsystemBase {
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
     } else if (m_timer.get() >= 0.2 && !m_referenceSet) {
+      resetNavX();
       m_referenceAngle = getYaw();
       m_referenceSet = true;
       m_timer.stop();
