@@ -13,7 +13,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -61,12 +60,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private SwerveDriveOdometry m_swerveOdometry;
 
-  private PIDController m_angleController = new PIDController(0.08, 0, 0);
+  private PIDController m_angleController = new PIDController(0.06, 0, 0);
   private Timer m_timer = new Timer();
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
-
-  // boolean omegaZero = false;
 
   SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
   SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
@@ -80,9 +77,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
-  Pose2d generalSimPose = new Pose2d();
   public Command m_pathfindAmp;
-  // public Command m_pathfind;
 
   public SwerveSubsystem() {
     modulePositions[0] = new SwerveModulePosition();
@@ -104,8 +99,8 @@ public class SwerveSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds,
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
+            new PIDConstants(5, 0.0, 0.0),
             new PIDConstants(0.6, 0.0, 0.0),
-            new PIDConstants(1.8, 0.0, 0.0),
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -187,8 +182,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
     m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
 
-    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond,
-        feedForwardFR);
+    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond, feedForwardFR);
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
@@ -238,11 +232,6 @@ public class SwerveSubsystem extends SubsystemBase {
     m_referenceAngle = 0;
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
         new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
-  }
-
-  public void resetStartPosition(Translation2d startPosition) {
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
-        new Pose2d(startPosition, Rotation2d.fromDegrees(getYaw())));
   }
 
   public Pose2d getPose() {
@@ -342,11 +331,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     field.getObject("auton").setPose(currentPose);
 
-    // System.out.println("periodic running");
-
     cycle++;
     if (cycle % 8 == 0) {
-      // System.out.println(m_frontLeft.getRawAbsoluteAngle());
     }
   }
 }

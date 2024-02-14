@@ -31,7 +31,6 @@ public class IntakeDefaultCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        m_intakeSubsystem.stopIntake();
     }
 
     @Override
