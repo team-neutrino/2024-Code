@@ -15,6 +15,7 @@ import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
+import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
@@ -51,7 +52,7 @@ public class RobotContainer {
   private void configureBindings() {
     // set default commands
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
-    SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_controller));
+    SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_driverController));
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
@@ -77,10 +78,11 @@ public class RobotContainer {
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
 
     m_controller.x().whileTrue(new ShootSpeakerCommand());
-    m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+    m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
+    m_controller.b().toggleOnTrue(new ArmInterpolateCommand(m_angleCalculate));
   }
 
   public Command getAutonomousCommand() {

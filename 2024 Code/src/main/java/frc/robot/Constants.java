@@ -4,7 +4,6 @@ import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.Command;
 
 public final class Constants {
   public static class OperatorConstants {
@@ -25,6 +24,7 @@ public final class Constants {
   public static class DimensionConstants {
     public static double WHEEL_DIAMETER = 0.1016;
     public static double WHEEL_CIRCUMFERENCE = 0.1016 * Math.PI;
+    public static double SPEAKER_TO_MOUNT_HEIGHT = 0.6604;
   }
 
   public static class SwerveConstants {
@@ -118,7 +118,7 @@ public final class Constants {
     public static double Arm_ki = 0.0;
     public static double Arm_kd = 0.0;
 
-    public static double FF_kg = 0.014;
+    public static double FF_kg = 0.01;
     public static double ARM_MASS_KG = 8.3733; // LBS 18.46
     public static double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static double ARM_RADIUS = 0.6555;
@@ -141,7 +141,7 @@ public final class Constants {
   }
 
   public final class IntakeConstants {
-    public static double INTAKE_MOTOR_VOLTAGE = .5 * 12;
+    public static double INTAKE_MOTOR_VOLTAGE = 1 * 12;
     public static double INDEX_MOTOR_VOLTAGE = 1 * 12;
     public static int INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
