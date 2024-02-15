@@ -53,7 +53,7 @@ public class RobotContainer {
     // set default commands
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
     SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_driverController));
-    // SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
+    SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
     SubsystemContainer.ShooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
