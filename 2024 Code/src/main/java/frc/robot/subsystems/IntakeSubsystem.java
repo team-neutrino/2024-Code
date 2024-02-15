@@ -74,6 +74,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void resetEncoders() {
         m_intakeEncoder.setPosition(0);
         m_indexEncoder.setPosition(0);
+        m_indexEncoder2.setPosition(0);
     }
 
     /**
