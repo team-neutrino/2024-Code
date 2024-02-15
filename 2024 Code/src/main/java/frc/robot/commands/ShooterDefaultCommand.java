@@ -1,23 +1,23 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.SubsystemContainer;
-import edu.wpi.first.wpilibj2.command.Command;
 
 public class ShooterDefaultCommand extends Command {
-    @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
+    private ShooterSubsystem m_shooterSubsystem;
 
     public ShooterDefaultCommand() {
-        addRequirements(SubsystemContainer.ShooterSubsystem);
+        m_shooterSubsystem = SubsystemContainer.ShooterSubsystem;
+        addRequirements(m_shooterSubsystem);
     }
 
-
     public void initialize() {
+        m_shooterSubsystem.stopShooter();
     }
 
     @Override
     public void execute() {
-        SubsystemContainer.ShooterSubsystem.setTargetRPM(1000);
     }
 
     @Override

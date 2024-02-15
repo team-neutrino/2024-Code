@@ -63,6 +63,7 @@ public class Robot extends TimedRobot {
   // ===========================================================================
   @Override
   public void teleopPeriodic() {
+    m_robotContainer.teleopperiodic();
   }
 
   // ===========================================================================
@@ -77,12 +78,13 @@ public class Robot extends TimedRobot {
   }
 
   // ===========================================================================
-  @Override
   public void simulationInit() {
+    m_robotContainer.simulationInit();
   }
 
   // ===========================================================================
-  @Override
   public void simulationPeriodic() {
+    m_robotContainer.simulationPeriodic();
   }
+
 }

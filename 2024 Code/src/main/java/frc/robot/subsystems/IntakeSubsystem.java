@@ -7,41 +7,66 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel;
 
+import frc.robot.Constants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MotorIDs;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-    private RelativeEncoder m_intakeEncoder;
+    protected RelativeEncoder m_intakeEncoder;
+    protected RelativeEncoder m_indexEncoder;
 
-    private CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
+    protected CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
+    protected CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
 
-    private DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
+    protected DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
 
     public IntakeSubsystem() {
         m_intakeMotor.restoreFactoryDefaults();
+        m_indexMotor.restoreFactoryDefaults();
+        m_indexMotor.setSmartCurrentLimit(Constants.IntakeConstants.INDEX_CURRENT_LIMIT);
+        m_intakeMotor.setSmartCurrentLimit(Constants.IntakeConstants.INTAKE_CURRENT_LIMIT);
 
+        m_intakeEncoder = m_intakeMotor.getEncoder();
+        m_indexEncoder = m_indexMotor.getEncoder();
     }
 
     public void runIntake() {
-        m_intakeMotor.set(IntakeConstants.INTAKE_MOTOR_SPEED);
+        m_intakeMotor.setVoltage(-IntakeConstants.INTAKE_MOTOR_VOLTAGE);
+    }
+
+    public void runIndex() {
+        m_indexMotor.setVoltage(IntakeConstants.INDEX_MOTOR_VOLTAGE);
     }
 
     public void runIntakeReverse() {
-        m_intakeMotor.set(-IntakeConstants.INTAKE_MOTOR_SPEED);
+        m_intakeMotor.setVoltage(IntakeConstants.INTAKE_MOTOR_VOLTAGE);
+    }
+
+    public void runIndexReverse() {
+        m_indexMotor.setVoltage(-IntakeConstants.INDEX_MOTOR_VOLTAGE);
     }
 
     public void stopIntake() {
-        m_intakeMotor.set(0);
+        m_intakeMotor.setVoltage(0);
+    }
+
+    public void stopIndex() {
+        m_indexMotor.setVoltage(0);
     }
 
     public double getIntakeVelocity() {
         return m_intakeEncoder.getVelocity();
     }
 
+    public double getIndexVelocity() {
+        return m_indexEncoder.getVelocity();
+    }
+
     public void resetEncoders() {
         m_intakeEncoder.setPosition(0);
+        m_indexEncoder.setPosition(0);
     }
 
     /**
@@ -52,6 +77,14 @@ public class IntakeSubsystem extends SubsystemBase {
      */
     public boolean getBeamBreak() {
         return m_intakeBeamBreak.get();
+    }
+
+    public void indexApprove(boolean allow) {
+        if (allow) {
+            runIndex();
+        } else {
+            stopIndex();
+        }
     }
 
 }

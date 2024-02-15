@@ -22,8 +22,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.SwerveModule;
+import frc.robot.Constants.LEDConstants.States;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
@@ -36,13 +39,13 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModuleState[] moduleStates;
 
   private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(MotorIDs.FRS,
-      false);
+      true);
   private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
       true);
   private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
       true);
   private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
-      true);
+      false);
 
   private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(MotorIDs.FRA,
       false, SwerveConstants.FRA_OFFSET);
@@ -53,11 +56,11 @@ public class SwerveSubsystem extends SubsystemBase {
   private final SwerveModule.MotorCfg back_left_angle = new SwerveModule.MotorCfg(MotorIDs.BLA,
       false, SwerveConstants.BLA_OFFSET);
 
-  public SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
+  private SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
 
   private SwerveDriveOdometry m_swerveOdometry;
 
-  private PIDController m_angleController = new PIDController(0.1, 0, 0);
+  private PIDController m_angleController = new PIDController(0.06, 0, 0);
   private Timer m_timer = new Timer();
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
@@ -69,10 +72,12 @@ public class SwerveSubsystem extends SubsystemBase {
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
   double cycle = 0;
+  boolean omegaZero = false;
+  States commandState;
 
   Field2d field = new Field2d();
-  Pose2d autonPose = new Pose2d();
-  Pose2d generalSimPose = new Pose2d();
+  Pose2d currentPose = new Pose2d();
+  public Command m_pathfindAmp;
 
   public SwerveSubsystem() {
     modulePositions[0] = new SwerveModulePosition();
@@ -94,8 +99,8 @@ public class SwerveSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds,
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
-            new PIDConstants(0.4, 0.0, 0.0),
-            new PIDConstants(1.4, 0.0, 0.0),
+            new PIDConstants(5, 0.0, 0.0),
+            new PIDConstants(0.6, 0.0, 0.0),
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -107,6 +112,14 @@ public class SwerveSubsystem extends SubsystemBase {
           return false;
         },
         this);
+
+    if (isRedAlliance() == true) {
+      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d()),
+          Constants.SwerveConstants.PATH_CONSTRAINTS);
+    } else {
+      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, new Rotation2d()),
+          Constants.SwerveConstants.PATH_CONSTRAINTS);
+    }
   }
 
   public void Swerve(double vx, double vy, double omega) {
@@ -116,6 +129,12 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
     omega = Limiter.scale(Limiter.deadzone(omega, 0.2), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
+
+    if (omega == 0) {
+      omegaZero = true;
+    } else {
+      omegaZero = false;
+    }
 
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
@@ -167,6 +186,10 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+  }
+
+  public boolean omegaZero() {
+    return omegaZero;
   }
 
   public void robotRelativeSwerve(ChassisSpeeds referenceSpeeds) {
@@ -225,6 +248,78 @@ public class SwerveSubsystem extends SubsystemBase {
         m_backRight.getModuleState(), m_backLeft.getModuleState());
   }
 
+  /**
+   * Returns true if the current alliance is red, false otherwise.
+   * 
+   * @return boolean representing the current alliance as retrieved from the
+   *         Driver Station.
+   */
+  public boolean isRedAlliance() {
+    boolean isRed = false;
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+      isRed = alliance.get() == DriverStation.Alliance.Red;
+    }
+
+    return isRed;
+  }
+
+  public Command getPathfindCommand() {
+    boolean isRed = isRedAlliance();
+
+    Pose2d closestPose;
+    if (isRed) {
+      closestPose = SwerveConstants.RED_TARGET_POSE1;
+
+      double d2 = distanceFormula(SwerveConstants.RED_TARGET_POSE2);
+      double d3 = distanceFormula(SwerveConstants.RED_TARGET_POSE3);
+      double d4 = distanceFormula(SwerveConstants.RED_TARGET_POSE4);
+
+      if (d2 < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.RED_TARGET_POSE2;
+      }
+      if (d3 < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.RED_TARGET_POSE3;
+      }
+      if (d4 < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.RED_TARGET_POSE4;
+      }
+    } else {
+      closestPose = SwerveConstants.BLUE_TARGET_POSE1;
+
+      double d2 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE2);
+      double d3 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE3);
+      double d4 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE4);
+
+      if (d2 < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.BLUE_TARGET_POSE2;
+      }
+      if (d3 < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.BLUE_TARGET_POSE3;
+      }
+      if (d4 < distanceFormula(closestPose)) {
+        closestPose = SwerveConstants.BLUE_TARGET_POSE4;
+      }
+
+    }
+
+    return AutoBuilder.pathfindToPose(closestPose, SwerveConstants.PATH_CONSTRAINTS);
+  }
+
+  public double distanceFormula(Pose2d targetPose) {
+    Pose2d current = currentPose;
+    return Math.sqrt(Math.pow(targetPose.getX() - current.getX(), 2)
+        + Math.pow(targetPose.getY() - current.getY(), 2));
+  }
+
+  public States getCommandState() {
+    return commandState;
+  }
+
+  public void setCommandState(States state) {
+    commandState = state;
+  }
+
   @Override
   public void periodic() {
     modulePositions[0] = m_frontRight.getModulePosition();
@@ -232,13 +327,12 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[2] = m_backRight.getModulePosition();
     modulePositions[3] = m_backLeft.getModulePosition();
 
-    autonPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
-    field.getObject("auton").setPose(autonPose);
+    field.getObject("auton").setPose(currentPose);
 
     cycle++;
     if (cycle % 8 == 0) {
-
     }
   }
 }

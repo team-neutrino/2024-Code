@@ -5,21 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.util.SubsystemContainer;
+import frc.robot.util.CalculateAngle;
 
-public class ClimbRetractCommand extends Command {
+public class ArmInterpolateCommand extends Command {
+  CalculateAngle m_angleCalculate;
 
-  /**
-   * A reference to the ONE instance of the climb subsystem in the subsystem
-   * container initialized here for easy access.
-   */
-  private ClimbSubsystem m_climbSubsystem = SubsystemContainer.climbSubsystem;
-
-  /** Creates a new ClimbRetractCommand. */
-  public ClimbRetractCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_climbSubsystem);
+  public ArmInterpolateCommand(CalculateAngle p_angleCalculate) {
+    m_angleCalculate = p_angleCalculate;
+    addRequirements(SubsystemContainer.armSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -27,10 +21,10 @@ public class ClimbRetractCommand extends Command {
   public void initialize() {
   }
 
-  // Called every 20ms
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_climbSubsystem.rectractClimberArms();
+    SubsystemContainer.armSubsystem.setArmReferenceAngle(m_angleCalculate.InterpolateAngle());
   }
 
   // Called once the command ends or is interrupted.
