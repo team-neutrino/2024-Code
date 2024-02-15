@@ -33,8 +33,6 @@ public class ArmSubsystem extends SubsystemBase {
   public int i = 0;
   private SparkPIDController pidController;
   private ArmEncoderContainer armEncoderContainer;
-  DoubleTopic m_realEncoderAngle = NetworkTableInstance.getDefault().getDoubleTopic("arm/real_encoder_angle");
-  DoublePublisher eAnglePub;
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -61,9 +59,6 @@ public class ArmSubsystem extends SubsystemBase {
     pidController.setPositionPIDWrappingMaxInput(360);
     pidController.setPositionPIDWrappingMinInput(0);
     pidController.setPositionPIDWrappingEnabled(true);
-
-    eAnglePub = m_realEncoderAngle.publish();
-    eAnglePub.setDefault(0.0);
   }
 
   public double getTargetAngle() {
@@ -177,6 +172,5 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_inPosition = ArmDebouncer();
-    eAnglePub.set(getArmAngleDegrees(), NetworkTablesJNI.now());
   }
 }

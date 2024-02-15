@@ -37,12 +37,14 @@ public class ArmSimulation extends ArmSubsystem {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
     DoubleTopic Sim_Angle = nt.getDoubleTopic("arm/sim_angle");
     DoubleTopic Encoder_Angle = nt.getDoubleTopic("arm/sim_encoder_angle");
+     DoubleTopic m_realEncoderAngle = nt.getDoubleTopic("arm/real_encoder_angle");
     DoubleTopic Target_Angle = nt.getDoubleTopic("arm/target_angle");
     DoubleTopic Arm_Voltage = nt.getDoubleTopic("arm/motor_set_voltage");
     final DoublePublisher simAnglePub;
     final DoublePublisher encoderAnglePub;
     final DoublePublisher targetAnglePub;
     final DoublePublisher motorVoltagePub;
+    final DoublePublisher eAnglePub;
     CanSparkMaxPidSim pidSim;
 
     double kG = 0.001;
@@ -75,6 +77,9 @@ public class ArmSimulation extends ArmSubsystem {
 
         motorVoltagePub = Arm_Voltage.publish();
         motorVoltagePub.setDefault(0.0);
+
+        eAnglePub = m_realEncoderAngle.publish();
+        eAnglePub.setDefault(0.0);
 
         m_shooterMounterLigament.setColor(background);
     }
@@ -113,6 +118,7 @@ public class ArmSimulation extends ArmSubsystem {
         targetAnglePub.set(m_targetAngle, NetworkTablesJNI.now());
         encoderAnglePub.set(m_armEncoder.getAbsolutePosition(), NetworkTablesJNI.now());
         motorVoltagePub.set(motor_volts, NetworkTablesJNI.now());
+        eAnglePub.set(getArmAngleDegrees(), NetworkTablesJNI.now());
     }
 }
 // 688.78 is CG inertia Distance bwetwwn cg and axis is 15.17247438
