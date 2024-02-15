@@ -10,27 +10,27 @@ import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.MagicSpeakerCommand;
-import frc.robot.commands.ShootPodiumCommand;
-import frc.robot.commands.ShootSubwooferCommand;
+import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
-import frc.robot.commands.ShooterInterpolateCommand;
 import frc.robot.commands.SwerveDefaultCommand;
+import frc.robot.commands.AutoAlignSequentialCommand;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
+import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
-import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.CalculateAngle;
-import frc.robot.util.CalculateRPM;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.revrobotics.REVPhysicsSim;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ProxyCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
@@ -40,7 +40,6 @@ public class RobotContainer {
   CommandXboxController m_controller = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
   CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
 
-  SwerveDefaultCommand m_swerveDefaultCommand = new SwerveDefaultCommand(m_controller);
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
@@ -48,14 +47,13 @@ public class RobotContainer {
   CalculateAngle m_angleCalculate = new CalculateAngle();
 
   public RobotContainer() {
-
     configureBindings();
   }
 
   private void configureBindings() {
     // set default commands
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
-    SubsystemContainer.swerveSubsystem.setDefaultCommand(m_swerveDefaultCommand);
+    SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_driverController));
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(ArmConstants.INTAKE_POSE));
@@ -69,19 +67,23 @@ public class RobotContainer {
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
 
     // swerve buttons
-    m_driverController.leftBumper().onTrue(new PathPlannerAuto("New Auto"));
+    m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_controller.leftTrigger().onTrue(new PathPlannerAuto("New Auto"));
+
+    m_driverController.y()
+        .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand),
+            new AutoAlignSequentialCommand())));
 
     // shooter buttons
+    m_controller.a().whileTrue(new MagicAmpCommand());
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
-    m_controller.x().whileTrue(new ShootPodiumCommand());
-    m_controller.b().whileTrue(new ShootSubwooferCommand());
-    m_controller.a().whileTrue(new MagicAmpCommand());
 
-    m_controller.rightBumper().whileTrue(new AutoAlignCommand());
-    m_controller.a().whileTrue(new MagicAmpCommand());
+    m_controller.x().whileTrue(new ShootSpeakerCommand());
+    m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
+    m_controller.b().toggleOnTrue(new ArmInterpolateCommand(m_angleCalculate));
   }
 
   public Command getAutonomousCommand() {

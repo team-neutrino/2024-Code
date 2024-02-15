@@ -6,19 +6,19 @@ package frc.robot.subsystems;
 
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.subsystems.simulation.ArmSimulation;
 import frc.robot.subsystems.simulation.PIDChangerSimulation;
+import frc.robot.util.ArmEncoderContainer;
 
 public class ArmSubsystem extends SubsystemBase {
   protected CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
@@ -27,8 +27,8 @@ public class ArmSubsystem extends SubsystemBase {
   protected double m_targetAngle;
   private boolean m_inPosition;
   public int i = 0;
-  private SparkAbsoluteEncoder absEncoder;
   private SparkPIDController pidController;
+  private ArmEncoderContainer armEncoderContainer;
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -37,67 +37,111 @@ public class ArmSubsystem extends SubsystemBase {
       ArmConstants.FF_ka);
 
   public ArmSubsystem() {
-    m_arm.restoreFactoryDefaults(); 
+    m_arm.restoreFactoryDefaults();
+    m_arm.setIdleMode(IdleMode.kBrake);
 
-    absEncoder = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-    absEncoder.setPositionConversionFactor(360);
-    absEncoder.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
+    armEncoderContainer = new ArmEncoderContainer(m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle));
+    armEncoderContainer.setPositionConversionFactor(360);
+    armEncoderContainer.setInverted(true);
+    armEncoderContainer.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
 
-    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 1);
+    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
 
     pidController = m_arm.getPIDController();
     pidController.setP(ArmConstants.Arm_kp, 0);
     pidController.setI(ArmConstants.Arm_ki, 0);
     pidController.setD(ArmConstants.Arm_kd, 0);
-    pidController.setFeedbackDevice(absEncoder);
+    pidController.setFeedbackDevice(armEncoderContainer.m_armEncoder);
+    pidController.setPositionPIDWrappingMaxInput(360);
+    pidController.setPositionPIDWrappingMinInput(0);
+    pidController.setPositionPIDWrappingEnabled(true);
   }
 
   public double getTargetAngle() {
     return m_targetAngle;
   }
 
-  public double getArmAngleDegrees()
-  {
-    if(RobotBase.isSimulation())
-    {
-      return ArmSimulation.currentSimAngle;
-    }
-    else
-    {
-      return absEncoder.getPosition();
-    }
-  }
-
-  public double getArmAngleRadians()
-  {
-    return absEncoder.getPosition() * (Math.PI / 180);
+  /**
+   * 
+   * @return returns current arm angle in degrees (-180, 180)
+   */
+  public double getArmAngleDegrees() {
+    return adjustAngleOut(armEncoderContainer.getPosition());
   }
 
   /**
-   * Set arm reference angle, target angle should be in degrees
    * 
-   * @param targetAngle must be in degrees
+   * @return returns current arm angle in radians (-pi, pi)
+   */
+  public double getArmAngleRadians() {
+    return adjustAngleOut(armEncoderContainer.getPosition()) * (Math.PI / 180);
+  }
+
+  /**
+   * Set arm reference angle, target angle should be in degrees. Will be converted
+   * to (0, 360) before sent
+   * to the motor controller
+   * 
+   * @param targetAngle must be in degrees (-180, 180)
    */
   public void setArmReferenceAngle(double targetAngle) {
 
     m_targetAngle = targetAngle;
 
-    if(targetAngle > ArmConstants.INTAKE_LIMIT)
-    {
-      targetAngle = ArmConstants.INTAKE_LIMIT;
-    } 
-    else if(targetAngle < ArmConstants.AMP_LIMIT)
-    {
-      targetAngle = ArmConstants.AMP_LIMIT;
+    if (targetAngle > ArmConstants.ARM_UPPER_LIMIT) {
+      targetAngle = ArmConstants.ARM_UPPER_LIMIT;
+    } else if (targetAngle < ArmConstants.ARM_LOWER_LIMIT) {
+      targetAngle = ArmConstants.ARM_LOWER_LIMIT;
     }
 
-    double feedforward = ArmConstants.FF_kg * ((ArmConstants.ARM_RADIUS / 2) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
+    double feedforward = ArmConstants.FF_kg
+        * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
+
+    targetAngle = adjustAngleIn(targetAngle);
 
     pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
   }
 
+  /**
+   * Adjusts the angle going into the pid reference logic to conform to the (0,
+   * 360) angle system
+   * 
+   * @param angle desired angle to adjust
+   * @return adjusted angle that is ready to use as a reference
+   */
+  private double adjustAngleIn(double angle) {
+    if (angle < 0) {
+      angle += 360;
+    }
+    return angle;
+  }
+
+  /**
+   * Adjusts the arm angle going out of the subsystem so that it conforms with
+   * (-180, 180)
+   * (like when the position is being accessed).
+   * 
+   * @param angle in (0, 360) (raw return from abs encoder)
+   * @return angle in (-180, 180)
+   */
+  private double adjustAngleOut(double angle) {
+    if (angle > 180) {
+      angle -= 360;
+    }
+    return angle;
+  }
+
+  public double limitShiftAngle(double angle) {
+    if (angle > ArmConstants.ARM_UPPER_LIMIT) {
+      return ArmConstants.ARM_UPPER_LIMIT;
+    } else if (angle < ArmConstants.ARM_LOWER_LIMIT) {
+      return ArmConstants.ARM_LOWER_LIMIT;
+    }
+    return angle;
+  }
+
   private boolean ArmDebouncer() {
-    if (Math.abs(m_angle - m_targetAngle) <= 5) {
+    if (Math.abs(getArmAngleDegrees() - m_targetAngle) <= 5) {
       i++;
     } else {
       i = 0;
@@ -109,7 +153,7 @@ public class ArmSubsystem extends SubsystemBase {
     return m_inPosition;
   }
 
-  private double withinRange(double check) {
+  public double withinRange(double check) {
     if (check >= ArmConstants.INTAKE_LIMIT) {
       return ArmConstants.INTAKE_LIMIT;
 
