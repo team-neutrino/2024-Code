@@ -22,9 +22,33 @@
                 }
               },
               {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
                   "pathName": "Two Close One Mid Part II"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
                 }
               },
               {
@@ -34,9 +58,15 @@
                 }
               },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "Two Close One Mid Part IV"
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
                 }
               }
             ]
