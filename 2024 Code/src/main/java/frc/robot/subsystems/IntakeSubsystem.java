@@ -33,19 +33,19 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake() {
-        m_intakeMotor.setVoltage(IntakeConstants.INTAKE_MOTOR_SPEED);
+        m_intakeMotor.setVoltage(-IntakeConstants.INTAKE_MOTOR_VOLTAGE);
     }
 
     public void runIndex() {
-        m_indexMotor.setVoltage(IntakeConstants.INDEX_MOTOR_SPEED);
+        m_indexMotor.setVoltage(IntakeConstants.INDEX_MOTOR_VOLTAGE);
     }
 
     public void runIntakeReverse() {
-        m_intakeMotor.setVoltage(-IntakeConstants.INTAKE_MOTOR_SPEED);
+        m_intakeMotor.setVoltage(IntakeConstants.INTAKE_MOTOR_VOLTAGE);
     }
 
     public void runIndexReverse() {
-        m_indexMotor.setVoltage(-IntakeConstants.INDEX_MOTOR_SPEED);
+        m_indexMotor.setVoltage(-IntakeConstants.INDEX_MOTOR_VOLTAGE);
     }
 
     public void stopIntake() {

@@ -11,7 +11,7 @@ import frc.robot.Constants.LEDConstants.States;
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
     double currentYaw;
-    double targetYaw;
+    double offsetYaw;
 
     public AutoAlignCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
@@ -25,8 +25,8 @@ public class AutoAlignCommand extends Command {
     @Override
     public void execute() {
         currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-        targetYaw = SubsystemContainer.limelightSubsystem.getTx();
-        SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
+        offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+        SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - offsetYaw);
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
 

@@ -20,6 +20,7 @@ public class IntakeReverseCommand extends Command {
   @Override
   public void execute() {
     m_intakeSubsystem.runIntakeReverse();
+    m_intakeSubsystem.runIndexReverse();
   }
 
   @Override
