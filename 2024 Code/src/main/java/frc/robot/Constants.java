@@ -24,7 +24,7 @@ public final class Constants {
   public static class DimensionConstants {
     public static double WHEEL_DIAMETER = 0.1016;
     public static double WHEEL_CIRCUMFERENCE = 0.1016 * Math.PI;
-    public static double SPEAKER_TO_MOUNT_HEIGHT = 1.3081;
+    public static double SPEAKER_TO_MOUNT_HEIGHT = 0.6604;
   }
 
   public static class SwerveConstants {
@@ -118,7 +118,7 @@ public final class Constants {
     public static double Arm_ki = 0.0;
     public static double Arm_kd = 0.0;
 
-    public static double FF_kg = 0.014;
+    public static double FF_kg = 0.01;
     public static double ARM_MASS_KG = 8.3733; // LBS 18.46
     public static double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static double ARM_RADIUS = 0.6555;

@@ -19,12 +19,12 @@ public class ShooterSubsystem extends SubsystemBase {
   protected RelativeEncoder m_shooterEncoder2;
   private SparkPIDController m_pidController1;
   private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
-  protected double WHEEL_P = 0.0001;
+  protected double WHEEL_P = 0.0006;
   protected double WHEEL_I = 0.000001;
   protected double WHEEL_D = 0;
-  protected double WHEEL_FF = 0.000195;
+  protected double WHEEL_FF = 0.00021;
   protected double m_targetRPM;
-  protected double Izone = 50;
+  protected double Izone = 100;
   private int counter;
   final private double APPROVE_ERROR_THRESHOLD = 200;
   final private double APPROVE_COUNTER_THRESHOLD = 9;
@@ -43,15 +43,15 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooter1.setIdleMode(IdleMode.kCoast);
     m_shooter1.setInverted(false);
     m_shooter1.setSmartCurrentLimit(40);
-    // m_shooter1.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
+    m_shooter1.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
     // m_shooter1.setSoftLimit(CANSparkBase.SoftLimitDirection.kForward, 0);
 
     m_shooterEncoder2 = m_shooter2.getEncoder();
     m_shooter2.restoreFactoryDefaults();
     m_shooter2.setIdleMode(IdleMode.kCoast);
-    m_shooter2.setInverted(false);
+    m_shooter2.setInverted(true);
     m_shooter2.setSmartCurrentLimit(40);
-    // m_shooter2.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
+    m_shooter2.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
     // m_shooter2.setSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, 0);
     m_shooter2.follow(m_shooter1, true);
 
@@ -165,5 +165,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    m_shooter1.getBusVoltage();
   }
 }

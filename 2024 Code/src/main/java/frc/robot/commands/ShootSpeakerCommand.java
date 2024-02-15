@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.Constants.DimensionConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.SubsystemContainer;
@@ -22,7 +23,7 @@ public class ShootSpeakerCommand extends Command {
 
     @Override
     public void execute() {
-        m_shooterSubsystem.setTargetRPM(5000);
+        m_shooterSubsystem.setTargetRPM(3000);
         m_indexSubsystem.indexApprove(m_shooterSubsystem.approveShoot());
     }
 
