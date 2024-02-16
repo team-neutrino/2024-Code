@@ -1,67 +1,39 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.photonvision.*;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
-public class LimelightSubsystem extends SubsystemBase {
-  private NetworkTable limelight;
+public class PhotonVision extends SubsystemBase {
+  private NetworkTable photonVision;
   private double[] pose = new double[6];
   private double[] targetPose = new double[6];
   private double[] pastPose = new double[6];
   private double[] pastTargetPose = new double[6];
+  PhotonTrackedTarget target;
+  PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
-  public LimelightSubsystem() {
+  public PhotonVision() {
     // global instance of the network table and gets the limelight table
-    limelight = NetworkTableInstance.getDefault().getTable("limelight");
+    photonVision = NetworkTableInstance.getDefault().getTable("limelight");
     // turns off LED
-    limelight.getEntry("ledMode").setNumber(1);
+    photonVision.getEntry("ledMode").setNumber(1);
   }
 
-  public boolean getTv() {
-    NetworkTableEntry tv = limelight.getEntry("tv");
-    double validTarget = tv.getDouble(0.0);
-
-    return validTarget == 1;
+  public Transform3d getInfo() {
+    return target.getBestCameraToTarget();
   }
 
-  public Double getID() {
-    Double id = limelight.getEntry("tid").getDouble(0.0);
-    return id;
-  }
-
-  // gets the x offest between the center of vision and the detected object
-  public double getTx() {
-    return limelight.getEntry("tx").getDouble(0.0);
-  }
-
-  // gets the y offest between the center of vision and the detected object
-  public double getTy() {
-    return limelight.getEntry("ty").getDouble(0.0);
+  public double getYaw() {
+    return target.getYaw();
   }
 
   public void periodic() {
-    limelight.getEntry("ledMode").setNumber(1);
-  }
-
-  public double[] getBotPose() {
-    pose = limelight.getEntry("botpose").getDoubleArray(pastPose);
-    if (getTv()) {
-      pastPose = pose;
-    }
-    return pose;
-  }
-
-  public double[] getTargetPose() {
-    targetPose = limelight.getEntry("targetpose_robotspace").getDoubleArray(pastTargetPose);
-    if (getTv()) {
-      pastTargetPose = targetPose;
-    }
-    return targetPose;
-  }
-
-  public void setPipeline(int pipeline) {
-    limelight.getEntry("pipeline").setNumber(pipeline);
+    var result = camera.getLatestResult();
+    target = result.getBestTarget();
   }
 }

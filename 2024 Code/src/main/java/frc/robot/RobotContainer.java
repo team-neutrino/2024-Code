@@ -15,6 +15,7 @@ import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
+import frc.robot.commands.AutoAlignCommandNote;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.IntakeDefaultCommand;
@@ -73,6 +74,7 @@ public class RobotContainer {
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
     m_controller.x().whileTrue(new ShooterInterpolateCommand(new CalculateRPM()));
     m_controller.rightBumper().whileTrue(new AutoAlignCommand());
+    m_controller.leftBumper().whileTrue(new AutoAlignCommandNote());
     m_controller.a().whileTrue(new MagicAmpCommand());
 
     // arm buttons
