@@ -12,7 +12,7 @@ public class ShootSpeakerCommand extends Command {
     private IntakeSubsystem m_intakeSubsystem;
 
     public ShootSpeakerCommand() {
-        m_shooterSubsystem = SubsystemContainer.ShooterSubsystem;
+        m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
         m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
 
         addRequirements(m_shooterSubsystem, m_intakeSubsystem);
