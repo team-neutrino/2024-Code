@@ -8,7 +8,7 @@ public class ShooterDefaultCommand extends Command {
     private ShooterSubsystem m_shooterSubsystem;
 
     public ShooterDefaultCommand() {
-        m_shooterSubsystem = SubsystemContainer.ShooterSubsystem;
+        m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
         addRequirements(m_shooterSubsystem);
     }
 

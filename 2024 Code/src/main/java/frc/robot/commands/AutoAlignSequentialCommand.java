@@ -5,28 +5,34 @@
 package frc.robot.commands;
 
 import frc.robot.FieldConstants;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class AutoAlignSequentialCommand extends AutoAlignCommand {
-    double currentYaw;
-    double targetYaw;
+    private SwerveSubsystem m_swerveSubsystem;
+    private LimelightSubsystem m_limelightSubsystem;
+    private double currentYaw;
+    private double targetYaw;
 
     public AutoAlignSequentialCommand() {
-        addRequirements(SubsystemContainer.limelightSubsystem);
+        m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
+        m_limelightSubsystem = SubsystemContainer.limelightSubsystem;
+        addRequirements(m_limelightSubsystem);
     }
 
     @Override
     public boolean isFinished() {
-        if (SubsystemContainer.swerveSubsystem.isRedAlliance() == true
-                && SubsystemContainer.limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY) {
+        if (m_swerveSubsystem.isRedAlliance() == true
+                && m_limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY) {
             return true;
         }
-        if (SubsystemContainer.swerveSubsystem.isRedAlliance() == false
-                && SubsystemContainer.limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
+        if (m_swerveSubsystem.isRedAlliance() == false
+                && m_limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
             return true;
         }
 
-        if (!SubsystemContainer.swerveSubsystem.omegaZero()) {
+        if (!m_swerveSubsystem.omegaZero()) {
             return true;
         }
 

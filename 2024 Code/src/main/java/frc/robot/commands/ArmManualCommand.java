@@ -8,13 +8,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class ArmManualCommand extends Command {
+  private ArmSubsystem m_armSubsystem;
   private double m_shiftAngle;
   private XboxController m_controller;
 
   public ArmManualCommand(CommandXboxController p_controller) {
+    m_armSubsystem = SubsystemContainer.armSubsystem;
     m_controller = p_controller.getHID();
     addRequirements(SubsystemContainer.armSubsystem);
   }
@@ -30,9 +33,9 @@ public class ArmManualCommand extends Command {
       m_shiftAngle -= m_controller.getLeftX();
     }
 
-    m_shiftAngle = SubsystemContainer.armSubsystem.limitShiftAngle(m_shiftAngle);
+    m_shiftAngle = m_armSubsystem.limitShiftAngle(m_shiftAngle);
 
-    SubsystemContainer.armSubsystem.setArmReferenceAngle(m_shiftAngle);
+    m_armSubsystem.setArmReferenceAngle(m_shiftAngle);
   }
 
   @Override

@@ -28,6 +28,12 @@
                 }
               },
               {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
                   "pathName": "All Close Part II"
@@ -40,9 +46,27 @@
                 }
               },
               {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
                   "pathName": "All Close Part III"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
                 }
               }
             ]

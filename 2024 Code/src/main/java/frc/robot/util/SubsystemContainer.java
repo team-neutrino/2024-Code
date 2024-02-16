@@ -15,7 +15,7 @@ public class SubsystemContainer {
     public static final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
     public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     public static final IntakeSimulation intakeSubsystem = new IntakeSimulation();
-    public static final Shooter ShooterSubsystem = new Shooter();
+    public static final Shooter shooterSubsystem = new Shooter();
     public static final Climb climbSubsystem = new Climb();
     public static final ArmSimulation armSubsystem = new ArmSimulation();
     public static final LEDSubsystem LEDSubsystem = new LEDSubsystem();
