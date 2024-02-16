@@ -12,6 +12,18 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Turn at start bottom"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "MagicSpeakerCommand"
@@ -20,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Midline I"
+            "pathName": "Midline II"
           }
         },
         {
@@ -32,13 +44,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Midline II"
+            "pathName": "Midline III"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Midline III"
+            "pathName": "Midline IV"
           }
         },
         {

@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.74,
+      "x": 1.0,
       "y": 7.0
     },
     "rotation": 0.0
@@ -16,6 +16,18 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "Turn at start"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "MagicSpeakerCommand"
@@ -24,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Close Then Mid Part I"
+                  "pathName": "Close Then Mid Part II"
                 }
               },
               {
@@ -42,13 +54,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Close Then Mid Part II"
+                  "pathName": "Close Then Mid Part III"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Close Then Mid Part III"
+                  "pathName": "Close Then Mid Part IV"
                 }
               },
               {
