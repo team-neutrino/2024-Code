@@ -14,7 +14,7 @@ public class PhotonVision extends SubsystemBase {
   private double[] targetPose = new double[6];
   private double[] pastPose = new double[6];
   private double[] pastTargetPose = new double[6];
-  PhotonTrackedTarget target;
+  static PhotonTrackedTarget target;
   PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
   public PhotonVision() {
@@ -28,7 +28,7 @@ public class PhotonVision extends SubsystemBase {
     return target.getBestCameraToTarget();
   }
 
-  public double getYaw() {
+  public static double getYaw() {
     return target.getYaw();
   }
 

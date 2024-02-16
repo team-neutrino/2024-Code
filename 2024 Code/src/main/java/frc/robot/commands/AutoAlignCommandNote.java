@@ -5,15 +5,18 @@
 package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.LEDConstants.States;
+import frc.robot.subsystems.PhotonVision;
 
 /** An example command that uses an example subsystem. */
-public class AutoAlignCommand extends Command {
+public class AutoAlignCommandNote extends Command {
+    Transform3d currentInfo;
     double currentYaw;
     double targetYaw;
 
-    public AutoAlignCommand() {
+    public AutoAlignCommandNote() {
         addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
@@ -25,7 +28,7 @@ public class AutoAlignCommand extends Command {
     @Override
     public void execute() {
         currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-        targetYaw = SubsystemContainer.limelightSubsystem.getTx();
+        targetYaw = PhotonVision.getYaw();
         SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
