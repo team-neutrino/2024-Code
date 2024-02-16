@@ -65,6 +65,9 @@ public final class Constants {
     public static Pose2d RED_TARGET_POSE2;
     public static Pose2d RED_TARGET_POSE3;
     public static Pose2d RED_TARGET_POSE4;
+
+    public static int ANGLE_MOTOR_CURRENT_LIMIT = 50;
+    public static int SPEED_MOTOR_CURRENT_LIMIT = 50;
   }
 
   public final class DigitalConstants {
@@ -124,6 +127,7 @@ public final class Constants {
     public static double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static double ARM_RADIUS = 0.6555;
     public static double ARM_CM = 0.37084; // INCHES 14.6
+    public static int ARM_CURRENT_LIMIT = 50;
 
     // TODO: FeedForward Constants are PLACEHOLDERS
     public static double FF_ks = 0.0;
@@ -146,5 +150,11 @@ public final class Constants {
     public static double INDEX_MOTOR_VOLTAGE = 1 * 12;
     public static int INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
+  }
+
+  public final class ShooterConstants {
+    public static double SUBWOOFER_SPEED = 3000;
+    public static double PODIUM_SPEED = 4500;
+    public static int SHOOTER_CURRENT_LIMIT = 40;
   }
 }

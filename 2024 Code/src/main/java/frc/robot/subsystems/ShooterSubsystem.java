@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.subsystems.simulation.PIDChangerSimulationShooter;
@@ -42,14 +43,14 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooter1.restoreFactoryDefaults();
     m_shooter1.setIdleMode(IdleMode.kCoast);
     m_shooter1.setInverted(false);
-    m_shooter1.setSmartCurrentLimit(40);
+    m_shooter1.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
     m_shooter1.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
 
     m_shooterEncoder2 = m_shooter2.getEncoder();
     m_shooter2.restoreFactoryDefaults();
     m_shooter2.setIdleMode(IdleMode.kCoast);
     m_shooter2.setInverted(true);
-    m_shooter2.setSmartCurrentLimit(40);
+    m_shooter2.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
     m_shooter2.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
     m_shooter2.follow(m_shooter1, true);
 
