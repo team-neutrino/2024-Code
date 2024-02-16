@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class ShootSpeakerCommand extends Command {
 
     private ShooterSubsystem m_shooterSubsystem;
-    private IntakeSubsystem m_indexSubsystem;
+    private IntakeSubsystem m_intakeSubsystem;
 
     public ShootSpeakerCommand() {
-        m_shooterSubsystem = SubsystemContainer.ShooterSubsystem;
-        m_indexSubsystem = SubsystemContainer.intakeSubsystem;
+        m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
+        m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
 
-        addRequirements(m_shooterSubsystem, m_indexSubsystem);
+        addRequirements(m_shooterSubsystem, m_intakeSubsystem);
     }
 
     public void initialize() {
@@ -24,7 +24,7 @@ public class ShootSpeakerCommand extends Command {
     @Override
     public void execute() {
         m_shooterSubsystem.setTargetRPM(3000);
-        m_indexSubsystem.indexApprove(m_shooterSubsystem.approveShoot());
+        m_intakeSubsystem.indexApprove(m_shooterSubsystem.approveShoot());
     }
 
     @Override
