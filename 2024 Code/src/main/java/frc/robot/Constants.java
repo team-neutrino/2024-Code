@@ -139,7 +139,7 @@ public final class Constants {
     public static double AMP_POSE = 20;
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
-    public static double PODIUM_POSE = 50; // PLACEHOLDER VALUE
+    public static double PODIUM_ANGLE = 50; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {
