@@ -13,16 +13,16 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class MagicSpeakerCommand extends Command {
   CalculateAngle m_calculateAngle;
-  ArmSubsystem m_arm;
-  ShooterSubsystem m_shooter;
-  IntakeSubsystem m_intake;
+  ArmSubsystem m_armSubsystem;
+  ShooterSubsystem m_shooterSubsystem;
+  IntakeSubsystem m_intakeSubsystem;
 
   public MagicSpeakerCommand(CalculateAngle p_calculateAngle) {
     m_calculateAngle = p_calculateAngle;
-    m_arm = SubsystemContainer.armSubsystem;
-    m_shooter = SubsystemContainer.ShooterSubsystem;
-    m_intake = SubsystemContainer.intakeSubsystem;
-    addRequirements(m_arm, m_shooter, m_intake);
+    m_armSubsystem = SubsystemContainer.armSubsystem;
+    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
+    m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
+    addRequirements(m_armSubsystem, m_shooterSubsystem, m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -33,12 +33,12 @@ public class MagicSpeakerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_arm.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
-    m_shooter.setTargetRPM(2000);
-    if (m_arm.getInPosition() && m_shooter.approveShoot()) {
-      m_intake.runIndex();
+    m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
+    m_shooterSubsystem.setTargetRPM(m_calculateAngle.InterpolateAngle());
+    if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
+      m_intakeSubsystem.runIndex();
     } else {
-      m_intake.stopIndex();
+      m_intakeSubsystem.stopIndex();
     }
   }
 
