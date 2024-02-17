@@ -74,7 +74,8 @@ public class RobotContainer {
             new AutoAlignSequentialCommand())));
 
     // shooter buttons
-    m_controller.a().whileTrue(new MagicAmpCommand());
+    m_controller.a()
+        .whileTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp, new MagicAmpCommand()));
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
 
     m_controller.x().whileTrue(new ShootSpeakerCommand());
