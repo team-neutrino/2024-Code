@@ -53,7 +53,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntakeReverse() {
-        m_intakeMotor.setVoltage(IntakeConstants.INTAKE_MOTOR_VOLTAGE);
+        m_intakeMotor.setVoltage(-IntakeConstants.INTAKE_MOTOR_VOLTAGE);
     }
 
     public void runIndexReverse() {
