@@ -31,6 +31,21 @@ import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
 
+/**
+ * notes:
+ * 
+ * need to test reference angle theory: that
+ * the reference angle should always just be zero
+ * since we want the robot's "front" to be the direction
+ * it's facing.
+ * 
+ * If reference angle theory is proven, possibly remove
+ * m_referenceSet as unecessary - still need to investigate
+ * purpose further.
+ * 
+ * autoAlignCommand was changed for testing reference angle
+ * theory, need to investigate possible functionality damage.
+ */
 public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
       SwerveConstants.FRONT_LEFT_COORD,
@@ -62,7 +77,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private PIDController m_angleController = new PIDController(0.04, 0, 0);
   private Timer m_timer = new Timer();
-  private double m_referenceAngle = 0;
+  private final double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
 
   SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
@@ -122,6 +137,18 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
+  /**
+   * Swerves the robot with the given the left stick's current y position "vx",
+   * the left stick's current x position "vy", and the right stick's x position
+   * "omega."
+   * 
+   * vx and vy are used to move the robot in the appropriate direction and omega
+   * is used to rotate the robot in the appropriate direction.
+   * 
+   * @param vx    The left stick's current y position.
+   * @param vy    The left stick's current x position
+   * @param omega The right stick's current x position.
+   */
   public void Swerve(double vx, double vy, double omega) {
     vx = Limiter.scale(Limiter.deadzone(vx, 0.4), -SwerveConstants.MAX_CHASSIS_LINEAR_SPEED,
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
@@ -136,11 +163,21 @@ public class SwerveSubsystem extends SubsystemBase {
       omegaZero = false;
     }
 
+    /**
+     * Timer purpose: if the right stick is pushed all the way to the right
+     * then is suddenly let go, the robot's inertia would keep moving it in
+     * the direction of the previous omega (desired angle change) while the
+     * computer processor would instantaneously register the new setpoint,
+     * resulting in the PID briefly (but perceptibly) moving the robot in the
+     * opposite direction as the last angle set point.
+     * 
+     * https://docs.google.com/drawings/d/1NZ563H9Wx24MgKlepvqt3oY0V-dRWQ6CJMCXJ0Hhljw/edit?usp=sharing
+     */
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
     } else if (m_timer.get() >= 0.2 && !m_referenceSet) {
-      resetNavX();
-      m_referenceAngle = getYaw();
+      // resetNavX(); <-- this may be needed if the reference angle theory is wrong
+      // m_referenceAngle = getYaw();
       m_referenceSet = true;
       m_timer.stop();
       m_timer.reset();
@@ -220,9 +257,9 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
   }
 
-  public void setRobotYaw(double angle) {
-    m_referenceAngle = angle;
-  }
+  // public void setRobotYaw(double angle) {
+  // m_referenceAngle = angle;
+  // }
 
   public double getYaw() {
     return m_navX.getYaw() * (-1);
@@ -230,7 +267,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void resetNavX() {
     m_navX.reset();
-    m_referenceAngle = 0;
+    // m_referenceAngle = 0;
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
         new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
   }

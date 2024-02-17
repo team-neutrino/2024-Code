@@ -29,7 +29,12 @@ public class SwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    if (m_xboxController.getLeftStickButton()) {
+      m_swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1,
+          m_xboxController.getLeftX() * -1,
+          m_xboxController.getRightX() * -1);
+      m_swerveSubsystem.setCommandState(States.DEFAULT);
+    }
     m_swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1,
         m_xboxController.getLeftX() * -1,
         m_xboxController.getRightX() * -1);

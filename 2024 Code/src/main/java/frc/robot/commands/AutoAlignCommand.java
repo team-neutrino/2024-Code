@@ -33,7 +33,8 @@ public class AutoAlignCommand extends Command {
     public void execute() {
         currentYaw = m_swerveSubsystem.getYaw();
         offsetYaw = m_limelightSubsystem.getTx();
-        m_swerveSubsystem.setRobotYaw(currentYaw - offsetYaw);
+        // should just always be zero (according to WASD)
+        // m_swerveSubsystem.setRobotYaw(currentYaw - offsetYaw);
         m_swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
 
