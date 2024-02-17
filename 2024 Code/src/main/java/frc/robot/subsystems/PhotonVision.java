@@ -4,22 +4,30 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import org.photonvision.*;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 public class PhotonVision extends SubsystemBase {
-  private NetworkTable photonVision;
-  private double[] pose = new double[6];
-  private double[] targetPose = new double[6];
-  private double[] pastPose = new double[6];
-  private double[] pastTargetPose = new double[6];
+  private NetworkTableInstance instance = NetworkTableInstance.getDefault();
+  private NetworkTable photonVision = instance.getTable("Microsoft_LifeCam_HD-3000");
   static PhotonTrackedTarget target;
   PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+  PhotonPipelineResult result = camera.getLatestResult();
+
+  public PhotonPipelineResult getLatestPipeline() {
+    return camera.getLatestResult();
+  }
+
+  public boolean hasTarget() {
+    return result.hasTargets();
+  }
 
   public PhotonVision() {
     // global instance of the network table and gets the limelight table
-    photonVision = NetworkTableInstance.getDefault().getTable("limelight");
+    photonVision = NetworkTableInstance.getDefault().getTable("photonVision");
     // turns off LED
     photonVision.getEntry("ledMode").setNumber(1);
   }
@@ -33,7 +41,6 @@ public class PhotonVision extends SubsystemBase {
   }
 
   public void periodic() {
-    var result = camera.getLatestResult();
     target = result.getBestTarget();
   }
 }
