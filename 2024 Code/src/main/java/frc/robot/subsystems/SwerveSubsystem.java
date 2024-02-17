@@ -173,7 +173,7 @@ public class SwerveSubsystem extends SubsystemBase {
      * 
      * https://docs.google.com/drawings/d/1NZ563H9Wx24MgKlepvqt3oY0V-dRWQ6CJMCXJ0Hhljw/edit?usp=sharing
      */
-    if (omega == 0 && m_timer.get() == 0) {
+    if (omegaZero && m_timer.get() == 0) {
       m_timer.start();
     } else if (m_timer.get() >= 0.2 && !m_referenceSet) {
       // resetNavX(); <-- this may be needed if the reference angle theory is wrong
@@ -184,7 +184,7 @@ public class SwerveSubsystem extends SubsystemBase {
     } else if (omega != 0) {
       m_referenceSet = false;
 
-    } else if (omega == 0 && m_referenceSet) {
+    } else if (omegaZero && m_referenceSet) {
       omega += m_angleController.calculate(getYaw(), m_referenceAngle);
     }
 
