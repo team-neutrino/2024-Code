@@ -37,7 +37,7 @@ public class MagicAmpCommand extends Command {
     m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
     m_shooterSubsystem.setTargetRPM(500);
     if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
-      m_intakeSubsystem.runIndex();
+      m_intakeSubsystem.runIndexShoot();
     } else {
       m_intakeSubsystem.stopIndex();
     }

@@ -37,7 +37,7 @@ public class ShooterInterpolateCommand extends Command {
   public void execute() {
     m_shooterSubsystem.setTargetRPM(m_RPMCalculate.InterpolateRPM());
     if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
-      m_intakeSubsystem.runIndex();
+      m_intakeSubsystem.runIndexShoot();
     } else {
       m_intakeSubsystem.stopIndex();
     }
