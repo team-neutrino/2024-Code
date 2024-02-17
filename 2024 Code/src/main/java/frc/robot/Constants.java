@@ -75,7 +75,8 @@ public final class Constants {
   }
 
   public final class PWMConstants {
-    public static int LED = 0;
+    public static int LED_Left = 0;
+    public static int LED_Right = 1;
   }
 
   public final class LEDConstants {
