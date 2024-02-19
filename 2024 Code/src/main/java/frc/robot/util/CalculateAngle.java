@@ -2,7 +2,6 @@ package frc.robot.util;
 
 import java.util.TreeMap;
 
-import frc.robot.Constants.DimensionConstants;
 import frc.robot.subsystems.LimelightSubsystem;
 
 public class CalculateAngle {
@@ -32,21 +31,6 @@ public class CalculateAngle {
         double resultAngle = 0;
         double ty = m_limelight.getTy();
 
-        // if (ty <= m_distanceAngleData.firstKey()) {
-        // return m_distanceAngleData.get(m_distanceAngleData.firstKey());
-        // } else if (ty >= m_distanceAngleData.lastKey()) {
-        // return m_distanceAngleData.get(m_distanceAngleData.lastKey());
-        // } else {
-        // for (Double a : m_distanceAngleData.keySet()) {
-        // if (a >= ty) {
-        // largerDistance = a;
-        // break;
-        // } else {
-        // smallerDistance = a;
-        // }
-        // }
-        // }
-
         smallerAngle = m_angleData.lowerKey(ty);
         largerAngle = m_angleData.higherKey(ty);
 
@@ -59,11 +43,6 @@ public class CalculateAngle {
         resultAngle = (m_angleData.get(smallerAngle) * (largerAngle - ty)
                 + m_angleData.get(largerAngle) * (ty - smallerAngle))
                 / (largerAngle - smallerAngle);
-
-        // resultAngle = m_angleData.get(smallerAngle)
-        // + ((ty - smallerAngle))
-        // * ((m_angleData.get(largerAngle) - m_angleData.get(smallerAngle))
-        // / (largerAngle - smallerAngle));
 
         return resultAngle;
     }
