@@ -12,9 +12,15 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Turn Start (Top)"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "ShootSpeakerCommand"
+            "name": "MagicSpeakerCommand"
           }
         },
         {
@@ -26,7 +32,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootSpeakerCommand"
+            "name": "MagicSpeakerCommand"
           }
         }
       ]
