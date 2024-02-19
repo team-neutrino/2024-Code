@@ -38,7 +38,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
+      "name": "Intake1",
       "waypointRelativePos": 0.45,
       "command": {
         "type": "sequential",
@@ -48,6 +48,23 @@
               "type": "named",
               "data": {
                 "name": "IntakeCommand"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.75,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeDefaultCommand"
               }
             }
           ]
