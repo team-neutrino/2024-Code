@@ -80,6 +80,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
+  public Pose2d currentPoseL = new Pose2d();
   public Command m_pathfindAmp;
 
   public SwerveSubsystem() {
@@ -245,6 +246,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void resetPose(Pose2d pose) {
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
+    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
@@ -332,10 +334,11 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[2] = m_backRight.getModulePosition();
     modulePositions[3] = m_backLeft.getModulePosition();
 
-    //currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
-    currentPose = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
-    field.getObject("auton").setPose(currentPose);
+    field.getObject("regular odometry").setPose(currentPose);
+    field.getObject("odometry w/ limelight").setPose(currentPoseL);
 
     cycle++;
     if (cycle % 8 == 0) {

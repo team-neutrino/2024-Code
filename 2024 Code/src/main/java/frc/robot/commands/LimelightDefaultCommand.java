@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -18,7 +19,6 @@ public class LimelightDefaultCommand extends Command {
         m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
         m_limelightSubsystem = SubsystemContainer.limelightSubsystem;
         addRequirements(m_limelightSubsystem);
-
     }
 
     @Override
@@ -33,8 +33,14 @@ public class LimelightDefaultCommand extends Command {
             pose = new Pose2d(botPose[0] + SwerveConstants.CENTER_OF_FIELD_M.getX(),
                     botPose[1] + SwerveConstants.CENTER_OF_FIELD_M.getY(),
                     Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
-            m_swerveSubsystem.resetPose(pose);
 
+            if (Math.abs(pose.getX()) - Math.abs(m_swerveSubsystem.currentPoseL.getX()) > 3 &&
+                Math.abs(pose.getY()) - Math.abs(m_swerveSubsystem.currentPoseL.getY()) > 3)
+            {
+                m_swerveSubsystem.resetPose(pose);
+            }
+
+            m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(pose, Timer.getFPGATimestamp());
         }
     }
 
