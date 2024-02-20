@@ -15,7 +15,7 @@ public class ShootSubwooferCommand extends Command {
     private ArmSubsystem m_armSubsystem;
 
     public ShootSubwooferCommand() {
-        m_shooterSubsystem = SubsystemContainer.ShooterSubsystem;
+        m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
         m_indexSubsystem = SubsystemContainer.intakeSubsystem;
         m_armSubsystem = SubsystemContainer.armSubsystem;
 
@@ -27,7 +27,7 @@ public class ShootSubwooferCommand extends Command {
 
     @Override
     public void execute() {
-        m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.INTAKE_LIMIT);
+        m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.SUBWOOFER_ANGLE);
         m_shooterSubsystem.setTargetRPM(ShooterSpeeds.SUBWOOFER_SPEED);
         if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
             m_indexSubsystem.runIndex();

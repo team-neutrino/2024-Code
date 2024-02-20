@@ -10,7 +10,9 @@ import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.MagicSpeakerCommand;
+import frc.robot.commands.ShootPodiumCommand;
 import frc.robot.commands.ShootSpeakerCommand;
+import frc.robot.commands.ShootSubwooferCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
@@ -80,12 +82,13 @@ public class RobotContainer {
     m_controller.a().whileTrue(new MagicAmpCommand());
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
 
-    m_controller.x().whileTrue(new ShootSpeakerCommand());
+    m_controller.x().whileTrue(new ShootPodiumCommand());
+    m_controller.b().toggleOnTrue(new ShootSubwooferCommand());
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
-    m_controller.b().toggleOnTrue(new ArmInterpolateCommand(m_angleCalculate));
+    ;
   }
 
   public Command getAutonomousCommand() {

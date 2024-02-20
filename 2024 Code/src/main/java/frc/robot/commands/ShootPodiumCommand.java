@@ -19,7 +19,7 @@ public class ShootPodiumCommand extends Command {
 
   public ShootPodiumCommand() {
     m_armSubsystem = SubsystemContainer.armSubsystem;
-    m_shooterSubsystem = SubsystemContainer.ShooterSubsystem;
+    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
     addRequirements(m_armSubsystem, m_shooterSubsystem, m_intakeSubsystem);
   }
