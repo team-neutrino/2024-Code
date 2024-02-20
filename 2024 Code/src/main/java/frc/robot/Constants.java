@@ -141,6 +141,8 @@ public final class Constants {
     public static double AMP_POSE = 90;
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
+    public static final double PODIUM_ANGLE = 50; // PLACEHOLDER VALUE
+    public static final double SUBWOOFER_ANGLE = -15; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {
@@ -149,5 +151,10 @@ public final class Constants {
     public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1 * 12;
     public static int INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
+  }
+
+  public final class ShooterSpeeds {
+    public static final double SUBWOOFER_SPEED = 3000;
+    public static final double PODIUM_SPEED = 4500;
   }
 }
