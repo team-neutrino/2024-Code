@@ -84,14 +84,14 @@ public class RobotContainer {
 
     m_controller.x().whileTrue(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SUBWOOFER_SPEED));
-    m_controller.b().toggleOnTrue(
+    m_controller.b().whileTrue(
         new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED)); // need to
                                                                                                             // test
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
-    ;
+    
   }
 
   public Command getAutonomousCommand() {
