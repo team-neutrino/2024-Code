@@ -12,7 +12,7 @@ import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.MagicSpeakerCommand;
 import frc.robot.commands.ShootPodiumCommand;
 import frc.robot.commands.ShootSpeakerCommand;
-import frc.robot.commands.ShootSubwooferCommand;
+import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
@@ -82,8 +82,11 @@ public class RobotContainer {
     m_controller.a().whileTrue(new MagicAmpCommand());
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
 
-    m_controller.x().whileTrue(new ShootPodiumCommand());
-    m_controller.b().toggleOnTrue(new ShootSubwooferCommand());
+    m_controller.x().whileTrue(
+        new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SUBWOOFER_SPEED));
+    m_controller.b().toggleOnTrue(
+        new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED)); // need to
+                                                                                                            // test
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons

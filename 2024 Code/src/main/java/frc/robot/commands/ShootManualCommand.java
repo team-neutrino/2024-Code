@@ -8,16 +8,20 @@ import frc.robot.Constants;
 import frc.robot.Constants.ShooterSpeeds;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class ShootSubwooferCommand extends Command {
+public class ShootManualCommand extends Command {
 
     private ShooterSubsystem m_shooterSubsystem;
     private IntakeSubsystem m_indexSubsystem;
     private ArmSubsystem m_armSubsystem;
+    private double m_angle;
+    private double m_rpm;
 
-    public ShootSubwooferCommand() {
+    public ShootManualCommand(double p_angle, double p_rpm) {
         m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
         m_indexSubsystem = SubsystemContainer.intakeSubsystem;
         m_armSubsystem = SubsystemContainer.armSubsystem;
+        m_angle = p_angle;
+        m_rpm = p_rpm;
 
         addRequirements(m_shooterSubsystem, m_indexSubsystem, m_armSubsystem);
     }
@@ -27,8 +31,8 @@ public class ShootSubwooferCommand extends Command {
 
     @Override
     public void execute() {
-        m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.SUBWOOFER_ANGLE);
-        m_shooterSubsystem.setTargetRPM(ShooterSpeeds.SUBWOOFER_SPEED);
+        m_armSubsystem.setArmReferenceAngle(m_angle);
+        m_shooterSubsystem.setTargetRPM(m_rpm);
         if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
             m_indexSubsystem.runIndex();
         } else {
