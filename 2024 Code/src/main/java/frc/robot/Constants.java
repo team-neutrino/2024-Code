@@ -53,8 +53,10 @@ public final class Constants {
 
     public static PathConstraints PATH_CONSTRAINTS = new PathConstraints(1, 1, 1.5 * Math.PI, 4 * Math.PI);
 
+    public static Translation2d CENTER_OF_FIELD_M = new Translation2d(8.29564, 4.105656);
+
     public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(1.9304, 1);
-    public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(12.7254, 1);
+    public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(-6.366, 3.74259);
 
     public static Pose2d BLUE_TARGET_POSE1 = new Pose2d(2, 4, new Rotation2d());
     public static Pose2d BLUE_TARGET_POSE2 = new Pose2d(0.1, 4.8, new Rotation2d());
@@ -136,14 +138,14 @@ public final class Constants {
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
     public static double INTAKE_POSE = -25;
-    public static double AMP_POSE = 20;
+    public static double AMP_POSE = 90;
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {
-    public static double INTAKE_MOTOR_VOLTAGE = -.8 * 12;
-    public static double INDEX_MOTOR_VOLTAGE_INTAKE = .4 * 12;
+    public static double INTAKE_MOTOR_VOLTAGE = 1 * 12;
+    public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.4 * 12;
     public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1 * 12;
     public static int INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
