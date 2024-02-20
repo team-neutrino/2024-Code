@@ -34,7 +34,7 @@ public class ShootManualCommand extends Command {
         m_armSubsystem.setArmReferenceAngle(m_angle);
         m_shooterSubsystem.setTargetRPM(m_rpm);
         if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
-            m_indexSubsystem.runIndex();
+            m_indexSubsystem.runIndexShoot();
         } else {
             m_indexSubsystem.stopIndex();
         }

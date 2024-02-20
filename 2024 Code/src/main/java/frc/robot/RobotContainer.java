@@ -77,6 +77,9 @@ public class RobotContainer {
         .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand),
             new AutoAlignSequentialCommand())));
 
+    m_driverController.a().onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp,
+        new MagicAmpCommand()));
+
     // shooter buttons
     m_controller.a().whileTrue(new MagicAmpCommand());
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
