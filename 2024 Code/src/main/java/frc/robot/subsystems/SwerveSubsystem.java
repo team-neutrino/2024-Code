@@ -11,6 +11,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -60,6 +61,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private SwerveDriveOdometry m_swerveOdometry;
 
+  public SwerveDrivePoseEstimator m_swervePoseEstimator;
+
   private PIDController m_angleController = new PIDController(0.06, 0, 0);
   private Timer m_timer = new Timer();
   private double m_referenceAngle = 0;
@@ -87,6 +90,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
         modulePositions);
+
+    m_swervePoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
 
     m_angleController.enableContinuousInput(-180, 180);
 
@@ -327,7 +332,8 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[2] = m_backRight.getModulePosition();
     modulePositions[3] = m_backLeft.getModulePosition();
 
-    currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    //currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    currentPose = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
     field.getObject("auton").setPose(currentPose);
 
