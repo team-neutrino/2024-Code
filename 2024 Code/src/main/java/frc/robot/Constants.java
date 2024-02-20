@@ -56,7 +56,7 @@ public final class Constants {
     public static Translation2d CENTER_OF_FIELD_M = new Translation2d(8.29564, 4.105656);
 
     public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(1.9304, 1);
-    public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(-6.366, 3.74259);
+    public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(12.7254, 1);
 
     public static Pose2d BLUE_TARGET_POSE1 = new Pose2d(2, 4, new Rotation2d());
     public static Pose2d BLUE_TARGET_POSE2 = new Pose2d(0.1, 4.8, new Rotation2d());
