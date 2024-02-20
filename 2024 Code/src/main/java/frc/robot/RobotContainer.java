@@ -10,7 +10,6 @@ import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.MagicSpeakerCommand;
-import frc.robot.commands.ShootPodiumCommand;
 import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShooterDefaultCommand;
@@ -91,7 +90,7 @@ public class RobotContainer {
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
-    
+
   }
 
   public Command getAutonomousCommand() {
