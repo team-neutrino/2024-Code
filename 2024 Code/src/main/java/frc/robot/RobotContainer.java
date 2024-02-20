@@ -20,6 +20,7 @@ import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.CalculateAngle;
@@ -61,7 +62,8 @@ public class RobotContainer {
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // Intake buttons
-    m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
+    m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
+    m_driverController.leftTrigger().whileTrue(new IntakeCommand());
 
     // Climb buttons
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
