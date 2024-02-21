@@ -79,7 +79,7 @@ public class SwerveSubsystem extends SubsystemBase {
   States commandState;
 
   Field2d field = new Field2d();
-  Pose2d currentPose = new Pose2d();
+  public Pose2d currentPose = new Pose2d();
   public Pose2d currentPoseL = new Pose2d();
   public Command m_pathfindAmp;
 
@@ -120,10 +120,10 @@ public class SwerveSubsystem extends SubsystemBase {
         this);
 
     if (isRedAlliance() == true) {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d()),
+      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, Rotation2d.fromDegrees(-90)),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     } else {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, new Rotation2d()),
+      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, Rotation2d.fromDegrees(-90)),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     }
   }
@@ -251,7 +251,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public Pose2d getPose() {
-    return m_swerveOdometry.getPoseMeters();
+    return m_swervePoseEstimator.getEstimatedPosition();
   }
 
   public void resetPose(Pose2d pose) {

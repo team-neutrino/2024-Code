@@ -18,10 +18,10 @@ public class CalculateAngle {
         m_angleData.put(0.0, -4.029);
         m_angleData.put(-3.0, -4.0);
         m_angleData.put(-6.0, -1.7);
-        m_angleData.put(-8.55, 2.308);
-        m_angleData.put(-10.0, 3.5);
-        m_angleData.put(-12.07, 6.2);
-        m_angleData.put(-14.03, 6.5);
+        m_angleData.put(-8.55, 3.0);
+        m_angleData.put(-10.0, 5.0);
+        m_angleData.put(-12.07, 7.2);
+        m_angleData.put(-14.03, 8.0);
         m_angleData.put(-16.0, 9.5);
     }
 

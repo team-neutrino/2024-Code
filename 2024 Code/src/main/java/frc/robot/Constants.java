@@ -58,8 +58,8 @@ public final class Constants {
     public static Translation2d SPEAKER_BLUE_SIDE = new Translation2d(0, 6);
     public static Translation2d SPEAKER_RED_SIDE = new Translation2d(16.6, 6);
 
-    public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(1.9304, 1);
-    public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(12.7254, 1);
+    public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(12.7254, 7.75);
+    public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(1.84, 7.75);
 
     public static Pose2d BLUE_TARGET_POSE1 = new Pose2d(2, 4, new Rotation2d());
     public static Pose2d BLUE_TARGET_POSE2 = new Pose2d(0.1, 4.8, new Rotation2d());
@@ -150,7 +150,7 @@ public final class Constants {
 
   public final class IntakeConstants {
     public static double INTAKE_MOTOR_VOLTAGE = 1 * 12;
-    public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2 * 12;
+    public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.1 * 12;
     public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1 * 12;
     public static int INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
