@@ -31,7 +31,7 @@ public class LimelightDefaultCommand extends Command {
             botPose = m_limelightSubsystem.getBotPose();
             pose = new Pose2d(botPose[0], botPose[1],
                     Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
-            m_swerveSubsystem.resetPose(pose);
+           // m_swerveSubsystem.resetPose(pose);
 
         }
     }
