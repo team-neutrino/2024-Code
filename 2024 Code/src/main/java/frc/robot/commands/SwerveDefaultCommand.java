@@ -9,13 +9,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.Constants.LEDConstants.States;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class SwerveDefaultCommand extends Command {
-  XboxController m_xboxController;
+  private SwerveSubsystem m_swerveSubsystem;
+  private XboxController m_xboxController;
 
   public SwerveDefaultCommand(CommandXboxController p_controller) {
+    m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
     m_xboxController = p_controller.getHID();
-    addRequirements(SubsystemContainer.swerveSubsystem);
+    addRequirements(m_swerveSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -26,15 +29,17 @@ public class SwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1, m_xboxController.getLeftX() * -1,
+
+    m_swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1,
+        m_xboxController.getLeftX() * -1,
         m_xboxController.getRightX() * -1);
-    SubsystemContainer.swerveSubsystem.setCommandState(States.DEFAULT);
+    m_swerveSubsystem.setCommandState(States.DEFAULT);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SubsystemContainer.swerveSubsystem.setCommandState(States.PATHFINDING);
+    m_swerveSubsystem.setCommandState(States.PATHFINDING);
   }
 
   // Returns true when the command should end.
