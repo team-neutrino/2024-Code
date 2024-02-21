@@ -142,6 +142,15 @@ public class SwerveSubsystem extends SubsystemBase {
       omegaZero = false;
     }
 
+    if (Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2)) > 0.5)
+    {
+      m_angleController.setP(0.1);
+    }
+    else
+    {
+      m_angleController.setP(0.06);
+    }
+
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
     } else if (m_timer.get() >= 0.2 && !m_referenceSet) {
@@ -238,6 +247,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_referenceAngle = 0;
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
         new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
   }
 
   public Pose2d getPose() {
