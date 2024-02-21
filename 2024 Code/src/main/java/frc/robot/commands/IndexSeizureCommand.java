@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.SubsystemContainer;
 
-public class IntakeDefaultCommand extends Command {
+public class IndexSeizureCommand extends Command {
 
     private IntakeSubsystem m_intakeSubsystem;
 
-    public IntakeDefaultCommand() {
+    public IndexSeizureCommand() {
         m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
         addRequirements(m_intakeSubsystem);
     }
@@ -19,8 +19,17 @@ public class IntakeDefaultCommand extends Command {
 
     @Override
     public void execute() {
-        // motor should run while the beam break is NOT tripped
-        m_intakeSubsystem.runIntake();
+        if (!m_intakeSubsystem.getBeamBreak()) {
+            for (int i = 0; i < 250; i++) {
+                if ((i / 10) % 2 == 0) {
+                    m_intakeSubsystem.runIndex();
+                    System.out.println("forward index");
+                } else {
+                    m_intakeSubsystem.runIndexReverse();
+                    System.out.println("reverse index");
+                }
+            }
+        }
     }
 
     @Override
