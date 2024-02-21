@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.0,
+        "x": 2.0,
         "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.015600254415789,
+        "x": 2.015600254415789,
         "y": 7.0
       },
       "isLocked": false,
@@ -39,7 +39,7 @@
   "eventMarkers": [
     {
       "name": "Intake1",
-      "waypointRelativePos": 0.45,
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "sequential",
         "data": {
@@ -55,8 +55,8 @@
       }
     },
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.75,
+      "name": "StopIntake",
+      "waypointRelativePos": 0.7,
       "command": {
         "type": "sequential",
         "data": {
@@ -86,7 +86,7 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 40.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

@@ -24,6 +24,8 @@ import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.CalculateAngle;
 import frc.robot.util.SubsystemContainer;
+
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.revrobotics.REVPhysicsSim;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,6 +47,8 @@ public class RobotContainer {
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
   CalculateAngle m_angleCalculate = new CalculateAngle();
+  MagicSpeakerCommand m_magicSpeakerCommand = new MagicSpeakerCommand(m_angleCalculate);
+  IntakeCommand m_intakeCommand = new IntakeCommand();
 
   public RobotContainer() {
     configureBindings();
@@ -59,6 +63,11 @@ public class RobotContainer {
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
+
+    // set named commands
+    NamedCommands.registerCommand("MagicSpeakerCommand", m_magicSpeakerCommand);
+    NamedCommands.registerCommand("IntakeCommand", m_intakeCommand);
+    NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
