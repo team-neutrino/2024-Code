@@ -20,7 +20,8 @@ public class IntakeDefaultCommand extends Command {
     @Override
     public void execute() {
         // motor should run while the beam break is NOT tripped
-        m_intakeSubsystem.runIntake();
+        m_intakeSubsystem.stopIntake();
+        m_intakeSubsystem.stopIndex();
     }
 
     @Override
