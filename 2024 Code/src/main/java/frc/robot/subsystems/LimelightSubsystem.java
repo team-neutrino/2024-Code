@@ -43,7 +43,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public void periodic() {
     limelight.getEntry("ledMode").setNumber(1);
-    System.out.println("ty " + getTy());
+    //System.out.println("ty " + getTy());
   }
 
   public double[] getBotPose() {
