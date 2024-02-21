@@ -26,7 +26,7 @@ public class IntakeCommand extends Command {
   public void execute() {
     if (m_intakeSubsystem.getBeamBreak()) {
       m_intakeSubsystem.runIntake();
-      m_intakeSubsystem.runIndex();
+      m_intakeSubsystem.runIndexIntake();
     } else {
       m_intakeSubsystem.stopIntake();
       m_intakeSubsystem.stopIndex();
