@@ -86,6 +86,20 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexEncoder2.setPosition(0);
     }
 
+    public void indexSeizure() {
+        if (!getBeamBreak()) {
+            for (int i = 0; i < 250; i++) {
+                if ((i / 10) % 2 == 0) {
+                    runIndexIntake();
+                    System.out.println("forward index");
+                } else {
+                    runIndexReverse();
+                    System.out.println("reverse index");
+                }
+            }
+        }
+    }
+
     /**
      * Gets the current state of the beam break: false means the beam break is
      * tripped
