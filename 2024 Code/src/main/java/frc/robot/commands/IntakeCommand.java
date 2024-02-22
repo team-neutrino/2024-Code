@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.SubsystemContainer;
 
@@ -24,9 +25,11 @@ public class IntakeCommand extends Command {
 
   @Override
   public void execute() {
-    if (m_intakeSubsystem.getBeamBreak()) {
+    if (m_intakeSubsystem.getBeamBreak()
+        && SubsystemContainer.armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
+        && SubsystemContainer.armSubsystem.getInPosition()) {
       m_intakeSubsystem.runIntake();
-      m_intakeSubsystem.runIndex();
+      m_intakeSubsystem.runIndexIntake();
     } else {
       m_intakeSubsystem.stopIntake();
       m_intakeSubsystem.stopIndex();
