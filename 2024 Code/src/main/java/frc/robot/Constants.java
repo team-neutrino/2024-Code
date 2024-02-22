@@ -69,7 +69,7 @@ public final class Constants {
     public static Pose2d RED_TARGET_POSE3;
     public static Pose2d RED_TARGET_POSE4;
 
-    public static int ANGLE_MOTOR_CURRENT_LIMIT = 50;
+    public static int ANGLE_MOTOR_CURRENT_LIMIT = 30;
     public static int SPEED_MOTOR_CURRENT_LIMIT = 50;
   }
 
@@ -158,13 +158,12 @@ public final class Constants {
     public static int INDEX_CURRENT_LIMIT = 20;
   }
 
-  public final class ShooterConstants {
-    public static double SUBWOOFER_SPEED = 3000;
-    public static double PODIUM_SPEED = 4500;
-    public static int SHOOTER_CURRENT_LIMIT = 40;
-    
   public final class ShooterSpeeds {
     public static final double SUBWOOFER_SPEED = 3000;
     public static final double PODIUM_SPEED = 4500;
+  }
+
+  public final class ShooterConstants {
+    public static int SHOOTER_CURRENT_LIMIT = 40;
   }
 }
