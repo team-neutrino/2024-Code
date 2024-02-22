@@ -70,9 +70,6 @@ public class SwerveModule {
                 Constants.DimensionConstants.WHEEL_CIRCUMFERENCE / Constants.SwerveConstants.GEAR_RATIO);
         speedEncoder.setVelocityConversionFactor(
                 Constants.DimensionConstants.WHEEL_CIRCUMFERENCE / (60 * Constants.SwerveConstants.GEAR_RATIO));
-
-        speedEncoder.setInverted(true);
-
         anglePID = angleMotor.getPIDController();
         speedPID = speedMotor.getPIDController();
         anglePID.setFeedbackDevice(absAngleEncoder);
@@ -119,7 +116,7 @@ public class SwerveModule {
             angle += OFFSET - 360;
         }
 
-        return (angle + 180) % 360;
+        return angle;
     }
 
     public void setAnglePID(double reference) {
