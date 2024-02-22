@@ -15,8 +15,10 @@ public class LEDDefaultCommand extends Command {
 
   public LEDDefaultCommand() {
     m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
-    m_LEDSubsystem = SubsystemContainer.LEDSubsystem;
+    m_LEDSubsystem = SubsystemContainer.LEDSubsystemR;
+    m_LEDSubsystem = SubsystemContainer.LEDSubsystemL;
     m_IntakeSubsystem = SubsystemContainer.intakeSubsystem;
+
     addRequirements(m_LEDSubsystem);
   }
 
