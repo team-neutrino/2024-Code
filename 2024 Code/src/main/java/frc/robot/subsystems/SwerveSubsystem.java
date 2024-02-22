@@ -75,8 +75,6 @@ public class SwerveSubsystem extends SubsystemBase {
   boolean omegaZero = false;
   States commandState;
 
-  boolean fastMode = false;
-
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
   public Command m_pathfindAmp;
@@ -322,9 +320,8 @@ public class SwerveSubsystem extends SubsystemBase {
     commandState = state;
   }
 
-  public void setSpeedState(boolean state) {
-    fastMode = state;
-    if (fastMode) {
+  public void setFastMode(boolean mode) {
+    if (mode) {
       SwerveConstants.MAX_CHASSIS_LINEAR_SPEED = SwerveConstants.MAX_CHASSIS_LINEAR_SPEED_FAST;
     } else {
       SwerveConstants.MAX_CHASSIS_LINEAR_SPEED = 1;
