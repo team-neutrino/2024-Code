@@ -39,13 +39,13 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModuleState[] moduleStates;
 
   private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(MotorIDs.FRS,
-      false);
-  private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
-      false);
-  private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
-      false);
-  private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
       true);
+  private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
+      true);
+  private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
+      true);
+  private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
+      false);
 
   private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(MotorIDs.FRA,
       false, SwerveConstants.FRA_OFFSET);
