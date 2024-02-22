@@ -72,7 +72,11 @@ public class RobotContainer {
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_controller.leftTrigger().onTrue(new PathPlannerAuto("Two Note"));
+    m_controller.leftTrigger().onTrue(new PathPlannerAuto("New Auto"));
+    m_driverController.leftStick()
+        .whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
+    m_driverController.leftStick()
+        .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
     m_driverController.y()
         .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand),

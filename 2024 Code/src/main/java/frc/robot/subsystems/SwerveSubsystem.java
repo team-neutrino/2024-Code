@@ -337,6 +337,14 @@ public class SwerveSubsystem extends SubsystemBase {
     commandState = state;
   }
 
+  public void setFastMode(boolean mode) {
+    if (mode) {
+      SwerveConstants.MAX_CHASSIS_LINEAR_SPEED = SwerveConstants.MAX_CHASSIS_LINEAR_SPEED_FAST;
+    } else {
+      SwerveConstants.MAX_CHASSIS_LINEAR_SPEED = 1;
+    }
+  }
+
   @Override
   public void periodic() {
     modulePositions[0] = m_frontRight.getModulePosition();
