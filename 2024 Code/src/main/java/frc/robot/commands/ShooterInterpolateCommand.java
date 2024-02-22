@@ -5,17 +5,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.CalculateRPM;
 import frc.robot.util.SubsystemContainer;
 
 public class ShooterInterpolateCommand extends Command {
-  CalculateRPM m_RPMCalculate;
+  private ArmSubsystem m_armSubsystem;
+  private ShooterSubsystem m_shooterSubsystem;
+  private IntakeSubsystem m_intakeSubsystem;
+  private CalculateRPM m_RPMCalculate;
 
   public ShooterInterpolateCommand(CalculateRPM p_RPMCalculate) {
     m_RPMCalculate = p_RPMCalculate;
-    addRequirements(SubsystemContainer.ShooterSubsystem,
-        SubsystemContainer.armSubsystem,
-        SubsystemContainer.intakeSubsystem);
+    m_armSubsystem = SubsystemContainer.armSubsystem;
+    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
+    m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
+    addRequirements(m_armSubsystem,
+        m_shooterSubsystem,
+        m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -26,11 +35,11 @@ public class ShooterInterpolateCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.ShooterSubsystem.setTargetRPM(m_RPMCalculate.InterpolateRPM());
-    if (SubsystemContainer.armSubsystem.getInPosition() && SubsystemContainer.ShooterSubsystem.approveShoot()) {
-      SubsystemContainer.intakeSubsystem.runIndex();
+    m_shooterSubsystem.setTargetRPM(m_RPMCalculate.InterpolateRPM());
+    if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
+      m_intakeSubsystem.runIndexShoot();
     } else {
-      SubsystemContainer.intakeSubsystem.stopIndex();
+      m_intakeSubsystem.stopIndex();
     }
   }
 

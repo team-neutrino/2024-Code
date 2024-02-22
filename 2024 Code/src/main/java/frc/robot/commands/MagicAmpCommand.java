@@ -6,15 +6,24 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class MagicAmpCommand extends Command {
+  private ArmSubsystem m_armSubsystem;
+  private ShooterSubsystem m_shooterSubsystem;
+  private IntakeSubsystem m_intakeSubsystem;
 
   /** Creates a new MagicAmpCommand. */
   public MagicAmpCommand() {
+    m_armSubsystem = SubsystemContainer.armSubsystem;
+    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
+    m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
 
-    addRequirements(SubsystemContainer.armSubsystem, SubsystemContainer.ShooterSubsystem,
-        SubsystemContainer.intakeSubsystem);
+    addRequirements(m_armSubsystem, m_shooterSubsystem,
+        m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,12 +34,12 @@ public class MagicAmpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
-    SubsystemContainer.ShooterSubsystem.setTargetRPM(500);
-    if (SubsystemContainer.armSubsystem.getInPosition() && SubsystemContainer.ShooterSubsystem.approveShoot()) {
-      SubsystemContainer.intakeSubsystem.runIndex();
+    m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
+    m_shooterSubsystem.setTargetRPM(1000);
+    if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
+      m_intakeSubsystem.runIndexShoot();
     } else {
-      SubsystemContainer.intakeSubsystem.stopIndex();
+      m_intakeSubsystem.stopIndex();
     }
   }
 
