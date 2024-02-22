@@ -16,6 +16,7 @@ public class MagicSpeakerCommand extends Command {
   ArmSubsystem m_armSubsystem;
   ShooterSubsystem m_shooterSubsystem;
   IntakeSubsystem m_intakeSubsystem;
+  int i = 0;
 
   public MagicSpeakerCommand(CalculateAngle p_calculateAngle) {
     m_calculateAngle = p_calculateAngle;
@@ -50,6 +51,12 @@ public class MagicSpeakerCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (m_intakeSubsystem.getBeamBreak()) {
+      i++;
+      if (i > 10) {
+        return true;
+      }
+    }
     return false;
   }
 }
