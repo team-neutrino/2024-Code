@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class SwervePOVCommand extends Command {
@@ -17,7 +18,20 @@ public class SwervePOVCommand extends Command {
    */
   double POV = -1;
 
-  /** Creates a new SwervePOVCommand. */
+  /**
+   * A copy of the swerve subsystem from the subsystem container
+   * for ease of access.
+   */
+  SwerveSubsystem swerveSub = SubsystemContainer.swerveSubsystem;
+
+  /**
+   * Constructor, takes in current user POV angle and
+   * assigns it to its corresponding field. Also does
+   * addreq's as needed.
+   * 
+   * @param POVangle The current angle representation of the POV buttons on the
+   *                 driver's controller.
+   */
   public SwervePOVCommand(double POVangle) {
     POV = POVangle;
     addRequirements(SubsystemContainer.swerveSubsystem);
@@ -31,12 +45,16 @@ public class SwervePOVCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (POV == 0) {
+
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     if (interrupted) {
+      // TODO: REMOVE AFTER TESTING
       for (int i = 0; i < 50; i++) {
         System.out.println("isFinished run: field POV was seen at an invalid angle (< 0 or >= 360)");
       }
