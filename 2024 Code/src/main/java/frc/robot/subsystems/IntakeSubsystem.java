@@ -89,12 +89,10 @@ public class IntakeSubsystem extends SubsystemBase {
     public void indexSeizure() {
         if (!getBeamBreak()) {
             for (int i = 0; i < 250; i++) {
-                if ((i / 10) % 2 == 0) {
+                if (i % 4 == 0) {
                     runIndexIntake();
-                    System.out.println("forward index");
                 } else {
                     runIndexReverse();
-                    System.out.println("reverse index");
                 }
             }
         }
