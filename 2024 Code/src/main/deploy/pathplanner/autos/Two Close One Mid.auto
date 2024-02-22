@@ -1,0 +1,50 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.0,
+      "y": 7.0
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Two Close One Mid Part I"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Two Close One Mid Part II"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Two Close One Mid Part III"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Two Close One Mid Part IV"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

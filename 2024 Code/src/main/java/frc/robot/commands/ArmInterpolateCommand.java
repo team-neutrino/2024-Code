@@ -6,14 +6,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.SubsystemContainer;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.util.CalculateAngle;
 
 public class ArmInterpolateCommand extends Command {
-  CalculateAngle m_angleCalculate;
+  private ArmSubsystem m_armSubsystem;
+  private CalculateAngle m_angleCalculate;
 
   public ArmInterpolateCommand(CalculateAngle p_angleCalculate) {
     m_angleCalculate = p_angleCalculate;
-    addRequirements(SubsystemContainer.armSubsystem);
+    m_armSubsystem = SubsystemContainer.armSubsystem;
+    addRequirements(m_armSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +27,7 @@ public class ArmInterpolateCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.armSubsystem.setArmReferenceAngle(m_angleCalculate.InterpolateAngle());
+    m_armSubsystem.setArmReferenceAngle(m_angleCalculate.InterpolateAngle());
   }
 
   // Called once the command ends or is interrupted.
