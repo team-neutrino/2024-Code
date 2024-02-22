@@ -34,9 +34,7 @@ public class LimelightDefaultCommand extends Command {
                     botPose[1] + SwerveConstants.CENTER_OF_FIELD_M.getY(),
                     Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
 
-            if (Math.abs(pose.getX() - m_swerveSubsystem.currentPoseL.getX()) > 3 &&
-                Math.abs(pose.getY() - m_swerveSubsystem.currentPoseL.getY()) > 3 ||
-                Math.abs(pose.getX() - m_swerveSubsystem.currentPose.getX()) > 3)
+            if (Math.sqrt(Math.pow(pose.getX() - m_swerveSubsystem.currentPoseL.getX(), 2) + Math.pow(pose.getY() - m_swerveSubsystem.currentPoseL.getY(), 2)) > 1.5)
             {
                 m_swerveSubsystem.resetPose(pose);
             }
