@@ -40,13 +40,13 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModuleState[] moduleStates;
 
   private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(MotorIDs.FRS,
-      true);
-  private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
-      true);
-  private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
-      true);
-  private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
       false);
+  private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
+      false);
+  private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
+      false);
+  private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
+      true);
 
   private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(MotorIDs.FRA,
       false, SwerveConstants.FRA_OFFSET);
@@ -79,7 +79,7 @@ public class SwerveSubsystem extends SubsystemBase {
   States commandState;
 
   Field2d field = new Field2d();
-  public Pose2d currentPose = new Pose2d();
+  Pose2d currentPose = new Pose2d();
   public Pose2d currentPoseL = new Pose2d();
   public Command m_pathfindAmp;
 
@@ -92,7 +92,8 @@ public class SwerveSubsystem extends SubsystemBase {
     m_swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
         modulePositions);
 
-    m_swervePoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
+    m_swervePoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(getYaw()),
+        modulePositions, new Pose2d());
 
     m_angleController.enableContinuousInput(-180, 180);
 
@@ -120,10 +121,10 @@ public class SwerveSubsystem extends SubsystemBase {
         this);
 
     if (isRedAlliance() == true) {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, Rotation2d.fromDegrees(-90)),
+      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d()),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     } else {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, Rotation2d.fromDegrees(-90)),
+      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, new Rotation2d()),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     }
   }
@@ -140,15 +141,6 @@ public class SwerveSubsystem extends SubsystemBase {
       omegaZero = true;
     } else {
       omegaZero = false;
-    }
-
-    if (Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2)) > 0.5)
-    {
-      m_angleController.setP(0.1);
-    }
-    else
-    {
-      m_angleController.setP(0.06);
     }
 
     if (omega == 0 && m_timer.get() == 0) {
@@ -247,16 +239,14 @@ public class SwerveSubsystem extends SubsystemBase {
     m_referenceAngle = 0;
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
         new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
-    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
   }
 
   public Pose2d getPose() {
-    return m_swervePoseEstimator.getEstimatedPosition();
+    return m_swerveOdometry.getPoseMeters();
   }
 
   public void resetPose(Pose2d pose) {
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
-    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
@@ -353,10 +343,10 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[3] = m_backLeft.getModulePosition();
 
     currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+
     currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
-    field.getObject("regular odometry").setPose(currentPose);
-    field.getObject("odometry w/ limelight").setPose(currentPoseL);
+    field.getObject("auton").setPose(currentPose);
 
     cycle++;
     if (cycle % 8 == 0) {
