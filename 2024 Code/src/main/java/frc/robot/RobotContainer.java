@@ -24,7 +24,6 @@ import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
-import frc.robot.commands.IndexSeizureCommand;
 import frc.robot.util.CalculateAngle;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -73,7 +72,6 @@ public class RobotContainer {
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_controller.leftTrigger().onTrue(new PathPlannerAuto("Two Note"));
-    m_controller.rightTrigger().whileTrue(new IndexSeizureCommand());
 
     m_driverController.y()
         .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand),
