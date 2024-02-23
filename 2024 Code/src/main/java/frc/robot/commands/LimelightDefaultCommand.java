@@ -34,22 +34,24 @@ public class LimelightDefaultCommand extends Command {
     public void execute() {
         if (m_limelightSubsystem.getTv()) {
             botPoseArray = m_limelightSubsystem.getBotPose();
-            botPose = new Pose2d(botPose[0],
-                    botPose[1],
+            botPose = new Pose2d(botPoseArray[0],
+                    botPoseArray[1],
                     Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
 
-            //invalid limelight data
-            if (botPose.getX() != 0.0)
-            {
-                poseDifference = poseEstimator.getEstimatedPosition().getTranslation().getDistance(botPose.getTranslation());
+            // //invalid limelight data
+            // if (botPose.getX() != 0.0)
+            // {
+            // poseDifference =
+            // poseEstimator.getEstimatedPosition().getTranslation().getDistance(botPose.getTranslation());
+            // }
+
+            if (Math.sqrt(Math.pow(botPose.getX() - m_swerveSubsystem.currentPoseL.getX(), 2)
+                    + Math.pow(botPose.getY() - m_swerveSubsystem.currentPoseL.getY(), 2)) > 1.5) {
+                m_swerveSubsystem.resetPose(botPose);
             }
 
-            if (Math.sqrt(Math.pow(pose.getX() - m_swerveSubsystem.currentPoseL.getX(), 2) + Math.pow(pose.getY() - m_swerveSubsystem.currentPoseL.getY(), 2)) > 1.5)
-            {
-                m_swerveSubsystem.resetPose(pose);
-            }
-
-            m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(pose, Timer.getFPGATimestamp() - (botPose[6] / 1000.0));
+            m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(botPose,
+                    Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0));
         }
     }
 
