@@ -54,6 +54,9 @@ public class SwerveModule {
         angleMotor = new CANSparkMax(angle_motor_cfg.CanId(), CANSparkLowLevel.MotorType.kBrushless);
         speedMotor = new CANSparkMax(speed_motor_cfg.CanId(), CANSparkLowLevel.MotorType.kBrushless);
 
+        angleMotor.setSmartCurrentLimit(Constants.SwerveConstants.ANGLE_MOTOR_CURRENT_LIMIT);
+        speedMotor.setSmartCurrentLimit(Constants.SwerveConstants.SPEED_MOTOR_CURRENT_LIMIT);
+
         angleMotor.restoreFactoryDefaults();
         speedMotor.restoreFactoryDefaults();
 
