@@ -16,6 +16,8 @@ public class ArmManualCommand extends Command {
   private double m_shiftAngle;
   private XboxController m_controller;
 
+  int i = 0;
+
   public ArmManualCommand(CommandXboxController p_controller) {
     m_armSubsystem = SubsystemContainer.armSubsystem;
     m_controller = p_controller.getHID();
@@ -36,6 +38,12 @@ public class ArmManualCommand extends Command {
     m_shiftAngle = m_armSubsystem.limitShiftAngle(m_shiftAngle);
 
     m_armSubsystem.setArmReferenceAngle(m_shiftAngle);
+
+    i++;
+
+    if (i % 8 == 0) {
+      System.out.println("arm angle " + m_armSubsystem.getArmAngleDegrees());
+    }
   }
 
   @Override

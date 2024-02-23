@@ -89,15 +89,20 @@ public class RobotContainer {
     m_controller.a().whileTrue(new MagicAmpCommand());
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
 
-    m_controller.x().whileTrue(
-        new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SUBWOOFER_SPEED));
+    // m_controller.x().whileTrue(
+    // new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE,
+    // Constants.ShooterSpeeds.SUBWOOFER_SPEED));
+    m_controller.x().whileTrue(new ShootSpeakerCommand());
     m_controller.b().whileTrue(
         new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
-    m_controller.leftBumper().toggleOnTrue(new InstantCommand(() -> {SubsystemContainer.armSubsystem.setClimb(true); System.out.println("arm in climb mode");}));
+    m_controller.leftBumper().toggleOnTrue(new InstantCommand(() -> {
+      SubsystemContainer.armSubsystem.setClimb(true);
+      System.out.println("arm in climb mode");
+    }));
 
   }
 
