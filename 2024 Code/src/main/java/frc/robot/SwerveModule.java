@@ -119,7 +119,7 @@ public class SwerveModule {
             angle += OFFSET - 360;
         }
 
-        return (angle + 180) % 360;
+        return angle;
     }
 
     public void setAnglePID(double reference) {

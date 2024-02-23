@@ -40,13 +40,13 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModuleState[] moduleStates;
 
   private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(MotorIDs.FRS,
-      false);
-  private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
-      false);
-  private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
-      false);
-  private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
       true);
+  private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
+      true);
+  private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
+      true);
+  private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
+      false);
 
   private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(MotorIDs.FRA,
       false, SwerveConstants.FRA_OFFSET);
@@ -237,8 +237,16 @@ public class SwerveSubsystem extends SubsystemBase {
   public void resetNavX() {
     m_navX.reset();
     m_referenceAngle = 0;
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
-        new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+
+    if (isRedAlliance()) {
+      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
+          new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
+          new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+    } else {
+      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
+      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
+    }
   }
 
   public Pose2d getPose() {
@@ -246,7 +254,8 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void resetPose(Pose2d pose) {
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
+    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
@@ -346,7 +355,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
-    field.getObject("auton").setPose(currentPose);
+    field.getObject("odometry w/o limelight").setPose(currentPose);
+    field.getObject("with limelight").setPose(currentPoseL);
 
     cycle++;
     if (cycle % 8 == 0) {
