@@ -23,8 +23,6 @@ public class IntakeCommand extends Command {
 
   }
 
-  // Math.abs(SubsystemContainer.armSubsystem.getTargetAngle() -
-  // Constants.ArmConstants.ARM_LOWER_LIMIT) < 2
   @Override
   public void execute() {
     if (m_intakeSubsystem.getBeamBreak()
