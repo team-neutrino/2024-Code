@@ -44,7 +44,7 @@ public class AutoAlignCommand extends Command {
         }
         else
         {
-            if (m_swerveSubsystem.isRedAlliance())
+            if (m_swerveSubsystem.isRedAlliance)
             {
                 y = m_swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY();
                 x = m_swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX();

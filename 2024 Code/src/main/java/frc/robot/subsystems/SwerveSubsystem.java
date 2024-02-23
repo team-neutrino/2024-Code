@@ -82,12 +82,15 @@ public class SwerveSubsystem extends SubsystemBase {
   Pose2d currentPose = new Pose2d();
   public Pose2d currentPoseL = new Pose2d();
   public Command m_pathfindAmp;
+  public boolean isRedAlliance;
 
   public SwerveSubsystem() {
     modulePositions[0] = new SwerveModulePosition();
     modulePositions[1] = new SwerveModulePosition();
     modulePositions[2] = new SwerveModulePosition();
     modulePositions[3] = new SwerveModulePosition();
+
+    isRedAlliance = isRedAlliance();
 
     m_swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
         modulePositions);
@@ -120,11 +123,11 @@ public class SwerveSubsystem extends SubsystemBase {
         },
         this);
 
-    if (isRedAlliance() == true) {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d()),
+    if (isRedAlliance == true) {
+      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d(-90)),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     } else {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, new Rotation2d()),
+      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, new Rotation2d(-90)),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     }
   }
@@ -238,7 +241,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_navX.reset();
     m_referenceAngle = 0;
 
-    if (isRedAlliance()) {
+    if (isRedAlliance) {
       m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
           new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
       m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
@@ -250,12 +253,20 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public Pose2d getPose() {
-    return m_swerveOdometry.getPoseMeters();
+    return m_swervePoseEstimator.getEstimatedPosition();
   }
 
   public void resetPose(Pose2d pose) {
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
-    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
+    if (isRedAlliance)
+    {
+      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
+      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
+    }
+    else
+    {
+      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
+      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
+    }
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
@@ -281,10 +292,10 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public Command getPathfindCommand() {
-    boolean isRed = isRedAlliance();
+    //boolean isRed = isRedAlliance();
 
     Pose2d closestPose;
-    if (isRed) {
+    if (isRedAlliance) {
       closestPose = SwerveConstants.RED_TARGET_POSE1;
 
       double d2 = distanceFormula(SwerveConstants.RED_TARGET_POSE2);
@@ -351,9 +362,18 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[2] = m_backRight.getModulePosition();
     modulePositions[3] = m_backLeft.getModulePosition();
 
-    currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    if (isRedAlliance)
+    {
+      currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw() + 180), modulePositions);
+      
+      currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw() + 180), modulePositions);
+    }
+    else
+    {
+      currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
-    currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+      currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    }
 
     field.getObject("odometry w/o limelight").setPose(currentPose);
     field.getObject("with limelight").setPose(currentPoseL);
