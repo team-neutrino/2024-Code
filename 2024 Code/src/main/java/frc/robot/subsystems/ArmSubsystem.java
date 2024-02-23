@@ -55,6 +55,8 @@ public class ArmSubsystem extends SubsystemBase {
     pidController.setPositionPIDWrappingMaxInput(360);
     pidController.setPositionPIDWrappingMinInput(0);
     pidController.setPositionPIDWrappingEnabled(true);
+
+    m_arm.burnFlash();
   }
 
   public double getTargetAngle() {
@@ -141,7 +143,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private boolean ArmDebouncer() {
-    if (Math.abs(getArmAngleDegrees() - m_targetAngle) <= 5) {
+    if (Math.abs(getArmAngleDegrees() - m_targetAngle) <= 2) {
       i++;
     } else {
       i = 0;

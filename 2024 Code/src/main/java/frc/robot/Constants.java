@@ -39,6 +39,7 @@ public final class Constants {
     public static double DRIVEBASE_RADIUS = 0.465074;
 
     public static double MAX_CHASSIS_LINEAR_SPEED = 1;
+    public static double MAX_CHASSIS_LINEAR_SPEED_FAST = 3;
     public static double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static double MAX_MODULE_ROTATION_SPEED;
     public static double MAX_MODULE_LINEAR_SPEED = 7;
@@ -147,8 +148,9 @@ public final class Constants {
 
   public final class IntakeConstants {
     public static double INTAKE_MOTOR_VOLTAGE = 1 * 12;
-    public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.4 * 12;
+    public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2 * 12;
     public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1 * 12;
+    public static double INDEX_SEIZURE_MOTOR_VOLTAGE = 0.1 * 12;
     public static int INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
   }

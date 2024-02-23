@@ -64,6 +64,14 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexMotor.setVoltage(-IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE);
     }
 
+    public void runIndexSeizure() {
+        m_indexMotor.setVoltage(IntakeConstants.INDEX_SEIZURE_MOTOR_VOLTAGE);
+    }
+
+    public void runIndexSeizureReverse() {
+        m_indexMotor.setVoltage(-IntakeConstants.INDEX_SEIZURE_MOTOR_VOLTAGE);
+    }
+
     public void stopIntake() {
         m_intakeMotor.setVoltage(0);
     }
@@ -89,10 +97,17 @@ public class IntakeSubsystem extends SubsystemBase {
     public void indexSeizure() {
         if (!getBeamBreak()) {
             for (int i = 0; i < 250; i++) {
+<<<<<<< HEAD
                 if (i % 4 == 0) { // increase mod is decrease frequency
                     runIndexIntake();
                 } else {
                     runIndexReverse();
+=======
+                if (i % 4 == 0) {
+                    runIndexSeizure();
+                } else {
+                    runIndexSeizureReverse();
+>>>>>>> bf6f54696994c917316cb7fae6d25e162f2adbfe
                 }
             }
         }
