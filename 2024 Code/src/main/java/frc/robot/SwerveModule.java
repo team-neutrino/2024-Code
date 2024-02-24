@@ -54,11 +54,11 @@ public class SwerveModule {
         angleMotor = new CANSparkMax(angle_motor_cfg.CanId(), CANSparkLowLevel.MotorType.kBrushless);
         speedMotor = new CANSparkMax(speed_motor_cfg.CanId(), CANSparkLowLevel.MotorType.kBrushless);
 
-        angleMotor.setSmartCurrentLimit(Constants.SwerveConstants.ANGLE_MOTOR_CURRENT_LIMIT);
-        speedMotor.setSmartCurrentLimit(Constants.SwerveConstants.SPEED_MOTOR_CURRENT_LIMIT);
-
         angleMotor.restoreFactoryDefaults();
         speedMotor.restoreFactoryDefaults();
+
+        angleMotor.setSmartCurrentLimit(Constants.SwerveConstants.ANGLE_MOTOR_CURRENT_LIMIT);
+        speedMotor.setSmartCurrentLimit(Constants.SwerveConstants.SPEED_MOTOR_CURRENT_LIMIT);
 
         speedMotor.setInverted(speed_motor_cfg.IsInverted());
         angleMotor.setInverted(angle_motor_cfg.IsInverted());
@@ -152,5 +152,39 @@ public class SwerveModule {
 
     public SwerveModuleState getModuleState() {
         return new SwerveModuleState(speedEncoder.getVelocity(), getOptimizationAngle());
+    }
+
+    public void resetEverything()
+    {
+        angleMotor.restoreFactoryDefaults();
+        speedMotor.restoreFactoryDefaults();
+
+        angleMotor.setSmartCurrentLimit(Constants.SwerveConstants.ANGLE_MOTOR_CURRENT_LIMIT);
+        speedMotor.setSmartCurrentLimit(Constants.SwerveConstants.SPEED_MOTOR_CURRENT_LIMIT);
+
+        speedMotor.setInverted(speed_motor_cfg.IsInverted());
+        angleMotor.setInverted(angle_motor_cfg.IsInverted());
+
+        angleMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        speedMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        absAngleEncoder = angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute);
+        speedEncoder = speedMotor.getEncoder();
+        absAngleEncoder.setInverted(true);
+        absAngleEncoder.setPositionConversionFactor(360 / 3.3);
+        speedEncoder.setPositionConversionFactor(
+                Constants.DimensionConstants.WHEEL_CIRCUMFERENCE / Constants.SwerveConstants.GEAR_RATIO);
+        speedEncoder.setVelocityConversionFactor(
+                Constants.DimensionConstants.WHEEL_CIRCUMFERENCE / (60 * Constants.SwerveConstants.GEAR_RATIO));
+        anglePID = angleMotor.getPIDController();
+        speedPID = speedMotor.getPIDController();
+        anglePID.setFeedbackDevice(absAngleEncoder);
+        anglePID.setPositionPIDWrappingEnabled(true);
+        anglePID.setPositionPIDWrappingMaxInput(360);
+        anglePID.setPositionPIDWrappingMinInput(0);
+        anglePID.setP(Constants.SwerveConstants.ANGLE_P, 0);
+        speedPID.setP(Constants.SwerveConstants.SPEED_P, 0);
+
+        speedMotor.burnFlash();
+        angleMotor.burnFlash();
     }
 }

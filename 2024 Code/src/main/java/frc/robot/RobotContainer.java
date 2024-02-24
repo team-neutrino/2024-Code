@@ -85,6 +85,13 @@ public class RobotContainer {
     m_driverController.a().onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp,
         new MagicAmpCommand()));
 
+    m_driverController.b().onTrue(new InstantCommand(() -> {
+      for (int i = 0; i < 4; i++)
+      {
+        SubsystemContainer.swerveSubsystem.swerveModules[i].resetEverything();
+      }
+  }));
+
     // shooter buttons
     m_controller.a().whileTrue(new MagicAmpCommand());
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));

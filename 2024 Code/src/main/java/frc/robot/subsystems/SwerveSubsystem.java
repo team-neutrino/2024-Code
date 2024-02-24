@@ -72,6 +72,9 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
   SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
   SwerveModule m_backLeft = new SwerveModule(back_left_speed, back_left_angle);
+
+  public SwerveModule[] swerveModules = {m_frontRight, m_frontLeft, m_backRight, m_backLeft};
+
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
   double cycle = 0;
