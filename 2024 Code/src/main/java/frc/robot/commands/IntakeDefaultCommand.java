@@ -22,7 +22,7 @@ public class IntakeDefaultCommand extends Command {
         // motor should run while the beam break is NOT tripped
         m_intakeSubsystem.stopIntake();
         m_intakeSubsystem.stopIndex();
-        m_intakeSubsystem.indexSeizure();
+        m_intakeSubsystem.indexJitter();
     }
 
     @Override
