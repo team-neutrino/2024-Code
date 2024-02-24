@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -43,10 +44,11 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public void periodic() {
     limelight.getEntry("ledMode").setNumber(1);
+    //System.out.println("ty " + getTy());
   }
 
   public double[] getBotPose() {
-    pose = limelight.getEntry("botpose").getDoubleArray(pastPose);
+    pose = limelight.getEntry("botpose_wpiblue").getDoubleArray(pastPose);
     if (getTv()) {
       pastPose = pose;
     }
@@ -63,5 +65,10 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public void setPipeline(int pipeline) {
     limelight.getEntry("pipeline").setNumber(pipeline);
+  }
+
+  public void updatePoseEstimatorWithVisionBotPose(SwerveDrivePoseEstimator poseEstimator)
+  {
+    
   }
 }

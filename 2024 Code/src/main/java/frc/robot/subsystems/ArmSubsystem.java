@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
@@ -29,6 +30,7 @@ public class ArmSubsystem extends SubsystemBase {
   public int i = 0;
   private SparkPIDController pidController;
   private ArmEncoderContainer armEncoderContainer;
+  private boolean climb = false;
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -46,6 +48,7 @@ public class ArmSubsystem extends SubsystemBase {
     armEncoderContainer.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
 
     m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
+    m_arm.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);
 
     pidController = m_arm.getPIDController();
     pidController.setP(ArmConstants.Arm_kp, 0);
@@ -164,6 +167,20 @@ public class ArmSubsystem extends SubsystemBase {
 
     } else {
       return check;
+    }
+  }
+
+  public void setClimb()
+  {
+    if (climb == false)
+    {
+      climb = true;
+      pidController.setI(0.0001, 0);
+    }
+    else
+    {
+      climb = false;
+      pidController.setI(0.0, 0);
     }
   }
 
