@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -34,41 +35,47 @@ public class LimelightDefaultCommand extends Command {
 
     @Override
     public void execute() {
-        if (m_limelightSubsystem.getTv()) {
-            botPoseArray = m_limelightSubsystem.getBotPose();
-            botPose = new Pose2d(botPoseArray[0],
-                    botPoseArray[1],
-                    Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
+        // if (m_limelightSubsystem.getTv()) {
+        // botPoseArray = m_limelightSubsystem.getBotPose();
+        // botPose = new Pose2d(botPoseArray[0],
+        // botPoseArray[1],
+        // Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
 
-            // //invalid limelight data
-            // if (botPose.getX() != 0.0)
-            // {
-            // poseDifference =
-            // poseEstimator.getEstimatedPosition().getTranslation().getDistance(botPose.getTranslation());
-            // }
+        // //invalid limelight data
+        // if (botPose.getX() != 0.0)
+        // {
+        // poseDifference =
+        // poseEstimator.getEstimatedPosition().getTranslation().getDistance(botPose.getTranslation());
+        // }
 
-            if (Math.sqrt(Math.pow(botPose.getX() - m_swerveSubsystem.currentPoseL.getX(), 2)
-                    + Math.pow(botPose.getY() - m_swerveSubsystem.currentPoseL.getY(), 2)) > 1.5) {
-                m_swerveSubsystem.resetPose(botPose);
-            }
+        // if (Math.sqrt(Math.pow(botPose.getX() -
+        // m_swerveSubsystem.currentPoseL.getX(), 2)
+        // + Math.pow(botPose.getY() - m_swerveSubsystem.currentPoseL.getY(), 2)) > 1.5)
+        // {
+        // m_swerveSubsystem.resetPose(botPose);
+        // }
 
-            cycle++;
+        cycle++;
 
-            if (cycle % 8 == 0) {
-                double a;
-                if (m_swerveSubsystem.isRedAlliance) {
-                    a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX(), 2)
-                            + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY(), 2));
-                } else {
-                    a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
-                            + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
-                }
-                System.out.println("distance to speaker " + a);
-            }
+        // if (cycle % 8 == 0) {
+        // double a;
+        // if (m_swerveSubsystem.isRedAlliance) {
+        // a = Math.sqrt(Math.pow(botPose.getX() -
+        // SwerveConstants.SPEAKER_RED_SIDE.getX(), 2)
+        // + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY(), 2));
+        // } else {
+        // a = Math.sqrt(Math.pow(botPose.getX() -
+        // SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
+        // + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
+        // }
+        // System.out.println("distance to speaker " + a);
+        // }
 
-            m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(botPose,
-                    Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0));
-        }
+        // m_swerveSubsystem.m_swervePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(4.0,
+        // 4.0, 180.0));
+
+        // m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(botPose,
+        // Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0));
     }
 
     @Override

@@ -31,21 +31,28 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
     }
 
     @Override
+    public void execute() {
+        super.execute();
+        m_swerveSubsystem.Swerve(0, 0, 0);
+    }
+
+    @Override
     public boolean isFinished() {
-        if (m_swerveSubsystem.isRedAlliance() == true
-                && m_limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY) {
-            return true;
-        }
-        if (m_swerveSubsystem.isRedAlliance() == false
-                && m_limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
-            return true;
-        }
+        // if (m_swerveSubsystem.isRedAlliance() == true
+        // && m_limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY)
+        // {
+        // return true;
+        // }
+        // if (m_swerveSubsystem.isRedAlliance() == false
+        // && m_limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
+        // return true;
+        // }
 
-        if (!m_swerveSubsystem.omegaZero()) {
-            return true;
-        }
+        // if (!m_swerveSubsystem.omegaZero()) {
+        // return true;
+        // }
 
-        if (timer.get() >= 1) {
+        if (timer.get() >= 3) {
             timer.stop();
             timer.reset();
             return true;

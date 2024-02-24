@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9,
+        "x": 2.8,
         "y": 5.25
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.865559858858438,
-        "y": 5.017053159609391
+        "x": 2.396302963405382,
+        "y": 5.25
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9,
-        "y": 3.7494382681073057
+        "x": 1.735609747966998,
+        "y": 4.66091294522104
       },
       "prevControl": {
-        "x": 2.9,
-        "y": 3.5020074799615912
+        "x": 1.72484720386026,
+        "y": 5.00965076334947
+      },
+      "nextControl": {
+        "x": 1.7463722920737363,
+        "y": 4.31217512709261
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.5553683061717036,
+        "y": 4.098792791023527
+      },
+      "prevControl": {
+        "x": 2.1702065737940295,
+        "y": 4.003135525200052
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +46,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.8,
       "rotationDegrees": -80.0,
       "rotateFast": true
     }
@@ -39,7 +55,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.1,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "sequential",
         "data": {
@@ -56,7 +72,7 @@
     },
     {
       "name": "Intake Stop",
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 2.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -80,7 +96,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -35.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
