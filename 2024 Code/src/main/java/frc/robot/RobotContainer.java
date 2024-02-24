@@ -100,7 +100,7 @@ public class RobotContainer {
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
     m_controller.leftBumper().onTrue(new InstantCommand(() -> {
-      SubsystemContainer.armSubsystem.setClimb(true);
+      SubsystemContainer.armSubsystem.setClimb();
       System.out.println("arm in climb mode");
   }));
 
