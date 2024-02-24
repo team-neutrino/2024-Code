@@ -91,13 +91,15 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public void setArmReferenceAngle(double targetAngle) {
 
-    m_targetAngle = targetAngle;
-
     if (targetAngle > ArmConstants.ARM_UPPER_LIMIT) {
       targetAngle = ArmConstants.ARM_UPPER_LIMIT;
     } else if (targetAngle < ArmConstants.ARM_LOWER_LIMIT) {
       targetAngle = ArmConstants.ARM_LOWER_LIMIT;
+    } else if (Double.isNaN(targetAngle)) {
+      return;
     }
+
+    m_targetAngle = targetAngle;
 
     double feedforward = ArmConstants.FF_kg
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
