@@ -2,6 +2,8 @@ package frc.robot.util;
 
 import java.util.TreeMap;
 
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.LimelightSubsystem;
 
 public class CalculateAngle {
@@ -12,27 +14,39 @@ public class CalculateAngle {
     public CalculateAngle() {
         m_limelight = SubsystemContainer.limelightSubsystem;
 
-        m_angleData.put(11.97, -13.53);
-        m_angleData.put(8.64, -13.48);
-        m_angleData.put(3.5, -10.429);
-        m_angleData.put(0.0, -4.029);
-        m_angleData.put(-3.0, -4.0);
-        m_angleData.put(-6.0, -1.7);
-        m_angleData.put(-8.55, 3.0);
-        m_angleData.put(-10.0, 5.0);
-        m_angleData.put(-12.07, 7.2);
-        m_angleData.put(-14.03, 8.0);
-        m_angleData.put(-16.0, 9.5);
+        // m_angleData.put(11.97, -13.53);
+        // m_angleData.put(8.64, -13.48);
+        // m_angleData.put(3.5, -10.429);
+        // m_angleData.put(0.0, -4.029);
+        // m_angleData.put(-3.0, -4.0);
+        // m_angleData.put(-6.0, -1.7);
+        // m_angleData.put(-8.55, 3.0);
+        // m_angleData.put(-10.0, 5.0);
+        // m_angleData.put(-12.07, 7.2);
+        // m_angleData.put(-14.03, 8.0);
+        // m_angleData.put(-16.0, 9.5);
+        m_angleData.put(1.26, -8.17);
+        m_angleData.put(1.688, -2.57);
+        m_angleData.put(2.11, 1.65);
+        m_angleData.put(2.42, 5.32);
+        m_angleData.put(2.8, 6.9);
+        m_angleData.put(3.24, 10.7);
+        m_angleData.put(3.7, 11.13);
     }
 
     public double InterpolateAngle() {
         Double smallerAngle = 0.0;
         Double largerAngle = 0.0;
         double resultAngle = 0;
-        double ty = m_limelight.getTy();
+        // double ty = m_limelight.getTy();
 
-        smallerAngle = m_angleData.lowerKey(ty);
-        largerAngle = m_angleData.higherKey(ty);
+        double distance = Math.sqrt(Math.pow(
+                SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX(), 2)
+                + Math.pow(SubsystemContainer.swerveSubsystem.currentPoseL.getY()
+                        - SwerveConstants.SPEAKER_RED_SIDE.getY(), 2));
+
+        smallerAngle = m_angleData.lowerKey(distance);
+        largerAngle = m_angleData.higherKey(distance);
 
         if (smallerAngle == null) {
             smallerAngle = m_angleData.firstKey();
@@ -40,8 +54,8 @@ public class CalculateAngle {
             largerAngle = m_angleData.lastKey();
         }
 
-        resultAngle = (m_angleData.get(smallerAngle) * (largerAngle - ty)
-                + m_angleData.get(largerAngle) * (ty - smallerAngle))
+        resultAngle = (m_angleData.get(smallerAngle) * (largerAngle - distance)
+                + m_angleData.get(largerAngle) * (distance - smallerAngle))
                 / (largerAngle - smallerAngle);
 
         return resultAngle;

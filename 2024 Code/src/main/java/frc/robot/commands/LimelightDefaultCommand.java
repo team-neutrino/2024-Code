@@ -38,7 +38,7 @@ public class LimelightDefaultCommand extends Command {
             botPoseArray = m_limelightSubsystem.getBotPose();
             botPose = new Pose2d(botPoseArray[0],
                     botPoseArray[1],
-                    Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
+                    Rotation2d.fromDegrees(m_swerveSubsystem.getYaw() + 180));
 
             // //invalid limelight data
             // if (botPose.getX() != 0.0)
@@ -54,16 +54,14 @@ public class LimelightDefaultCommand extends Command {
 
             cycle++;
 
-            if (cycle % 8 ==0)
-            {
+            if (cycle % 8 == 0) {
                 double a;
-                if (m_swerveSubsystem.isRedAlliance)
-                {
-                    a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX(), 2) + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY(), 2));
-                }
-                else
-                {
-                    a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2) + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
+                if (m_swerveSubsystem.isRedAlliance) {
+                    a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX(), 2)
+                            + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY(), 2));
+                } else {
+                    a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
+                            + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
                 }
                 System.out.println("distance to speaker " + a);
             }

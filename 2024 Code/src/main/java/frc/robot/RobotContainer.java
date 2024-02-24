@@ -72,7 +72,7 @@ public class RobotContainer {
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_controller.leftTrigger().onTrue(new PathPlannerAuto("New Auto"));
+    // m_controller.leftTrigger().onTrue(new PathPlannerAuto("New Auto"));
     m_driverController.leftStick()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
     m_driverController.leftStick()
@@ -86,11 +86,10 @@ public class RobotContainer {
         new MagicAmpCommand()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
-      for (int i = 0; i < 4; i++)
-      {
+      for (int i = 0; i < 4; i++) {
         SubsystemContainer.swerveSubsystem.swerveModules[i].resetEverything();
       }
-  }));
+    }));
 
     // shooter buttons
     m_controller.a().whileTrue(new MagicAmpCommand());
@@ -109,7 +108,7 @@ public class RobotContainer {
     m_controller.leftBumper().onTrue(new InstantCommand(() -> {
       SubsystemContainer.armSubsystem.setClimb();
       System.out.println("arm in climb mode");
-  }));
+    }));
 
   }
 

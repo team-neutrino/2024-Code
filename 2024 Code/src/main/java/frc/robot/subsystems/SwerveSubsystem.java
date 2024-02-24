@@ -73,7 +73,7 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
   SwerveModule m_backLeft = new SwerveModule(back_left_speed, back_left_angle);
 
-  public SwerveModule[] swerveModules = {m_frontRight, m_frontLeft, m_backRight, m_backLeft};
+  public SwerveModule[] swerveModules = { m_frontRight, m_frontLeft, m_backRight, m_backLeft };
 
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
@@ -260,13 +260,10 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void resetPose(Pose2d pose) {
-    if (isRedAlliance)
-    {
+    if (isRedAlliance) {
       m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
       m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
-    }
-    else
-    {
+    } else {
       m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
       m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
     }
@@ -295,7 +292,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public Command getPathfindCommand() {
-    //boolean isRed = isRedAlliance();
+    // boolean isRed = isRedAlliance();
 
     Pose2d closestPose;
     if (isRedAlliance) {
@@ -365,14 +362,11 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[2] = m_backRight.getModulePosition();
     modulePositions[3] = m_backLeft.getModulePosition();
 
-    if (isRedAlliance)
-    {
-      currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw() + 180), modulePositions);
-      
-      currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw() + 180), modulePositions);
-    }
-    else
-    {
+    if (isRedAlliance) {
+      currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+
+      currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    } else {
       currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
       currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
