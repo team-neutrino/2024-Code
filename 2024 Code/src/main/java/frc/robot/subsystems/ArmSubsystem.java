@@ -30,7 +30,6 @@ public class ArmSubsystem extends SubsystemBase {
   public int i = 0;
   private SparkPIDController pidController;
   private ArmEncoderContainer armEncoderContainer;
-  private boolean climb = false;
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -172,10 +171,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setClimb(boolean climb)
   {
-    this.climb = climb;
     if (climb)
     {
-      pidController.setP(0.0001, 0);
+      pidController.setI(0.0001, 0);
     }
   }
 

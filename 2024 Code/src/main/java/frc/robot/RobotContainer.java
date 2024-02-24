@@ -102,7 +102,7 @@ public class RobotContainer {
     m_controller.leftBumper().toggleOnTrue(new InstantCommand(() -> {
       SubsystemContainer.armSubsystem.setClimb(true);
       System.out.println("arm in climb mode");
-    }));
+  }));
 
   }
 
