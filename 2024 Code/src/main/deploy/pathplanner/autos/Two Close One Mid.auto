@@ -50,6 +50,24 @@
                 "data": {
                   "name": "MagicSpeakerCommand"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Two Close One Mid Part I"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Two Close One Mid Part II"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
+                }
               }
             ]
           }

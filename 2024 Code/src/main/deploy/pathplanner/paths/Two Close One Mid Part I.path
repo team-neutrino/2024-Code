@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 2.9,
+        "y": 5.25
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7011498720464258,
-        "y": 6.9805236146724186
+        "x": 3.410259374013754,
+        "y": 6.440960100179829
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8947741881248894,
-        "y": 7.0
+        "x": 8.15,
+        "y": 7.45
       },
       "prevControl": {
-        "x": 2.729224912779601,
-        "y": 7.0
+        "x": 6.779832124143563,
+        "y": 7.637373384732506
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,16 +30,16 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.65,
+      "waypointRelativePos": 0.75,
       "rotationDegrees": 0.0,
-      "rotateFast": true
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.05,
+      "waypointRelativePos": 0.85,
       "command": {
         "type": "sequential",
         "data": {
@@ -53,40 +53,23 @@
           ]
         }
       }
-    },
-    {
-      "name": "Stop Intake",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeDefaultCommand"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 2.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 30.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 40.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": false
