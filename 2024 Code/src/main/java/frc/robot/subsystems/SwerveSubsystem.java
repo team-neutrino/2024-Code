@@ -244,15 +244,17 @@ public class SwerveSubsystem extends SubsystemBase {
     m_navX.reset();
     m_referenceAngle = 0;
 
-    if (isRedAlliance) {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
-          new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
-          new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-    } else {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
-    }
+    // if (isRedAlliance) {
+    //   m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
+    //       new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+    //   m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
+    //       new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+    // } else {
+    //   m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
+    //   m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
+    // }
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
+    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
   }
 
   public Pose2d getPose() {
@@ -260,13 +262,15 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void resetPose(Pose2d pose) {
-    if (isRedAlliance) {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
-    } else {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
-    }
+    // if (isRedAlliance) {
+    //   m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
+    //   m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
+    // } else {
+    //   m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
+    //   m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
+    // }
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
+    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
