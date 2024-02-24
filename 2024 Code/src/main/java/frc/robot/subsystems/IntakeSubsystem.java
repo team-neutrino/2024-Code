@@ -65,11 +65,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIndexJitter() {
-        m_indexMotor.setVoltage(IntakeConstants.INDEX_Jitter_MOTOR_VOLTAGE);
+        m_indexMotor.setVoltage(IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
     }
 
     public void runIndexJitterReverse() {
-        m_indexMotor.setVoltage(-IntakeConstants.INDEX_Jitter_MOTOR_VOLTAGE);
+        m_indexMotor.setVoltage(-IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
     }
 
     public void stopIntake() {
