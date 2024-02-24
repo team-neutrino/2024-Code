@@ -22,27 +22,33 @@
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Two Close One Mid Part I"
+                  "name": "MagicSpeakerCommand"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Two Close One Mid Part II"
+                  "pathName": "All Close Part I"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Two Close One Mid Part III"
+                  "pathName": "All Close Part II"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Two Close One Mid Part IV"
+                  "name": "MagicSpeakerCommand"
                 }
               }
             ]
