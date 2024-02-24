@@ -50,6 +50,17 @@ public class LimelightDefaultCommand extends Command {
                 m_swerveSubsystem.resetPose(botPose);
             }
 
+            double a;
+            if (m_swerveSubsystem.isRedAlliance)
+            {
+                a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX(), 2) + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY(), 2));
+            }
+            else
+            {
+                a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2) + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
+            }
+            System.out.println("distance to red speaker " + a);
+
             m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(botPose,
                     Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0));
         }
