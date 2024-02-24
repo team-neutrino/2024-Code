@@ -51,8 +51,8 @@ public class AutoAlignCommand extends Command {
             }
             else
             {
-                y = m_swerveSubsystem.m_swervePoseEstimator.getEstimatedPosition().getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY();
-                x = m_swerveSubsystem.m_swervePoseEstimator.getEstimatedPosition().getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX();
+                y = m_swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY();
+                x = m_swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX();
             }
 
             m_swerveSubsystem.setRobotYaw(Math.toDegrees(Math.atan(y / x)));
