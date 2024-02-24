@@ -150,7 +150,7 @@ public final class Constants {
     public static double INTAKE_MOTOR_VOLTAGE = 1 * 12;
     public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2 * 12;
     public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1 * 12;
-    public static double INDEX_SEIZURE_MOTOR_VOLTAGE = 0.125 * 12;
+    public static double INDEX_Jitter_MOTOR_VOLTAGE = 0.125 * 12;
     public static int INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
   }
