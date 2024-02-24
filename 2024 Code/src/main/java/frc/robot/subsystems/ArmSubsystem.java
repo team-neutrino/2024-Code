@@ -170,15 +170,11 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-  public void setClimb()
-  {
-    if (climb == false)
-    {
+  public void setClimb() {
+    if (climb == false) {
       climb = true;
       pidController.setI(0.0001, 0);
-    }
-    else
-    {
+    } else {
       climb = false;
       pidController.setI(0.0, 0);
     }

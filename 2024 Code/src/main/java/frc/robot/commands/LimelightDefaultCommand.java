@@ -38,7 +38,7 @@ public class LimelightDefaultCommand extends Command {
             botPoseArray = m_limelightSubsystem.getBotPose();
             botPose = new Pose2d(botPoseArray[0],
                     botPoseArray[1],
-                    Rotation2d.fromDegrees(m_swerveSubsystem.getYaw() + 180));
+                    Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
 
             // //invalid limelight data
             // if (botPose.getX() != 0.0)
