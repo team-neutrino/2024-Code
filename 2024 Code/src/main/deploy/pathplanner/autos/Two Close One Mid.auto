@@ -24,6 +24,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "AutoAlignCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "MagicSpeakerCommand"
                 }
               },
@@ -36,6 +42,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "AutoAlignCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "MagicSpeakerCommand"
                 }
               },
@@ -43,6 +55,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "All Close Part II"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignCommand"
                 }
               },
               {
@@ -61,6 +79,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "Two Close One Mid Part II"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignCommand"
                 }
               },
               {

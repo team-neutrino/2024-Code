@@ -20,6 +20,12 @@
         {
           "type": "named",
           "data": {
+            "name": "AutoAlignCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "MagicSpeakerCommand"
           }
         },
@@ -45,6 +51,12 @@
           "type": "path",
           "data": {
             "pathName": "Midline III"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignCommand"
           }
         },
         {

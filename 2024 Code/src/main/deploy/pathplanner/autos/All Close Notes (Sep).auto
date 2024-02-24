@@ -30,6 +30,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "AutoAlignCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "MagicSpeakerCommand"
                 }
               },
@@ -48,6 +54,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "AutoAlignCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "MagicSpeakerCommand"
                 }
               },
@@ -61,6 +73,12 @@
                 "type": "wait",
                 "data": {
                   "waitTime": 2.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignCommand"
                 }
               },
               {

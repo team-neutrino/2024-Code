@@ -18,6 +18,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "AutoAlignCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "MagicSpeakerCommand"
                 }
               },
@@ -25,6 +31,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "Close Then Mid Part I"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignCommand"
                 }
               },
               {
@@ -49,6 +61,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "Close Then Mid Part III"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignCommand"
                 }
               },
               {
