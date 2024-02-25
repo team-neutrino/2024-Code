@@ -17,6 +17,7 @@ import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
+import frc.robot.commands.ArmClimbCommand;
 import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
@@ -105,10 +106,7 @@ public class RobotContainer {
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
-    m_controller.leftBumper().onTrue(new InstantCommand(() -> {
-      SubsystemContainer.armSubsystem.setClimb();
-      System.out.println("arm in climb mode");
-    }));
+    m_controller.leftBumper().toggleOnTrue(new ArmClimbCommand());
 
   }
 
