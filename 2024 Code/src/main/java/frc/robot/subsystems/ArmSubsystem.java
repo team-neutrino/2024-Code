@@ -176,6 +176,7 @@ public class ArmSubsystem extends SubsystemBase {
     {
       climb = true;
       pidController.setI(0.0001, 0);
+      setArmReferenceAngle(-15);
     }
     else
     {
