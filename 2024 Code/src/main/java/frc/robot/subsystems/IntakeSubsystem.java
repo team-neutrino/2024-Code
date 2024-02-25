@@ -64,6 +64,14 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexMotor.setVoltage(-IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE);
     }
 
+    public void runIndexJitter() {
+        m_indexMotor.setVoltage(IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
+    }
+
+    public void runIndexJitterReverse() {
+        m_indexMotor.setVoltage(-IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
+    }
+
     public void stopIntake() {
         m_intakeMotor.setVoltage(0);
     }
@@ -84,6 +92,18 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeEncoder.setPosition(0);
         m_indexEncoder.setPosition(0);
         m_indexEncoder2.setPosition(0);
+    }
+
+    public void indexJitter() {
+        if (!getBeamBreak()) {
+            for (int i = 0; i < 50; i++) {
+                if (i % 4 == 0) {
+                    runIndexJitter();
+                } else {
+                    runIndexJitterReverse();
+                }
+            }
+        }
     }
 
     /**

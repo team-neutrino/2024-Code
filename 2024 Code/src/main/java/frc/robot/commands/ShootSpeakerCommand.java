@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import frc.robot.Constants.DimensionConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.SubsystemContainer;
