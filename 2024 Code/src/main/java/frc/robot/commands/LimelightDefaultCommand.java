@@ -36,9 +36,15 @@ public class LimelightDefaultCommand extends Command {
     public void execute() {
         if (m_limelightSubsystem.getTv()) {
             botPoseArray = m_limelightSubsystem.getBotPose();
-            botPose = new Pose2d(botPoseArray[0],
-                    botPoseArray[1],
-                    Rotation2d.fromDegrees(m_swerveSubsystem.getYaw() + 180));
+            if (m_swerveSubsystem.isRedAlliance)
+            {
+                //this will be needed unless the limelight knows that it is mounted backwards I think
+                botPose = new Pose2d(botPoseArray[0], botPoseArray[1], Rotation2d.fromDegrees(m_swerveSubsystem.getYaw() + 180));
+            }
+            else
+            {
+                botPose = new Pose2d(botPoseArray[0], botPoseArray[1], Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
+            }
 
             // //invalid limelight data
             // if (botPose.getX() != 0.0)
