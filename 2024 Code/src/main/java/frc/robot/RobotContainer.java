@@ -10,6 +10,7 @@ import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.MagicSpeakerCommand;
 import frc.robot.commands.ShootManualCommand;
+import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
