@@ -108,7 +108,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     AutoBuilder.configureHolonomic(
         this::getPose,
-        this::resetPose,
+        this::resetPoseAuton,
         this::getRobotRelativeSpeeds,
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
@@ -244,19 +244,19 @@ public class SwerveSubsystem extends SubsystemBase {
     m_navX.reset();
     m_referenceAngle = 0;
 
-    // if (isRedAlliance) {
-    // m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
-    // modulePositions,
-    // new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-    // m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
-    // modulePositions,
-    // new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-    // } else {
-    // m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
-    // modulePositions, new Pose2d());
-    // m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
-    // modulePositions, new Pose2d());
-    // }
+    if (isRedAlliance) {
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
+    modulePositions,
+    new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
+    modulePositions,
+    new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+    } else {
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
+    modulePositions, new Pose2d());
+    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
+    modulePositions, new Pose2d());
+    }
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
     m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
   }
@@ -265,11 +265,14 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_swervePoseEstimator.getEstimatedPosition();
   }
 
-  public void resetPose(Pose2d pose) {
+  public void resetPoseAuton(Pose2d pose) {
     // if (isRedAlliance) {
-    // m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw() + 180),
+    //   //I see the problem now... (and thus the solution I hope)
+    // //pose = new Pose2d(pose.getX(), pose.getY(), Rotation2d.fromDegrees(pose.getRotation().getDegrees() + 180));
+
+    // m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
     // modulePositions, pose);
-    // m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw() + 180),
+    // m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
     // modulePositions, pose);
     // } else {
     // m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),

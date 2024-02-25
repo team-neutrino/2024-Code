@@ -35,11 +35,13 @@ public class LimelightDefaultCommand extends Command {
 
     @Override
     public void execute() {
-        // if (m_limelightSubsystem.getTv()) {
-        // botPoseArray = m_limelightSubsystem.getBotPose();
-        // botPose = new Pose2d(botPoseArray[0],
-        // botPoseArray[1],
-        // Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
+        if (m_limelightSubsystem.getTv()) {
+        botPoseArray = m_limelightSubsystem.getBotPose();
+        botPose = new Pose2d(botPoseArray[0],
+        botPoseArray[1],
+        //this will be needed unless the limelight knows that it is mounted backwards I think
+        Rotation2d.fromDegrees(m_swerveSubsystem.getYaw() + 180));
+        }
 
         // //invalid limelight data
         // if (botPose.getX() != 0.0)
@@ -71,11 +73,11 @@ public class LimelightDefaultCommand extends Command {
         // System.out.println("distance to speaker " + a);
         // }
 
-        // m_swerveSubsystem.m_swervePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(4.0,
-        // 4.0, 180.0));
+        m_swerveSubsystem.m_swervePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(4.0,
+        4.0, 180.0));
 
-        // m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(botPose,
-        // Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0));
+        m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(botPose,
+        Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0));
     }
 
     @Override
