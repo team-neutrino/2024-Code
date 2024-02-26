@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -36,14 +37,14 @@ public class LimelightDefaultCommand extends Command {
     public void execute() {
         if (m_limelightSubsystem.getTv()) {
             botPoseArray = m_limelightSubsystem.getBotPose();
-            if (m_swerveSubsystem.isRedAlliance)
-            {
-                //this will be needed unless the limelight knows that it is mounted backwards I think
-                botPose = new Pose2d(botPoseArray[0], botPoseArray[1], Rotation2d.fromDegrees(m_swerveSubsystem.getYaw() + 180));
-            }
-            else
-            {
-                botPose = new Pose2d(botPoseArray[0], botPoseArray[1], Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
+            if (m_swerveSubsystem.isRedAlliance) {
+                // this will be needed unless the limelight knows that it is mounted backwards I
+                // think
+                botPose = new Pose2d(botPoseArray[0], botPoseArray[1],
+                        Rotation2d.fromDegrees(m_swerveSubsystem.getYaw() + 180));
+            } else {
+                botPose = new Pose2d(botPoseArray[0], botPoseArray[1],
+                        Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
             }
 
             // //invalid limelight data
@@ -53,10 +54,12 @@ public class LimelightDefaultCommand extends Command {
             // poseEstimator.getEstimatedPosition().getTranslation().getDistance(botPose.getTranslation());
             // }
 
-            if (Math.sqrt(Math.pow(botPose.getX() - m_swerveSubsystem.currentPoseL.getX(), 2)
-                    + Math.pow(botPose.getY() - m_swerveSubsystem.currentPoseL.getY(), 2)) > 1.5) {
-                m_swerveSubsystem.resetPose(botPose);
-            }
+            // if (Math.sqrt(Math.pow(botPose.getX() -
+            // m_swerveSubsystem.currentPoseL.getX(), 2)
+            // + Math.pow(botPose.getY() - m_swerveSubsystem.currentPoseL.getY(), 2)) > 1.5)
+            // {
+            // m_swerveSubsystem.resetPose(botPose);
+            // }
 
             cycle++;
 
@@ -71,6 +74,8 @@ public class LimelightDefaultCommand extends Command {
                 }
                 System.out.println("distance to speaker " + a);
             }
+
+            m_swerveSubsystem.m_swervePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(4.0, 4.0, 180.0));
 
             m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(botPose,
                     Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0));

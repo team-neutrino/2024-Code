@@ -150,7 +150,7 @@ public final class Constants {
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
     public static final double PODIUM_ANGLE = 50; // PLACEHOLDER VALUE
-    public static final double SUBWOOFER_ANGLE = -15; // PLACEHOLDER VALUE
+    public static final double SUBWOOFER_ANGLE = -10; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {
