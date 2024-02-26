@@ -46,7 +46,7 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public double[] getBotPose() {
-    pose = limelight.getEntry("botpose").getDoubleArray(pastPose);
+    pose = limelight.getEntry("botpose_wpiblue").getDoubleArray(pastPose);
     if (getTv()) {
       pastPose = pose;
     }
