@@ -63,7 +63,7 @@ public class LimelightDefaultCommand extends Command {
 
             cycle++;
 
-            if (cycle % 8 == 0) {
+            if (cycle % 10 == 0) {
                 double a;
                 if (m_swerveSubsystem.isRedAlliance) {
                     a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX(), 2)
@@ -73,13 +73,18 @@ public class LimelightDefaultCommand extends Command {
                             + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
                 }
                 System.out.println("distance to speaker " + a);
+
+                // System.out.println("speaker x " + botPose.getX());
+                // System.out.println("speaker y " + botPose.getY());
+                // System.out.println("percent area " + botPoseArray[10]); returns percent as a raw number, not less than 1
+                // System.out.println("num of targets " + botPoseArray[7]);
             }
 
             m_limelightSubsystem.updatePoseEstimatorWithVisionBotPose(m_swerveSubsystem.m_swervePoseEstimator, botPose);
 
             // m_swerveSubsystem.m_swervePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(4.0, 4.0, 180.0));
 
-            // m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(botPose, Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0));
+            //m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(botPose, Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0));
         }
     }
 

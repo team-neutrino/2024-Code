@@ -8,6 +8,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.SubsystemContainer;
 
 public class LimelightSubsystem extends SubsystemBase {
   private NetworkTable limelight;
@@ -89,9 +90,11 @@ public class LimelightSubsystem extends SubsystemBase {
     //distance from current pose to vision estimated pose
     double poseDifference = poseEstimator.getEstimatedPosition().getTranslation().getDistance(limelightPose.getTranslation());
 
+    //System.out.println("pose difference " + poseDifference);
+
     if (getTv())
     {
-      double xyStds;
+      double xyStds = 1.0;
       //double degStds;
 
       //multiple targets detected
@@ -101,14 +104,19 @@ public class LimelightSubsystem extends SubsystemBase {
 
       }
       //1 target with large area and close to estimated pose (find constant for area (percent))
-      else if (pose[10] > 0.5 && poseDifference < 0.5)
+      else if (pose[10] > 0.7 && poseDifference < 1)
       {
         xyStds = 1.0;
       }
       //1 target farther away and estimated pose is close
-      else if (pose[10] > 0.1 && poseDifference < 0.3)
+      else if (pose[10] > 0.2 && poseDifference < 0.1)
       {
-        xyStds = 2.0;
+        xyStds = 3.0;
+      }
+      //need to zero, badly
+      else if (poseDifference >= 3)
+      {
+        SubsystemContainer.swerveSubsystem.resetPose(limelightPose);
       }
       //conditions don't match to add a vision measurement
       else
