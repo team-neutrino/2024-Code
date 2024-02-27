@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
@@ -17,6 +18,8 @@ public class IntakeSubsystem extends SubsystemBase {
     protected RelativeEncoder m_intakeEncoder;
     protected RelativeEncoder m_indexEncoder;
     protected RelativeEncoder m_indexEncoder2;
+
+    private Timer m_timer;
 
     protected CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
     protected CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
@@ -95,7 +98,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void indexJitter() {
-        if (!getBeamBreak()) {
+        if (getBeamBreak()) {
             for (int i = 0; i < 50; i++) {
                 if (i % 4 == 0) {
                     runIndexJitter();

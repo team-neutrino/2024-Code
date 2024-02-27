@@ -18,6 +18,7 @@ import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
+import frc.robot.commands.IndexJitterCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
@@ -62,6 +63,8 @@ public class RobotContainer {
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
     m_driverController.leftTrigger().whileTrue(new IntakeCommand());
+    m_driverController.rightTrigger().whileTrue(new SequentialCommandGroup(
+        new IndexJitterCommand(), new IntakeCommand()));
 
     // Climb buttons
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
@@ -82,11 +85,10 @@ public class RobotContainer {
         new MagicAmpCommand()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
-      for (int i = 0; i < 4; i++)
-      {
+      for (int i = 0; i < 4; i++) {
         SubsystemContainer.swerveSubsystem.swerveModules[i].resetEverything();
       }
-  }));
+    }));
 
     // shooter buttons
     m_controller.a().whileTrue(new MagicAmpCommand());
