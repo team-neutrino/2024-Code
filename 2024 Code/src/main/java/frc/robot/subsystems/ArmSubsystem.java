@@ -64,7 +64,7 @@ public class ArmSubsystem extends SubsystemBase {
     //climb settings
     pidController.setP(ArmConstants.Arm_kp, 1);
     pidController.setI(0.0001, 1);
-    pidController.setIZone(20, 1);
+    pidController.setIZone(30, 1);
 
     m_arm.burnFlash();
   }
