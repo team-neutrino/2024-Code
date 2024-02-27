@@ -106,7 +106,7 @@ public class RobotContainer {
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
-    m_controller.leftBumper().toggleOnTrue(new ArmClimbCommand());
+    //m_controller.leftBumper().toggleOnTrue(new ArmClimbCommand());
 
   }
 

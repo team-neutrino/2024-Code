@@ -259,8 +259,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void resetPose(Pose2d pose) {
     if (isRedAlliance) {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw() + 180), modulePositions, pose);
+      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
+      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
     } else {
       m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
       m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
@@ -360,15 +360,19 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[2] = m_backRight.getModulePosition();
     modulePositions[3] = m_backLeft.getModulePosition();
 
-    if (isRedAlliance) {
-      currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    // if (isRedAlliance) {
+    //   currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
-      currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
-    } else {
-      currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    //   currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    // } else {
+    //   currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
-      currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
-    }
+    //   currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    // }
+
+    currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+
+    currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
     field.getObject("odometry w/o limelight").setPose(currentPose);
     field.getObject("with limelight").setPose(currentPoseL);
