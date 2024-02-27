@@ -75,10 +75,11 @@ public class LimelightDefaultCommand extends Command {
                 System.out.println("distance to speaker " + a);
             }
 
-            m_swerveSubsystem.m_swervePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(4.0, 4.0, 180.0));
+            m_limelightSubsystem.updatePoseEstimatorWithVisionBotPose(m_swerveSubsystem.m_swervePoseEstimator, botPose);
 
-            m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(botPose,
-                    Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0));
+            // m_swerveSubsystem.m_swervePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(4.0, 4.0, 180.0));
+
+            // m_swerveSubsystem.m_swervePoseEstimator.addVisionMeasurement(botPose, Timer.getFPGATimestamp() - (botPoseArray[6] / 1000.0));
         }
     }
 
