@@ -347,6 +347,27 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
+  /**
+   * D-pad addition: pressing any of the 4 main buttons on the D-pad
+   * serve as hotkeys for rotation to forward, backward, left, and right
+   * relative to field orientation.
+   * 
+   * @param pov The current angle of the xbox controller POV buttons, -1
+   *            if not pressed and otherwise increases clockwise from 0-359.
+   */
+  public void POV(double pov) {
+
+    int integerPOV = Math.round((float) pov);
+
+    if (integerPOV == 90) {
+      // needed because of weird robot orientation (0 to -180 from left and 0 to +180
+      // from right)
+      setRobotYaw(-90);
+    } else if (integerPOV >= 0) {
+      setRobotYaw(integerPOV);
+    }
+  }
+
   @Override
   public void periodic() {
     modulePositions[0] = m_frontRight.getModulePosition();
