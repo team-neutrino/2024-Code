@@ -78,7 +78,7 @@ public class SwerveSubsystem extends SubsystemBase {
   boolean omegaZero = false;
   States commandState;
 
-  SwerveModule[] swerveModules = {m_frontRight, m_frontLeft, m_backRight, m_backLeft};
+  public SwerveModule[] swerveModules = {m_frontRight, m_frontLeft, m_backRight, m_backLeft};
 
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
