@@ -15,6 +15,7 @@ public class MagicAmpCommand extends Command {
   private ArmSubsystem m_armSubsystem;
   private ShooterSubsystem m_shooterSubsystem;
   private IntakeSubsystem m_intakeSubsystem;
+  private int i = 0;
 
   /** Creates a new MagicAmpCommand. */
   public MagicAmpCommand() {
@@ -51,6 +52,19 @@ public class MagicAmpCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (m_intakeSubsystem.getBeamBreak())
+    {
+      i++;
+    }
+    else
+    {
+      i = 0;
+    }
+    if (i >= 10)
+    {
+      return true;
+    }
+
     return false;
   }
 }
