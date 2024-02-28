@@ -21,8 +21,7 @@ public class AutoAlignCommand extends Command {
 
     double y = 0;
     double x = 0;
-
-
+    
     public AutoAlignCommand() {
         m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
         m_limelightSubsystem = SubsystemContainer.limelightSubsystem;
