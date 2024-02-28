@@ -16,7 +16,6 @@ import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
-import frc.robot.commands.ArmClimbCommand;
 import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
@@ -72,19 +71,11 @@ public class RobotContainer {
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    // m_controller.leftTrigger().onTrue(new PathPlannerAuto("New Auto"));
-    m_driverController.leftStick()
-        .whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
-    m_driverController.leftStick()
-        .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
+    m_controller.leftTrigger().onTrue(new PathPlannerAuto("Nothing!"));
+    m_driverController.leftStick().whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
+    m_driverController.leftStick().whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
-    m_driverController.y()
-        .onTrue((new SequentialCommandGroup(new ProxyCommand(SubsystemContainer.swerveSubsystem::getPathfindCommand),
-            new AutoAlignSequentialCommand())));
-
-    // m_driverController.a().onTrue(new
-    // SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp,
-    // new MagicAmpCommand()));
+    m_driverController.a().onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp, new MagicAmpCommand()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       for (int i = 0; i < 4; i++) {
@@ -106,8 +97,6 @@ public class RobotContainer {
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
-    //m_controller.leftBumper().toggleOnTrue(new ArmClimbCommand());
-
   }
 
   public Command getAutonomousCommand() {

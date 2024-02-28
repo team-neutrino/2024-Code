@@ -31,7 +31,7 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void initialize() {
-        SubsystemContainer.limelightSubsystem.setPipeline(1);
+        //SubsystemContainer.limelightSubsystem.setPipeline(1);
     }
 
     @Override
@@ -44,6 +44,7 @@ public class AutoAlignCommand extends Command {
         }
         else
         {
+            //SUPER auto align!!
             if (m_swerveSubsystem.isRedAlliance)
             {
                 y = m_swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY();

@@ -90,8 +90,6 @@ public class LimelightSubsystem extends SubsystemBase {
     //distance from current pose to vision estimated pose
     double poseDifference = poseEstimator.getEstimatedPosition().getTranslation().getDistance(limelightPose.getTranslation());
 
-    //System.out.println("pose difference " + poseDifference);
-
     if (getTv())
     {
       double xyStds = 1.0;
@@ -101,7 +99,6 @@ public class LimelightSubsystem extends SubsystemBase {
       if (pose[7] >= 2)
       {
         xyStds = 0.5;
-
       }
       //1 target with large area and close to estimated pose (find constant for area (percent))
       else if (pose[10] > 0.7 && poseDifference < 1)
@@ -109,7 +106,7 @@ public class LimelightSubsystem extends SubsystemBase {
         xyStds = 1.0;
       }
       //1 target farther away and estimated pose is close
-      else if (pose[10] > 0.2 && poseDifference < 0.1)
+      else if (pose[10] > 0.2 && poseDifference < 0.2)
       {
         xyStds = 3.0;
       }
