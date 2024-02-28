@@ -41,16 +41,16 @@ public class SwerveDefaultCommand extends Command {
     if (pov >= 0) {
       switch (Math.round(pov)) {
         case (0):
-          m_swerveSubsystem.setRobotYaw(pov);
+          m_swerveSubsystem.setRobotYaw(0);
           break;
         case (90):
-          m_swerveSubsystem.setRobotYaw(-pov);
+          m_swerveSubsystem.setRobotYaw(-90);
           break;
         case (180):
-          m_swerveSubsystem.setRobotYaw(pov);
+          m_swerveSubsystem.setRobotYaw(180);
           break;
         case (270):
-          m_swerveSubsystem.setRobotYaw(90);
+          m_swerveSubsystem.setRobotYaw(270);
           break;
       }
     }
