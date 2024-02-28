@@ -29,11 +29,31 @@ public class SwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     m_swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1,
         m_xboxController.getLeftX() * -1,
         m_xboxController.getRightX() * -1);
     m_swerveSubsystem.setCommandState(States.DEFAULT);
+
+    // D-pad addition: pressing any of the 4 main buttons on the D-pad
+    // serve as hotkeys for rotation to forward, backward, left, and right
+    // relative to field orientation.
+    float pov = m_xboxController.getPOV();
+    if (pov >= 0) {
+      switch (Math.round(pov)) {
+        case (0):
+          m_swerveSubsystem.setRobotYaw(0);
+          break;
+        case (90):
+          m_swerveSubsystem.setRobotYaw(-90);
+          break;
+        case (180):
+          m_swerveSubsystem.setRobotYaw(180);
+          break;
+        case (270):
+          m_swerveSubsystem.setRobotYaw(270);
+          break;
+      }
+    }
   }
 
   // Called once the command ends or is interrupted.
