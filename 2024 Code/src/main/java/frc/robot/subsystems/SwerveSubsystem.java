@@ -73,8 +73,6 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
   SwerveModule m_backLeft = new SwerveModule(back_left_speed, back_left_angle);
 
-  public SwerveModule[] swerveModules = { m_frontRight, m_frontLeft, m_backRight, m_backLeft };
-
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
   boolean omegaZero = false;
@@ -125,7 +123,7 @@ public class SwerveSubsystem extends SubsystemBase {
         },
         this);
 
-    if (isRedAlliance == true) {
+    if (isRedAlliance) {
       m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d(-90)),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     } else {
@@ -286,7 +284,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public Command getPathfindCommand() {
 
     Pose2d closestPose;
-    
+
     if (isRedAlliance) {
       closestPose = SwerveConstants.RED_TARGET_POSE1;
 
