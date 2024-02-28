@@ -1,18 +1,26 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.SubsystemContainer;
 
 public class LimelightDefaultCommand extends Command {
-    private Pose2d pose;
-    private double[] botPose;
+    private SwerveSubsystem m_swerveSubsystem;
+    private LimelightSubsystem m_limelightSubsystem;
+    private Pose2d botPose;
+    private double[] botPoseArray;
+    SwerveDrivePoseEstimator poseEstimator;
 
     public LimelightDefaultCommand() {
-        addRequirements(SubsystemContainer.limelightSubsystem);
-
+        m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
+        m_limelightSubsystem = SubsystemContainer.limelightSubsystem;
+        poseEstimator = m_swerveSubsystem.m_swervePoseEstimator;
+        addRequirements(m_limelightSubsystem);
     }
 
     @Override
@@ -23,13 +31,17 @@ public class LimelightDefaultCommand extends Command {
 
     @Override
     public void execute() {
-        if (SubsystemContainer.limelightSubsystem.getTv()) {
-            botPose = SubsystemContainer.limelightSubsystem.getBotPose();
-            pose = new Pose2d(botPose[0] + SwerveConstants.CENTER_OF_FIELD_M.getX(),
-                    botPose[1] + SwerveConstants.CENTER_OF_FIELD_M.getY(),
-                    Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem.getYaw()));
-            SubsystemContainer.swerveSubsystem.resetPose(pose);
+        if (m_limelightSubsystem.getTv()) {
+            botPoseArray = m_limelightSubsystem.getBotPose();
+            if (m_swerveSubsystem.isRedAlliance) {
+                botPose = new Pose2d(botPoseArray[0], botPoseArray[1],
+                        Rotation2d.fromDegrees(m_swerveSubsystem.getYaw() + 180));
+            } else {
+                botPose = new Pose2d(botPoseArray[0], botPoseArray[1],
+                        Rotation2d.fromDegrees(m_swerveSubsystem.getYaw()));
+            }
 
+            m_limelightSubsystem.updatePoseEstimatorWithVisionBotPose(m_swerveSubsystem.m_swervePoseEstimator, botPose);
         }
     }
 
