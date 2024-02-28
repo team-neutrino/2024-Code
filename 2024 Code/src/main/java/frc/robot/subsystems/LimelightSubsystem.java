@@ -72,6 +72,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public void setPriorityID(int id) {
     limelight.getEntry("priorityID").setNumber(id);
+  }
   /**
    * This method is primarily taken from the limelight docs page under "Robot Localization with MegaTag." It specifies the conditions for accepting
    * a vision measurement and what the Stds should be depending on the circumstance. This should hopefully improve the accuracy of the odometry and reject
