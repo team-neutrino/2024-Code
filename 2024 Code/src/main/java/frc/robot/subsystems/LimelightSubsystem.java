@@ -71,60 +71,57 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public void setPriorityID(int id) {
-    limelight.getEntry("priorityID").setNumber(id);
+    limelight.getEntry("priorityid").setNumber(id);
   }
-  
+
   /**
-   * This method is primarily taken from the limelight docs page under "Robot Localization with MegaTag." It specifies the conditions for accepting
-   * a vision measurement and what the Stds should be depending on the circumstance. This should hopefully improve the accuracy of the odometry and reject
+   * This method is primarily taken from the limelight docs page under "Robot
+   * Localization with MegaTag." It specifies the conditions for accepting
+   * a vision measurement and what the Stds should be depending on the
+   * circumstance. This should hopefully improve the accuracy of the odometry and
+   * reject
    * noisy/false data while keeping data that is correct.
    * 
    * @param poseEstimator
    * @param limelightPose
    */
-  public void updatePoseEstimatorWithVisionBotPose(SwerveDrivePoseEstimator poseEstimator, Pose2d limelightPose)
-  {
-    //invalid limelight data
-    if (limelightPose.getX() == 0.0)
-    {
+  public void updatePoseEstimatorWithVisionBotPose(SwerveDrivePoseEstimator poseEstimator, Pose2d limelightPose) {
+    // invalid limelight data
+    if (limelightPose.getX() == 0.0) {
       return;
     }
 
-    //distance from current pose to vision estimated pose
-    double poseDifference = poseEstimator.getEstimatedPosition().getTranslation().getDistance(limelightPose.getTranslation());
+    // distance from current pose to vision estimated pose
+    double poseDifference = poseEstimator.getEstimatedPosition().getTranslation()
+        .getDistance(limelightPose.getTranslation());
 
-    if (getTv())
-    {
+    if (getTv()) {
       double xyStds = 1.0;
 
-      //multiple targets detected
-      if (pose[7] >= 2)
-      {
+      // multiple targets detected
+      if (pose[7] >= 2) {
         xyStds = 0.5;
       }
-      //1 target with large area and close to estimated pose (find constant for area (percent))
-      else if (pose[10] > 0.7 && poseDifference < 1)
-      {
+      // 1 target with large area and close to estimated pose (find constant for area
+      // (percent))
+      else if (pose[10] > 0.7 && poseDifference < 1) {
         xyStds = 1.0;
       }
-      //1 target farther away and estimated pose is close
-      else if (pose[10] > 0.2 && poseDifference < 0.2)
-      {
+      // 1 target farther away and estimated pose is close
+      else if (pose[10] > 0.2 && poseDifference < 0.2) {
         xyStds = 3.0;
       }
-      //need to zero, badly
-      else if (poseDifference >= 3)
-      {
+      // need to zero, badly
+      else if (poseDifference >= 3) {
         SubsystemContainer.swerveSubsystem.resetPose(limelightPose);
       }
-      //conditions don't match to add a vision measurement
-      else
-      {
+      // conditions don't match to add a vision measurement
+      else {
         return;
       }
 
       poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, 0.0));
-      
+
       poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
     }
   }
