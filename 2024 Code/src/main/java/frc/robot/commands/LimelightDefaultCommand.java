@@ -4,12 +4,15 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.SubsystemContainer;
 
 public class LimelightDefaultCommand extends Command {
     private Pose2d botPose;
     private double[] botPoseArray;
     SwerveDrivePoseEstimator poseEstimator;
+
+    double cycle = 0;
 
     public LimelightDefaultCommand() {
         poseEstimator = SubsystemContainer.swerveSubsystem.m_swervePoseEstimator;
@@ -32,6 +35,26 @@ public class LimelightDefaultCommand extends Command {
             } else {
                 botPose = new Pose2d(botPoseArray[0], botPoseArray[1],
                         Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem.getYaw()));
+            }
+
+            cycle++;
+
+            if (cycle % 10 == 0) {
+                double a;
+                if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
+                    a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX(), 2)
+                            + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY(), 2));
+                } else {
+                    a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
+                            + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
+                }
+                System.out.println("distance to speaker " + a);
+
+                // System.out.println("speaker x " + botPose.getX());
+                // System.out.println("speaker y " + botPose.getY());
+                // System.out.println("percent area " + botPoseArray[10]); returns percent as a
+                // raw number, not less than 1
+                // System.out.println("num of targets " + botPoseArray[7]);
             }
 
             SubsystemContainer.limelightSubsystem.updatePoseEstimatorWithVisionBotPose(

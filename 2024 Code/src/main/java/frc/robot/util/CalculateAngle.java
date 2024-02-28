@@ -28,9 +28,11 @@ public class CalculateAngle {
         m_angleData.put(1.26, -8.17);
         m_angleData.put(1.688, -2.57);
         m_angleData.put(2.11, 1.65);
-        m_angleData.put(2.42, 5.32);
+        m_angleData.put(2.42, 6.3);
         // 2.78, higher angle (adjusted)
-        m_angleData.put(2.8, 7.5);
+        m_angleData.put(2.5, 7.5);
+        m_angleData.put(2.8, 9.0);
+        m_angleData.put(3.12, 10.2);
         m_angleData.put(3.24, 10.7);
         m_angleData.put(3.29, 11.0);
         m_angleData.put(3.7, 11.13);
