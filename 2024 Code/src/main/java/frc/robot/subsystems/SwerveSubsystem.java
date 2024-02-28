@@ -11,6 +11,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -60,6 +61,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private SwerveDriveOdometry m_swerveOdometry;
 
+  public SwerveDrivePoseEstimator m_swervePoseEstimator;
+
   private PIDController m_angleController = new PIDController(0.06, 0, 0);
   private Timer m_timer = new Timer();
   private double m_referenceAngle = 0;
@@ -70,17 +73,18 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
   SwerveModule m_backLeft = new SwerveModule(back_left_speed, back_left_angle);
 
-  public SwerveModule[] swerveModules = {m_frontRight, m_frontLeft, m_backRight, m_backLeft};
-
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
-  double cycle = 0;
   boolean omegaZero = false;
   States commandState;
 
+  public SwerveModule[] swerveModules = {m_frontRight, m_frontLeft, m_backRight, m_backLeft};
+
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
+  public Pose2d currentPoseL = new Pose2d();
   public Command m_pathfindAmp;
+  public boolean isRedAlliance;
 
   public SwerveSubsystem() {
     modulePositions[0] = new SwerveModulePosition();
@@ -88,8 +92,13 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[2] = new SwerveModulePosition();
     modulePositions[3] = new SwerveModulePosition();
 
+    isRedAlliance = isRedAlliance();
+
     m_swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
         modulePositions);
+
+    m_swervePoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(getYaw()),
+        modulePositions, new Pose2d());
 
     m_angleController.enableContinuousInput(-180, 180);
 
@@ -116,11 +125,11 @@ public class SwerveSubsystem extends SubsystemBase {
         },
         this);
 
-    if (isRedAlliance() == true) {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d()),
+    if (isRedAlliance) {
+      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d(-90)),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     } else {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, new Rotation2d()),
+      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, new Rotation2d(-90)),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     }
   }
@@ -233,16 +242,23 @@ public class SwerveSubsystem extends SubsystemBase {
   public void resetNavX() {
     m_navX.reset();
     m_referenceAngle = 0;
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
-        new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+
+    if (isRedAlliance) {
+      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+    } else {
+      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
+      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
+    }
   }
 
   public Pose2d getPose() {
-    return m_swerveOdometry.getPoseMeters();
+    return m_swervePoseEstimator.getEstimatedPosition();
   }
 
   public void resetPose(Pose2d pose) {
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
+    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
@@ -268,10 +284,10 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public Command getPathfindCommand() {
-    boolean isRed = isRedAlliance();
 
     Pose2d closestPose;
-    if (isRed) {
+
+    if (isRedAlliance) {
       closestPose = SwerveConstants.RED_TARGET_POSE1;
 
       double d2 = distanceFormula(SwerveConstants.RED_TARGET_POSE2);
@@ -340,10 +356,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
     currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
-    field.getObject("auton").setPose(currentPose);
+    currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
-    cycle++;
-    if (cycle % 8 == 0) {
-    }
+    field.getObject("odometry w/o limelight").setPose(currentPose);
+    field.getObject("with limelight").setPose(currentPoseL);
   }
 }
