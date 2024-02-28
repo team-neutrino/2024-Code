@@ -4,8 +4,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.Constants.ShooterSpeeds;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class ShootManualCommand extends Command {
