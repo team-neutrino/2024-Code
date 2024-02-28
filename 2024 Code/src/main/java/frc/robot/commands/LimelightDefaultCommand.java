@@ -18,8 +18,6 @@ public class LimelightDefaultCommand extends Command {
     private double[] botPoseArray;
     SwerveDrivePoseEstimator poseEstimator;
 
-    double cycle = 0;
-
     public LimelightDefaultCommand() {
         m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
         m_limelightSubsystem = SubsystemContainer.limelightSubsystem;

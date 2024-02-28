@@ -76,7 +76,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveModule[] swerveModules = { m_frontRight, m_frontLeft, m_backRight, m_backLeft };
 
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
-  
+
   boolean omegaZero = false;
   States commandState;
 
@@ -284,9 +284,9 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public Command getPathfindCommand() {
-    // boolean isRed = isRedAlliance();
 
     Pose2d closestPose;
+    
     if (isRedAlliance) {
       closestPose = SwerveConstants.RED_TARGET_POSE1;
 

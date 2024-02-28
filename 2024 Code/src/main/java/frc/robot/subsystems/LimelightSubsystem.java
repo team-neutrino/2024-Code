@@ -48,7 +48,6 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public void periodic() {
     limelight.getEntry("ledMode").setNumber(1);
-    //System.out.println("ty " + getTy());
   }
 
   public double[] getBotPose() {
@@ -93,7 +92,6 @@ public class LimelightSubsystem extends SubsystemBase {
     if (getTv())
     {
       double xyStds = 1.0;
-      //double degStds;
 
       //multiple targets detected
       if (pose[7] >= 2)

@@ -31,7 +31,6 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void initialize() {
-        //SubsystemContainer.limelightSubsystem.setPipeline(1);
     }
 
     @Override
