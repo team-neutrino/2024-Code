@@ -28,6 +28,10 @@ import frc.robot.util.CalculateAngle;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.revrobotics.REVPhysicsSim;
+
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -50,6 +54,12 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
+
+    DataLogManager.start();
+
+    DataLog log = DataLogManager.getLog();
+
+    DriverStation.startDataLog(DataLogManager.getLog());
   }
 
   private void configureBindings() {
@@ -85,11 +95,10 @@ public class RobotContainer {
         new MagicAmpCommand()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
-      for (int i = 0; i < 4; i++)
-      {
+      for (int i = 0; i < 4; i++) {
         SubsystemContainer.swerveSubsystem.swerveModules[i].resetEverything();
       }
-  }));
+    }));
 
     // shooter buttons
     m_controller.a().whileTrue(new MagicAmpCommand());
