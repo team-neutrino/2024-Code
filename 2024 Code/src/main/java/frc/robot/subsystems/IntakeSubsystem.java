@@ -19,6 +19,8 @@ public class IntakeSubsystem extends SubsystemBase {
     protected RelativeEncoder m_indexEncoder2;
 
     protected CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
+    protected CANSparkMax m_intakeMotor2 = new CANSparkMax(MotorIDs.INTAKE_MOTOR_TWO,
+            CANSparkLowLevel.MotorType.kBrushed);
     protected CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
     protected CANSparkMax m_indexMotor2 = new CANSparkMax(MotorIDs.INDEX_MOTOR2, CANSparkLowLevel.MotorType.kBrushless);
 
@@ -28,8 +30,12 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeEncoder = m_intakeMotor.getEncoder();
         m_indexEncoder = m_indexMotor.getEncoder();
         m_indexEncoder2 = m_indexMotor2.getEncoder();
+
         m_intakeMotor.restoreFactoryDefaults();
+        m_intakeMotor2.restoreFactoryDefaults();
         m_intakeMotor.setSmartCurrentLimit(Constants.IntakeConstants.INTAKE_CURRENT_LIMIT);
+        m_intakeMotor2.setSmartCurrentLimit(Constants.IntakeConstants.INTAKE_CURRENT_LIMIT);
+        m_intakeMotor2.follow(m_intakeMotor, true);
 
         m_indexMotor.restoreFactoryDefaults();
         m_indexMotor.setSmartCurrentLimit(Constants.IntakeConstants.INDEX_CURRENT_LIMIT);
@@ -40,6 +46,7 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexMotor2.follow(m_indexMotor, true);
 
         m_intakeMotor.burnFlash();
+        m_intakeMotor2.burnFlash();
         m_indexMotor.burnFlash();
         m_indexMotor2.burnFlash();
     }
