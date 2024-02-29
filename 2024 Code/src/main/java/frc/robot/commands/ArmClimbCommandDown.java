@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.util.SubsystemContainer;
 
-public class ArmClimbCommand extends Command {
+public class ArmClimbCommandDown extends Command {
 
   ArmSubsystem m_armSubsystem;
 
   /** Creates a new ArmClimbCommand. */
-  public ArmClimbCommand() {
+  public ArmClimbCommandDown() {
     // Use addRequirements() here to declare subsystem dependencies.
     m_armSubsystem = SubsystemContainer.armSubsystem;
     addRequirements(m_armSubsystem);
