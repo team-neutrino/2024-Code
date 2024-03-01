@@ -29,7 +29,6 @@ public class IndexJitterCommand extends Command {
   @Override
   public void execute() {
     m_intake.indexJitter();
-    System.out.println(m_timer.get());
   }
 
   // Called once the command ends or is interrupted.

@@ -74,11 +74,11 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexMotor.setVoltage(-IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE);
     }
 
-    public void runIndexJitter() {
+    public void runIndexJitterReverse() {
         m_indexMotor.setVoltage(-IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
     }
 
-    public void runIndexJitterReverse() {
+    public void runIndexJitter() {
         m_indexMotor.setVoltage(IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
     }
 
@@ -106,9 +106,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void indexJitter() {
         if (isBeamBroken()) {
-            runIndexJitter();
-        } else {
             runIndexJitterReverse();
+        } else {
+            runIndexJitter();
         }
     }
 
@@ -132,6 +132,5 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println(isBeamBroken());
     }
 }

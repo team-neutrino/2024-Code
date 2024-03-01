@@ -30,7 +30,7 @@ public class LEDDefaultCommand extends Command {
     if (m_swerveSubsystem == null) {
       return;
     }
-    if (!m_IntakeSubsystem.isBeamBroken()) {
+    if (m_IntakeSubsystem.isBeamBroken()) {
       m_LEDSubsystem.setToGreen();
     } else if (m_swerveSubsystem
         .getCommandState() == States.PATHFINDING) {
