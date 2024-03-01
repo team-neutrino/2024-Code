@@ -129,8 +129,4 @@ public class IntakeSubsystem extends SubsystemBase {
             stopIndex();
         }
     }
-
-    @Override
-    public void periodic() {
-    }
 }
