@@ -78,7 +78,7 @@ public class SwerveSubsystem extends SubsystemBase {
   boolean omegaZero = false;
   States commandState;
 
-  public SwerveModule[] swerveModules = {m_frontRight, m_frontLeft, m_backRight, m_backLeft};
+  public SwerveModule[] swerveModules = { m_frontRight, m_frontLeft, m_backRight, m_backLeft };
 
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
@@ -244,8 +244,10 @@ public class SwerveSubsystem extends SubsystemBase {
     m_referenceAngle = 0;
 
     if (isRedAlliance) {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
+          new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
+          new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
     } else {
       m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
       m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
@@ -359,9 +361,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
     int integerPOV = Math.round((float) pov);
 
-    if (integerPOV == 90) {
+    if (integerPOV == 270) {
       // needed because of weird robot orientation (0 to -180 from left and 0 to +180
       // from right)
+      setRobotYaw(90);
+    } else if (integerPOV == 90) {
       setRobotYaw(-90);
     } else if (integerPOV >= 0) {
       setRobotYaw(integerPOV);
