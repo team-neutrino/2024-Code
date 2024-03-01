@@ -56,8 +56,11 @@ public final class Constants {
 
     public static Translation2d CENTER_OF_FIELD_M = new Translation2d(8.29564, 4.105656);
 
-    public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(1.9304, 1);
-    public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(12.7254, 1);
+    public static Translation2d SPEAKER_BLUE_SIDE = new Translation2d(0, 5.547);
+    public static Translation2d SPEAKER_RED_SIDE = new Translation2d(16.579, 5.547);
+
+    public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(12.7254, 7.75);
+    public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(1.84, 7.75);
 
     public static Pose2d BLUE_TARGET_POSE1 = new Pose2d(2, 4, new Rotation2d());
     public static Pose2d BLUE_TARGET_POSE2 = new Pose2d(0.1, 4.8, new Rotation2d());
@@ -110,8 +113,9 @@ public final class Constants {
     public static int Arm = 10;
 
     public static int INTAKE_MOTOR = 20;
-    public static int INDEX_MOTOR = 21;
-    public static int INDEX_MOTOR2 = 22;
+    public static int INTAKE_MOTOR_TWO = 21;
+    public static int INDEX_MOTOR = 22;
+    public static int INDEX_MOTOR2 = 23;
 
     public static int SHOOTER_MOTOR1 = 30;
     public static int SHOOTER_MOTOR2 = 31;
@@ -147,7 +151,7 @@ public final class Constants {
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
     public static final double PODIUM_ANGLE = 50; // PLACEHOLDER VALUE
-    public static final double SUBWOOFER_ANGLE = -15; // PLACEHOLDER VALUE
+    public static final double SUBWOOFER_ANGLE = -10; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {
