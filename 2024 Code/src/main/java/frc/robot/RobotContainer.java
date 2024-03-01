@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
@@ -84,6 +85,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
     NamedCommands.registerCommand("AutoAlignCommand", m_autoAlignSequential);
     NamedCommands.registerCommand("ArmDefaultCommand", m_armDefaultCommand);
+    NamedCommands.registerCommand("ArmAngleCommand", new ArmAngleCommand(ArmConstants.INTAKE_POSE));
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
