@@ -75,11 +75,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIndexJitter() {
-        m_indexMotor.setVoltage(IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
+        m_indexMotor.setVoltage(-IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
     }
 
     public void runIndexJitterReverse() {
-        m_indexMotor.setVoltage(-IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
+        m_indexMotor.setVoltage(IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
     }
 
     public void stopIntake() {
@@ -105,14 +105,10 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void indexJitter() {
-        if (getBeamBreak()) {
-            for (int i = 0; i < 50; i++) {
-                if (i % 4 == 0) {
-                    runIndexJitter();
-                } else {
-                    runIndexJitterReverse();
-                }
-            }
+        if (isBeamBroken()) {
+            runIndexJitter();
+        } else {
+            runIndexJitterReverse();
         }
     }
 
@@ -122,8 +118,8 @@ public class IntakeSubsystem extends SubsystemBase {
      * 
      * @return The state of the intake beam break.
      */
-    public boolean getBeamBreak() {
-        return m_intakeBeamBreak.get();
+    public boolean isBeamBroken() {
+        return !m_intakeBeamBreak.get();
     }
 
     public void indexApprove(boolean allow) {
@@ -134,4 +130,8 @@ public class IntakeSubsystem extends SubsystemBase {
         }
     }
 
+    @Override
+    public void periodic() {
+        System.out.println(isBeamBroken());
+    }
 }

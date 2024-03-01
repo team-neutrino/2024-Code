@@ -52,16 +52,12 @@ public class MagicAmpCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_intakeSubsystem.getBeamBreak())
-    {
+    if (!m_intakeSubsystem.isBeamBroken()) {
       i++;
-    }
-    else
-    {
+    } else {
       i = 0;
     }
-    if (i >= 10)
-    {
+    if (i >= 10) {
       return true;
     }
 

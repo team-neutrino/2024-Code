@@ -15,6 +15,7 @@ public class IndexJitterCommand extends Command {
 
   public IndexJitterCommand() {
     m_intake = SubsystemContainer.intakeSubsystem;
+    m_timer = new Timer();
     addRequirements(m_intake);
   }
 
@@ -28,6 +29,7 @@ public class IndexJitterCommand extends Command {
   @Override
   public void execute() {
     m_intake.indexJitter();
+    System.out.println(m_timer.get());
   }
 
   // Called once the command ends or is interrupted.
@@ -40,6 +42,6 @@ public class IndexJitterCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_timer.get() > 1);
+    return (m_timer.get() > 2 && m_intake.isBeamBroken());
   }
 }
