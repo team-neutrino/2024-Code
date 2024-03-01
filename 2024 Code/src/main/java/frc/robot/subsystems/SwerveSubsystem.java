@@ -73,13 +73,12 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
   SwerveModule m_backLeft = new SwerveModule(back_left_speed, back_left_angle);
 
-  public SwerveModule[] swerveModules = { m_frontRight, m_frontLeft, m_backRight, m_backLeft };
-
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
-  double cycle = 0;
   boolean omegaZero = false;
   States commandState;
+
+  public SwerveModule[] swerveModules = { m_frontRight, m_frontLeft, m_backRight, m_backLeft };
 
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
@@ -126,7 +125,7 @@ public class SwerveSubsystem extends SubsystemBase {
         },
         this);
 
-    if (isRedAlliance == true) {
+    if (isRedAlliance) {
       m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d(-90)),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     } else {
@@ -265,6 +264,7 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_swervePoseEstimator.getEstimatedPosition();
   }
 
+<<<<<<< HEAD
   public void resetPoseAuton(Pose2d pose) {
     // if (isRedAlliance) {
     //   //I see the problem now... (and thus the solution I hope)
@@ -280,6 +280,9 @@ public class SwerveSubsystem extends SubsystemBase {
     // m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
     // modulePositions, pose);
     // }
+=======
+  public void resetPose(Pose2d pose) {
+>>>>>>> main
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
     m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
   }
@@ -307,9 +310,9 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public Command getPathfindCommand() {
-    // boolean isRed = isRedAlliance();
 
     Pose2d closestPose;
+
     if (isRedAlliance) {
       closestPose = SwerveConstants.RED_TARGET_POSE1;
 
@@ -370,6 +373,29 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
+  /**
+   * D-pad addition: pressing any of the 4 main buttons on the D-pad
+   * serve as hotkeys for rotation to forward, backward, left, and right
+   * relative to field orientation.
+   * 
+   * @param pov The current angle of the xbox controller POV buttons, -1
+   *            if not pressed and otherwise increases clockwise from 0-359.
+   */
+  public void POV(double pov) {
+
+    int integerPOV = Math.round((float) pov);
+
+    if (integerPOV == 270) {
+      // needed because of weird robot orientation (0 to -180 from left and 0 to +180
+      // from right)
+      setRobotYaw(90);
+    } else if (integerPOV == 90) {
+      setRobotYaw(-90);
+    } else if (integerPOV >= 0) {
+      setRobotYaw(integerPOV);
+    }
+  }
+
   @Override
   public void periodic() {
     modulePositions[0] = m_frontRight.getModulePosition();
@@ -377,6 +403,7 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[2] = m_backRight.getModulePosition();
     modulePositions[3] = m_backLeft.getModulePosition();
 
+<<<<<<< HEAD
     // if (isRedAlliance) {
     // currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()),
     // modulePositions);
@@ -387,13 +414,13 @@ public class SwerveSubsystem extends SubsystemBase {
     // }
     currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
+=======
+    currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+
+>>>>>>> main
     currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
     field.getObject("odometry w/o limelight").setPose(currentPose);
     field.getObject("with limelight").setPose(currentPoseL);
-
-    cycle++;
-    if (cycle % 8 == 0) {
-    }
   }
 }

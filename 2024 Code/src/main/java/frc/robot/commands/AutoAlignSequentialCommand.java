@@ -6,11 +6,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.FieldConstants;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class AutoAlignSequentialCommand extends AutoAlignCommand {
+<<<<<<< HEAD
     private SwerveSubsystem m_swerveSubsystem;
     private LimelightSubsystem m_limelightSubsystem;
     private double currentYaw;
@@ -55,6 +54,25 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
         if (timer.get() >= 3) {
             timer.stop();
             timer.reset();
+=======
+
+    public AutoAlignSequentialCommand() {
+        addRequirements(SubsystemContainer.limelightSubsystem);
+    }
+
+    @Override
+    public boolean isFinished() {
+        if (SubsystemContainer.swerveSubsystem.isRedAlliance() == true
+                && SubsystemContainer.limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY) {
+            return true;
+        }
+        if (SubsystemContainer.swerveSubsystem.isRedAlliance() == false
+                && SubsystemContainer.limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
+            return true;
+        }
+
+        if (!SubsystemContainer.swerveSubsystem.omegaZero()) {
+>>>>>>> main
             return true;
         }
 

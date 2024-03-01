@@ -30,7 +30,6 @@ public class ArmSubsystem extends SubsystemBase {
   public int i = 0;
   private SparkPIDController pidController;
   private ArmEncoderContainer armEncoderContainer;
-  private boolean climb = false;
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -172,6 +171,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
+<<<<<<< HEAD
   public void setClimb() {
     if (climb == false) {
       climb = true;
@@ -182,6 +182,8 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
+=======
+>>>>>>> main
   @Override
   public void periodic() {
     m_inPosition = ArmDebouncer();

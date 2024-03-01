@@ -113,8 +113,9 @@ public final class Constants {
     public static int Arm = 10;
 
     public static int INTAKE_MOTOR = 20;
-    public static int INDEX_MOTOR = 21;
-    public static int INDEX_MOTOR2 = 22;
+    public static int INTAKE_MOTOR_TWO = 21;
+    public static int INDEX_MOTOR = 22;
+    public static int INDEX_MOTOR2 = 23;
 
     public static int SHOOTER_MOTOR1 = 30;
     public static int SHOOTER_MOTOR2 = 31;
@@ -150,12 +151,12 @@ public final class Constants {
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
     public static final double PODIUM_ANGLE = 50; // PLACEHOLDER VALUE
-    public static final double SUBWOOFER_ANGLE = -15; // PLACEHOLDER VALUE
+    public static final double SUBWOOFER_ANGLE = -10; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {
     public static double INTAKE_MOTOR_VOLTAGE = 1 * 12;
-    public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.3 * 12;
+    public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2 * 12;
     public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1 * 12;
     public static double INDEX_JITTER_MOTOR_VOLTAGE = 0.125 * 12;
     public static int INTAKE_CURRENT_LIMIT = 70;

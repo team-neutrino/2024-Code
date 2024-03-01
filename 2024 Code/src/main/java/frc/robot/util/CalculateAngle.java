@@ -29,8 +29,10 @@ public class CalculateAngle {
         m_angleData.put(1.688, -2.57);
         m_angleData.put(2.11, 1.65);
         m_angleData.put(2.42, 5.32);
-        m_angleData.put(2.8, 6.9);
+        // 2.78, higher angle (adjusted)
+        m_angleData.put(2.8, 7.5);
         m_angleData.put(3.24, 10.7);
+        m_angleData.put(3.29, 11.0);
         m_angleData.put(3.7, 11.13);
     }
 
@@ -41,9 +43,9 @@ public class CalculateAngle {
         // double ty = m_limelight.getTy();
 
         double distance = Math.sqrt(Math.pow(
-                SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX(), 2)
+                SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
                 + Math.pow(SubsystemContainer.swerveSubsystem.currentPoseL.getY()
-                        - SwerveConstants.SPEAKER_RED_SIDE.getY(), 2));
+                        - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
 
         smallerAngle = m_angleData.lowerKey(distance);
         largerAngle = m_angleData.higherKey(distance);
