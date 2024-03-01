@@ -171,19 +171,6 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
-<<<<<<< HEAD
-  public void setClimb() {
-    if (climb == false) {
-      climb = true;
-      pidController.setI(0.0001, 0);
-    } else {
-      climb = false;
-      pidController.setI(0.0, 0);
-    }
-  }
-
-=======
->>>>>>> main
   @Override
   public void periodic() {
     m_inPosition = ArmDebouncer();

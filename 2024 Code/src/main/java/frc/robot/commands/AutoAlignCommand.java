@@ -32,33 +32,6 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void execute() {
-<<<<<<< HEAD
-        if (m_limelightSubsystem.getTv()) {
-            currentYaw = m_swerveSubsystem.getYaw();
-            offsetYaw = m_limelightSubsystem.getTx();
-            m_swerveSubsystem.setRobotYaw(currentYaw - offsetYaw);
-        }
-        // else
-        // {
-        // if (m_swerveSubsystem.isRedAlliance)
-        // {
-        // y = m_swerveSubsystem.currentPoseL.getY() -
-        // SwerveConstants.SPEAKER_RED_SIDE.getY();
-        // x = m_swerveSubsystem.currentPoseL.getX() -
-        // SwerveConstants.SPEAKER_RED_SIDE.getX();
-        // }
-        // else
-        // {
-        // y = m_swerveSubsystem.currentPoseL.getY() -
-        // SwerveConstants.SPEAKER_BLUE_SIDE.getY();
-        // x = m_swerveSubsystem.currentPoseL.getX() -
-        // SwerveConstants.SPEAKER_BLUE_SIDE.getX();
-        // }
-
-        // m_swerveSubsystem.setRobotYaw(Math.toDegrees(Math.atan(y / x)));
-        // }
-        m_swerveSubsystem.setCommandState(States.AUTOALIGN);
-=======
         if (SubsystemContainer.limelightSubsystem.getTv()) {
             currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
             offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
@@ -76,7 +49,6 @@ public class AutoAlignCommand extends Command {
             SubsystemContainer.swerveSubsystem.setRobotYaw(Math.toDegrees(Math.atan(y / x)));
         }
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
->>>>>>> main
     }
 
     @Override
