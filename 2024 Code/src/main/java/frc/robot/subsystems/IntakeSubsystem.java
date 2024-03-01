@@ -20,7 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     protected CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
     protected CANSparkMax m_intakeMotor2 = new CANSparkMax(MotorIDs.INTAKE_MOTOR_TWO,
-            CANSparkLowLevel.MotorType.kBrushed);
+            CANSparkLowLevel.MotorType.kBrushless);
     protected CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
     protected CANSparkMax m_indexMotor2 = new CANSparkMax(MotorIDs.INDEX_MOTOR2, CANSparkLowLevel.MotorType.kBrushless);
 
@@ -35,7 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor2.restoreFactoryDefaults();
         m_intakeMotor.setSmartCurrentLimit(Constants.IntakeConstants.INTAKE_CURRENT_LIMIT);
         m_intakeMotor2.setSmartCurrentLimit(Constants.IntakeConstants.INTAKE_CURRENT_LIMIT);
-        m_intakeMotor2.follow(m_intakeMotor, true);
+        m_intakeMotor2.follow(m_intakeMotor, false);
 
         m_indexMotor.restoreFactoryDefaults();
         m_indexMotor.setSmartCurrentLimit(Constants.IntakeConstants.INDEX_CURRENT_LIMIT);
