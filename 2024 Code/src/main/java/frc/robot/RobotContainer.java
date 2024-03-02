@@ -20,6 +20,7 @@ import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
+import frc.robot.commands.FinishAmpCommand;
 import frc.robot.commands.IndexJitterCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
@@ -100,7 +101,9 @@ public class RobotContainer {
     }));
 
     // shooter buttons
-    m_controller.a().whileTrue(new MagicAmpCommand());
+    m_controller.a().toggleOnTrue(new SequentialCommandGroup(new MagicAmpCommand(), new FinishAmpCommand()));
+    // m_controller.a().onFalse(new FinishAmpCommand());
+
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
 
     m_controller.x().whileTrue(

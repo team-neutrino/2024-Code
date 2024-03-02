@@ -113,7 +113,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     /**
-     * Gets the current state of the beam break: false means the beam break is
+     * Gets the current state of the beam break: true means the beam break is
      * tripped
      * 
      * @return The state of the intake beam break.

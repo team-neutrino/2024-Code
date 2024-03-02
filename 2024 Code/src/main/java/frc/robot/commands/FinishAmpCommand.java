@@ -5,26 +5,21 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.SubsystemContainer;
 
-public class MagicAmpCommand extends Command {
-  private ArmSubsystem m_armSubsystem;
-  private ShooterSubsystem m_shooterSubsystem;
-  private IntakeSubsystem m_intakeSubsystem;
-  private int i = 0;
+public class FinishAmpCommand extends Command {
 
-  /** Creates a new MagicAmpCommand. */
-  public MagicAmpCommand() {
-    m_armSubsystem = SubsystemContainer.armSubsystem;
-    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
+  IntakeSubsystem m_intakeSubsystem;
+  ShooterSubsystem m_shooterSubsystem;
+  int i = 0;
+
+  /** Creates a new FinishAmpCommand. */
+  public FinishAmpCommand() {
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
-
-    addRequirements(m_armSubsystem, m_shooterSubsystem,
-        m_intakeSubsystem);
+    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
+    addRequirements(m_intakeSubsystem, m_shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -35,19 +30,13 @@ public class MagicAmpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
-    m_shooterSubsystem.setTargetRPM(1000);
-    if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
-      m_intakeSubsystem.runIndexShoot();
-    } else {
-      m_intakeSubsystem.stopIndex();
-    }
+    m_intakeSubsystem.runIndexIntake();
+    m_shooterSubsystem.setTargetRPM(300);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooterSubsystem.setTargetRPM(300);
   }
 
   // Returns true when the command should end.
@@ -58,7 +47,7 @@ public class MagicAmpCommand extends Command {
     } else {
       i = 0;
     }
-    if (i >= 10) {
+    if (i >= 5) {
       return true;
     }
 
