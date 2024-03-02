@@ -36,15 +36,12 @@ public class IndexJitterCommand extends Command {
   public void end(boolean interrupted) {
     m_timer.stop();
     m_timer.reset();
-    // if (interrupted) {
-    // wh ile(!m_intake.isBeamBroken()) {
-    // m_intake.runIndexIntake();
-    // }
-    // m_intake.stopIndex();
-    // }
 
     if (interrupted) {
-
+      while (!m_intake.isBeamBroken()) {
+        m_intake.runIndexIntake();
+      }
+      m_intake.stopIndex();
     }
   }
 
