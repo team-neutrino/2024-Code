@@ -1,6 +1,7 @@
 package frc.robot.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import java.awt.geom.Point2D;
@@ -21,7 +22,7 @@ public class CalculateAngle {
     TreeMap<Double, Double> m_xAxis = new TreeMap<>();
     TreeMap<Double, Double> m_yAxis = new TreeMap<>();
 
-    TreeMap<Point2D.Double, Double> bilinearMap = new TreeMap<>();
+    HashMap<Point2D.Double, Double> bilinearMap = new HashMap<>();
 
     ArrayList<Double> row = new ArrayList<>();
     ArrayList<Double> col = new ArrayList<>();
@@ -86,32 +87,32 @@ public class CalculateAngle {
         // bilinearMap.put(new Point2D.Double(2.75, 2.6044), 14.3);
         // bilinearMap.put(new Point2D.Double(2.53, 1.19), 11.0);
 
-        bilinearMap.put(new Point2D.Double(2.3, 0.85), 10.3);
+        bilinearMap.put(new Point2D.Double(2.3, 0.85), 11.0);
         bilinearMap.put(new Point2D.Double(1.625, 0.85), -2.0);
-        bilinearMap.put(new Point2D.Double(2.3, 1.2), 10.75);
-        bilinearMap.put(new Point2D.Double(2.8, 1.2), 10.4);
+        bilinearMap.put(new Point2D.Double(2.3, 1.2), 11.3);
+        bilinearMap.put(new Point2D.Double(2.8, 1.2), 11.7);
         bilinearMap.put(new Point2D.Double(1.625, 1.2), 2.5);
         bilinearMap.put(new Point2D.Double(1.625, 2.13), 8.0);
         bilinearMap.put(new Point2D.Double(2.3, 2.13), 13.4);
         bilinearMap.put(new Point2D.Double(1.625, 2.7), 11.0);
         bilinearMap.put(new Point2D.Double(2.3, 2.7), 12.5);
         bilinearMap.put(new Point2D.Double(2.8, 1.2), 10.4);
-        bilinearMap.put(new Point2D.Double(3.5, 1.2), 14.0);
+        bilinearMap.put(new Point2D.Double(3.5, 1.2), 14.7);
         bilinearMap.put(new Point2D.Double(3.5, 2.13), 15.0);
         bilinearMap.put(new Point2D.Double(2.8, 2.7), 14.3);
-        bilinearMap.put(new Point2D.Double(2.3, 2.7), 13.8);
+        bilinearMap.put(new Point2D.Double(2.3, 2.7), 15.0);
         bilinearMap.put(new Point2D.Double(1.625, 0), -2.57);
-        bilinearMap.put(new Point2D.Double(2.3, 0), 4.5);
-        bilinearMap.put(new Point2D.Double(2.8, 0), 6.9);
+        bilinearMap.put(new Point2D.Double(2.3, 0), 6.0);
+        bilinearMap.put(new Point2D.Double(2.8, 0), 8.0);
         bilinearMap.put(new Point2D.Double(3.5, 0), 10.9);
         bilinearMap.put(new Point2D.Double(2.8, 2.13), 13.75);
-        bilinearMap.put(new Point2D.Double(2.8, 0.85), 10.35);
+        bilinearMap.put(new Point2D.Double(2.8, 0.85), 11.0);
         bilinearMap.put(new Point2D.Double(3.5, 0.85), 13.85);
-        bilinearMap.put(new Point2D.Double(3.5, 2.13), 15.0);
+        bilinearMap.put(new Point2D.Double(3.5, 2.13), 15.75);
         bilinearMap.put(new Point2D.Double(3.5, 2.7), 15.6);
 
         col.add(1.625);
-        col.add(1.625);
+        col.add(2.3);
         col.add(2.8);
         col.add(3.5);
 
@@ -203,7 +204,27 @@ public class CalculateAngle {
             }
         }
 
-        if (col.get(colN) > robotPoint.getX()) {
+        // else if (col.get(colN) < robotPoint.getX())
+        // {
+        // robotPoint = new Point2D.Double(col.get(colN), robotPoint.getY());
+
+        // }
+
+        // if (col.get(colN) == col.get(0) || col.get(colN) == col.get(3) &&
+        // row.get(rowN) == row.get(0) || row.get(rowN) == row.get(4))
+        // {
+
+        // }
+
+        if (robotPoint.getX() > col.get(col.size() - 1) || (robotPoint.getX() < col.get(0))) {
+            robotPoint = new Point2D.Double(col.get(colN), robotPoint.getY());
+        }
+
+        if ((robotPoint.getY() > row.get(row.size() - 1)) || (robotPoint.getY() < row.get(0))) {
+            robotPoint = new Point2D.Double(robotPoint.getX(), row.get(rowN));
+        }
+
+        if (colN == col.size() - 1) {
             x2 = col.get(colN);
             x1 = col.get(colN - 1);
         } else {
@@ -211,13 +232,15 @@ public class CalculateAngle {
             x2 = col.get(colN + 1);
         }
 
-        if (row.get(rowN) > robotPoint.getY()) {
+        if (rowN == row.size() - 1) {
             y2 = row.get(rowN);
             y1 = row.get(rowN - 1);
         } else {
             y1 = row.get(rowN);
             y2 = row.get(rowN + 1);
         }
+
+        System.out.println("x1 " + x1 + " x2 " + x2 + " y1 " + y1 + " y2 " + y2);
 
         // define the four corners
 
