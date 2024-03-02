@@ -87,9 +87,9 @@ public class RobotContainer {
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_controller.leftTrigger().onTrue(new PathPlannerAuto("Nothing"));
     m_driverController.leftStick()
-        .whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
+        .toggleOnTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
     m_driverController.leftStick()
-        .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
+        .toggleOnFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
     // m_driverController.a()
     // .onTrue(new
