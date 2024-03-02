@@ -53,23 +53,23 @@ public class CalculateAngle {
         // m_xAxis.put(3.29, 13.0);
         // m_xAxis.put(3.7, 13.13);
 
-        m_xAxis.put(1.26, -8.17);
-        m_xAxis.put(1.688, -3.25);
-        m_xAxis.put(2.11, 0.5);
-        m_xAxis.put(2.42, 6.3);
-        // 2.78, higher angle (adjusted)
-        m_xAxis.put(2.5, 9.25);
-        m_xAxis.put(2.8, 10.0);
-        m_xAxis.put(3.12, 10.2);
-        m_xAxis.put(3.24, 10.7);
-        m_xAxis.put(3.29, 12.13);
-        m_xAxis.put(3.7, 13.0);
+        // m_xAxis.put(1.26, -8.17);
+        // m_xAxis.put(1.688, -3.25);
+        // m_xAxis.put(2.11, 0.5);
+        // m_xAxis.put(2.42, 6.3);
+        // // 2.78, higher angle (adjusted)
+        // m_xAxis.put(2.5, 9.25);
+        // m_xAxis.put(2.8, 10.0);
+        // m_xAxis.put(3.12, 10.2);
+        // m_xAxis.put(3.24, 10.7);
+        // m_xAxis.put(3.29, 12.13);
+        // m_xAxis.put(3.7, 13.0);
 
-        m_yAxis.put(0.0, 0.0);
-        m_yAxis.put(0.5, 2.75);
-        m_yAxis.put(1.0, 4.5);
-        m_yAxis.put(1.7, 5.5);
-        m_yAxis.put(2.5, 6.5);
+        // m_yAxis.put(0.0, 0.0);
+        // m_yAxis.put(0.5, 2.75);
+        // m_yAxis.put(1.0, 4.5);
+        // m_yAxis.put(1.7, 5.5);
+        // m_yAxis.put(2.5, 6.5);
 
         // bilinearMap.put(new Point2D.Double(1.71, 0.89), -2.0);
         // bilinearMap.put(new Point2D.Double(1.625, 1.97), 7.0);

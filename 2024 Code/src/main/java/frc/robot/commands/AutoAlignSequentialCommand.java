@@ -10,25 +10,45 @@ import frc.robot.util.SubsystemContainer;
 
 public class AutoAlignSequentialCommand extends AutoAlignCommand {
 
+    Timer timer = new Timer();
+
     public AutoAlignSequentialCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
     @Override
+    public void initialize() {
+        super.initialize();
+        timer.start();
+    }
+
+    @Override
+    public void execute() {
+        super.execute();
+        SubsystemContainer.swerveSubsystem.Swerve(0, 0, 0);
+    }
+
+    @Override
     public boolean isFinished() {
-        if (SubsystemContainer.swerveSubsystem.isRedAlliance() == true
-                && SubsystemContainer.limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY) {
-            return true;
-        }
-        if (SubsystemContainer.swerveSubsystem.isRedAlliance() == false
-                && SubsystemContainer.limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
-            return true;
-        }
+        // if (m_swerveSubsystem.isRedAlliance() == true
+        // && m_limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY)
+        // {
+        // return true;
+        // }
+        // if (m_swerveSubsystem.isRedAlliance() == false
+        // && m_limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
+        // return true;
+        // }
 
-        if (!SubsystemContainer.swerveSubsystem.omegaZero()) {
+        // if (!m_swerveSubsystem.omegaZero()) {
+        // return true;
+        // }
+
+        if (timer.get() >= 2) {
+            timer.stop();
+            timer.reset();
             return true;
         }
-
         return false;
     }
 }
