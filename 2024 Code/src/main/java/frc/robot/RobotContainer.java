@@ -14,6 +14,7 @@ import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
+import frc.robot.subsystems.simulation.PIDChangerSimulationArm;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
@@ -21,6 +22,7 @@ import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
+import frc.robot.commands.IndexJitterCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
@@ -75,7 +77,7 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_driverController));
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
-    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(-25));
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
@@ -89,7 +91,9 @@ public class RobotContainer {
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
-    m_driverController.leftTrigger().whileTrue(new IntakeCommand());
+    m_driverController.rightTrigger().whileTrue(new IntakeCommand());
+    m_driverController.leftTrigger().whileTrue(new SequentialCommandGroup(
+        new IntakeCommand(), new IndexJitterCommand()));
 
     // Climb buttons
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
@@ -102,8 +106,10 @@ public class RobotContainer {
     m_driverController.leftStick()
         .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
-    m_driverController.a()
-        .onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp, new MagicAmpCommand()));
+    // m_driverController.a()
+    // .onTrue(new
+    // SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp, new
+    // MagicAmpCommand()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       for (int i = 0; i < 4; i++) {
