@@ -25,7 +25,7 @@ public class ShooterSubsystem extends SubsystemBase {
   protected double WHEEL_D = 0;
   protected double WHEEL_FF = 0.00021;
   protected double m_targetRPM;
-  protected double Izone = 100;
+  protected double Izone = 250;
   private int counter;
   final private double APPROVE_ERROR_THRESHOLD = 200;
   final private double APPROVE_COUNTER_THRESHOLD = 5;
