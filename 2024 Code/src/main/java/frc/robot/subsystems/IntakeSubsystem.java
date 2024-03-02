@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
@@ -17,6 +18,8 @@ public class IntakeSubsystem extends SubsystemBase {
     protected RelativeEncoder m_intakeEncoder;
     protected RelativeEncoder m_indexEncoder;
     protected RelativeEncoder m_indexEncoder2;
+
+    private Timer m_timer;
 
     protected CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
     protected CANSparkMax m_intakeMotor2 = new CANSparkMax(MotorIDs.INTAKE_MOTOR_TWO,
@@ -71,12 +74,12 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexMotor.setVoltage(-IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE);
     }
 
-    public void runIndexJitter() {
-        m_indexMotor.setVoltage(IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
-    }
-
     public void runIndexJitterReverse() {
         m_indexMotor.setVoltage(-IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
+    }
+
+    public void runIndexJitter() {
+        m_indexMotor.setVoltage(IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
     }
 
     public void stopIntake() {
@@ -102,14 +105,10 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void indexJitter() {
-        if (!getBeamBreak()) {
-            for (int i = 0; i < 50; i++) {
-                if (i % 4 == 0) {
-                    runIndexJitter();
-                } else {
-                    runIndexJitterReverse();
-                }
-            }
+        if (isBeamBroken()) {
+            runIndexJitterReverse();
+        } else {
+            runIndexJitter();
         }
     }
 
@@ -119,8 +118,8 @@ public class IntakeSubsystem extends SubsystemBase {
      * 
      * @return The state of the intake beam break.
      */
-    public boolean getBeamBreak() {
-        return m_intakeBeamBreak.get();
+    public boolean isBeamBroken() {
+        return !m_intakeBeamBreak.get();
     }
 
     public void indexApprove(boolean allow) {
@@ -130,5 +129,4 @@ public class IntakeSubsystem extends SubsystemBase {
             stopIndex();
         }
     }
-
 }
