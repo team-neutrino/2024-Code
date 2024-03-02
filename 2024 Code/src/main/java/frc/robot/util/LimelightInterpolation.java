@@ -12,6 +12,7 @@ public class LimelightInterpolation {
     TreeMap<Double, Double> map = new TreeMap<>();
 
     public LimelightInterpolation() {
+        map.put(0.0, 0.0);
         map.put(20.52, 3.0);
         map.put(33.0, 5.0);
         map.put(55.0, 6.5);
@@ -23,14 +24,17 @@ public class LimelightInterpolation {
 
         if (largerAngle == null) {
             largerAngle = map.lastKey();
-        }
-        if (smallerAngle == null) {
+        } else if (smallerAngle == null) {
             smallerAngle = map.firstKey();
         }
 
         double out = (map.get(smallerAngle) * (largerAngle - inputAngle)
                 + map.get(largerAngle) * (inputAngle - smallerAngle))
                 / (largerAngle - smallerAngle);
+
+        if (Double.isNaN(out)) {
+            return 0.0;
+        }
 
         return out;
     }

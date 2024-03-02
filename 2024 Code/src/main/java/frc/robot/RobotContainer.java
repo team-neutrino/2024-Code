@@ -58,6 +58,7 @@ public class RobotContainer {
   CalculateAngle m_angleCalculate = new CalculateAngle();
   MagicSpeakerCommand m_magicSpeakerCommand = new MagicSpeakerCommand(m_angleCalculate);
   IntakeCommand m_intakeCommand = new IntakeCommand();
+  IndexJitterCommand m_jitterCommand = new IndexJitterCommand();
   AutoAlignSequentialCommand m_autoAlignSequential = new AutoAlignSequentialCommand();
   ArmAngleCommand m_armDefaultCommand = new ArmAngleCommand(-25);
 
@@ -83,11 +84,11 @@ public class RobotContainer {
 
     // set named commands
     NamedCommands.registerCommand("MagicSpeakerCommand", m_magicSpeakerCommand);
-    NamedCommands.registerCommand("IntakeCommand", m_intakeCommand);
     NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
     NamedCommands.registerCommand("AutoAlignCommand", m_autoAlignSequential);
     NamedCommands.registerCommand("ArmDefaultCommand", m_armDefaultCommand);
     NamedCommands.registerCommand("ArmAngleCommand", new ArmAngleCommand(ArmConstants.INTAKE_POSE));
+    NamedCommands.registerCommand("IntakeCommand", m_intakeCommand);
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
