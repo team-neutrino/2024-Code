@@ -13,6 +13,7 @@ import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
+import frc.robot.subsystems.simulation.PIDChangerSimulationArm;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
@@ -68,7 +69,7 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_driverController));
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
-    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(0.0));
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
@@ -103,8 +104,10 @@ public class RobotContainer {
     m_controller.x().whileTrue(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SUBWOOFER_SPEED));
 
-    m_controller.b()
-        .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
+    // m_controller.b()
+    // .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE,
+    // Constants.ShooterSpeeds.PODIUM_SPEED));
+    m_controller.b().whileTrue(new ShootSpeakerCommand());
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons

@@ -19,17 +19,22 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.subsystems.simulation.PIDChangerSimulation;
+import frc.robot.subsystems.simulation.PIDChangerSimulationArm;
 import frc.robot.util.ArmEncoderContainer;
 
 public class ArmSubsystem extends SubsystemBase {
   protected CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
   protected DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCODER);
   protected double m_angle;
-  protected double m_targetAngle;
+  protected double m_targetAngle = 0.0;
   private boolean m_inPosition;
   public int i = 0;
   private SparkPIDController pidController;
   private ArmEncoderContainer armEncoderContainer;
+
+  boolean approve = false;
+
+  public final PIDChangerSimulationArm PIDSimulationArm = new PIDChangerSimulationArm(m_targetAngle, approve);
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -100,12 +105,14 @@ public class ArmSubsystem extends SubsystemBase {
 
     m_targetAngle = targetAngle;
 
+    approveTargetChanges();
+
     double feedforward = ArmConstants.FF_kg
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
 
-    targetAngle = adjustAngleIn(targetAngle);
+    targetAngle = adjustAngleIn(m_targetAngle);
 
-    pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
+    pidController.setReference(m_targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
   }
 
   /**
@@ -147,7 +154,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private boolean ArmDebouncer() {
-    if (Math.abs(getArmAngleDegrees() - m_targetAngle) <= 1) {
+    if (Math.abs(getArmAngleDegrees() - m_targetAngle) <= 1.5) {
       i++;
     } else {
       i = 0;
@@ -168,6 +175,13 @@ public class ArmSubsystem extends SubsystemBase {
 
     } else {
       return check;
+    }
+  }
+
+  public void approveTargetChanges() {
+    if (PIDSimulationArm.simPIDChangeApprove()) {
+      m_targetAngle = PIDSimulationArm.GetTargetAngle();
+      System.out.println("target value updated");
     }
   }
 

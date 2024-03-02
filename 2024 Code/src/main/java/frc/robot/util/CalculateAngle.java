@@ -11,6 +11,9 @@ public class CalculateAngle {
     TreeMap<Double, Double> m_angleData = new TreeMap<Double, Double>();
     LimelightSubsystem m_limelight;
 
+    TreeMap<Double, Double> m_xAxis = new TreeMap<>();
+    TreeMap<Double, Double> m_yAxis = new TreeMap<>();
+
     public CalculateAngle() {
         m_limelight = SubsystemContainer.limelightSubsystem;
 
@@ -25,43 +28,90 @@ public class CalculateAngle {
         // m_angleData.put(-12.07, 7.2);
         // m_angleData.put(-14.03, 8.0);
         // m_angleData.put(-16.0, 9.5);
-        m_angleData.put(1.26, -8.17);
-        m_angleData.put(1.688, -2.57);
-        m_angleData.put(2.11, 1.65);
-        m_angleData.put(2.42, 6.3);
+        // m_xAxis.put(1.26, -9.0);
+        // m_xAxis.put(1.688, -6.25);
+        // m_xAxis.put(2.11, 2.25);
+        // m_xAxis.put(2.42, 7.25);
+        // // 2.78, higher angle (adjusted)
+        // m_xAxis.put(2.5, 10.25);
+        // m_xAxis.put(2.8, 12.0);
+        // m_xAxis.put(3.12, 12.2);
+        // m_xAxis.put(3.24, 12.7);
+        // m_xAxis.put(3.29, 13.0);
+        // m_xAxis.put(3.7, 13.13);
+
+        m_xAxis.put(1.26, -8.17);
+        m_xAxis.put(1.688, -3.25);
+        m_xAxis.put(2.11, 0.5);
+        m_xAxis.put(2.42, 6.3);
         // 2.78, higher angle (adjusted)
-        m_angleData.put(2.5, 7.5);
-        m_angleData.put(2.8, 9.0);
-        m_angleData.put(3.12, 10.2);
-        m_angleData.put(3.24, 10.7);
-        m_angleData.put(3.29, 11.0);
-        m_angleData.put(3.7, 11.13);
+        m_xAxis.put(2.5, 9.25);
+        m_xAxis.put(2.8, 10.0);
+        m_xAxis.put(3.12, 10.2);
+        m_xAxis.put(3.24, 10.7);
+        m_xAxis.put(3.29, 12.13);
+        m_xAxis.put(3.7, 13.0);
+
+        m_yAxis.put(0.0, 0.0);
+        m_yAxis.put(0.5, 2.75);
+        m_yAxis.put(1.0, 4.5);
+        m_yAxis.put(1.7, 5.5);
+        m_yAxis.put(2.5, 6.5);
     }
 
     public double InterpolateAngle() {
-        Double smallerAngle = 0.0;
-        Double largerAngle = 0.0;
-        double resultAngle = 0;
+        Double smallX = 0.0;
+        Double largeX = 0.0;
+        Double smallY = 0.0;
+        Double largeY = 0.0;
+        double resultX = 0;
+        double resultY = 0;
+        // double[] botPose = SubsystemContainer.limelightSubsystem.getBotPose();
+        // double out = 0;
         // double ty = m_limelight.getTy();
 
-        double distance = Math.sqrt(Math.pow(
-                SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
-                + Math.pow(SubsystemContainer.swerveSubsystem.currentPoseL.getY()
-                        - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
+        // double distance = Math.sqrt(Math.pow(
+        // SubsystemContainer.swerveSubsystem.currentPoseL.getX() -
+        // SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
+        // + Math.pow(SubsystemContainer.swerveSubsystem.currentPoseL.getY()
+        // - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
 
-        smallerAngle = m_angleData.lowerKey(distance);
-        largerAngle = m_angleData.higherKey(distance);
+        double xComp = Math
+                .abs(SubsystemContainer.swerveSubsystem.currentPoseL.getX());
+        double yComp = Math
+                .abs(SubsystemContainer.swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
 
-        if (smallerAngle == null) {
-            smallerAngle = m_angleData.firstKey();
-        } else if (largerAngle == null) {
-            largerAngle = m_angleData.lastKey();
+        smallX = m_xAxis.lowerKey(xComp);
+        largeX = m_xAxis.higherKey(xComp);
+
+        smallY = m_yAxis.lowerKey(yComp);
+        largeY = m_yAxis.higherKey(yComp);
+
+        if (smallX == null) {
+            smallX = m_xAxis.firstKey();
+        } else if (largeX == null) {
+            largeX = m_xAxis.lastKey();
         }
 
-        resultAngle = (m_angleData.get(smallerAngle) * (largerAngle - distance)
-                + m_angleData.get(largerAngle) * (distance - smallerAngle))
-                / (largerAngle - smallerAngle);
+        if (smallY == null) {
+            smallY = m_yAxis.firstKey();
+        } else if (largeX == null) {
+            largeY = m_yAxis.lastKey();
+        }
 
-        return resultAngle;
+        resultX = (m_xAxis.get(smallX) * (largeX - xComp)
+                + m_xAxis.get(largeX) * (xComp - smallX))
+                / (largeX - smallX);
+
+        resultY = (m_yAxis.get(smallY) * (largeY - yComp)
+                + m_yAxis.get(largeY) * (yComp - smallY))
+                / (largeY - smallY);
+
+        if (Double.isNaN(resultY)) {
+            resultY = 0.0;
+            System.out.println("current y is NaN");
+        }
+
+        return resultX + resultY;
     }
 }

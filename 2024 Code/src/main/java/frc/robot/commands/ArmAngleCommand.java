@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.simulation.PIDChangerSimulationArm;
 import frc.robot.util.SubsystemContainer;
 
 public class ArmAngleCommand extends Command {
@@ -26,7 +27,7 @@ public class ArmAngleCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setArmReferenceAngle(m_angle);
+    m_armSubsystem.setArmReferenceAngle(PIDChangerSimulationArm.GetTargetAngle());
   }
 
   // Called once the command ends or is interrupted.

@@ -39,7 +39,7 @@ public class LimelightDefaultCommand extends Command {
 
             cycle++;
 
-            if (cycle % 10 == 0) {
+            if (cycle % 14 == 0) {
                 double a;
                 if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
                     a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX(), 2)
@@ -48,10 +48,10 @@ public class LimelightDefaultCommand extends Command {
                     a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
                             + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
                 }
-                System.out.println("distance to speaker " + a);
+                // System.out.println("distance to speaker " + a);
 
-                // System.out.println("speaker x " + botPose.getX());
-                // System.out.println("speaker y " + botPose.getY());
+                System.out.println("x: -- " + botPose.getX());
+                System.out.println("y: -- " + (botPose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY()));
                 // System.out.println("percent area " + botPoseArray[10]); returns percent as a
                 // raw number, not less than 1
                 // System.out.println("num of targets " + botPoseArray[7]);
