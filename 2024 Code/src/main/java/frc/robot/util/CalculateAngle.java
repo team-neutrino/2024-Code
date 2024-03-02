@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import java.util.TreeMap;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -45,6 +46,41 @@ public class CalculateAngle {
         double distance = Math.sqrt(Math.pow(
                 SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
                 + Math.pow(SubsystemContainer.swerveSubsystem.currentPoseL.getY()
+                        - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
+
+        smallerAngle = m_angleData.lowerKey(distance);
+        largerAngle = m_angleData.higherKey(distance);
+
+        if (smallerAngle == null) {
+            smallerAngle = m_angleData.firstKey();
+        } else if (largerAngle == null) {
+            largerAngle = m_angleData.lastKey();
+        }
+
+        resultAngle = (m_angleData.get(smallerAngle) * (largerAngle - distance)
+                + m_angleData.get(largerAngle) * (distance - smallerAngle))
+                / (largerAngle - smallerAngle);
+
+        return resultAngle;
+    }
+
+    /**
+     * Does exactly what the other method w/out parameters does except
+     * calculates the angle relative to a given desired position rather
+     * than the robot's current one. Used for AngleBreaker.
+     * 
+     * @param pose The position to calculate a shooter arm angle for.
+     * @return The correct angle to shoot speaker.
+     */
+    public double InterpolateAngle(Pose2d pose) {
+        Double smallerAngle = 0.0;
+        Double largerAngle = 0.0;
+        double resultAngle = 0;
+        // double ty = m_limelight.getTy();
+
+        double distance = Math.sqrt(Math.pow(
+                pose.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
+                + Math.pow(pose.getY()
                         - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
 
         smallerAngle = m_angleData.lowerKey(distance);
