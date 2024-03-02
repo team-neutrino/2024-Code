@@ -13,11 +13,12 @@ public class ShooterDefaultCommand extends Command {
     }
 
     public void initialize() {
-        m_shooterSubsystem.stopShooter();
+        m_shooterSubsystem.setTargetRPM(1500);
     }
 
     @Override
     public void execute() {
+        System.out.println(m_shooterSubsystem.getShooterRpm1());
     }
 
     @Override
