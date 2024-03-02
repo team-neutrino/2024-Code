@@ -25,7 +25,7 @@ public class IntakeCommand extends Command {
 
   @Override
   public void execute() {
-    if (m_intakeSubsystem.getBeamBreak()
+    if (!m_intakeSubsystem.isBeamBroken()
         && SubsystemContainer.armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
         && SubsystemContainer.armSubsystem.getInPosition()) {
       m_intakeSubsystem.runIntake();
@@ -43,6 +43,6 @@ public class IntakeCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return (m_intakeSubsystem.isBeamBroken());
   }
 }

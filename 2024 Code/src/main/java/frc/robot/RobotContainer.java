@@ -21,6 +21,7 @@ import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
+import frc.robot.commands.IndexJitterCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
@@ -76,6 +77,8 @@ public class RobotContainer {
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
     m_driverController.leftTrigger().whileTrue(new IntakeCommand());
+    m_driverController.rightTrigger().whileTrue(new SequentialCommandGroup(
+        new IntakeCommand(), new IndexJitterCommand()));
 
     // Climb buttons
     m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
