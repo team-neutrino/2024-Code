@@ -20,18 +20,17 @@ public class ShooterSubsystem extends SubsystemBase {
   protected RelativeEncoder m_shooterEncoder2;
   private SparkPIDController m_pidController1;
   private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
-  protected double WHEEL_P = 0.0006;
-  protected double WHEEL_I = 0.000001;
+  protected double WHEEL_P = 0.00065;
+  protected double WHEEL_I = 0.000002;
   protected double WHEEL_D = 0;
   protected double WHEEL_FF = 0.00021;
   protected double m_targetRPM;
   protected double Izone = 100;
   private int counter;
   final private double APPROVE_ERROR_THRESHOLD = 200;
-  final private double APPROVE_COUNTER_THRESHOLD = 9;
+  final private double APPROVE_COUNTER_THRESHOLD = 5;
   final private double COUNTER_ERROR_THRESHOLD = 200;
   private boolean approve = false;
-  // this is a change and a test
 
   public final PIDChangerSimulationShooter PIDSimulationShooter = new PIDChangerSimulationShooter(WHEEL_P, WHEEL_I,
       WHEEL_D, WHEEL_FF, approve);
