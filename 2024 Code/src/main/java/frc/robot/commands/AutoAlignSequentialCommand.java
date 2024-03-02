@@ -8,8 +8,6 @@ import frc.robot.FieldConstants;
 import frc.robot.util.SubsystemContainer;
 
 public class AutoAlignSequentialCommand extends AutoAlignCommand {
-    double currentYaw;
-    double targetYaw;
 
     public AutoAlignSequentialCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);

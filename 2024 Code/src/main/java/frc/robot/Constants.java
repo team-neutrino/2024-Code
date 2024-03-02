@@ -39,6 +39,7 @@ public final class Constants {
     public static double DRIVEBASE_RADIUS = 0.465074;
 
     public static double MAX_CHASSIS_LINEAR_SPEED = 1;
+    public static double MAX_CHASSIS_LINEAR_SPEED_FAST = 3;
     public static double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static double MAX_MODULE_ROTATION_SPEED;
     public static double MAX_MODULE_LINEAR_SPEED = 7;
@@ -53,8 +54,13 @@ public final class Constants {
 
     public static PathConstraints PATH_CONSTRAINTS = new PathConstraints(1, 1, 1.5 * Math.PI, 4 * Math.PI);
 
-    public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(1.9304, 1);
-    public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(12.7254, 1);
+    public static Translation2d CENTER_OF_FIELD_M = new Translation2d(8.29564, 4.105656);
+
+    public static Translation2d SPEAKER_BLUE_SIDE = new Translation2d(0, 5.547);
+    public static Translation2d SPEAKER_RED_SIDE = new Translation2d(16.579, 5.547);
+
+    public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(12.7254, 7.75);
+    public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(1.84, 7.75);
 
     public static Pose2d BLUE_TARGET_POSE1 = new Pose2d(2, 4, new Rotation2d());
     public static Pose2d BLUE_TARGET_POSE2 = new Pose2d(0.1, 4.8, new Rotation2d());
@@ -65,6 +71,9 @@ public final class Constants {
     public static Pose2d RED_TARGET_POSE2;
     public static Pose2d RED_TARGET_POSE3;
     public static Pose2d RED_TARGET_POSE4;
+
+    public static int ANGLE_MOTOR_CURRENT_LIMIT = 40;
+    public static int SPEED_MOTOR_CURRENT_LIMIT = 60;
   }
 
   public final class DigitalConstants {
@@ -104,7 +113,9 @@ public final class Constants {
     public static int Arm = 10;
 
     public static int INTAKE_MOTOR = 20;
-    public static int INDEX_MOTOR = 21;
+    public static int INTAKE_MOTOR_TWO = 21;
+    public static int INDEX_MOTOR = 22;
+    public static int INDEX_MOTOR2 = 23;
 
     public static int SHOOTER_MOTOR1 = 30;
     public static int SHOOTER_MOTOR2 = 31;
@@ -123,6 +134,7 @@ public final class Constants {
     public static double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static double ARM_RADIUS = 0.6555;
     public static double ARM_CM = 0.37084; // INCHES 14.6
+    public static int ARM_CURRENT_LIMIT = 30;
 
     // TODO: FeedForward Constants are PLACEHOLDERS
     public static double FF_ks = 0.0;
@@ -135,15 +147,28 @@ public final class Constants {
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
     public static double INTAKE_POSE = -25;
-    public static double AMP_POSE = 20;
+    public static double AMP_POSE = 90;
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
+    public static final double PODIUM_ANGLE = 50; // PLACEHOLDER VALUE
+    public static final double SUBWOOFER_ANGLE = -10; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {
     public static double INTAKE_MOTOR_VOLTAGE = 1 * 12;
-    public static double INDEX_MOTOR_VOLTAGE = 1 * 12;
+    public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2 * 12;
+    public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1 * 12;
+    public static double INDEX_JITTER_MOTOR_VOLTAGE = 0.125 * 12;
     public static int INTAKE_CURRENT_LIMIT = 70;
     public static int INDEX_CURRENT_LIMIT = 20;
+  }
+
+  public final class ShooterSpeeds {
+    public static final double SUBWOOFER_SPEED = 3000;
+    public static final double PODIUM_SPEED = 4500;
+  }
+
+  public final class ShooterConstants {
+    public static int SHOOTER_CURRENT_LIMIT = 40;
   }
 }

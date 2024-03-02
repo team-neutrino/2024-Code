@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
@@ -46,6 +47,7 @@ public class ArmSubsystem extends SubsystemBase {
     armEncoderContainer.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
 
     m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
+    m_arm.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);
 
     pidController = m_arm.getPIDController();
     pidController.setP(ArmConstants.Arm_kp, 0);
@@ -55,6 +57,8 @@ public class ArmSubsystem extends SubsystemBase {
     pidController.setPositionPIDWrappingMaxInput(360);
     pidController.setPositionPIDWrappingMinInput(0);
     pidController.setPositionPIDWrappingEnabled(true);
+
+    m_arm.burnFlash();
   }
 
   public double getTargetAngle() {
@@ -86,13 +90,15 @@ public class ArmSubsystem extends SubsystemBase {
    */
   public void setArmReferenceAngle(double targetAngle) {
 
-    m_targetAngle = targetAngle;
-
     if (targetAngle > ArmConstants.ARM_UPPER_LIMIT) {
       targetAngle = ArmConstants.ARM_UPPER_LIMIT;
     } else if (targetAngle < ArmConstants.ARM_LOWER_LIMIT) {
       targetAngle = ArmConstants.ARM_LOWER_LIMIT;
+    } else if (Double.isNaN(targetAngle)) {
+      return;
     }
+
+    m_targetAngle = targetAngle;
 
     double feedforward = ArmConstants.FF_kg
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
@@ -141,7 +147,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private boolean ArmDebouncer() {
-    if (Math.abs(getArmAngleDegrees() - m_targetAngle) <= 5) {
+    if (Math.abs(getArmAngleDegrees() - m_targetAngle) <= 2) {
       i++;
     } else {
       i = 0;
