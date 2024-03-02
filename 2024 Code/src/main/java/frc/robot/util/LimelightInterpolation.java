@@ -18,23 +18,20 @@ public class LimelightInterpolation {
     }
 
     public double calculateAngle(double inputAngle) {
-    Double largerAngle = map.higherKey(inputAngle);
-    Double smallerAngle = map.lowerKey(inputAngle);
+        Double largerAngle = map.higherKey(inputAngle);
+        Double smallerAngle = map.lowerKey(inputAngle);
 
-    if (largerAngle == null)
-    {
-        largerAngle = map.lastKey();
-    }
-    if (smallerAngle == null)
-    {
-        smallerAngle = map.firstKey();
-    }
+        if (largerAngle == null) {
+            largerAngle = map.lastKey();
+        }
+        if (smallerAngle == null) {
+            smallerAngle = map.firstKey();
+        }
 
-    double out = (map.get(smallerAngle) * (largerAngle - inputAngle)
+        double out = (map.get(smallerAngle) * (largerAngle - inputAngle)
                 + map.get(largerAngle) * (inputAngle - smallerAngle))
                 / (largerAngle - smallerAngle);
 
+        return out;
     }
-
-    return out;
 }
