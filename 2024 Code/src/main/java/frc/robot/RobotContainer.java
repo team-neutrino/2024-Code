@@ -76,8 +76,8 @@ public class RobotContainer {
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
-    m_driverController.leftTrigger().whileTrue(new IntakeCommand());
-    m_driverController.rightTrigger().whileTrue(new SequentialCommandGroup(
+    m_driverController.rightTrigger().whileTrue(new IntakeCommand());
+    m_driverController.leftTrigger().whileTrue(new SequentialCommandGroup(
         new IntakeCommand(), new IndexJitterCommand()));
 
     // Climb buttons
@@ -91,8 +91,10 @@ public class RobotContainer {
     m_driverController.leftStick()
         .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
-    m_driverController.a()
-        .onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp, new MagicAmpCommand()));
+    // m_driverController.a()
+    // .onTrue(new
+    // SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp, new
+    // MagicAmpCommand()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       for (int i = 0; i < 4; i++) {

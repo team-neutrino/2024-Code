@@ -95,6 +95,9 @@ public class LimelightSubsystem extends SubsystemBase {
     double poseDifference = poseEstimator.getEstimatedPosition().getTranslation()
         .getDistance(limelightPose.getTranslation());
 
+    double distanceToPrimaryTag = poseEstimator.getEstimatedPosition().getTranslation()
+        .getDistance(limelightPose.getTranslation());
+
     if (getTv()) {
       double xyStds = 1.0;
 
@@ -112,7 +115,7 @@ public class LimelightSubsystem extends SubsystemBase {
         xyStds = 3.0;
       }
       // need to zero, badly
-      else if (poseDifference >= 3) {
+      else if (poseDifference >= 3 && distanceToPrimaryTag < 4) {
         SubsystemContainer.swerveSubsystem.resetPose(limelightPose);
       }
       // conditions don't match to add a vision measurement
