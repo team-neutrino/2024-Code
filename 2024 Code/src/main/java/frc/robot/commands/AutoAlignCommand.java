@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.util.LimelightInterpolation;
 import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants;
@@ -16,6 +17,8 @@ public class AutoAlignCommand extends Command {
 
     double y = 0;
     double x = 0;
+
+    LimelightInterpolation calculate = new LimelightInterpolation();
 
     public AutoAlignCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
@@ -56,7 +59,7 @@ public class AutoAlignCommand extends Command {
                 targetOffset /= 3.0;
             }
 
-            SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - offsetYaw);
+            SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - offsetYaw + targetOffset);
         } else {
             // SUPER auto align!!
             if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
