@@ -13,6 +13,7 @@ import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.simulation.InterpolationOptimization;
 
 public class CalculateAngle {
 
@@ -26,6 +27,19 @@ public class CalculateAngle {
 
     ArrayList<Double> row = new ArrayList<>();
     ArrayList<Double> col = new ArrayList<>();
+
+    InterpolationOptimization optimizer = new InterpolationOptimization();
+
+    ArrayList<Point2D.Double> currentSquare = new ArrayList<>();
+
+    Point2D currentRobotPoint;
+
+    Point2D.Double p1 = new Point2D.Double(1.625, 0.85); // far bottom left point, initialization for evaluation
+    Point2D.Double p2;
+    Point2D.Double p3;
+    Point2D.Double p4;
+
+    double[] changeAmt = { -0.5, 0.5, -1, 1, -2, 2 };
 
     public CalculateAngle() {
         m_limelight = SubsystemContainer.limelightSubsystem;
@@ -53,23 +67,23 @@ public class CalculateAngle {
         // m_xAxis.put(3.29, 13.0);
         // m_xAxis.put(3.7, 13.13);
 
-        m_xAxis.put(1.26, -8.17);
-        m_xAxis.put(1.688, -3.25);
-        m_xAxis.put(2.11, 0.5);
-        m_xAxis.put(2.42, 6.3);
-        // 2.78, higher angle (adjusted)
-        m_xAxis.put(2.5, 9.25);
-        m_xAxis.put(2.8, 10.0);
-        m_xAxis.put(3.12, 10.2);
-        m_xAxis.put(3.24, 10.7);
-        m_xAxis.put(3.29, 12.13);
-        m_xAxis.put(3.7, 13.0);
+        // m_xAxis.put(1.26, -8.17);
+        // m_xAxis.put(1.688, -3.25);
+        // m_xAxis.put(2.11, 0.5);
+        // m_xAxis.put(2.42, 6.3);
+        // // 2.78, higher angle (adjusted)
+        // m_xAxis.put(2.5, 9.25);
+        // m_xAxis.put(2.8, 10.0);
+        // m_xAxis.put(3.12, 10.2);
+        // m_xAxis.put(3.24, 10.7);
+        // m_xAxis.put(3.29, 12.13);
+        // m_xAxis.put(3.7, 13.0);
 
-        m_yAxis.put(0.0, 0.0);
-        m_yAxis.put(0.5, 2.75);
-        m_yAxis.put(1.0, 4.5);
-        m_yAxis.put(1.7, 5.5);
-        m_yAxis.put(2.5, 6.5);
+        // m_yAxis.put(0.0, 0.0);
+        // m_yAxis.put(0.5, 2.75);
+        // m_yAxis.put(1.0, 4.5);
+        // m_yAxis.put(1.7, 5.5);
+        // m_yAxis.put(2.5, 6.5);
 
         // bilinearMap.put(new Point2D.Double(1.71, 0.89), -2.0);
         // bilinearMap.put(new Point2D.Double(1.625, 1.97), 7.0);
@@ -121,15 +135,49 @@ public class CalculateAngle {
         row.add(1.2);
         row.add(2.13);
         row.add(2.7);
+
+        currentSquare.add(p1);
+        currentSquare.add(p2);
+        currentSquare.add(p3);
+        currentSquare.add(p4);
     }
 
     public double InterpolateAngle() {
-        Double smallX = 0.0;
-        Double largeX = 0.0;
-        Double smallY = 0.0;
-        Double largeY = 0.0;
-        double resultX = 0;
-        double resultY = 0;
+
+        int index = optimizer.scheduleFunctionChanges();
+
+        if (index != -1) {
+            double scalar = changeAmt[index];
+
+            double deltaY = currentSquare.get(2).getY() - currentSquare.get(0).getY();
+            double deltaX = currentSquare.get(1).getX() - currentSquare.get(0).getX();
+
+            double yPart1 = ((currentSquare.get(2).getY() - currentRobotPoint.getY()) / deltaY);
+            double yPart2 = ((currentRobotPoint.getY() - currentSquare.get(0).getY()) / deltaY);
+
+            double coeff1 = yPart1 * ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
+            double coeff2 = yPart1 * ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
+            double coeff3 = yPart2 * ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
+            double coeff4 = yPart2 * ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
+
+            // for (int i = 0; i < currentSquare.size(); i++)
+            // {
+            // bilinearMap.put(currentSquare.get(i), bilinearMap.get(currentSquare.get(i)) *
+            // co)
+            // }
+
+            bilinearMap.put(currentSquare.get(0), bilinearMap.get(currentSquare.get(0)) * coeff1 * scalar);
+            bilinearMap.put(currentSquare.get(1), bilinearMap.get(currentSquare.get(1)) * coeff2 * scalar);
+            bilinearMap.put(currentSquare.get(2), bilinearMap.get(currentSquare.get(2)) * coeff3 * scalar);
+            bilinearMap.put(currentSquare.get(3), bilinearMap.get(currentSquare.get(3)) * coeff4 * scalar);
+        }
+
+        // Double smallX = 0.0;
+        // Double largeX = 0.0;
+        // Double smallY = 0.0;
+        // Double largeY = 0.0;
+        // double resultX = 0;
+        // double resultY = 0;
         // double[] botPose = SubsystemContainer.limelightSubsystem.getBotPose();
         // double out = 0;
         // double ty = m_limelight.getTy();
@@ -160,10 +208,7 @@ public class CalculateAngle {
 
         Point2D robotPoint = new Point2D.Double(xComp, yComp);
 
-        Point2D p1 = new Point2D.Double(1.625, 0.85); // far bottom left point, initialization for evaluation
-        Point2D p2;
-        Point2D p3;
-        Point2D p4;
+        currentRobotPoint = robotPoint;
 
         // for (int i = 0; i < points.length; i++)
         // {
@@ -248,6 +293,11 @@ public class CalculateAngle {
         p2 = new Point2D.Double(x2, y1);
         p3 = new Point2D.Double(x1, y2);
         p4 = new Point2D.Double(x2, y2);
+
+        currentSquare.set(0, p1);
+        currentSquare.set(1, p2);
+        currentSquare.set(2, p3);
+        currentSquare.set(3, p4);
 
         // define the three matrices that are needed for the computation,
         // one stores the values of the function at each point, one stores
