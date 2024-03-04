@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
+import frc.robot.commands.MagicSpeakerChargeCommand;
 import frc.robot.commands.MagicSpeakerCommand;
 import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShootSpeakerCommand;
@@ -101,7 +102,7 @@ public class RobotContainer {
 
     // shooter buttons
     m_buttonsController.a().whileTrue(new MagicAmpCommand());
-    m_buttonsController.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate, m_buttonsController));
+    m_buttonsController.y().whileTrue(new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController));
 
     m_buttonsController.x().whileTrue(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SUBWOOFER_SPEED));
