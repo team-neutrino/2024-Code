@@ -8,6 +8,7 @@ import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -22,7 +23,7 @@ import frc.robot.subsystems.simulation.PIDChangerSimulation;
 import frc.robot.util.ArmEncoderContainer;
 
 public class ArmSubsystem extends SubsystemBase {
-  protected CANSparkMax m_arm = new CANSparkMax(MotorIDs.Arm, MotorType.kBrushless);
+  protected CANSparkFlex m_arm = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
   protected DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCODER);
   protected double m_angle;
   protected double m_targetAngle;
@@ -43,8 +44,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     armEncoderContainer = new ArmEncoderContainer(m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle));
     armEncoderContainer.setPositionConversionFactor(360);
-    armEncoderContainer.setInverted(true);
-    armEncoderContainer.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
+    // armEncoderContainer.setInverted(true);
+    armEncoderContainer.setZeroOffset(280);
 
     m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
     m_arm.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);

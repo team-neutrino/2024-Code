@@ -37,7 +37,7 @@ public class ArmSimulation extends ArmSubsystem {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
     DoubleTopic Sim_Angle = nt.getDoubleTopic("arm/sim_angle");
     DoubleTopic Encoder_Angle = nt.getDoubleTopic("arm/sim_encoder_angle");
-     DoubleTopic m_realEncoderAngle = nt.getDoubleTopic("arm/real_encoder_angle");
+    DoubleTopic m_realEncoderAngle = nt.getDoubleTopic("arm/real_encoder_angle");
     DoubleTopic Target_Angle = nt.getDoubleTopic("arm/target_angle");
     DoubleTopic Arm_Voltage = nt.getDoubleTopic("arm/motor_set_voltage");
     final DoublePublisher simAnglePub;
@@ -85,7 +85,7 @@ public class ArmSimulation extends ArmSubsystem {
     }
 
     public void simulationInit() {
-        REVPhysicsSim.getInstance().addSparkMax(m_arm, DCMotor.getNEO(1));
+        // REVPhysicsSim.getInstance().addSparkMax(m_arm, DCMotor.getNEO(1));
         pidSim = new CanSparkMaxPidSim();
     }
 
