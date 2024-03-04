@@ -44,7 +44,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     armEncoderContainer = new ArmEncoderContainer(m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle));
     armEncoderContainer.setPositionConversionFactor(360);
-    // armEncoderContainer.setInverted(true);
     armEncoderContainer.setZeroOffset(280);
 
     m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
