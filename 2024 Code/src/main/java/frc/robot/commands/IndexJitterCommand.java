@@ -5,8 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.SubsystemContainer;
 
@@ -37,14 +36,30 @@ public class IndexJitterCommand extends Command {
   public void end(boolean interrupted) {
     m_timer.stop();
     m_timer.reset();
+    m_timer.start();
 
     // very scuffed code below
+    // if (interrupted) {
+    // while (!m_intake.isBeamBroken()) {
+    // m_intake.runIndexIntake();
+    // }
+    // new WaitCommand(.25);
+    // m_intake.stopIndex();
+    // }
+
     if (interrupted) {
-      while (!m_intake.isBeamBroken()) {
+      new InstantCommand(() -> {
+        for (int i = 0; i < 30; i++) {
+
+        }
+      });
+    }
+
+    if (interrupted && !m_intake.isBeamBroken()) {
+      new InstantCommand(() -> new StartEndCommand(() -> {
         m_intake.runIndexIntake();
-      }
-      new WaitCommand(.25);
-      m_intake.stopIndex();
+      }, () -> m_intake.stopIndex(), m_intake)
+          .until(() -> m_timer.get() > .25));
     }
   }
 
