@@ -162,6 +162,8 @@ public class CalculateAngle {
         col.add(2.3);
         col.add(2.8);
         col.add(3.5);
+        col.add(4.0);
+        col.add(4.5);
 
         row.add(0.0);
         row.add(0.85);
