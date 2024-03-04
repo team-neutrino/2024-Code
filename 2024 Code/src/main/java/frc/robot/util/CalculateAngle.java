@@ -181,6 +181,8 @@ public class CalculateAngle {
             // bilinearDataStringArr[i].concat("\n");
         }
 
+        scanner.close();
+
         currentSquare.add(p1);
         currentSquare.add(p2);
         currentSquare.add(p3);

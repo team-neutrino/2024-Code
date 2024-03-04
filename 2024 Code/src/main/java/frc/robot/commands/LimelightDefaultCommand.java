@@ -39,18 +39,21 @@ public class LimelightDefaultCommand extends Command {
 
             cycle++;
 
-            if (cycle % 14 == 0) {
-                double a;
+            if (cycle % 16 == 0) {
+                // double a;
                 if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
-                    a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX(), 2)
-                            + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY(), 2));
+                    // a = Math.sqrt(Math.pow(botPose.getX() -
+                    // SwerveConstants.SPEAKER_RED_SIDE.getX(), 2)
+                    // + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY(), 2));
+                    System.out.println("x: -- " + (SwerveConstants.SPEAKER_RED_SIDE.getX() - botPose.getX()));
                 } else {
-                    a = Math.sqrt(Math.pow(botPose.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
-                            + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
+                    // a = Math.sqrt(Math.pow(botPose.getX() -
+                    // SwerveConstants.SPEAKER_BLUE_SIDE.getX(), 2)
+                    // + Math.pow(botPose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY(), 2));
+                    System.out.println("x: -- " + botPose.getX());
                 }
                 // System.out.println("distance to speaker " + a);
 
-                System.out.println("x: -- " + botPose.getX());
                 System.out.println("y: -- " + (botPose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY()));
                 // System.out.println("percent area " + botPoseArray[10]); returns percent as a
                 // raw number, not less than 1
