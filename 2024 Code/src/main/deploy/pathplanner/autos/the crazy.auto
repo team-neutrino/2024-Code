@@ -24,6 +24,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ArmAngleCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "un"
@@ -33,6 +39,12 @@
           "type": "named",
           "data": {
             "name": "MagicSpeakerCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmAngleCommand"
           }
         },
         {
@@ -60,6 +72,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ArmAngleCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "quatre"
@@ -84,6 +102,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ArmAngleCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "cinq"
@@ -105,6 +129,12 @@
           "type": "named",
           "data": {
             "name": "MagicSpeakerCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmAngleCommand"
           }
         }
       ]
