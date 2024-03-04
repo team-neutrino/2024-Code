@@ -87,7 +87,7 @@ public class ArmSimulation extends ArmSubsystem {
     }
 
     public void simulationInit() {
-        REVPhysicsSim.getInstance().addSparkMax(m_arm, DCMotor.getNEO(1));
+        // REVPhysicsSim.getInstance().addSparkMax(m_arm, DCMotor.getNEO(1));
         pidSim = new CanSparkMaxPidSim();
     }
 
