@@ -125,11 +125,11 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-    public static double Arm_kp = 0.011;
+    public static double Arm_kp = 0.02;
     public static double Arm_ki = 0.0;
     public static double Arm_kd = 0.0;
 
-    public static double FF_kg = 0.01;
+    public static double FF_kg = 0.007;
     public static double ARM_MASS_KG = 8.3733; // LBS 18.46
     public static double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static double ARM_RADIUS = 0.6555;
