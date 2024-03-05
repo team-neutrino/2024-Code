@@ -16,6 +16,7 @@ import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.subsystems.simulation.PIDChangerSimulationArm;
 import frc.robot.commands.AutoAlignSequentialCommand;
+import frc.robot.commands.AutonMagicSpeakerCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmInterpolateCommand;
@@ -56,8 +57,7 @@ public class RobotContainer {
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
   CalculateAngle m_angleCalculate = new CalculateAngle();
-  // MagicSpeakerCommand m_magicSpeakerCommand = new
-  // MagicSpeakerCommand(m_angleCalculate);
+  AutonMagicSpeakerCommand m_magicSpeakerCommand = new AutonMagicSpeakerCommand(m_angleCalculate);
   IntakeCommand m_intakeCommand = new IntakeCommand();
   IndexJitterCommand m_jitterCommand = new IndexJitterCommand();
   AutoAlignSequentialCommand m_autoAlignSequential = new AutoAlignSequentialCommand();
@@ -84,7 +84,7 @@ public class RobotContainer {
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // set named commands
-    // NamedCommands.registerCommand("MagicSpeakerCommand", m_magicSpeakerCommand);
+    NamedCommands.registerCommand("MagicSpeakerCommand", m_magicSpeakerCommand);
     NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
     NamedCommands.registerCommand("AutoAlignCommand", m_autoAlignSequential);
     NamedCommands.registerCommand("ArmDefaultCommand", m_armDefaultCommand);
