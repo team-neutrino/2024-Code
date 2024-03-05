@@ -41,12 +41,7 @@ public class MagicSpeakerChargeCommand extends Command {
   public void execute() {
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
     m_shooterSubsystem.setTargetRPM(3000);
-    if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
-      m_controller.leftBumper().onTrue(new InstantCommand(() -> m_intakeSubsystem.runIndexShoot(), m_intakeSubsystem));
-    } else {
-      m_intakeSubsystem.stopIndex();
-      // m_controller.leftBumper().onTrue(new InstantCommand());
-    }
+    m_intakeSubsystem.stopIndex();
   }
 
   // Called once the command ends or is interrupted.
@@ -57,6 +52,7 @@ public class MagicSpeakerChargeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_controller.getHID().getLeftBumper() && m_armSubsystem.getInPosition()
+        && m_shooterSubsystem.approveShoot();
   }
 }
