@@ -9,9 +9,9 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
-import frc.robot.commands.MagicSpeakerCommand;
+import frc.robot.commands.MagicSpeakerChargeCommand;
+import frc.robot.commands.MagicSpeakerShootCommand;
 import frc.robot.commands.ShootManualCommand;
-import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
@@ -45,7 +45,7 @@ public class RobotContainer {
 
   SubsystemContainer m_subsystem_container = new SubsystemContainer();
 
-  CommandXboxController m_controller = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
+  CommandXboxController m_buttonsController = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
   CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
 
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
@@ -81,11 +81,11 @@ public class RobotContainer {
         new IntakeCommand(), new IndexJitterCommand()));
 
     // Climb buttons
-    m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
+    m_buttonsController.rightStick().toggleOnTrue(new ClimbCommand(m_buttonsController));
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_controller.leftTrigger().onTrue(new PathPlannerAuto("Nothing"));
+    m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("Nothing"));
     m_driverController.leftStick()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
     m_driverController.leftStick()
@@ -101,18 +101,22 @@ public class RobotContainer {
     }));
 
     // shooter buttons
-    m_controller.a().whileTrue(new MagicAmpCommand());
-    m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
+    m_buttonsController.a().whileTrue(new MagicAmpCommand());
 
-    m_controller.x().whileTrue(
-        new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SUBWOOFER_SPEED));
+    // separate button binding to left bumper contained within the magic speaker
+    // charge command
+    m_buttonsController.y().whileTrue(new SequentialCommandGroup(
+        new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicSpeakerShootCommand()));
 
-    m_controller.b()
+    m_buttonsController.x().whileTrue(
+        new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
+
+    m_buttonsController.b()
         .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
-    m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
+    m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));
   }
 
   public Command getAutonomousCommand() {
