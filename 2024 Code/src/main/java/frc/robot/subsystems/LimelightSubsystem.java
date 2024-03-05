@@ -113,7 +113,7 @@ public class LimelightSubsystem extends SubsystemBase {
       if (pose[7] >= 2 && distanceToPrimaryTag < 3.0) {
         xyStds = 0.5;
       } else if (pose[7] >= 2 && distanceToPrimaryTag > 3.0) {
-        xyStds = 2.5;
+        xyStds = 3.0;
       }
       // 1 target with large area and close to estimated pose (find constant for area
       // (percent))
@@ -121,7 +121,7 @@ public class LimelightSubsystem extends SubsystemBase {
         xyStds = 1.0;
       }
       // 1 target farther away and estimated pose is close
-      else if (pose[10] > 0.2 && poseDifference < 0.1) {
+      else if (pose[10] > 0.2 && poseDifference < 0.2) {
         xyStds = 2.0;
       }
       // need to zero, badly
