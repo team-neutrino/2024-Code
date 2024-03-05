@@ -104,7 +104,8 @@ public class RobotContainer {
     }));
 
     // shooter buttons
-    m_controller.a().whileTrue(new MagicAmpCommand());
+    // m_controller.a().whileTrue(new MagicAmpCommand());
+    m_controller.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
     m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
 
     m_controller.x().whileTrue(

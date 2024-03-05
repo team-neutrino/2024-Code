@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
@@ -62,15 +63,32 @@ public class CalculateAngle {
 
     public CalculateAngle() {
         m_limelight = SubsystemContainer.limelightSubsystem;
-        inputFile = new File("BilinearData.txt");
+        // File path = new File("BilinearData.txt");
+        // String absPath = path.getAbsolutePath();
+        // inputFile = new File("/home/lvuser/BilinearData.txt");
+        // try {
+        // inputFile = new File(
+        // Thread.currentThread().getContextClassLoader().getResource("BilinearData.txt").toURI());
 
-        try {
-            scanner = new Scanner(inputFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        // } catch (URISyntaxException e) {
+        // e.printStackTrace();
+        // }
+        // System.out.println("current dir: " + System.getProperty("user.dir"));
 
-        scanner.useDelimiter(" ");
+        // File curdir = new File("/home/lvuser/deploy");
+
+        // File[] files = curdir.listFiles();
+        // for (File f : files) {
+        // System.out.println(f.getName());
+        // }
+
+        // try {
+        // scanner = new Scanner(inputFile);
+        // } catch (FileNotFoundException e) {
+        // e.printStackTrace();
+        // }
+
+        // scanner.useDelimiter(" ");
 
         // try
         // {
@@ -134,29 +152,34 @@ public class CalculateAngle {
         // bilinearMap.put(new Point2D.Double(2.75, 2.6044), 14.3);
         // bilinearMap.put(new Point2D.Double(2.53, 1.19), 11.0);
 
-        // bilinearMap.put(new Point2D.Double(2.3, 0.85), 15.0);
-        // bilinearMap.put(new Point2D.Double(1.625, 0.85), 2.0);
-        // bilinearMap.put(new Point2D.Double(2.3, 1.2), 15.2);
-        // bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4);
-        // bilinearMap.put(new Point2D.Double(1.625, 1.2), 6.5);
-        // bilinearMap.put(new Point2D.Double(1.625, 2.13), 9.75);
-        // bilinearMap.put(new Point2D.Double(2.3, 2.13), 17.4);
-        // bilinearMap.put(new Point2D.Double(1.625, 2.7), 15.0);
-        // bilinearMap.put(new Point2D.Double(2.3, 2.7), 16.5);
-        // bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4); // 11.6 in auton testing
-        // bilinearMap.put(new Point2D.Double(3.5, 1.2), 18.7);
-        // bilinearMap.put(new Point2D.Double(3.5, 2.13), 19.0);
-        // bilinearMap.put(new Point2D.Double(2.8, 2.7), 18.3);
-        // bilinearMap.put(new Point2D.Double(2.3, 2.7), 18.0);
-        // bilinearMap.put(new Point2D.Double(1.625, 0), 1.0);
-        // bilinearMap.put(new Point2D.Double(2.3, 0), 6.5);
-        // bilinearMap.put(new Point2D.Double(2.8, 0), 10.0);
-        // bilinearMap.put(new Point2D.Double(3.5, 0), 14.9); // 12 in auton testing
-        // bilinearMap.put(new Point2D.Double(2.8, 2.13), 17.25);
-        // bilinearMap.put(new Point2D.Double(2.8, 0.85), 15.0);
-        // bilinearMap.put(new Point2D.Double(3.5, 0.85), 18.25);
-        // bilinearMap.put(new Point2D.Double(3.5, 2.13), 19.75);
-        // bilinearMap.put(new Point2D.Double(3.5, 2.7), 19.6);
+        bilinearMap.put(new Point2D.Double(2.3, 0.85), 15.0);
+        bilinearMap.put(new Point2D.Double(1.625, 0.85), 2.0);
+        bilinearMap.put(new Point2D.Double(2.3, 1.2), 15.2);
+        bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4);
+        bilinearMap.put(new Point2D.Double(1.625, 1.2), 6.5);
+        bilinearMap.put(new Point2D.Double(1.625, 2.13), 9.75);
+        bilinearMap.put(new Point2D.Double(2.3, 2.13), 17.4);
+        bilinearMap.put(new Point2D.Double(1.625, 2.7), 15.0);
+        bilinearMap.put(new Point2D.Double(2.3, 2.7), 16.5);
+        bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4); // 11.6 in auton testing
+        bilinearMap.put(new Point2D.Double(3.5, 1.2), 18.7);
+        bilinearMap.put(new Point2D.Double(3.5, 2.13), 19.0);
+        bilinearMap.put(new Point2D.Double(2.8, 2.7), 18.3);
+        bilinearMap.put(new Point2D.Double(2.3, 2.7), 18.0);
+        bilinearMap.put(new Point2D.Double(1.625, 0), 1.0);
+        bilinearMap.put(new Point2D.Double(2.3, 0), 6.5);
+        bilinearMap.put(new Point2D.Double(2.8, 0), 10.0);
+        bilinearMap.put(new Point2D.Double(3.5, 0), 14.9); // 12 in auton testing
+        bilinearMap.put(new Point2D.Double(2.8, 2.13), 17.25);
+        bilinearMap.put(new Point2D.Double(2.8, 0.85), 15.0);
+        bilinearMap.put(new Point2D.Double(3.5, 0.85), 18.25);
+        bilinearMap.put(new Point2D.Double(3.5, 2.13), 19.75);
+        bilinearMap.put(new Point2D.Double(3.5, 2.7), 19.6);
+        bilinearMap.put(new Point2D.Double(4.0, 0.0), 16.0);
+        bilinearMap.put(new Point2D.Double(4.0, 0.85), 20.25);
+        bilinearMap.put(new Point2D.Double(4.0, 1.2), 20.5);
+        bilinearMap.put(new Point2D.Double(4.0, 2.13), 21.0);
+        bilinearMap.put(new Point2D.Double(4.0, 2.7), 21.6);
 
         col.add(1.625);
         col.add(2.3);
@@ -171,19 +194,20 @@ public class CalculateAngle {
         row.add(2.13);
         row.add(2.7);
 
-        String temp;
+        // String temp;
 
-        for (int i = 0; i < row.size(); i++) {
-            for (int j = 0; j < col.size(); j++) {
-                temp = scanner.next();
-                bilinearMap.put(new Point2D.Double(col.get(j), row.get(i)), Double.valueOf(temp));
+        // for (int i = 0; i < row.size(); i++) {
+        // for (int j = 0; j < col.size(); j++) {
+        // temp = scanner.next();
+        // bilinearMap.put(new Point2D.Double(col.get(j), row.get(i)),
+        // Double.valueOf(temp));
 
-                // bilinearDataStringArr[i].concat(temp + " ");
-            }
-            // bilinearDataStringArr[i].concat("\n");
-        }
+        // // bilinearDataStringArr[i].concat(temp + " ");
+        // }
+        // // bilinearDataStringArr[i].concat("\n");
+        // }
 
-        scanner.close();
+        // scanner.close();
 
         currentSquare.add(p1);
         currentSquare.add(p2);
@@ -220,29 +244,30 @@ public class CalculateAngle {
             bilinearMap.put(currentSquare.get(2), bilinearMap.get(currentSquare.get(2)) * coeff3 * scalar);
             bilinearMap.put(currentSquare.get(3), bilinearMap.get(currentSquare.get(3)) * coeff4 * scalar);
 
-            String temp;
+            // String temp;
 
-            for (int i = 0; i < row.size(); i++) {
-                for (int j = 0; j < col.size(); j++) {
-                    temp = String.valueOf(bilinearMap.get(new Point2D.Double(col.get(j), row.get(i))));
+            // for (int i = 0; i < row.size(); i++) {
+            // for (int j = 0; j < col.size(); j++) {
+            // temp = String.valueOf(bilinearMap.get(new Point2D.Double(col.get(j),
+            // row.get(i))));
 
-                    bilinearDataStringArr[i] = bilinearDataStringArr[i].concat(temp + " ");
-                }
-                bilinearDataStringArr[i] = bilinearDataStringArr[i].concat("\n");
-            }
+            // bilinearDataStringArr[i] = bilinearDataStringArr[i].concat(temp + " ");
+            // }
+            // bilinearDataStringArr[i] = bilinearDataStringArr[i].concat("\n");
+            // }
 
-            try {
-                writer = new BufferedWriter(new FileWriter(inputFile));
-                for (int i = 0; i < bilinearDataStringArr.length; i++) {
-                    writer.write(bilinearDataStringArr[i]);
-                    bilinearDataStringArr[i] = "";
-                }
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // try {
+            // writer = new BufferedWriter(new FileWriter(inputFile));
+            // for (int i = 0; i < bilinearDataStringArr.length; i++) {
+            // writer.write(bilinearDataStringArr[i]);
+            // bilinearDataStringArr[i] = "";
+            // }
+            // writer.close();
+            // } catch (IOException e) {
+            // e.printStackTrace();
+            // }
 
-            System.out.println("successfully overwrote bilinearData.txt");
+            // System.out.println("successfully overwrote bilinearData.txt");
 
             // for (int i = 0; i < bilinearDataStringArr.length; i++)
             // {
@@ -438,5 +463,14 @@ public class CalculateAngle {
         // }
 
         return result;
+    }
+
+    public void dumpData() {
+        for (int i = 0; i < row.size(); i++) {
+            for (int j = 0; j < col.size(); j++) {
+                Point2D.Double temp = new Point2D.Double(col.get(j), row.get(i));
+                System.out.println(bilinearMap.get(temp));
+            }
+        }
     }
 }
