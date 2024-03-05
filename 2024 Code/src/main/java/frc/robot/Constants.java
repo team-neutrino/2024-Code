@@ -113,8 +113,9 @@ public final class Constants {
     public static int Arm = 10;
 
     public static int INTAKE_MOTOR = 20;
-    public static int INDEX_MOTOR = 21;
-    public static int INDEX_MOTOR2 = 22;
+    public static int INTAKE_MOTOR_TWO = 21;
+    public static int INDEX_MOTOR = 22;
+    public static int INDEX_MOTOR2 = 23;
 
     public static int SHOOTER_MOTOR1 = 30;
     public static int SHOOTER_MOTOR2 = 31;
@@ -124,11 +125,11 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-    public static double Arm_kp = 0.011;
+    public static double Arm_kp = 0.02;
     public static double Arm_ki = 0.0;
     public static double Arm_kd = 0.0;
 
-    public static double FF_kg = 0.01;
+    public static double FF_kg = 0.007;
     public static double ARM_MASS_KG = 8.3733; // LBS 18.46
     public static double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static double ARM_RADIUS = 0.6555;
@@ -165,6 +166,7 @@ public final class Constants {
   public final class ShooterSpeeds {
     public static final double SUBWOOFER_SPEED = 3000;
     public static final double PODIUM_SPEED = 4500;
+    public static final double INITIAL_SHOOTER_SPEED = 700;
   }
 
   public final class ShooterConstants {

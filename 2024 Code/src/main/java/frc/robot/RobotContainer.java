@@ -4,13 +4,14 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
-import frc.robot.commands.MagicSpeakerCommand;
+import frc.robot.commands.MagicSpeakerChargeCommand;
+import frc.robot.commands.MagicSpeakerShootCommand;
 import frc.robot.commands.ShootManualCommand;
-import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
@@ -22,6 +23,7 @@ import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
+import frc.robot.commands.IndexJitterCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.IntakeReverseCommand;
@@ -45,7 +47,7 @@ public class RobotContainer {
 
   SubsystemContainer m_subsystem_container = new SubsystemContainer();
 
-  CommandXboxController m_controller = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
+  CommandXboxController m_buttonsController = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
   CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
 
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
@@ -70,20 +72,22 @@ public class RobotContainer {
     SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_driverController));
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
-    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
+    SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(ArmConstants.INTAKE_POSE));
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
     m_driverController.leftTrigger().whileTrue(new IntakeCommand());
+    m_driverController.rightTrigger().whileTrue(new SequentialCommandGroup(
+        new IntakeCommand(), new IndexJitterCommand()));
 
     // Climb buttons
-    m_controller.rightStick().toggleOnTrue(new ClimbCommand(m_controller));
+    m_buttonsController.rightStick().toggleOnTrue(new ClimbCommand(m_buttonsController));
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_controller.leftTrigger().onTrue(new PathPlannerAuto("Nothing"));
+    m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("Nothing"));
     m_driverController.leftStick()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
     m_driverController.leftStick()
@@ -99,8 +103,12 @@ public class RobotContainer {
     }));
 
     // shooter buttons
-    m_controller.a().whileTrue(new MagicAmpCommand());
-    m_controller.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
+    m_buttonsController.a().whileTrue(new MagicAmpCommand());
+
+    // separate button binding to left bumper contained within the magic speaker
+    // charge command
+    m_buttonsController.y().whileTrue(new SequentialCommandGroup(
+        new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicSpeakerShootCommand()));
 
     m_controller.x().whileTrue(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SUBWOOFER_SPEED));
@@ -111,9 +119,6 @@ public class RobotContainer {
 
     // arm buttons
     m_controller.leftStick().toggleOnTrue(new ArmManualCommand(m_controller));
-    m_controller.leftBumper().toggleOnTrue(new ArmClimbCommandDown());
-    m_controller.rightBumper().toggleOnTrue(new ArmClimbCommandUp());
-
   }
 
   public Command getAutonomousCommand() {
