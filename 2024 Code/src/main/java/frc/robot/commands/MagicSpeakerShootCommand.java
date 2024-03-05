@@ -6,16 +6,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.SubsystemContainer;
-import frc.robot.util.CalculateAngle;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class MagicSpeakerCommand extends Command {
+public class MagicSpeakerShootCommand extends Command {
 
   IntakeSubsystem m_intakeSubsystem;
 
-  public MagicSpeakerCommand() {
+  public MagicSpeakerShootCommand() {
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
     addRequirements(SubsystemContainer.armSubsystem, SubsystemContainer.shooterSubsystem, m_intakeSubsystem);
   }

@@ -4,10 +4,7 @@
 
 package frc.robot.commands;
 
-import javax.management.InstanceAlreadyExistsException;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.util.CalculateAngle;
@@ -42,6 +39,10 @@ public class MagicSpeakerChargeCommand extends Command {
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
     m_shooterSubsystem.setTargetRPM(3000);
     m_intakeSubsystem.stopIndex();
+
+    if (!m_intakeSubsystem.isBeamBroken()) {
+      m_intakeSubsystem.runIndexShoot();
+    }
   }
 
   // Called once the command ends or is interrupted.

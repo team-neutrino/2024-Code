@@ -10,9 +10,8 @@ import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.MagicSpeakerChargeCommand;
-import frc.robot.commands.MagicSpeakerCommand;
+import frc.robot.commands.MagicSpeakerShootCommand;
 import frc.robot.commands.ShootManualCommand;
-import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
@@ -107,7 +106,7 @@ public class RobotContainer {
     // separate button binding to left bumper contained within the magic speaker
     // charge command
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
-        new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicSpeakerCommand()));
+        new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicSpeakerShootCommand()));
 
     m_buttonsController.x().whileTrue(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SUBWOOFER_SPEED));
