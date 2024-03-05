@@ -86,11 +86,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void stopIntake() {
-        m_intakeMotor.setVoltage(0);
+        m_intakeMotor.set(0);
     }
 
     public void stopIndex() {
-        m_indexMotor.setVoltage(0);
+        indexVoltage = 0;
     }
 
     public double getIntakeVelocity() {
@@ -139,7 +139,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println(m_indexMotor.get());
+        // System.out.println(indexVoltage);
         m_indexMotor.setVoltage(indexVoltage);
+
     }
 }

@@ -103,12 +103,19 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController1.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
   }
 
-  public void stopShooter() {
-    if (timer.hasElapsed(.5)) {
-      setVoltage(0);
-      m_targetRPM = 0;
-      timer.stop();
-      timer.reset();
+  /**
+   * Method to set the shooter to the idle speed.
+   * 
+   * timer clause is to globally prevent a ring from becoming stuck
+   * in the shooter and turning us into a defense bot: the wheels
+   * will continue to run for TBD: 1 second after the index motors
+   * are told to run for shooting no matter what.
+   */
+  public void setShooterIdle() {
+    if (timer.hasElapsed(3)) {
+      m_targetRPM = Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED;
+      approvePIDChanges();
+      m_pidController1.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
     }
   }
 
@@ -174,5 +181,7 @@ public class ShooterSubsystem extends SubsystemBase {
     if (SubsystemContainer.intakeSubsystem.getIndexVoltage() == Constants.IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT) {
       timer.start();
     }
+
+    // System.out.println(timer.get());
   }
 }

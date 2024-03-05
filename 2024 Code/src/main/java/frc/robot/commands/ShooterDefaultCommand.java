@@ -15,11 +15,12 @@ public class ShooterDefaultCommand extends Command {
     }
 
     public void initialize() {
-        m_shooterSubsystem.setTargetRPM(ShooterSpeeds.INITIAL_SHOOTER_SPEED);
     }
 
     @Override
     public void execute() {
+        // m_shooterSubsystem.setShooterIdle();
+        m_shooterSubsystem.setTargetRPM(700);
     }
 
     @Override

@@ -8,7 +8,8 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
-import frc.robot.commands.MagicAmpCommand;
+import frc.robot.commands.MagicAmpChargeCommand;
+import frc.robot.commands.MagicAmpShootCommand;
 import frc.robot.commands.MagicSpeakerChargeCommand;
 import frc.robot.commands.MagicSpeakerShootCommand;
 import frc.robot.commands.ShootManualCommand;
@@ -91,8 +92,8 @@ public class RobotContainer {
     m_driverController.leftStick()
         .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
-    m_driverController.a()
-        .onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp, new MagicAmpCommand()));
+    m_driverController.a().onTrue(new SequentialCommandGroup(
+        new MagicAmpChargeCommand(m_buttonsController, m_angleCalculate), new MagicAmpShootCommand()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       for (int i = 0; i < 4; i++) {
@@ -101,7 +102,7 @@ public class RobotContainer {
     }));
 
     // shooter buttons
-    m_buttonsController.a().whileTrue(new MagicAmpCommand());
+    m_buttonsController.a().whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController, m_angleCalculate), new MagicAmpShootCommand()));
 
     // separate button binding to left bumper contained within the magic speaker
     // charge command
