@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.util.CalculateAngle;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -37,7 +38,7 @@ public class MagicSpeakerChargeCommand extends Command {
   @Override
   public void execute() {
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
-    m_shooterSubsystem.setTargetRPM(3000);
+    m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.stopIndex();
 
     if (!m_intakeSubsystem.isBeamBroken()) {

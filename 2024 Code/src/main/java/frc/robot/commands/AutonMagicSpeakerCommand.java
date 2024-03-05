@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.util.CalculateAngle;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -36,7 +37,7 @@ public class AutonMagicSpeakerCommand extends Command {
   public void execute() {
     System.out.println(m_calculateAngle.InterpolateAngle());
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
-    m_shooterSubsystem.setTargetRPM(4000);
+    m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
       m_intakeSubsystem.runIndexShoot();
     } else {
