@@ -30,6 +30,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ArmAngleCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "All Close Part I"
@@ -48,9 +54,9 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 1.0
+            "name": "ArmAngleCommand"
           }
         },
         {
@@ -72,9 +78,9 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 1.0
+            "name": "ArmAngleCommand"
           }
         },
         {
@@ -93,6 +99,12 @@
           "type": "named",
           "data": {
             "name": "ShootSpeakerCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmAngleCommand"
           }
         }
       ]

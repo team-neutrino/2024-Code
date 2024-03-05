@@ -34,6 +34,12 @@
                 }
               },
               {
+                "type": "named",
+                "data": {
+                  "name": "ArmAngleCommand"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
                   "pathName": "All Close Part I"
@@ -52,6 +58,12 @@
                 }
               },
               {
+                "type": "named",
+                "data": {
+                  "name": "ArmAngleCommand"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
                   "pathName": "All Close Part II"
@@ -67,6 +79,12 @@
                 "type": "named",
                 "data": {
                   "name": "MagicSpeakerCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmAngleCommand"
                 }
               },
               {
@@ -91,6 +109,12 @@
                 "type": "named",
                 "data": {
                   "name": "MagicSpeakerCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmAngleCommand"
                 }
               }
             ]

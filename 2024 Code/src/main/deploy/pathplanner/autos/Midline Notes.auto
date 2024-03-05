@@ -30,6 +30,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ArmAngleCommand"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Midline I"
@@ -63,6 +69,12 @@
           "type": "named",
           "data": {
             "name": "MagicSpeakerCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmAngleCommand"
           }
         }
       ]
