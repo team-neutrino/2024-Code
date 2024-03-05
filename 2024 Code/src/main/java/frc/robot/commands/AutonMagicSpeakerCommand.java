@@ -7,17 +7,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.util.CalculateAngle;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class MagicSpeakerCommand extends Command {
+public class AutonMagicSpeakerCommand extends Command {
   CalculateAngle m_calculateAngle;
   ArmSubsystem m_armSubsystem;
   ShooterSubsystem m_shooterSubsystem;
   IntakeSubsystem m_intakeSubsystem;
+  int i = 0;
 
-  public MagicSpeakerCommand(CalculateAngle p_calculateAngle) {
+  public AutonMagicSpeakerCommand(CalculateAngle p_calculateAngle) {
     m_calculateAngle = p_calculateAngle;
     m_armSubsystem = SubsystemContainer.armSubsystem;
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
@@ -33,6 +35,7 @@ public class MagicSpeakerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println(m_calculateAngle.InterpolateAngle());
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
     m_shooterSubsystem.setTargetRPM(4000);
     if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
@@ -50,6 +53,12 @@ public class MagicSpeakerCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (!m_intakeSubsystem.isBeamBroken()) {
+      i++;
+      if (i > 10) {
+        return true;
+      }
+    }
     return false;
   }
 }
