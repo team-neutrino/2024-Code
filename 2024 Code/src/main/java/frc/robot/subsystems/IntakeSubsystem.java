@@ -64,6 +64,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void runIndexShoot() {
         m_indexMotor.setVoltage(IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT);
+        m_timer.start();
     }
 
     public void runIntakeReverse() {
@@ -87,7 +88,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void stopIndex() {
-        m_indexMotor.setVoltage(0);
+        if (m_timer.get() > .5) {
+            m_indexMotor.setVoltage(0);
+            m_timer.reset();
+            m_timer.stop();
+        }
     }
 
     public double getIntakeVelocity() {
