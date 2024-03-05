@@ -42,7 +42,7 @@ public class MagicSpeakerChargeCommand extends Command {
     m_intakeSubsystem.stopIndex();
 
     if (!m_intakeSubsystem.isBeamBroken()) {
-      m_intakeSubsystem.runIndexShoot();
+      m_intakeSubsystem.runIndexIntake();
     }
   }
 

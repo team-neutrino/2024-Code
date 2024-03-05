@@ -15,11 +15,11 @@ import frc.robot.Constants.MotorIDs;
 
 public class IntakeSubsystem extends SubsystemBase {
 
+    private double indexVoltage;
+
     protected RelativeEncoder m_intakeEncoder;
     protected RelativeEncoder m_indexEncoder;
     protected RelativeEncoder m_indexEncoder2;
-
-    private Timer m_timer;
 
     protected CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
     protected CANSparkMax m_intakeMotor2 = new CANSparkMax(MotorIDs.INTAKE_MOTOR_TWO,
@@ -59,12 +59,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIndexIntake() {
-        m_indexMotor.setVoltage(IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE);
+        indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
     }
 
     public void runIndexShoot() {
-        m_indexMotor.setVoltage(IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT);
-        m_timer.start();
+        indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT;
     }
 
     public void runIntakeReverse() {
@@ -72,15 +71,18 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIndexReverse() {
-        m_indexMotor.setVoltage(-IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE);
+        indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
+
     }
 
     public void runIndexJitterReverse() {
-        m_indexMotor.setVoltage(-IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
+        indexVoltage = -IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE;
+
     }
 
     public void runIndexJitter() {
-        m_indexMotor.setVoltage(IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
+        indexVoltage = IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE;
+
     }
 
     public void stopIntake() {
@@ -88,11 +90,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void stopIndex() {
-        if (m_timer.get() > .5) {
-            m_indexMotor.setVoltage(0);
-            m_timer.reset();
-            m_timer.stop();
-        }
+        m_indexMotor.setVoltage(0);
     }
 
     public double getIntakeVelocity() {
@@ -101,6 +99,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public double getIndexVelocity() {
         return m_indexEncoder.getVelocity();
+    }
+
+    public double getIndexVoltage() {
+        return indexVoltage;
     }
 
     public void resetEncoders() {
@@ -133,5 +135,11 @@ public class IntakeSubsystem extends SubsystemBase {
         } else {
             stopIndex();
         }
+    }
+
+    @Override
+    public void periodic() {
+        System.out.println(m_indexMotor.get());
+        m_indexMotor.setVoltage(indexVoltage);
     }
 }

@@ -7,11 +7,13 @@ import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.subsystems.simulation.PIDChangerSimulationShooter;
+import frc.robot.util.SubsystemContainer;
 
 public class ShooterSubsystem extends SubsystemBase {
   protected CANSparkMax m_shooter1 = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
@@ -31,6 +33,8 @@ public class ShooterSubsystem extends SubsystemBase {
   final private double APPROVE_COUNTER_THRESHOLD = 5;
   final private double COUNTER_ERROR_THRESHOLD = 200;
   private boolean approve = false;
+
+  private Timer timer = new Timer();
 
   public final PIDChangerSimulationShooter PIDSimulationShooter = new PIDChangerSimulationShooter(WHEEL_P, WHEEL_I,
       WHEEL_D, WHEEL_FF, approve);
@@ -100,8 +104,12 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void stopShooter() {
-    setVoltage(0);
-    m_targetRPM = 0;
+    if (timer.hasElapsed(.5)) {
+      setVoltage(0);
+      m_targetRPM = 0;
+      timer.stop();
+      timer.reset();
+    }
   }
 
   public boolean approveShoot() {
@@ -163,6 +171,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_shooter1.getBusVoltage();
+    if (SubsystemContainer.intakeSubsystem.getIndexVoltage() == Constants.IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT) {
+      timer.start();
+    }
   }
 }
