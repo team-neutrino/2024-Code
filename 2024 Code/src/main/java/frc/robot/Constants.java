@@ -164,7 +164,7 @@ public final class Constants {
   }
 
   public final class ShooterSpeeds {
-    public static final double SUBWOOFER_SPEED = 3000;
+    public static final double SHOOTING_SPEED = 4000;
     public static final double PODIUM_SPEED = 4500;
     public static final double INITIAL_SHOOTER_SPEED = 700;
   }
