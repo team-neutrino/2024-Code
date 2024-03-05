@@ -104,9 +104,9 @@ public class RobotContainer {
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("Nothing"));
     m_driverController.leftStick()
-        .whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
+        .toggleOnTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
     m_driverController.leftStick()
-        .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
+        .toggleOnFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
     // m_driverController.a()
     // .onTrue(new
@@ -120,18 +120,24 @@ public class RobotContainer {
     }));
 
     // shooter buttons
-    m_buttonsController.a().whileTrue(new MagicAmpCommand());
+    // m_controller.a().whileTrue(new MagicAmpCommand());
+    m_buttonsController.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
+    // m_buttonsController.y().whileTrue(new
+    // MagicSpeakerShootCommand(m_angleCalculate));
 
     // separate button binding to left bumper contained within the magic speaker
     // charge command
+    // m_buttonsController.y().whileTrue(new SequentialCommandGroup(
+    // new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new
+    // MagicSpeakerShootCommand()));
+
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
         new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicSpeakerShootCommand()));
 
-    m_buttonsController.x().whileTrue(
-        new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
-
-    m_buttonsController.b()
-        .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
+    // m_controller.b()
+    // .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE,
+    // Constants.ShooterSpeeds.PODIUM_SPEED));
+    // m_controller.b().whileTrue(new ShootSpeakerCommand());
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons

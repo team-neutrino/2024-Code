@@ -18,9 +18,6 @@ public class AutoAlignCommand extends Command {
     double y = 0;
     double x = 0;
 
-    double xComp;
-    double yComp;
-
     LimelightInterpolation calculate = new LimelightInterpolation();
 
     public AutoAlignCommand() {
@@ -42,20 +39,6 @@ public class AutoAlignCommand extends Command {
             currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
             offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
 
-            // if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
-            // xComp = Math.abs(
-            // SubsystemContainer.swerveSubsystem.currentPoseL.getX()
-            // - SwerveConstants.SPEAKER_RED_SIDE.getX());
-            // yComp = Math.abs(
-            // SubsystemContainer.swerveSubsystem.currentPoseL.getY()
-            // - SwerveConstants.SPEAKER_RED_SIDE.getY());
-            // } else {
-            // xComp = Math.abs(SubsystemContainer.swerveSubsystem.currentPoseL.getX());
-            // yComp = Math.abs(
-            // SubsystemContainer.swerveSubsystem.currentPoseL.getY()
-            // - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
-            // }
-
             double[] targetPoseArr = SubsystemContainer.limelightSubsystem.getTargetPose();
 
             double robotTargetYaw = Math.abs(targetPoseArr[4]);
@@ -73,10 +56,10 @@ public class AutoAlignCommand extends Command {
             if (targetPoseArr[4] < 0) {
                 targetOffset *= -1;
             } else {
-                targetOffset /= 3.0;
+                // targetOffset /= 3.0;
             }
 
-            SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - offsetYaw + targetOffset);
+            SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - offsetYaw);
         } else {
             // SUPER auto align!!
             if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
