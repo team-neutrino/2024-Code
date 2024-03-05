@@ -106,10 +106,15 @@ public class RobotContainer {
     // shooter buttons
     // m_controller.a().whileTrue(new MagicAmpCommand());
     m_buttonsController.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
-    m_buttonsController.y().whileTrue(new MagicSpeakerCommand(m_angleCalculate));
+    // m_buttonsController.y().whileTrue(new
+    // MagicSpeakerShootCommand(m_angleCalculate));
 
     // separate button binding to left bumper contained within the magic speaker
     // charge command
+    // m_buttonsController.y().whileTrue(new SequentialCommandGroup(
+    // new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new
+    // MagicSpeakerShootCommand()));
+
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
         new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicSpeakerShootCommand()));
 

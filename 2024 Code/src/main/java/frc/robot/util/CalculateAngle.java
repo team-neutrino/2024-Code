@@ -152,34 +152,43 @@ public class CalculateAngle {
         // bilinearMap.put(new Point2D.Double(2.75, 2.6044), 14.3);
         // bilinearMap.put(new Point2D.Double(2.53, 1.19), 11.0);
 
-        bilinearMap.put(new Point2D.Double(2.3, 0.85), 15.0);
-        bilinearMap.put(new Point2D.Double(1.625, 0.85), 2.0);
-        bilinearMap.put(new Point2D.Double(2.3, 1.2), 15.2);
-        bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4);
-        bilinearMap.put(new Point2D.Double(1.625, 1.2), 6.5);
-        bilinearMap.put(new Point2D.Double(1.625, 2.13), 9.75);
-        bilinearMap.put(new Point2D.Double(2.3, 2.13), 17.4);
-        bilinearMap.put(new Point2D.Double(1.625, 2.7), 15.0);
-        bilinearMap.put(new Point2D.Double(2.3, 2.7), 16.5);
-        bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4); // 11.6 in auton testing
-        bilinearMap.put(new Point2D.Double(3.5, 1.2), 18.7);
-        bilinearMap.put(new Point2D.Double(3.5, 2.13), 19.0);
-        bilinearMap.put(new Point2D.Double(2.8, 2.7), 18.3);
-        bilinearMap.put(new Point2D.Double(2.3, 2.7), 18.0);
-        bilinearMap.put(new Point2D.Double(1.625, 0), 1.0);
-        bilinearMap.put(new Point2D.Double(2.3, 0), 6.5);
+        bilinearMap.put(new Point2D.Double(1.625, 0), 1.22654);
+        bilinearMap.put(new Point2D.Double(2.3, 0), 7.0);
         bilinearMap.put(new Point2D.Double(2.8, 0), 10.0);
         bilinearMap.put(new Point2D.Double(3.5, 0), 14.9); // 12 in auton testing
-        bilinearMap.put(new Point2D.Double(2.8, 2.13), 17.25);
+        bilinearMap.put(new Point2D.Double(4.0, 0.0), 16.0);
+        bilinearMap.put(new Point2D.Double(1.625, 0.85), 2.07);
+
+        bilinearMap.put(new Point2D.Double(2.3, 0.85), 15.175);
         bilinearMap.put(new Point2D.Double(2.8, 0.85), 15.0);
         bilinearMap.put(new Point2D.Double(3.5, 0.85), 18.25);
-        bilinearMap.put(new Point2D.Double(3.5, 2.13), 21.0);
-        bilinearMap.put(new Point2D.Double(3.5, 2.7), 19.6);
-        bilinearMap.put(new Point2D.Double(4.0, 0.0), 16.0);
         bilinearMap.put(new Point2D.Double(4.0, 0.85), 20.25);
+        bilinearMap.put(new Point2D.Double(1.625, 1.2), 5.73);
+
+        bilinearMap.put(new Point2D.Double(2.3, 1.2), 10.81);
+        bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4);
+
+        bilinearMap.put(new Point2D.Double(3.5, 1.2), 18.7);
         bilinearMap.put(new Point2D.Double(4.0, 1.2), 20.5);
+
+        bilinearMap.put(new Point2D.Double(1.625, 2.13), 8.953933);
+        bilinearMap.put(new Point2D.Double(2.3, 2.13), 12.84);
+        bilinearMap.put(new Point2D.Double(2.8, 2.13), 17.25);
+        bilinearMap.put(new Point2D.Double(3.5, 2.13), 21.0);
         bilinearMap.put(new Point2D.Double(4.0, 2.13), 21.8);
+
+        bilinearMap.put(new Point2D.Double(1.625, 2.7), 15.0);
+        bilinearMap.put(new Point2D.Double(2.3, 2.7), 17.0);
+        bilinearMap.put(new Point2D.Double(2.8, 2.7), 18.48);
+        bilinearMap.put(new Point2D.Double(3.5, 2.7), 20.40);
         bilinearMap.put(new Point2D.Double(4.0, 2.7), 21.6);
+
+        // bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4); // 11.6 in auton testing
+
+        // bilinearMap.put(new Point2D.Double(3.5, 2.13), 19.0);
+
+        // bilinearMap.put(new Point2D.Double(2.3, 2.7), 18.0);
+        // bilinearMap.put(new Point2D.Double(2.8, 2.13), 17.25);
 
         col.add(1.625);
         col.add(2.3);
@@ -325,6 +334,9 @@ public class CalculateAngle {
 
         currentRobotPoint = robotPoint;
 
+        System.out.println("robot point x: " + robotPoint.getX());
+        System.out.println("robot point y " + robotPoint.getY());
+
         // for (int i = 0; i < points.length; i++)
         // {
         // int temp = i;
@@ -445,6 +457,8 @@ public class CalculateAngle {
         Matrix<N1, N1> productTwo = productOne.times(deltaYMatrix);
 
         double result = productTwo.get(0, 0) / ((x2 - x1) * (y2 - y1));
+
+        p1 = new Point2D.Double(-10.0, -10.0);
 
         // smallX = m_xAxis.lowerKey(xComp);
         // largeX = m_xAxis.higherKey(xComp);
