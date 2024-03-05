@@ -8,6 +8,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.SubsystemContainer;
 
 public class LimelightSubsystem extends SubsystemBase {
@@ -95,15 +96,24 @@ public class LimelightSubsystem extends SubsystemBase {
     double poseDifference = poseEstimator.getEstimatedPosition().getTranslation()
         .getDistance(limelightPose.getTranslation());
 
-    double distanceToPrimaryTag = poseEstimator.getEstimatedPosition().getTranslation()
-        .getDistance(limelightPose.getTranslation());
+    double distanceToPrimaryTag = 10;
+
+    if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
+      distanceToPrimaryTag = poseEstimator.getEstimatedPosition().getTranslation()
+          .getDistance(SwerveConstants.SPEAKER_RED_SIDE);
+    } else {
+      distanceToPrimaryTag = poseEstimator.getEstimatedPosition().getTranslation()
+          .getDistance(SwerveConstants.SPEAKER_BLUE_SIDE);
+    }
 
     if (getTv()) {
       double xyStds = 1.0;
 
       // multiple targets detected
-      if (pose[7] >= 2) {
+      if (pose[7] >= 2 && distanceToPrimaryTag < 3.0) {
         xyStds = 0.5;
+      } else if (pose[7] >= 2 && distanceToPrimaryTag > 3.0) {
+        xyStds = 2.5;
       }
       // 1 target with large area and close to estimated pose (find constant for area
       // (percent))
@@ -111,8 +121,8 @@ public class LimelightSubsystem extends SubsystemBase {
         xyStds = 1.0;
       }
       // 1 target farther away and estimated pose is close
-      else if (pose[10] > 0.2 && poseDifference < 0.2) {
-        xyStds = 3.0;
+      else if (pose[10] > 0.2 && poseDifference < 0.1) {
+        xyStds = 2.0;
       }
       // need to zero, badly
       else if (poseDifference >= 3 && distanceToPrimaryTag < 4) {

@@ -15,12 +15,12 @@ public class InterpolationOptimization {
 
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
 
-    BooleanTopic su = nt.getBooleanTopic("arm/small change up");
-    BooleanTopic sd = nt.getBooleanTopic("arm/small change down");
-    BooleanTopic mu = nt.getBooleanTopic("arm/medium change up");
-    BooleanTopic md = nt.getBooleanTopic("arm/medium change down");
-    BooleanTopic lu = nt.getBooleanTopic("arm/large change up");
-    BooleanTopic ld = nt.getBooleanTopic("arm/large change up");
+    BooleanTopic su = nt.getBooleanTopic("optimizer/small change up");
+    BooleanTopic sd = nt.getBooleanTopic("optimizer/small change down");
+    BooleanTopic mu = nt.getBooleanTopic("optimizer/medium change up");
+    BooleanTopic md = nt.getBooleanTopic("optimizer/medium change down");
+    BooleanTopic lu = nt.getBooleanTopic("optimizer/large change up");
+    BooleanTopic ld = nt.getBooleanTopic("optimizer/large change down");
 
     BooleanPublisher su_pub;
     BooleanPublisher sd_pub;
@@ -36,8 +36,8 @@ public class InterpolationOptimization {
     BooleanSubscriber lu_sub;
     BooleanSubscriber ld_sub;
 
-    BooleanSubscriber[] subArr = { su_sub, sd_sub, mu_sub, md_sub, lu_sub, ld_sub };
-    BooleanPublisher[] pubArr = { su_pub, sd_pub, mu_pub, md_pub, lu_pub, ld_pub };
+    BooleanSubscriber[] subArr = new BooleanSubscriber[6];
+    BooleanPublisher[] pubArr = new BooleanPublisher[6];
     // boolean[] schedule = new boolean[6];
 
     public InterpolationOptimization() {
@@ -47,24 +47,40 @@ public class InterpolationOptimization {
         su_sub = su.subscribe(false, PubSubOption.sendAll(true));
 
         sd_pub = sd.publish();
-        su_pub.setDefault(false);
-        su_sub = su.subscribe(false, PubSubOption.sendAll(true));
+        sd_pub.setDefault(false);
+        sd_sub = sd.subscribe(false, PubSubOption.sendAll(true));
 
         mu_pub = mu.publish();
         mu_pub.setDefault(false);
         mu_sub = mu.subscribe(false, PubSubOption.sendAll(true));
 
         md_pub = md.publish();
-        mu_pub.setDefault(false);
-        mu_sub = mu.subscribe(false, PubSubOption.sendAll(true));
+        md_pub.setDefault(false);
+        md_sub = md.subscribe(false, PubSubOption.sendAll(true));
 
         lu_pub = lu.publish();
         lu_pub.setDefault(false);
         lu_sub = lu.subscribe(false, PubSubOption.sendAll(true));
 
         ld_pub = ld.publish();
-        lu_pub.setDefault(false);
-        lu_sub = lu.subscribe(false, PubSubOption.sendAll(true));
+        ld_pub.setDefault(false);
+        ld_sub = ld.subscribe(false, PubSubOption.sendAll(true));
+
+        subArr[0] = su_sub;
+        subArr[1] = sd_sub;
+        subArr[2] = mu_sub;
+        subArr[3] = md_sub;
+        subArr[4] = lu_sub;
+        subArr[5] = ld_sub;
+
+        pubArr[0] = su_pub;
+        pubArr[1] = sd_pub;
+        pubArr[2] = mu_pub;
+        pubArr[3] = md_pub;
+        pubArr[4] = lu_pub;
+        pubArr[5] = ld_pub;
+
+        // pubArr = { su_pub, sd_pub, mu_pub, md_pub, lu_pub, ld_pub };
     }
 
     public int scheduleFunctionChanges() {

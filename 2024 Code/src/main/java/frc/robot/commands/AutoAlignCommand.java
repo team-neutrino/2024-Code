@@ -56,10 +56,10 @@ public class AutoAlignCommand extends Command {
             if (targetPoseArr[4] < 0) {
                 targetOffset *= -1;
             } else {
-                targetOffset /= 3.0;
+                // targetOffset /= 3.0;
             }
 
-            SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - offsetYaw + targetOffset);
+            SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - offsetYaw);
         } else {
             // SUPER auto align!!
             if (SubsystemContainer.swerveSubsystem.isRedAlliance) {

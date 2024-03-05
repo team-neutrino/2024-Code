@@ -41,24 +41,24 @@ public class CalculateAngle {
 
     Point2D currentRobotPoint;
 
-    Point2D.Double p1 = new Point2D.Double(1.625, 0.85); // far bottom left point, initialization for evaluation
+    Point2D.Double p1 = new Point2D.Double(-10.0, -10.0); // far bottom left point, initialization for evaluation
     Point2D.Double p2;
     Point2D.Double p3;
     Point2D.Double p4;
 
     double[] changeAmt = { -0.5, 0.5, -1, 1, -2, 2 };
 
-    Scanner scanner;
-    File inputFile;
-    BufferedWriter writer;
+    // Scanner scanner;
+    // File inputFile;
+    // BufferedWriter writer;
 
-    // String row1 = "";
-    // String row2 = "";
-    // String row3 = "";
-    // String row4 = "";
-    // String row5 = "";
+    // // String row1 = "";
+    // // String row2 = "";
+    // // String row3 = "";
+    // // String row4 = "";
+    // // String row5 = "";
 
-    String[] bilinearDataStringArr = { "", "", "", "", "" };
+    // String[] bilinearDataStringArr = { "", "", "", "", "" };
     // String[] bilinearDataStringArr = new String[5];
 
     public CalculateAngle() {
@@ -173,12 +173,12 @@ public class CalculateAngle {
         bilinearMap.put(new Point2D.Double(2.8, 2.13), 17.25);
         bilinearMap.put(new Point2D.Double(2.8, 0.85), 15.0);
         bilinearMap.put(new Point2D.Double(3.5, 0.85), 18.25);
-        bilinearMap.put(new Point2D.Double(3.5, 2.13), 19.75);
+        bilinearMap.put(new Point2D.Double(3.5, 2.13), 21.0);
         bilinearMap.put(new Point2D.Double(3.5, 2.7), 19.6);
         bilinearMap.put(new Point2D.Double(4.0, 0.0), 16.0);
         bilinearMap.put(new Point2D.Double(4.0, 0.85), 20.25);
         bilinearMap.put(new Point2D.Double(4.0, 1.2), 20.5);
-        bilinearMap.put(new Point2D.Double(4.0, 2.13), 21.0);
+        bilinearMap.put(new Point2D.Double(4.0, 2.13), 21.8);
         bilinearMap.put(new Point2D.Double(4.0, 2.7), 21.6);
 
         col.add(1.625);
@@ -186,7 +186,7 @@ public class CalculateAngle {
         col.add(2.8);
         col.add(3.5);
         col.add(4.0);
-        col.add(4.5);
+        // col.add(4.5);
 
         row.add(0.0);
         row.add(0.85);
@@ -239,10 +239,22 @@ public class CalculateAngle {
             // co)
             // }
 
-            bilinearMap.put(currentSquare.get(0), bilinearMap.get(currentSquare.get(0)) * coeff1 * scalar);
-            bilinearMap.put(currentSquare.get(1), bilinearMap.get(currentSquare.get(1)) * coeff2 * scalar);
-            bilinearMap.put(currentSquare.get(2), bilinearMap.get(currentSquare.get(2)) * coeff3 * scalar);
-            bilinearMap.put(currentSquare.get(3), bilinearMap.get(currentSquare.get(3)) * coeff4 * scalar);
+            System.out.println("change 1: " + coeff1 * scalar);
+            System.out.println("change 2: " + coeff2 * scalar);
+            System.out.println("change 3: " + coeff3 * scalar);
+            System.out.println("index " + index);
+
+            double value1 = bilinearMap.get(currentSquare.get(0));
+            double value2 = bilinearMap.get(currentSquare.get(1));
+            double value3 = bilinearMap.get(currentSquare.get(2));
+            double value4 = bilinearMap.get(currentSquare.get(3));
+
+            System.out.println(value1);
+
+            bilinearMap.put(currentSquare.get(0), value1 + coeff1 * scalar);
+            bilinearMap.put(currentSquare.get(1), value2 + coeff2 * scalar);
+            bilinearMap.put(currentSquare.get(2), value3 + coeff3 * scalar);
+            bilinearMap.put(currentSquare.get(3), value4 + coeff4 * scalar);
 
             // String temp;
 
@@ -267,7 +279,7 @@ public class CalculateAngle {
             // e.printStackTrace();
             // }
 
-            // System.out.println("successfully overwrote bilinearData.txt");
+            System.out.println("successfully overwrote bilinearData.txt");
 
             // for (int i = 0; i < bilinearDataStringArr.length; i++)
             // {
@@ -364,6 +376,9 @@ public class CalculateAngle {
 
         // }
 
+        System.out.println("coln " + colN);
+        System.out.println("rown " + rowN);
+
         if (robotPoint.getX() > col.get(col.size() - 1) || (robotPoint.getX() < col.get(0))) {
             robotPoint = new Point2D.Double(col.get(colN), robotPoint.getY());
         }
@@ -372,7 +387,7 @@ public class CalculateAngle {
             robotPoint = new Point2D.Double(robotPoint.getX(), row.get(rowN));
         }
 
-        if (colN == col.size() - 1) {
+        if (colN == col.size() - 1 || robotPoint.getX() < col.get(colN)) {
             x2 = col.get(colN);
             x1 = col.get(colN - 1);
         } else {
@@ -380,7 +395,7 @@ public class CalculateAngle {
             x2 = col.get(colN + 1);
         }
 
-        if (rowN == row.size() - 1) {
+        if (rowN == row.size() - 1 || robotPoint.getY() < row.get(rowN)) {
             y2 = row.get(rowN);
             y1 = row.get(rowN - 1);
         } else {
