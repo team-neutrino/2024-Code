@@ -42,16 +42,15 @@ public class MagicAmpShootCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // if (!m_intakeSubsystem.isBeamBroken()) {
-    // i++;
-    // } else {
-    // i = 0;
-    // }
-    // if (i >= 10) {
-    // return true;
-    // }
+    if (!m_intakeSubsystem.isBeamBroken()) {
+      i++;
+    } else {
+      i = 0;
+    }
+    if (i >= 10) {
+      return true;
+    }
 
-    // return false;
     return false;
   }
 }
