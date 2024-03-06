@@ -116,6 +116,10 @@ public class ShooterSubsystem extends SubsystemBase {
       m_targetRPM = Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED;
       approvePIDChanges();
       m_pidController1.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
+      m_targetRPM = 0;
+
+      timer.stop();
+      timer.reset();
     }
   }
 
@@ -181,7 +185,5 @@ public class ShooterSubsystem extends SubsystemBase {
     if (SubsystemContainer.intakeSubsystem.getIndexVoltage() == Constants.IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT) {
       timer.start();
     }
-
-    // System.out.println(timer.get());
   }
 }

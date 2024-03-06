@@ -14,11 +14,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class MagicSpeakerChargeCommand extends Command {
-  CalculateAngle m_calculateAngle;
-  ArmSubsystem m_armSubsystem;
-  ShooterSubsystem m_shooterSubsystem;
-  IntakeSubsystem m_intakeSubsystem;
-  CommandXboxController m_controller;
+  private CalculateAngle m_calculateAngle;
+  private ArmSubsystem m_armSubsystem;
+  private ShooterSubsystem m_shooterSubsystem;
+  private IntakeSubsystem m_intakeSubsystem;
+  private CommandXboxController m_controller;
 
   public MagicSpeakerChargeCommand(CalculateAngle p_calculateAngle, CommandXboxController p_controller) {
     m_calculateAngle = p_calculateAngle;

@@ -14,7 +14,7 @@ import frc.robot.util.SubsystemContainer;
 public class MagicAmpShootCommand extends Command {
 
   private int i = 0;
-  IntakeSubsystem m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
+  private IntakeSubsystem m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
 
   /** Creates a new MagicAmpCommand. */
   public MagicAmpShootCommand() {

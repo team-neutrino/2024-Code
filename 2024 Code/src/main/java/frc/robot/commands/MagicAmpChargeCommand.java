@@ -15,16 +15,14 @@ import frc.robot.util.SubsystemContainer;
 
 public class MagicAmpChargeCommand extends Command {
 
-  CalculateAngle m_calculateAngle;
-  ArmSubsystem m_armSubsystem;
-  ShooterSubsystem m_shooterSubsystem;
-  IntakeSubsystem m_intakeSubsystem;
-  CommandXboxController m_controller;
+  private ArmSubsystem m_armSubsystem;
+  private ShooterSubsystem m_shooterSubsystem;
+  private IntakeSubsystem m_intakeSubsystem;
+  private CommandXboxController m_controller;
 
   /** Creates a new MagicAmpChargeCommand. */
-  public MagicAmpChargeCommand(CommandXboxController p_xboxcontroller, CalculateAngle p_calculateAngle) {
+  public MagicAmpChargeCommand(CommandXboxController p_xboxcontroller) {
     m_controller = p_xboxcontroller;
-    m_calculateAngle = p_calculateAngle;
     m_armSubsystem = SubsystemContainer.armSubsystem;
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
@@ -40,7 +38,6 @@ public class MagicAmpChargeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("magic charge running");
     m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
     m_shooterSubsystem.setTargetRPM(1000);
 

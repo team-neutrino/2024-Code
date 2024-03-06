@@ -93,7 +93,7 @@ public class RobotContainer {
         .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
     m_driverController.a().onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp,
-        new MagicAmpChargeCommand(m_buttonsController, m_angleCalculate), new MagicAmpShootCommand()));
+        new MagicAmpChargeCommand(m_buttonsController), new MagicAmpShootCommand()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       for (int i = 0; i < 4; i++) {
@@ -103,7 +103,7 @@ public class RobotContainer {
 
     // shooter buttons
     m_buttonsController.a().whileTrue(new SequentialCommandGroup(
-        new MagicAmpChargeCommand(m_buttonsController, m_angleCalculate), new MagicAmpShootCommand()));
+        new MagicAmpChargeCommand(m_buttonsController), new MagicAmpShootCommand()));
 
     // separate button binding to left bumper contained within the magic speaker
     // charge command
