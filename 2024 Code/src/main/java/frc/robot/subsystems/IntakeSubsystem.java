@@ -15,6 +15,7 @@ import frc.robot.Constants.MotorIDs;
 public class IntakeSubsystem extends SubsystemBase {
 
     private double indexVoltage;
+    private double intakeVoltage;
 
     protected RelativeEncoder m_intakeEncoder;
     protected RelativeEncoder m_indexEncoder;
@@ -54,7 +55,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake() {
-        m_intakeMotor.setVoltage(IntakeConstants.INTAKE_MOTOR_VOLTAGE);
+        intakeVoltage = IntakeConstants.INTAKE_MOTOR_VOLTAGE;
     }
 
     public void runIndexIntake() {
@@ -66,7 +67,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntakeReverse() {
-        m_intakeMotor.setVoltage(-IntakeConstants.INTAKE_MOTOR_VOLTAGE);
+        intakeVoltage = IntakeConstants.INTAKE_MOTOR_VOLTAGE;
     }
 
     public void runIndexReverse() {
@@ -85,7 +86,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void stopIntake() {
-        m_intakeMotor.set(0);
+        intakeVoltage = 0;
     }
 
     public void stopIndex() {
@@ -119,7 +120,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     /**
-     * Gets the current state of the beam break: false means the beam break is
+     * Gets the current state of the beam break: true means the beam break is
      * tripped
      * 
      * @return The state of the intake beam break.
@@ -140,5 +141,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void periodic() {
         m_indexMotor.setVoltage(indexVoltage);
 
+        m_intakeMotor.setVoltage(intakeVoltage);
+        m_intakeMotor2.setVoltage(intakeVoltage);
     }
 }

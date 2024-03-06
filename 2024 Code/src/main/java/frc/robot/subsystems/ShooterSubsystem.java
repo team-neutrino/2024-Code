@@ -7,7 +7,6 @@ import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DigitalConstants;
@@ -33,8 +32,6 @@ public class ShooterSubsystem extends SubsystemBase {
   final private double APPROVE_COUNTER_THRESHOLD = 5;
   final private double COUNTER_ERROR_THRESHOLD = 200;
   private boolean approve = false;
-
-  private Timer timer = new Timer();
 
   public final PIDChangerSimulationShooter PIDSimulationShooter = new PIDChangerSimulationShooter(WHEEL_P, WHEEL_I,
       WHEEL_D, WHEEL_FF, approve);
@@ -103,26 +100,6 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController1.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
   }
 
-  /**
-   * Method to set the shooter to the idle speed.
-   * 
-   * timer clause is to globally prevent a ring from becoming stuck
-   * in the shooter and turning us into a defense bot: the wheels
-   * will continue to run for TBD: 1 second after the index motors
-   * are told to run for shooting no matter what.
-   */
-  public void setShooterIdle() {
-    if (timer.hasElapsed(3)) {
-      m_targetRPM = Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED;
-      approvePIDChanges();
-      m_pidController1.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
-      m_targetRPM = 0;
-
-      timer.stop();
-      timer.reset();
-    }
-  }
-
   public boolean approveShoot() {
     countCounter();
     return (Math.abs(getShooterRpm1() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD
@@ -182,8 +159,5 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (SubsystemContainer.intakeSubsystem.getIndexVoltage() == Constants.IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT) {
-      timer.start();
-    }
   }
 }
