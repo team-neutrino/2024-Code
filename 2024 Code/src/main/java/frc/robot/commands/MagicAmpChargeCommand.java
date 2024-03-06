@@ -38,10 +38,10 @@ public class MagicAmpChargeCommand extends Command {
     m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
     m_shooterSubsystem.setTargetRPM(1000);
 
-    m_intakeSubsystem.stopIndex();
-
     if (!m_intakeSubsystem.isBeamBroken()) {
       m_intakeSubsystem.runIndexIntake();
+    } else {
+      m_intakeSubsystem.stopIndex();
     }
   }
 
