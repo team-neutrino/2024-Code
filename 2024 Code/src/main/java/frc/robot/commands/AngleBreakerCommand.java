@@ -4,9 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.*;
+import frc.robot.util.CalculateAngle;
 import frc.robot.util.SubsystemContainer;
 
 public class AngleBreakerCommand extends Command {
@@ -15,12 +17,14 @@ public class AngleBreakerCommand extends Command {
   private ShooterSubsystem m_shooterSubsystem;
   private ArmSubsystem m_armSubsystem;
   private CommandXboxController controller;
+  private CalculateAngle m_calculateAngle;
 
   /** Creates a new AngleBreakerCommand. */
-  public AngleBreakerCommand(CommandXboxController p_controller) {
+  public AngleBreakerCommand(CommandXboxController p_controller, CalculateAngle p_calculateAngle) {
     m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_armSubsystem = SubsystemContainer.armSubsystem;
+    m_calculateAngle = p_calculateAngle;
     controller = p_controller;
 
     addRequirements(m_swerveSubsystem, m_shooterSubsystem, m_armSubsystem);
@@ -35,7 +39,7 @@ public class AngleBreakerCommand extends Command {
   @Override
   public void execute() {
     if (controller.getRightX() >= .5) {
-
+      m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(new Pose2d()));
     } else if (controller.getRightX() <= -.5) {
 
     }
