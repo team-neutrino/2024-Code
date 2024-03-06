@@ -44,6 +44,6 @@ public class ShootManualCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return !m_indexSubsystem.isBeamBroken();
     }
 }

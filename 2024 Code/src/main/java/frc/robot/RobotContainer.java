@@ -61,7 +61,8 @@ public class RobotContainer {
   IntakeCommand m_intakeCommand = new IntakeCommand();
   IndexJitterCommand m_jitterCommand = new IndexJitterCommand();
   AutoAlignSequentialCommand m_autoAlignSequential = new AutoAlignSequentialCommand();
-  ArmAngleCommand m_armDefaultCommand = new ArmAngleCommand(-25);
+  ArmAngleCommand m_armDefaultCommand = new ArmAngleCommand(ArmConstants.INTAKE_POSE);
+  ShootManualCommand m_subwooferShot = new ShootManualCommand(ArmConstants.SUBWOOFER_ANGLE, 4000);
 
   public RobotContainer() {
     configureBindings();
@@ -90,6 +91,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ArmDefaultCommand", m_armDefaultCommand);
     NamedCommands.registerCommand("ArmAngleCommand", new ArmAngleCommand(ArmConstants.INTAKE_POSE));
     NamedCommands.registerCommand("IntakeCommand", m_intakeCommand);
+    NamedCommands.registerCommand("Subwoofer", m_subwooferShot);
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
@@ -102,7 +104,7 @@ public class RobotContainer {
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("Nothing"));
+    m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("Alt. All Close Notes"));
     m_driverController.leftStick()
         .toggleOnTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
     m_driverController.leftStick()

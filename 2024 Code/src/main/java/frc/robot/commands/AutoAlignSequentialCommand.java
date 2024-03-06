@@ -44,7 +44,7 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
         // return true;
         // }
 
-        if (timer.get() >= 2) {
+        if (timer.get() >= 1) {
             timer.stop();
             timer.reset();
             return true;

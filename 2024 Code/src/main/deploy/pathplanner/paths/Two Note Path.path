@@ -56,7 +56,7 @@
     },
     {
       "name": "StopIntake",
-      "waypointRelativePos": 0.7,
+      "waypointRelativePos": 1.0,
       "command": {
         "type": "sequential",
         "data": {
