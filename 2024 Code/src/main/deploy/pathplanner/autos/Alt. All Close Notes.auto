@@ -38,6 +38,12 @@
         {
           "type": "named",
           "data": {
+            "name": "AutoAlignCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "MagicSpeakerCommand"
           }
         },
@@ -81,12 +87,6 @@
           "type": "path",
           "data": {
             "pathName": "quatre"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeDefaultCommand"
           }
         },
         {

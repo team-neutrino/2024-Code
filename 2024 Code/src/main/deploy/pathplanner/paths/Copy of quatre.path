@@ -4,58 +4,52 @@
     {
       "anchor": {
         "x": 2.8,
-        "y": 5.25
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.396302963405382,
-        "y": 5.25
+        "x": 2.4169777784405113,
+        "y": 6.67860619515673
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.22182059748735,
-        "y": 4.597995349836854
+        "x": 2.192332373252477,
+        "y": 5.656334051612468
       },
       "prevControl": {
-        "x": 2.211058053380612,
-        "y": 4.9467331679652835
+        "x": 2.2189793621482936,
+        "y": 6.110132113359416
       },
       "nextControl": {
-        "x": 2.2325831415940884,
-        "y": 4.249257531708424
+        "x": 2.16568538435666,
+        "y": 5.20253598986552
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.5553683061717036,
-        "y": 4.098792791023527
+        "x": 2.596764424298081,
+        "y": 4.272386237080167
       },
       "prevControl": {
-        "x": 2.4586272249467593,
-        "y": 4.232918465836932
+        "x": 2.275370619454812,
+        "y": 4.655408458639655
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.8,
-      "rotationDegrees": -80.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.2,
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "sequential",
         "data": {
@@ -69,40 +63,23 @@
           ]
         }
       }
-    },
-    {
-      "name": "Intake Stop",
-      "waypointRelativePos": 2.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeDefaultCommand"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": false
+    "rotation": -25.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -20.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": false

@@ -104,7 +104,7 @@ public class RobotContainer {
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("Alt. All Close Notes"));
+    m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("All Close Notes"));
     m_driverController.leftStick()
         .toggleOnTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
     m_driverController.leftStick()

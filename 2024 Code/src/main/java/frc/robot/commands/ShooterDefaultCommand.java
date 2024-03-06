@@ -15,7 +15,7 @@ public class ShooterDefaultCommand extends Command {
     }
 
     public void initialize() {
-        m_shooterSubsystem.setTargetRPM(ShooterSpeeds.INITIAL_SHOOTER_SPEED);
+        m_shooterSubsystem.setTargetRPM(4000); // ShooterSpeeds.INITIAL_SHOOTER_SPEED
     }
 
     @Override
