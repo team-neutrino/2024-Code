@@ -46,7 +46,7 @@ public class CalculateAngle {
     Point2D.Double p3;
     Point2D.Double p4;
 
-    double[] changeAmt = { -0.5, 0.5, -1, 1, -2, 2 };
+    double[] changeAmt = { -2, 2, -4, 4, -8, 8 };
 
     // Scanner scanner;
     // File inputFile;
@@ -237,10 +237,13 @@ public class CalculateAngle {
             double yPart1 = ((currentSquare.get(2).getY() - currentRobotPoint.getY()) / deltaY);
             double yPart2 = ((currentRobotPoint.getY() - currentSquare.get(0).getY()) / deltaY);
 
-            double coeff1 = yPart1 * ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
-            double coeff2 = yPart1 * ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
-            double coeff3 = yPart2 * ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
-            double coeff4 = yPart2 * ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
+            double xPart1 = ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
+            double xPart2 = ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
+
+            double coeff1 = yPart1 * xPart1;
+            double coeff2 = yPart1 * xPart2;
+            double coeff3 = yPart2 * xPart1;
+            double coeff4 = yPart2 * xPart2;
 
             // for (int i = 0; i < currentSquare.size(); i++)
             // {
@@ -248,9 +251,10 @@ public class CalculateAngle {
             // co)
             // }
 
-            System.out.println("change 1: " + coeff1 * scalar);
+            System.out.println("chang 1: " + coeff1 * scalar);
             System.out.println("change 2: " + coeff2 * scalar);
             System.out.println("change 3: " + coeff3 * scalar);
+            System.out.println("change 4: " + coeff4 * scalar);
             System.out.println("index " + index);
 
             double value1 = bilinearMap.get(currentSquare.get(0));
@@ -258,7 +262,12 @@ public class CalculateAngle {
             double value3 = bilinearMap.get(currentSquare.get(2));
             double value4 = bilinearMap.get(currentSquare.get(3));
 
-            System.out.println(value1);
+            System.out.println("final value 1 " + (value1 + coeff1 * scalar));
+            System.out.println("final value 2 " + (value2 + coeff2 * scalar));
+            System.out.println("final value 3 " + (value3 + coeff3 * scalar));
+            System.out.println("final value 4 " + (value4 + coeff4 * scalar));
+
+            // System.out.println(value1);
 
             bilinearMap.put(currentSquare.get(0), value1 + coeff1 * scalar);
             bilinearMap.put(currentSquare.get(1), value2 + coeff2 * scalar);
@@ -288,7 +297,7 @@ public class CalculateAngle {
             // e.printStackTrace();
             // }
 
-            System.out.println("successfully overwrote bilinearData.txt");
+            // System.out.println("successfully overwrote bilinearData.txt");
 
             // for (int i = 0; i < bilinearDataStringArr.length; i++)
             // {
@@ -431,7 +440,7 @@ public class CalculateAngle {
 
         // define the three matrices that are needed for the computation,
         // one stores the values of the function at each point, one stores
-        // some delta y terms, the other stores corrosponding delta x terms
+        // some delta y terms, the other stores corresponding delta x terms
 
         Matrix<N2, N2> zMatrix = new Matrix<N2, N2>(Nat.N2(), Nat.N2());
 
@@ -457,6 +466,11 @@ public class CalculateAngle {
         Matrix<N1, N1> productTwo = productOne.times(deltaYMatrix);
 
         double result = productTwo.get(0, 0) / ((x2 - x1) * (y2 - y1));
+
+        // reset point (running into oscillation issues, probably because this point not
+        // being reset
+        // led to interference with the shortest distance algorithm necessary to
+        // complete the square)
 
         p1 = new Point2D.Double(-10.0, -10.0);
 
