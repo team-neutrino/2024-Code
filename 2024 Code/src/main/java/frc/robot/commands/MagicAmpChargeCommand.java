@@ -7,10 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.util.CalculateAngle;
+import frc.robot.subsystems.*;
 import frc.robot.util.SubsystemContainer;
 
 public class MagicAmpChargeCommand extends Command {
