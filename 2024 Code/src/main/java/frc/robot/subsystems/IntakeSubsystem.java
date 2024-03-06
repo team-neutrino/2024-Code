@@ -142,6 +142,5 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexMotor.setVoltage(indexVoltage);
 
         m_intakeMotor.setVoltage(intakeVoltage);
-        m_intakeMotor2.setVoltage(intakeVoltage);
     }
 }
