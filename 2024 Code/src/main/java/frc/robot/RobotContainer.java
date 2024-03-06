@@ -15,6 +15,7 @@ import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.ClimbCommand;
+import frc.robot.commands.AngleBreakerCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
@@ -98,6 +99,7 @@ public class RobotContainer {
         SubsystemContainer.swerveSubsystem.swerveModules[i].resetEverything();
       }
     }));
+    m_driverController.rightStick().whileTrue(new AngleBreakerCommand(m_driverController));
 
     // shooter buttons
     m_controller.a().whileTrue(new MagicAmpCommand());

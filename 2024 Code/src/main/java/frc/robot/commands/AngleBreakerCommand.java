@@ -5,19 +5,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.*;
 import frc.robot.util.SubsystemContainer;
 
 public class AngleBreakerCommand extends Command {
 
-  SwerveSubsystem m_swerveSubsystem;
-  ShooterSubsystem m_shooterSubsystem;
+  private SwerveSubsystem m_swerveSubsystem;
+  private ShooterSubsystem m_shooterSubsystem;
+  private ArmSubsystem m_armSubsystem;
+  private CommandXboxController controller;
 
   /** Creates a new AngleBreakerCommand. */
-  public AngleBreakerCommand() {
+  public AngleBreakerCommand(CommandXboxController p_controller) {
     m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
-    addRequirements(m_swerveSubsystem);
+    m_armSubsystem = SubsystemContainer.armSubsystem;
+    controller = p_controller;
+
+    addRequirements(m_swerveSubsystem, m_shooterSubsystem, m_armSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -28,7 +34,11 @@ public class AngleBreakerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (controller.getRightX() >= .5) {
 
+    } else if (controller.getRightX() <= -.5) {
+
+    }
   }
 
   // Called once the command ends or is interrupted.
