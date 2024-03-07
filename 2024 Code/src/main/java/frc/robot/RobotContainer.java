@@ -14,6 +14,7 @@ import frc.robot.commands.MagicShootCommand;
 import frc.robot.commands.MagicSpeakerChargeCommand;
 import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShooterDefaultCommand;
+import frc.robot.commands.SourceMidCycleCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.AutonArmAngleCommand;
@@ -101,6 +102,7 @@ public class RobotContainer {
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("Nothing"));
     m_driverController.leftStick()
+
         .whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
     m_driverController.leftStick()
         .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
@@ -128,6 +130,9 @@ public class RobotContainer {
 
     m_buttonsController.b()
         .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
+
+    m_buttonsController.rightTrigger()
+        .whileTrue(new SequentialCommandGroup(new SourceMidCycleCommand(m_buttonsController), new MagicShootCommand()));
 
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 

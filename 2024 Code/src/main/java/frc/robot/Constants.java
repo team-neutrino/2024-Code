@@ -152,6 +152,7 @@ public final class Constants {
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
     public static final double PODIUM_ANGLE = 50; // PLACEHOLDER VALUE
     public static final double SUBWOOFER_ANGLE = -10; // PLACEHOLDER VALUE
+    public static final double SOURCE_MID_CYCLE_ANGLE = 0; // PLACEHOLDER VALUE
   }
 
   public final class IntakeConstants {
@@ -167,6 +168,7 @@ public final class Constants {
     public static final double SHOOTING_SPEED = 4000;
     public static final double PODIUM_SPEED = 4500;
     public static final double INITIAL_SHOOTER_SPEED = 700;
+    public static final double SOURCE_MID_CYCLE_SPEED = 2750;
   }
 
   public final class ShooterConstants {
