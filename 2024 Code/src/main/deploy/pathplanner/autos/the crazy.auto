@@ -54,12 +54,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "trois"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "AutoAlignCommand"
@@ -80,7 +74,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "quatre"
+            "pathName": "Copy of quatre"
           }
         },
         {
