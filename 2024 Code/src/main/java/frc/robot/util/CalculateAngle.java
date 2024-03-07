@@ -141,9 +141,6 @@ public class CalculateAngle {
 
         currentRobotPoint = robotPoint;
 
-        System.out.println("robot point x: " + robotPoint.getX());
-        System.out.println("robot point y " + robotPoint.getY());
-
         int rowN = 0;
         int colN = 0;
 
