@@ -10,7 +10,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -20,7 +19,6 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.subsystems.simulation.PIDChangerSimulation;
-import frc.robot.subsystems.simulation.PIDChangerSimulationArm;
 import frc.robot.util.ArmEncoderContainer;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -32,10 +30,6 @@ public class ArmSubsystem extends SubsystemBase {
   public int i = 0;
   private SparkPIDController pidController;
   private ArmEncoderContainer armEncoderContainer;
-
-  boolean approve = false;
-
-  public final PIDChangerSimulationArm PIDSimulationArm = new PIDChangerSimulationArm(m_targetAngle, approve);
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -105,14 +99,12 @@ public class ArmSubsystem extends SubsystemBase {
 
     m_targetAngle = targetAngle;
 
-    approveTargetChanges();
-
     double feedforward = ArmConstants.FF_kg
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
 
-    targetAngle = adjustAngleIn(m_targetAngle);
+    targetAngle = adjustAngleIn(targetAngle);
 
-    pidController.setReference(m_targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
+    pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
   }
 
   /**
@@ -175,13 +167,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     } else {
       return check;
-    }
-  }
-
-  public void approveTargetChanges() {
-    if (PIDSimulationArm.simPIDChangeApprove()) {
-      m_targetAngle = PIDSimulationArm.GetTargetAngle();
-      System.out.println("target value updated");
     }
   }
 

@@ -146,7 +146,7 @@ public final class Constants {
 
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
-    public static double INTAKE_POSE = -27; // 25
+    public static double INTAKE_POSE = -27;
     public static double AMP_POSE = 82;
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE

@@ -14,12 +14,10 @@ import frc.robot.commands.MagicSpeakerShootCommand;
 import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.subsystems.simulation.PIDChangerSimulationArm;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.AutonMagicSpeakerCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
-import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
@@ -40,9 +38,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
@@ -107,9 +103,9 @@ public class RobotContainer {
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
     m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("All Close Notes"));
     m_driverController.leftStick()
-        .toggleOnTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
+        .whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
     m_driverController.leftStick()
-        .toggleOnFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
+        .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
     // m_driverController.a()
     // .onTrue(new
@@ -123,24 +119,19 @@ public class RobotContainer {
     }));
 
     // shooter buttons
-    // m_controller.a().whileTrue(new MagicAmpCommand());
-    m_buttonsController.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
-    // m_buttonsController.y().whileTrue(new
-    // MagicSpeakerShootCommand(m_angleCalculate));
+    m_buttonsController.a().whileTrue(new MagicAmpCommand());
 
     // separate button binding to left bumper contained within the magic speaker
     // charge command
-    // m_buttonsController.y().whileTrue(new SequentialCommandGroup(
-    // new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new
-    // MagicSpeakerShootCommand()));
-
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
         new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicSpeakerShootCommand()));
 
-    // m_controller.b()
-    // .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE,
-    // Constants.ShooterSpeeds.PODIUM_SPEED));
-    // m_controller.b().whileTrue(new ShootSpeakerCommand());
+    m_buttonsController.x().whileTrue(
+        new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
+
+    m_buttonsController.b()
+        .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
+
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
