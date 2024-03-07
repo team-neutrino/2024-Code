@@ -58,7 +58,7 @@ public class ArmSubsystem extends SubsystemBase {
     pidController.setPositionPIDWrappingEnabled(true);
 
     // experimental, may fail to work
-    pidController.setOutputRange(-25, 105, 0);
+    pidController.setOutputRange(-27, 105, 0);
 
     // climb settings
     pidController.setP(ArmConstants.Arm_kp, 1);
