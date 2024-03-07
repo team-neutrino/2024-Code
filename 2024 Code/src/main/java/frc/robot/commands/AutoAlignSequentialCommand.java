@@ -30,20 +30,6 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
 
     @Override
     public boolean isFinished() {
-        // if (m_swerveSubsystem.isRedAlliance() == true
-        // && m_limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY)
-        // {
-        // return true;
-        // }
-        // if (m_swerveSubsystem.isRedAlliance() == false
-        // && m_limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
-        // return true;
-        // }
-
-        // if (!m_swerveSubsystem.omegaZero()) {
-        // return true;
-        // }
-
         if (timer.get() >= 0.5) {
             timer.stop();
             timer.reset();
