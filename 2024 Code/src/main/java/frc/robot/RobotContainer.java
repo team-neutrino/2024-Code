@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
@@ -56,11 +57,7 @@ public class RobotContainer {
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
   CalculateAngle m_angleCalculate = new CalculateAngle();
-  AutonMagicSpeakerCommand m_magicSpeakerCommand = new AutonMagicSpeakerCommand(m_angleCalculate);
-  IntakeCommand m_intakeCommand = new IntakeCommand();
   IndexJitterCommand m_jitterCommand = new IndexJitterCommand();
-  AutoAlignSequentialCommand m_autoAlignSequential = new AutoAlignSequentialCommand();
-  ShootManualCommand m_subwooferShot = new ShootManualCommand(ArmConstants.SUBWOOFER_ANGLE, 4000);
 
   public RobotContainer() {
     configureBindings();
@@ -83,13 +80,14 @@ public class RobotContainer {
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // set named commands
-    NamedCommands.registerCommand("MagicSpeakerCommand", m_magicSpeakerCommand);
-    NamedCommands.registerCommand("IntakeCommand", m_intakeCommand);
+    NamedCommands.registerCommand("MagicSpeakerCommand", new AutonMagicSpeakerCommand(m_angleCalculate));
+    NamedCommands.registerCommand("IntakeCommand", new IntakeCommand());
     NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
-    NamedCommands.registerCommand("AutoAlignCommand", m_autoAlignSequential);
+    NamedCommands.registerCommand("AutoAlignCommand", new AutoAlignSequentialCommand());
     NamedCommands.registerCommand("ArmDown", new AutonArmAngleCommand(ArmConstants.INTAKE_POSE));
     NamedCommands.registerCommand("ArmUp", new AutonArmAngleCommand(15));
-    NamedCommands.registerCommand("Subwoofer", m_subwooferShot);
+    NamedCommands.registerCommand("Subwoofer",
+        new ShootManualCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
