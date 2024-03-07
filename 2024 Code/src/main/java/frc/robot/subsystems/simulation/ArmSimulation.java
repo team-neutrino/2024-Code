@@ -47,8 +47,6 @@ public class ArmSimulation extends ArmSubsystem {
     final DoublePublisher eAnglePub;
     CanSparkMaxPidSim pidSim;
 
-    // final DoublePublisher targetAngleSub;
-
     double kG = 0.001;
 
     double armMassKg = 7;

@@ -14,11 +14,8 @@ import frc.robot.commands.MagicSpeakerShootCommand;
 import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.subsystems.simulation.PIDChangerSimulationArm;
-import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
-import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
@@ -104,7 +101,7 @@ public class RobotContainer {
     }));
 
     // shooter buttons
-    // m_controller.a().whileTrue(new MagicAmpCommand());
+    m_buttonsController.a().whileTrue(new MagicAmpCommand());
     m_buttonsController.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
     // m_buttonsController.y().whileTrue(new
     // MagicSpeakerShootCommand(m_angleCalculate));
@@ -118,9 +115,12 @@ public class RobotContainer {
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
         new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicSpeakerShootCommand()));
 
-    // m_controller.b()
-    // .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE,
-    // Constants.ShooterSpeeds.PODIUM_SPEED));
+    m_buttonsController.b()
+        .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
+
+    m_buttonsController.x().whileTrue(
+        new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
+
     // m_controller.b().whileTrue(new ShootSpeakerCommand());
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 

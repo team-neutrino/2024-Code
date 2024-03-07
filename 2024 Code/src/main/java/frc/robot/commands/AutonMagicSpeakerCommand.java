@@ -37,7 +37,7 @@ public class AutonMagicSpeakerCommand extends Command {
   public void execute() {
     System.out.println(m_calculateAngle.InterpolateAngle());
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
-    m_shooterSubsystem.setTargetRPM(4000);
+    m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
       m_intakeSubsystem.runIndexShoot();
     } else {

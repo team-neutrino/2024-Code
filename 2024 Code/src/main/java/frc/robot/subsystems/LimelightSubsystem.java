@@ -96,16 +96,6 @@ public class LimelightSubsystem extends SubsystemBase {
     double poseDifference = poseEstimator.getEstimatedPosition().getTranslation()
         .getDistance(limelightPose.getTranslation());
 
-    double distanceToPrimaryTag = 10;
-
-    if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
-      distanceToPrimaryTag = poseEstimator.getEstimatedPosition().getTranslation()
-          .getDistance(SwerveConstants.SPEAKER_RED_SIDE);
-    } else {
-      distanceToPrimaryTag = poseEstimator.getEstimatedPosition().getTranslation()
-          .getDistance(SwerveConstants.SPEAKER_BLUE_SIDE);
-    }
-
     if (getTv()) {
       double xyStds = 1.0;
 
@@ -113,9 +103,6 @@ public class LimelightSubsystem extends SubsystemBase {
       if (pose[7] >= 2) {
         xyStds = 0.5;
       }
-      // } else if (pose[7] >= 2 && distanceToPrimaryTag > 3.0) {
-      // xyStds = 3.0;
-      // }
       // 1 target with large area and close to estimated pose (find constant for area
       // (percent))
       else if (pose[10] > 0.7 && poseDifference < 1) {
