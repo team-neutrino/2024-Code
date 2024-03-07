@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.SubsystemContainer;
 
-public class MagicAmpShootCommand extends Command {
+public class MagicShootCommand extends Command {
 
   private int i = 0;
   private IntakeSubsystem m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
 
   /** Creates a new MagicAmpCommand. */
-  public MagicAmpShootCommand() {
+  public MagicShootCommand() {
 
     addRequirements(SubsystemContainer.armSubsystem, SubsystemContainer.shooterSubsystem,
         m_intakeSubsystem);
