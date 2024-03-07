@@ -16,6 +16,8 @@ import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
+import frc.robot.commands.ArmClimbCommandDown;
+import frc.robot.commands.ArmClimbCommandUp;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
@@ -116,6 +118,8 @@ public class RobotContainer {
 
     // arm buttons
     m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));
+    m_buttonsController.back().toggleOnTrue(new ArmClimbCommandDown());
+    m_buttonsController.start().toggleOnTrue(new ArmClimbCommandUp());
   }
 
   public Command getAutonomousCommand() {

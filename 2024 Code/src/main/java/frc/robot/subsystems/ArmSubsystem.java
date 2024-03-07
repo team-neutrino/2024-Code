@@ -57,6 +57,14 @@ public class ArmSubsystem extends SubsystemBase {
     pidController.setPositionPIDWrappingMinInput(0);
     pidController.setPositionPIDWrappingEnabled(true);
 
+    // experimental, may fail to work
+    pidController.setOutputRange(-25, 105, 0);
+
+    // climb settings
+    pidController.setP(ArmConstants.Arm_kp, 1);
+    pidController.setI(0.0001, 1);
+    pidController.setIZone(30, 1);
+
     m_arm.burnFlash();
   }
 
@@ -168,6 +176,15 @@ public class ArmSubsystem extends SubsystemBase {
     } else {
       return check;
     }
+  }
+
+  public void setClimbReferenceAngle() {
+    double targetAngle = adjustAngleIn(-20);
+
+    double feedforward = ArmConstants.FF_kg
+        * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
+
+    pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 1, feedforward);
   }
 
   @Override
