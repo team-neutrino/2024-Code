@@ -15,6 +15,7 @@ import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
+import frc.robot.commands.AutonArmAngleCommand;
 import frc.robot.commands.AutonMagicSpeakerCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
@@ -57,7 +58,6 @@ public class RobotContainer {
   IntakeCommand m_intakeCommand = new IntakeCommand();
   IndexJitterCommand m_jitterCommand = new IndexJitterCommand();
   AutoAlignSequentialCommand m_autoAlignSequential = new AutoAlignSequentialCommand();
-  ArmAngleCommand m_armDefaultCommand = new ArmAngleCommand(ArmConstants.INTAKE_POSE);
   ShootManualCommand m_subwooferShot = new ShootManualCommand(ArmConstants.SUBWOOFER_ANGLE, 4000);
 
   public RobotContainer() {
@@ -84,9 +84,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("MagicSpeakerCommand", m_magicSpeakerCommand);
     NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
     NamedCommands.registerCommand("AutoAlignCommand", m_autoAlignSequential);
-    NamedCommands.registerCommand("ArmDefaultCommand", m_armDefaultCommand);
-    NamedCommands.registerCommand("ArmDown", new ArmAngleCommand(ArmConstants.INTAKE_POSE));
-    NamedCommands.registerCommand("ArmUp", new ArmAngleCommand(15));
+    NamedCommands.registerCommand("ArmDown", new AutonArmAngleCommand(ArmConstants.INTAKE_POSE));
+    NamedCommands.registerCommand("ArmUp", new AutonArmAngleCommand(15));
     NamedCommands.registerCommand("IntakeCommand", m_intakeCommand);
     NamedCommands.registerCommand("Subwoofer", m_subwooferShot);
 
