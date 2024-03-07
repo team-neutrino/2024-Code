@@ -14,10 +14,8 @@ import frc.robot.commands.MagicSpeakerShootCommand;
 import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
-import frc.robot.commands.ArmInterpolateCommand;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.ClimbDefaultCommand;
@@ -36,9 +34,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
@@ -76,8 +72,8 @@ public class RobotContainer {
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
-    m_driverController.leftTrigger().whileTrue(new IntakeCommand());
-    m_driverController.rightTrigger().whileTrue(new SequentialCommandGroup(
+    m_driverController.rightTrigger().whileTrue(new IntakeCommand());
+    m_driverController.leftTrigger().whileTrue(new SequentialCommandGroup(
         new IntakeCommand(), new IndexJitterCommand()));
 
     // Climb buttons
@@ -91,8 +87,10 @@ public class RobotContainer {
     m_driverController.leftStick()
         .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
-    m_driverController.a()
-        .onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp, new MagicAmpCommand()));
+    // m_driverController.a()
+    // .onTrue(new
+    // SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp, new
+    // MagicAmpCommand()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       for (int i = 0; i < 4; i++) {
@@ -113,6 +111,7 @@ public class RobotContainer {
 
     m_buttonsController.b()
         .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
+
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons

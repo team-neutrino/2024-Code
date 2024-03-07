@@ -56,8 +56,8 @@ public final class Constants {
 
     public static Translation2d CENTER_OF_FIELD_M = new Translation2d(8.29564, 4.105656);
 
-    public static Translation2d SPEAKER_BLUE_SIDE = new Translation2d(0, 5.547);
-    public static Translation2d SPEAKER_RED_SIDE = new Translation2d(16.579, 5.547);
+    public static Translation2d SPEAKER_BLUE_SIDE = new Translation2d(0, 5.35);
+    public static Translation2d SPEAKER_RED_SIDE = new Translation2d(16.1, 5.35);
 
     public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(12.7254, 7.75);
     public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(1.84, 7.75);
@@ -142,12 +142,12 @@ public final class Constants {
     public static double FF_ka = 0.0;
 
     public static double ARM_UPPER_LIMIT = 105;
-    public static double ARM_LOWER_LIMIT = -25;
+    public static double ARM_LOWER_LIMIT = -27;
 
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
-    public static double INTAKE_POSE = -25;
-    public static double AMP_POSE = 90;
+    public static double INTAKE_POSE = -27;
+    public static double AMP_POSE = 82;
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
     public static final double PODIUM_ANGLE = 50; // PLACEHOLDER VALUE
