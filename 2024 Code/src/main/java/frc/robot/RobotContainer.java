@@ -89,7 +89,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
     NamedCommands.registerCommand("AutoAlignCommand", m_autoAlignSequential);
     NamedCommands.registerCommand("ArmDefaultCommand", m_armDefaultCommand);
-    NamedCommands.registerCommand("ArmAngleCommand", new ArmAngleCommand(ArmConstants.INTAKE_POSE));
+    NamedCommands.registerCommand("ArmDown", new ArmAngleCommand(ArmConstants.INTAKE_POSE));
+    NamedCommands.registerCommand("ArmUp", new ArmAngleCommand(15));
     NamedCommands.registerCommand("IntakeCommand", m_intakeCommand);
     NamedCommands.registerCommand("Subwoofer", m_subwooferShot);
 

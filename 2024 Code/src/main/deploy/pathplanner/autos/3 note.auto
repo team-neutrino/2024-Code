@@ -26,7 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ArmAngleCommand"
+            "name": "ArmDown"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ArmAngleCommand"
+            "name": "ArmDown"
           }
         },
         {
@@ -74,31 +74,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ArmAngleCommand"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Copy of quatre"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAlignCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MagicSpeakerCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ArmAngleCommand"
+            "name": "ArmDown"
           }
         }
       ]

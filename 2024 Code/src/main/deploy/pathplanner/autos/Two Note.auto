@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.41,
+      "x": 1.4,
       "y": 7.0
     },
     "rotation": 0.0
@@ -32,7 +32,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ArmAngleCommand"
+            "name": "ArmDown"
           }
         },
         {
@@ -56,7 +56,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ArmAngleCommand"
+            "name": "ArmDown"
           }
         }
       ]
