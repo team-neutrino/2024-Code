@@ -34,9 +34,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ProxyCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
@@ -102,16 +100,9 @@ public class RobotContainer {
 
     // shooter buttons
     m_buttonsController.a().whileTrue(new MagicAmpCommand());
-    m_buttonsController.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
-    // m_buttonsController.y().whileTrue(new
-    // MagicSpeakerShootCommand(m_angleCalculate));
 
     // separate button binding to left bumper contained within the magic speaker
     // charge command
-    // m_buttonsController.y().whileTrue(new SequentialCommandGroup(
-    // new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new
-    // MagicSpeakerShootCommand()));
-
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
         new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicSpeakerShootCommand()));
 
@@ -121,7 +112,6 @@ public class RobotContainer {
     m_buttonsController.x().whileTrue(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
 
-    // m_controller.b().whileTrue(new ShootSpeakerCommand());
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
