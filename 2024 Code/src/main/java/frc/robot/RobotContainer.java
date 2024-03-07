@@ -57,7 +57,6 @@ public class RobotContainer {
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
   CalculateAngle m_angleCalculate = new CalculateAngle();
-  IndexJitterCommand m_jitterCommand = new IndexJitterCommand();
 
   public RobotContainer() {
     configureBindings();
