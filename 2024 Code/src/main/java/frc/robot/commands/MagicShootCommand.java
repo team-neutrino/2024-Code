@@ -5,16 +5,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.util.SubsystemContainer;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.util.SubsystemContainer;
 
-public class MagicSpeakerShootCommand extends Command {
+public class MagicShootCommand extends Command {
 
-  IntakeSubsystem m_intakeSubsystem;
+  private int i = 0;
+  private IntakeSubsystem m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
 
-  public MagicSpeakerShootCommand() {
-    m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
-    addRequirements(SubsystemContainer.armSubsystem, SubsystemContainer.shooterSubsystem, m_intakeSubsystem);
+  /** Creates a new MagicAmpCommand. */
+  public MagicShootCommand() {
+
+    addRequirements(SubsystemContainer.armSubsystem, SubsystemContainer.shooterSubsystem,
+        m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -36,6 +39,15 @@ public class MagicSpeakerShootCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !m_intakeSubsystem.isBeamBroken();
+    if (!m_intakeSubsystem.isBeamBroken()) {
+      i++;
+    } else {
+      i = 0;
+    }
+    if (i >= 20) {
+      return true;
+    }
+
+    return false;
   }
 }

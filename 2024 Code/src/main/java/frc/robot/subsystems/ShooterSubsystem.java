@@ -12,6 +12,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.subsystems.simulation.PIDChangerSimulationShooter;
+import frc.robot.util.SubsystemContainer;
 
 public class ShooterSubsystem extends SubsystemBase {
   protected CANSparkMax m_shooter1 = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
@@ -99,11 +100,6 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController1.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
   }
 
-  public void stopShooter() {
-    setVoltage(0);
-    m_targetRPM = 0;
-  }
-
   public boolean approveShoot() {
     countCounter();
     return (Math.abs(getShooterRpm1() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD
@@ -163,6 +159,5 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_shooter1.getBusVoltage();
   }
 }

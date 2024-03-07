@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
@@ -15,11 +14,12 @@ import frc.robot.Constants.MotorIDs;
 
 public class IntakeSubsystem extends SubsystemBase {
 
+    private double indexVoltage;
+    private double intakeVoltage;
+
     protected RelativeEncoder m_intakeEncoder;
     protected RelativeEncoder m_indexEncoder;
     protected RelativeEncoder m_indexEncoder2;
-
-    private Timer m_timer;
 
     protected CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
     protected CANSparkMax m_intakeMotor2 = new CANSparkMax(MotorIDs.INTAKE_MOTOR_TWO,
@@ -55,39 +55,42 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake() {
-        m_intakeMotor.setVoltage(IntakeConstants.INTAKE_MOTOR_VOLTAGE);
+        intakeVoltage = IntakeConstants.INTAKE_MOTOR_VOLTAGE;
     }
 
     public void runIndexIntake() {
-        m_indexMotor.setVoltage(IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE);
+        indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
     }
 
     public void runIndexShoot() {
-        m_indexMotor.setVoltage(IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT);
+        indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT;
     }
 
     public void runIntakeReverse() {
-        m_intakeMotor.setVoltage(-IntakeConstants.INTAKE_MOTOR_VOLTAGE);
+        intakeVoltage = IntakeConstants.INTAKE_MOTOR_VOLTAGE;
     }
 
     public void runIndexReverse() {
-        m_indexMotor.setVoltage(-IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE);
+        indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
+
     }
 
     public void runIndexJitterReverse() {
-        m_indexMotor.setVoltage(-IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
+        indexVoltage = -IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE;
+
     }
 
     public void runIndexJitter() {
-        m_indexMotor.setVoltage(IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE);
+        indexVoltage = IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE;
+
     }
 
     public void stopIntake() {
-        m_intakeMotor.setVoltage(0);
+        intakeVoltage = 0;
     }
 
     public void stopIndex() {
-        m_indexMotor.setVoltage(0);
+        indexVoltage = 0;
     }
 
     public double getIntakeVelocity() {
@@ -96,6 +99,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public double getIndexVelocity() {
         return m_indexEncoder.getVelocity();
+    }
+
+    public double getIndexVoltage() {
+        return indexVoltage;
     }
 
     public void resetEncoders() {
@@ -113,7 +120,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     /**
-     * Gets the current state of the beam break: false means the beam break is
+     * Gets the current state of the beam break: true means the beam break is
      * tripped
      * 
      * @return The state of the intake beam break.
@@ -128,5 +135,11 @@ public class IntakeSubsystem extends SubsystemBase {
         } else {
             stopIndex();
         }
+    }
+
+    @Override
+    public void periodic() {
+        m_indexMotor.setVoltage(indexVoltage);
+        m_intakeMotor.setVoltage(intakeVoltage);
     }
 }
