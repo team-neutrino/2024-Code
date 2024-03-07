@@ -44,7 +44,7 @@ public class MagicAmpShootCommand extends Command {
     } else {
       i = 0;
     }
-    if (i >= 10) {
+    if (i >= 20) {
       return true;
     }
 

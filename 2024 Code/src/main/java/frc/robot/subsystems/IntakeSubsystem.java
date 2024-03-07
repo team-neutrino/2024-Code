@@ -140,7 +140,6 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         m_indexMotor.setVoltage(indexVoltage);
-
         m_intakeMotor.setVoltage(intakeVoltage);
     }
 }
