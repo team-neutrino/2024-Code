@@ -82,11 +82,11 @@ public class RobotContainer {
 
     // set named commands
     NamedCommands.registerCommand("MagicSpeakerCommand", m_magicSpeakerCommand);
+    NamedCommands.registerCommand("IntakeCommand", m_intakeCommand);
     NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
     NamedCommands.registerCommand("AutoAlignCommand", m_autoAlignSequential);
     NamedCommands.registerCommand("ArmDown", new AutonArmAngleCommand(ArmConstants.INTAKE_POSE));
     NamedCommands.registerCommand("ArmUp", new AutonArmAngleCommand(15));
-    NamedCommands.registerCommand("IntakeCommand", m_intakeCommand);
     NamedCommands.registerCommand("Subwoofer", m_subwooferShot);
 
     // Intake buttons
@@ -100,7 +100,7 @@ public class RobotContainer {
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("All Close Notes"));
+    m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("Nothing"));
     m_driverController.leftStick()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
     m_driverController.leftStick()
