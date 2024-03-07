@@ -46,7 +46,7 @@ public class CalculateAngle {
     Point2D.Double p3;
     Point2D.Double p4;
 
-    double[] changeAmt = { -2, 2, -4, 4, -8, 8 };
+    double[] changeAmt = { -0.5, 0.5, -1, 1, -2, 2 };
 
     // Scanner scanner;
     // File inputFile;
@@ -229,7 +229,6 @@ public class CalculateAngle {
         int index = optimizer.scheduleFunctionChanges();
 
         if (index != -1) {
-            double scalar = changeAmt[index];
 
             double deltaY = currentSquare.get(2).getY() - currentSquare.get(0).getY();
             double deltaX = currentSquare.get(1).getX() - currentSquare.get(0).getX();
@@ -244,6 +243,9 @@ public class CalculateAngle {
             double coeff2 = yPart1 * xPart2;
             double coeff3 = yPart2 * xPart1;
             double coeff4 = yPart2 * xPart2;
+
+            double scalar = changeAmt[index]
+                    / (Math.pow(coeff1, 2) + Math.pow(coeff2, 2) + Math.pow(coeff3, 2) + Math.pow(coeff4, 2));
 
             // for (int i = 0; i < currentSquare.size(); i++)
             // {
