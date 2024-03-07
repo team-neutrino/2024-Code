@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.41,
-      "y": 7.0
+      "x": 0.5,
+      "y": 4.15
     },
     "rotation": 0.0
   },
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Turn Start (Top)"
+            "pathName": "Wall start"
           }
         },
         {
@@ -38,55 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "All Close Part I"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAlignCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MagicSpeakerCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ArmDown"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "All Close Part II"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAlignCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MagicSpeakerCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ArmDown"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "All Close Part III"
+            "pathName": "below speaker"
           }
         },
         {

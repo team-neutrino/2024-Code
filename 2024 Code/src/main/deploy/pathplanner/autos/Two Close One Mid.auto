@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.0,
+      "x": 1.41,
       "y": 7.0
     },
     "rotation": 0
@@ -18,6 +18,78 @@
               {
                 "type": "path",
                 "data": {
+                  "pathName": "Turn Start (Top)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmDown"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "All Close Part I"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmDown"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "All Close Part II"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmDown"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
                   "pathName": "Two Close One Mid Part I"
                 }
               },
@@ -28,15 +100,21 @@
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Two Close One Mid Part III"
+                  "name": "AutoAlignCommand"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Two Close One Mid Part IV"
+                  "name": "MagicSpeakerCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmDown"
                 }
               }
             ]

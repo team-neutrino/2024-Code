@@ -4,30 +4,37 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.FieldConstants;
 import frc.robot.util.SubsystemContainer;
 
 public class AutoAlignSequentialCommand extends AutoAlignCommand {
+
+    Timer timer = new Timer();
 
     public AutoAlignSequentialCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
     @Override
+    public void initialize() {
+        super.initialize();
+        timer.start();
+    }
+
+    @Override
+    public void execute() {
+        super.execute();
+        SubsystemContainer.swerveSubsystem.Swerve(0, 0, 0);
+    }
+
+    @Override
     public boolean isFinished() {
-        if (SubsystemContainer.swerveSubsystem.isRedAlliance() == true
-                && SubsystemContainer.limelightSubsystem.getBotPose()[0] > -FieldConstants.COMMUNITYBOUNDARY) {
+        if (timer.get() >= 0.5) {
+            timer.stop();
+            timer.reset();
             return true;
         }
-        if (SubsystemContainer.swerveSubsystem.isRedAlliance() == false
-                && SubsystemContainer.limelightSubsystem.getBotPose()[0] < FieldConstants.COMMUNITYBOUNDARY) {
-            return true;
-        }
-
-        if (!SubsystemContainer.swerveSubsystem.omegaZero()) {
-            return true;
-        }
-
         return false;
     }
 }

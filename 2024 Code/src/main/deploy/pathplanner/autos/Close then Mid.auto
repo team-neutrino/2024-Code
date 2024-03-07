@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.74,
+      "x": 1.41,
       "y": 7.0
     },
     "rotation": 0.0
@@ -16,9 +16,27 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "Turn Start (Top)"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
-                  "name": "ShootSpeakerCommand"
+                  "name": "AutoAlignCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmDown"
                 }
               },
               {
@@ -30,13 +48,19 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootSpeakerCommand"
+                  "name": "AutoAlignCommand"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 1.0
+                  "name": "MagicSpeakerCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmDown"
                 }
               },
               {
@@ -54,7 +78,19 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootSpeakerCommand"
+                  "name": "AutoAlignCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MagicSpeakerCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmDown"
                 }
               }
             ]

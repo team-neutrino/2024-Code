@@ -244,14 +244,20 @@ public class SwerveSubsystem extends SubsystemBase {
     m_referenceAngle = 0;
 
     if (isRedAlliance) {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
+      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
+          modulePositions,
           new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions,
+      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
+          modulePositions,
           new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
     } else {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
+      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
+          modulePositions, new Pose2d());
+      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
+          modulePositions, new Pose2d());
     }
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
+    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
   }
 
   public Pose2d getPose() {

@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.15,
+      "x": 1.41,
       "y": 4.0
     },
     "rotation": 0.0
@@ -12,9 +12,27 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Turn Start (Bottom)"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "ShootSpeakerCommand"
+            "name": "AutoAlignCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MagicSpeakerCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmDown"
           }
         },
         {
@@ -44,7 +62,19 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootSpeakerCommand"
+            "name": "AutoAlignCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MagicSpeakerCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmDown"
           }
         }
       ]

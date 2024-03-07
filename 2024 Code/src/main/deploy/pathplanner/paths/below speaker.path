@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 1.0,
+        "y": 4.15
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7011498720464258,
-        "y": 6.9805236146724186
+        "x": 1.015600254415789,
+        "y": 4.15
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8,
-        "y": 7.0
+        "x": 2.6607658350837373,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 2.6344507246547115,
-        "y": 7.0
+        "x": 2.2274648828898216,
+        "y": 4.11050362756931
+      },
+      "nextControl": {
+        "x": 2.7607364668385967,
+        "y": 4.097576616717538
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.5950797094176201,
+        "y": 4.50867207012588
+      },
+      "prevControl": {
+        "x": 1.591999455040278,
+        "y": 4.50867207012588
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +46,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.65,
+      "waypointRelativePos": 1.1,
       "rotationDegrees": 0.0,
       "rotateFast": true
     }
@@ -38,8 +54,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0.05,
+      "name": "Intake1",
+      "waypointRelativePos": 0.6,
       "command": {
         "type": "sequential",
         "data": {
@@ -55,8 +71,8 @@
       }
     },
     {
-      "name": "Stop Intake",
-      "waypointRelativePos": 1.0,
+      "name": "StopIntake",
+      "waypointRelativePos": 1.35,
       "command": {
         "type": "sequential",
         "data": {
@@ -65,6 +81,23 @@
               "type": "named",
               "data": {
                 "name": "IntakeDefaultCommand"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "ArmUp",
+      "waypointRelativePos": 1.4,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ArmUp"
               }
             }
           ]
@@ -80,13 +113,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 30.0,
-    "rotateFast": false
+    "rotation": -40.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 40.0,
+    "rotation": -40.0,
     "velocity": 0
   },
   "useDefaultConstraints": false
