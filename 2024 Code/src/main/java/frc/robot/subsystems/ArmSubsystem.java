@@ -10,7 +10,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -26,7 +25,7 @@ public class ArmSubsystem extends SubsystemBase {
   protected CANSparkFlex m_arm = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
   protected DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCODER);
   protected double m_angle;
-  protected double m_targetAngle;
+  protected double m_targetAngle = 0.0;
   private boolean m_inPosition;
   public int i = 0;
   private SparkPIDController pidController;
@@ -147,7 +146,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private boolean ArmDebouncer() {
-    if (Math.abs(getArmAngleDegrees() - m_targetAngle) <= 2) {
+    if (Math.abs(getArmAngleDegrees() - m_targetAngle) <= 1.5) {
       i++;
     } else {
       i = 0;

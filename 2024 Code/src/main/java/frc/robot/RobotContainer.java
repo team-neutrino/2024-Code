@@ -73,8 +73,8 @@ public class RobotContainer {
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
-    m_driverController.leftTrigger().whileTrue(new IntakeCommand());
-    m_driverController.rightTrigger().whileTrue(new SequentialCommandGroup(
+    m_driverController.rightTrigger().whileTrue(new IntakeCommand());
+    m_driverController.leftTrigger().whileTrue(new SequentialCommandGroup(
         new IntakeCommand(), new IndexJitterCommand()));
 
     // Climb buttons
@@ -111,6 +111,7 @@ public class RobotContainer {
 
     m_buttonsController.b()
         .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
+
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons
