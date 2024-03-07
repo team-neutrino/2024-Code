@@ -106,11 +106,11 @@ public class RobotContainer {
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
         new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicSpeakerShootCommand()));
 
-    m_buttonsController.b()
-        .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
-
     m_buttonsController.x().whileTrue(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
+
+    m_buttonsController.b()
+        .whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
 
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 

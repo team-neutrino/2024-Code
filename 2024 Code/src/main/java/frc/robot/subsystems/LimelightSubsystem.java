@@ -110,7 +110,7 @@ public class LimelightSubsystem extends SubsystemBase {
       }
       // 1 target farther away and estimated pose is close
       else if (pose[10] > 0.2 && poseDifference < 0.2) {
-        xyStds = 2.0;
+        xyStds = 3.0;
       }
       // need to zero, badly
       else if (poseDifference >= 3) {
