@@ -9,7 +9,7 @@ import frc.robot.subsystems.ArmSubsystem;
 public class ShootManualCommand extends Command {
 
     private ShooterSubsystem m_shooterSubsystem;
-    private IntakeSubsystem m_indexSubsystem;
+    private IntakeSubsystem m_intakeSubsystem;
     private ArmSubsystem m_armSubsystem;
     private double m_angle;
     private double m_rpm;
@@ -17,7 +17,7 @@ public class ShootManualCommand extends Command {
 
     public ShootManualCommand(double p_angle, double p_rpm) {
         m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
-        m_indexSubsystem = SubsystemContainer.intakeSubsystem;
+        m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
         m_armSubsystem = SubsystemContainer.armSubsystem;
         m_angle = p_angle;
         m_rpm = p_rpm;
@@ -33,9 +33,9 @@ public class ShootManualCommand extends Command {
         m_armSubsystem.setArmReferenceAngle(m_angle);
         m_shooterSubsystem.setTargetRPM(m_rpm);
         if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
-            m_indexSubsystem.runIndexShoot();
+            m_intakeSubsystem.runIndexShoot();
         } else {
-            m_indexSubsystem.stopIndex();
+            m_intakeSubsystem.stopIndex();
         }
     }
 
@@ -45,12 +45,15 @@ public class ShootManualCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (!m_indexSubsystem.isBeamBroken()) {
+        if (!m_intakeSubsystem.isBeamBroken()) {
             i++;
-            if (i > 10) {
-                return true;
-            }
+        } else {
+            i = 0;
         }
+        if (i >= 20) {
+            return true;
+        }
+
         return false;
     }
 }
