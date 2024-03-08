@@ -42,21 +42,41 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "AutoAlignCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MagicSpeakerCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ArmDown"
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Two Note Path"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoAlignCommand"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "MagicSpeakerCommand"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeCommand"
+                }
+              }
+            ]
           }
         }
       ]

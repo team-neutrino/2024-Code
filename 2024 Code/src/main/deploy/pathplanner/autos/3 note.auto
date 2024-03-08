@@ -30,51 +30,71 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "un"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAlignCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MagicSpeakerCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ArmDown"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "deux"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAlignCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MagicSpeakerCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ArmDown"
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "un"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoAlignCommand"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "MagicSpeakerCommand"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ArmDown"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "deux"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoAlignCommand"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "MagicSpeakerCommand"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ArmDown"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeCommand"
+                }
+              }
+            ]
           }
         }
       ]
