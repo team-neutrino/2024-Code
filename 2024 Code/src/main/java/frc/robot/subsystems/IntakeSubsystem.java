@@ -15,10 +15,11 @@ import frc.robot.Constants.MotorIDs;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-    private double indexVoltage;
-    private double intakeVoltage;
+    private double indexVoltage = 0.0;
+    private double intakeVoltage = 0.0;
 
     protected RelativeEncoder m_intakeEncoder;
+    protected RelativeEncoder m_intakeEncoder2;
     protected RelativeEncoder m_indexEncoder;
     protected RelativeEncoder m_indexEncoder2;
 
@@ -32,6 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem() {
         m_intakeEncoder = m_intakeMotor.getEncoder();
+        m_intakeEncoder2 = m_intakeMotor2.getEncoder();
         m_indexEncoder = m_indexMotor.getEncoder();
         m_indexEncoder2 = m_indexMotor2.getEncoder();
 
@@ -48,8 +50,7 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor2.setIdleMode(IdleMode.kCoast);
 
         m_indexMotor2.restoreFactoryDefaults();
-        m_indexMotor2.setSmartCurrentLimit(Constants.IntakeConstants.INTAKE_CURRENT_LIMIT);
-        m_indexMotor2.setInverted(true);
+        m_indexMotor2.setSmartCurrentLimit(Constants.IntakeConstants.INDEX_CURRENT_LIMIT);
         m_indexMotor2.follow(m_indexMotor, true);
 
         m_intakeMotor.burnFlash();
@@ -111,6 +112,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void resetEncoders() {
         m_intakeEncoder.setPosition(0);
+        m_intakeEncoder2.setPosition(0);
         m_indexEncoder.setPosition(0);
         m_indexEncoder2.setPosition(0);
     }
@@ -131,14 +133,6 @@ public class IntakeSubsystem extends SubsystemBase {
      */
     public boolean isBeamBroken() {
         return !m_intakeBeamBreak.get();
-    }
-
-    public void indexApprove(boolean allow) {
-        if (allow) {
-            runIndexShoot();
-        } else {
-            stopIndex();
-        }
     }
 
     @Override
