@@ -70,23 +70,6 @@
           ]
         }
       }
-    },
-    {
-      "name": "ArmUp",
-      "waypointRelativePos": 0.85,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "ArmUp"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {

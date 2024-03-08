@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel;
 
 import frc.robot.Constants;
@@ -43,6 +44,9 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexMotor.restoreFactoryDefaults();
         m_indexMotor.setSmartCurrentLimit(Constants.IntakeConstants.INDEX_CURRENT_LIMIT);
 
+        m_intakeMotor.setIdleMode(IdleMode.kCoast);
+        m_intakeMotor2.setIdleMode(IdleMode.kCoast);
+
         m_indexMotor2.restoreFactoryDefaults();
         m_indexMotor2.setSmartCurrentLimit(Constants.IntakeConstants.INTAKE_CURRENT_LIMIT);
         m_indexMotor2.setInverted(true);
@@ -67,7 +71,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntakeReverse() {
-        intakeVoltage = IntakeConstants.INTAKE_MOTOR_VOLTAGE;
+        intakeVoltage = -IntakeConstants.INTAKE_MOTOR_VOLTAGE;
     }
 
     public void runIndexReverse() {

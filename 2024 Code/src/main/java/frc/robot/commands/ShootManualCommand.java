@@ -13,6 +13,7 @@ public class ShootManualCommand extends Command {
     private ArmSubsystem m_armSubsystem;
     private double m_angle;
     private double m_rpm;
+    double i = 0;
 
     public ShootManualCommand(double p_angle, double p_rpm) {
         m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
@@ -21,7 +22,7 @@ public class ShootManualCommand extends Command {
         m_angle = p_angle;
         m_rpm = p_rpm;
 
-        addRequirements(m_shooterSubsystem, m_indexSubsystem, m_armSubsystem);
+        addRequirements(m_shooterSubsystem, m_armSubsystem);
     }
 
     public void initialize() {
@@ -44,6 +45,12 @@ public class ShootManualCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return !m_indexSubsystem.isBeamBroken();
+        if (!m_indexSubsystem.isBeamBroken()) {
+            i++;
+            if (i > 10) {
+                return true;
+            }
+        }
+        return false;
     }
 }

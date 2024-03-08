@@ -35,7 +35,6 @@ public class AutonMagicSpeakerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(m_calculateAngle.InterpolateAngle());
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {

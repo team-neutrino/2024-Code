@@ -18,13 +18,11 @@ import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.AutonArmAngleCommand;
 import frc.robot.commands.AutonMagicSpeakerCommand;
-import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmClimbCommandDown;
 import frc.robot.commands.ArmClimbCommandUp;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
-import frc.robot.commands.ClimbDefaultCommand;
 import frc.robot.commands.IndexJitterCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
@@ -54,7 +52,7 @@ public class RobotContainer {
 
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
-  ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
+  // ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
   CalculateAngle m_angleCalculate = new CalculateAngle();
 
@@ -73,7 +71,7 @@ public class RobotContainer {
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
     SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_driverController));
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
-    SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
+    // SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(ArmConstants.INTAKE_POSE));
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
@@ -87,6 +85,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ArmUp", new AutonArmAngleCommand(15));
     NamedCommands.registerCommand("Subwoofer",
         new ShootManualCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
+    NamedCommands.registerCommand("BelowSubwooferShot", new ShootManualCommand(8, 4000));
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
@@ -95,15 +94,15 @@ public class RobotContainer {
         new IntakeCommand(), new IndexJitterCommand()));
 
     // Climb buttons
-    m_buttonsController.rightStick().toggleOnTrue(new ClimbCommand(m_buttonsController));
+    // m_buttonsController.rightStick().toggleOnTrue(new
+    // ClimbCommand(m_buttonsController));
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_buttonsController.leftTrigger().onTrue(new PathPlannerAuto("Nothing"));
     m_driverController.leftStick()
-        .whileTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
+        .toggleOnTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
     m_driverController.leftStick()
-        .whileFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
+        .toggleOnFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
     m_driverController.a().onTrue(new SequentialCommandGroup(SubsystemContainer.swerveSubsystem.m_pathfindAmp,
         new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
@@ -115,8 +114,10 @@ public class RobotContainer {
     }));
 
     // shooter buttons
-    m_buttonsController.a().whileTrue(new SequentialCommandGroup(
-        new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
+    // m_buttonsController.a().whileTrue(new SequentialCommandGroup(
+    // new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
+
+    m_buttonsController.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
 
     // separate button binding to left bumper contained within the magic speaker
     // charge command
@@ -138,13 +139,13 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return new PathPlannerAuto("Below Subwoofer");
   }
 
   public void simulationInit() {
     SubsystemContainer.armSubsystem.simulationInit();
     SubsystemContainer.shooterSubsystem.simulationInit();
-    SubsystemContainer.climbSubsystem.simulationInit();
+    // SubsystemContainer.climbSubsystem.simulationInit();
   }
 
   public void simulationPeriodic() {
