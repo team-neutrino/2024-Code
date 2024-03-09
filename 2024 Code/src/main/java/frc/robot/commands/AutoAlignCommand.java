@@ -11,8 +11,8 @@ import frc.robot.Constants.LEDConstants.States;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
-    private double currentYaw;
-    private double offsetYaw;
+    protected double currentYaw;
+    protected double offsetYaw;
 
     double y = 0;
     double x = 0;

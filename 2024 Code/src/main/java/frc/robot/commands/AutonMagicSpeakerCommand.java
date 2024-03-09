@@ -24,7 +24,7 @@ public class AutonMagicSpeakerCommand extends Command {
     m_armSubsystem = SubsystemContainer.armSubsystem;
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
-    addRequirements(m_armSubsystem, m_shooterSubsystem, m_intakeSubsystem);
+    addRequirements(m_armSubsystem, m_shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.

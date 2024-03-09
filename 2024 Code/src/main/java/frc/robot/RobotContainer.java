@@ -18,6 +18,8 @@ import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.AutonArmAngleCommand;
 import frc.robot.commands.AutonMagicSpeakerCommand;
+import frc.robot.commands.AutonShootManualCommand;
+import frc.robot.commands.AutonSingleShotCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmClimbCommandDown;
 import frc.robot.commands.ArmClimbCommandUp;
@@ -84,8 +86,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("ArmDown", new AutonArmAngleCommand(ArmConstants.INTAKE_POSE));
     NamedCommands.registerCommand("ArmUp", new AutonArmAngleCommand(15));
     NamedCommands.registerCommand("Subwoofer",
-        new ShootManualCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
-    NamedCommands.registerCommand("BelowSubwooferShot", new ShootManualCommand(8, 4000));
+        new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
+    NamedCommands.registerCommand("BelowSubwooferShot", new AutonShootManualCommand(8, 4000));
+    NamedCommands.registerCommand("SingleSubwooferShot",
+        new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
@@ -99,10 +103,12 @@ public class RobotContainer {
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    m_driverController.leftStick()
-        .toggleOnTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(true)));
-    m_driverController.leftStick()
-        .toggleOnFalse(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.setFastMode(false)));
+    // m_driverController.leftStick()
+    // .toggleOnTrue(new InstantCommand(() ->
+    // SubsystemContainer.swerveSubsystem.setFastMode(true)));
+    // m_driverController.leftStick()
+    // .toggleOnFalse(new InstantCommand(() ->
+    // SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       for (int i = 0; i < 4; i++) {

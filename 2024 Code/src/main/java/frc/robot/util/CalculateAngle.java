@@ -54,14 +54,14 @@ public class CalculateAngle {
         bilinearMap.put(new Point2D.Double(2.3, 1.2), 15.4825);
         bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4);
 
-        bilinearMap.put(new Point2D.Double(3.5, 1.2), 18.7);
-        bilinearMap.put(new Point2D.Double(4.0, 1.2), 20.5);
+        bilinearMap.put(new Point2D.Double(3.5, 1.2), 19.21);
+        bilinearMap.put(new Point2D.Double(4.0, 1.2), 22.0);
 
         bilinearMap.put(new Point2D.Double(1.625, 2.13), 9.16);
         bilinearMap.put(new Point2D.Double(2.3, 2.13), 20.15);
         bilinearMap.put(new Point2D.Double(2.8, 2.13), 16.6);
-        bilinearMap.put(new Point2D.Double(3.5, 2.13), 21.0);
-        bilinearMap.put(new Point2D.Double(4.0, 2.13), 21.8);
+        bilinearMap.put(new Point2D.Double(3.5, 2.13), 21.27);
+        bilinearMap.put(new Point2D.Double(4.0, 2.13), 22.14);
 
         bilinearMap.put(new Point2D.Double(1.625, 2.7), 15.0);
         bilinearMap.put(new Point2D.Double(2.3, 2.7), 17.31);

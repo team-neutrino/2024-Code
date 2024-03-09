@@ -12,6 +12,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -86,6 +87,10 @@ public class SwerveSubsystem extends SubsystemBase {
   public Command m_pathfindAmp;
   public boolean isRedAlliance;
 
+  SlewRateLimiter filterX = new SlewRateLimiter(2.5);
+  SlewRateLimiter filterY = new SlewRateLimiter(2.5);
+  SlewRateLimiter filterOmega = new SlewRateLimiter(10.0);
+
   public SwerveSubsystem() {
     modulePositions[0] = new SwerveModulePosition();
     modulePositions[1] = new SwerveModulePosition();
@@ -135,11 +140,16 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void Swerve(double vx, double vy, double omega) {
-    vx = Limiter.scale(Limiter.deadzone(vx, 0.2), -SwerveConstants.MAX_CHASSIS_LINEAR_SPEED,
+
+    vx = filterX.calculate(vx);
+    vy = filterY.calculate(vy);
+    omega = filterOmega.calculate(omega);
+
+    vx = Limiter.scale(Limiter.deadzone(vx, 0.1), -SwerveConstants.MAX_CHASSIS_LINEAR_SPEED,
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
-    vy = Limiter.scale(Limiter.deadzone(vy, 0.2), -SwerveConstants.MAX_CHASSIS_LINEAR_SPEED,
+    vy = Limiter.scale(Limiter.deadzone(vy, 0.1), -SwerveConstants.MAX_CHASSIS_LINEAR_SPEED,
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
-    omega = Limiter.scale(Limiter.deadzone(omega, 0.2), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
+    omega = Limiter.scale(Limiter.deadzone(omega, 0.1), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
 
     if (omega == 0) {

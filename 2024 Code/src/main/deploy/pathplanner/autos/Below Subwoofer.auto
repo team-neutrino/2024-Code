@@ -60,12 +60,6 @@
                       "data": {
                         "name": "BelowSubwooferShot"
                       }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ArmDown"
-                      }
                     }
                   ]
                 }

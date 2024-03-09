@@ -38,7 +38,7 @@ public final class Constants {
     public static Translation2d BACK_LEFT_COORD = new Translation2d(-0.339725, 0.3175);
     public static double DRIVEBASE_RADIUS = 0.465074;
 
-    public static double MAX_CHASSIS_LINEAR_SPEED = 1;
+    public static double MAX_CHASSIS_LINEAR_SPEED = 3;
     public static double MAX_CHASSIS_LINEAR_SPEED_FAST = 3;
     public static double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static double MAX_MODULE_ROTATION_SPEED;
@@ -73,7 +73,7 @@ public final class Constants {
     public static Pose2d RED_TARGET_POSE4;
 
     public static int ANGLE_MOTOR_CURRENT_LIMIT = 40;
-    public static int SPEED_MOTOR_CURRENT_LIMIT = 60;
+    public static int SPEED_MOTOR_CURRENT_LIMIT = 55;
   }
 
   public final class DigitalConstants {
@@ -147,7 +147,7 @@ public final class Constants {
     public static double INTAKE_LIMIT = 95;
     public static double AMP_LIMIT = 15;
     public static double INTAKE_POSE = -27;
-    public static double AMP_POSE = 82;
+    public static double AMP_POSE = 90;
     public static double ARM_ADJUST_DEADZONE = 0.2;
     public static double CLIMB_POSITION = 30; // PLACEHOLDER VALUE
     public static final double PODIUM_ANGLE = 50; // PLACEHOLDER VALUE
@@ -159,7 +159,7 @@ public final class Constants {
     public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2 * 12;
     public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1 * 12;
     public static double INDEX_JITTER_MOTOR_VOLTAGE = 0.125 * 12;
-    public static int INTAKE_CURRENT_LIMIT = 70;
+    public static int INTAKE_CURRENT_LIMIT = 55;
     public static int INDEX_CURRENT_LIMIT = 20;
   }
 

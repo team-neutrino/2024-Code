@@ -26,11 +26,13 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
     public void execute() {
         super.execute();
         SubsystemContainer.swerveSubsystem.Swerve(0, 0, 0);
+        System.out.println("Current yaw: " + super.currentYaw + "\nOffset yaw " + super.offsetYaw);
+
     }
 
     @Override
     public boolean isFinished() {
-        if (timer.get() >= 0.5) {
+        if (timer.get() >= 2) {
             timer.stop();
             timer.reset();
             return true;
