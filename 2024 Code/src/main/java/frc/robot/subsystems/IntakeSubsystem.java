@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -30,6 +31,8 @@ public class IntakeSubsystem extends SubsystemBase {
     protected CANSparkMax m_indexMotor2 = new CANSparkMax(MotorIDs.INDEX_MOTOR2, CANSparkLowLevel.MotorType.kBrushless);
 
     protected DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
+
+    SlewRateLimiter limiter = new SlewRateLimiter(12.0);
 
     public IntakeSubsystem() {
         m_intakeEncoder = m_intakeMotor.getEncoder();
@@ -137,7 +140,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        m_indexMotor.setVoltage(indexVoltage);
-        m_intakeMotor.setVoltage(intakeVoltage);
+        m_indexMotor.setVoltage(limiter.calculate(indexVoltage));
+        // m_indexMotor.setVoltage(indexVoltage);
+        m_intakeMotor.setVoltage(limiter.calculate(intakeVoltage));
+        // m_intakeMotor.setVoltage(intakeVoltage);
     }
 }
