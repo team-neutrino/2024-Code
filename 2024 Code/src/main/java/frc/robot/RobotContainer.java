@@ -85,8 +85,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("AutoAlignCommand", new AutoAlignSequentialCommand());
     NamedCommands.registerCommand("ArmDown", new AutonArmAngleCommand(ArmConstants.INTAKE_POSE));
     NamedCommands.registerCommand("ArmUp", new AutonArmAngleCommand(15));
-    NamedCommands.registerCommand("Subwoofer",
-        new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
     NamedCommands.registerCommand("BelowSubwooferShot", new AutonShootManualCommand(8, 4000));
     NamedCommands.registerCommand("SingleSubwooferShot",
         new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
