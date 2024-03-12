@@ -121,19 +121,22 @@ public class CalculateAngle {
             bilinearMap.put(currentSquare.get(3), value4 + coeff4 * scalar);
         }
 
-        double xComp;
-        double yComp;
+        double xComp = 0.0;
+        double yComp = 0.0;
 
-        if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
-            xComp = Math.abs(
-                    SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX());
-            yComp = Math.abs(
-                    SubsystemContainer.swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY());
-        } else {
-            xComp = Math.abs(SubsystemContainer.swerveSubsystem.currentPoseL.getX());
-            yComp = Math.abs(
-                    SubsystemContainer.swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
-        }
+        // if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
+        // xComp = Math.abs(
+        // SubsystemContainer.swerveSubsystem.currentPoseL.getX() -
+        // SwerveConstants.SPEAKER_RED_SIDE.getX());
+        // yComp = Math.abs(
+        // SubsystemContainer.swerveSubsystem.currentPoseL.getY() -
+        // SwerveConstants.SPEAKER_RED_SIDE.getY());
+        // } else {
+        // xComp = Math.abs(SubsystemContainer.swerveSubsystem.currentPoseL.getX());
+        // yComp = Math.abs(
+        // SubsystemContainer.swerveSubsystem.currentPoseL.getY() -
+        // SwerveConstants.SPEAKER_BLUE_SIDE.getY());
+        // }
 
         // define robot point, this is the point that we are approximating f(x,y) for
 
