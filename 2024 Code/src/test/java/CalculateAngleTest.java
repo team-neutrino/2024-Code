@@ -5,6 +5,7 @@ import edu.wpi.first.hal.HAL;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.awt.geom.Point2D;
 import frc.robot.util.CalculateAngle;
 
 public class CalculateAngleTest {
@@ -23,7 +24,6 @@ public class CalculateAngleTest {
 
     @Test
     void defaultInterpolation() {
-        assertEquals(
-                1.22654, m_calculate_angle.InterpolateAngle(), DELTA);
+        assertEquals(1.22654, m_calculate_angle.InterpolateAngle(new Point2D.Double(0.0, 0.0)), DELTA);
     }
 }
