@@ -6,7 +6,6 @@ package frc.robot;
 
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpChargeCommand;
@@ -35,12 +34,10 @@ import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.revrobotics.REVPhysicsSim;
-
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -54,7 +51,6 @@ public class RobotContainer {
 
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
-  // ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
   CalculateAngle m_angleCalculate = new CalculateAngle();
 
@@ -73,7 +69,6 @@ public class RobotContainer {
     SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
     SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_driverController));
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
-    // SubsystemContainer.climbSubsystem.setDefaultCommand(m_climbDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(ArmConstants.INTAKE_POSE));
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
@@ -94,10 +89,6 @@ public class RobotContainer {
     m_driverController.rightTrigger().whileTrue(new IntakeCommand());
     m_driverController.leftTrigger().whileTrue(new SequentialCommandGroup(
         new IntakeCommand(), new IndexJitterCommand()));
-
-    // Climb buttons
-    // m_buttonsController.rightStick().toggleOnTrue(new
-    // ClimbCommand(m_buttonsController));
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
@@ -146,7 +137,6 @@ public class RobotContainer {
   public void simulationInit() {
     SubsystemContainer.armSubsystem.simulationInit();
     SubsystemContainer.shooterSubsystem.simulationInit();
-    // SubsystemContainer.climbSubsystem.simulationInit();
   }
 
   public void simulationPeriodic() {

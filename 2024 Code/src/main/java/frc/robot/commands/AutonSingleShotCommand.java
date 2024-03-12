@@ -33,10 +33,8 @@ public class AutonSingleShotCommand extends Command {
         m_armSubsystem.setArmReferenceAngle(m_angle);
         m_shooterSubsystem.setTargetRPM(m_rpm);
         if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
-            System.out.println("Index Shooting");
             m_intakeSubsystem.runIndexShoot();
         } else {
-            System.out.println("you lose");
             m_intakeSubsystem.stopIndex();
         }
     }

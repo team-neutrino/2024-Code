@@ -11,16 +11,6 @@ public final class Constants {
     public static final int DRIVER_CONTROLLER = 1;
   }
 
-  /**
-   * Climber motors controller id's (the first parameter in the construction line)
-   * are 40s.
-   */
-  public static class ClimbConstants {
-    public static final double CLIMB_EXTEND_MOTOR_SPEED = 1.0; // PLACEHOLDER VALUE
-    public static final double CLIMB_RETRACT_MOTOR_SPEED = -1.0; // PLACEHOLDER VALUE
-    public static final float CLIMB_LIMIT_UP = 200; // PLACEHOLDER VALUE
-  }
-
   public static class DimensionConstants {
     public static double WHEEL_DIAMETER = 0.1016;
     public static double WHEEL_CIRCUMFERENCE = 0.1016 * Math.PI;

@@ -1,6 +1,7 @@
 package frc.robot.util;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.awt.geom.Point2D;
@@ -68,17 +69,16 @@ public class CalculateAngle {
         bilinearMap.put(new Point2D.Double(3.5, 2.7), 20.40);
         bilinearMap.put(new Point2D.Double(4.0, 2.7), 21.6);
 
-        col.add(1.625);
-        col.add(2.3);
-        col.add(2.8);
-        col.add(3.5);
-        col.add(4.0);
-
-        row.add(0.0);
-        row.add(0.85);
-        row.add(1.2);
-        row.add(2.13);
-        row.add(2.7);
+        for (Point2D.Double cur_key : bilinearMap.keySet()) {
+            if (!col.contains(cur_key.x)) {
+                col.add(cur_key.x);
+            }
+            if (!row.contains(cur_key.y)) {
+                row.add(cur_key.y);
+            }
+        }
+        col.sort(Comparator.naturalOrder());
+        row.sort(Comparator.naturalOrder());
 
         currentSquare.add(p1);
         currentSquare.add(p2);
@@ -178,6 +178,15 @@ public class CalculateAngle {
         p2 = new Point2D.Double(x2, y1);
         p3 = new Point2D.Double(x1, y2);
         p4 = new Point2D.Double(x2, y2);
+
+        System.err.println(p3.x + "," + p3.y + "______________________________________" + p4.x + "," + p4.y);
+        System.err.println("|" + "                                                      " + "|");
+        System.err.println("|" + "                                                      " + "|");
+        System.err.println("|" + "                    " + robotPoint.getX() + "," + robotPoint.getY()
+                + "                         " + "|");
+        System.err.println("|" + "                                                      " + "|");
+        System.err.println("|" + "                                                      " + "|");
+        System.err.println(p1.x + "," + p1.y + "______________________________________" + p2.x + "," + p2.y);
 
         currentSquare.set(0, p1);
         currentSquare.set(1, p2);
