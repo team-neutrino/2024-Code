@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.awt.geom.Point2D;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -427,6 +429,21 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+  }
+
+  public Point2D RobotPoint() {
+    double xComp = 0.0;
+    double yComp = 0.0;
+    if (isRedAlliance) {
+      xComp = Math.abs(currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX());
+      yComp = Math.abs(currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY());
+    } else {
+      xComp = Math.abs(currentPoseL.getX());
+      yComp = Math.abs(currentPoseL.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
+    }
+
+    Point2D robot_point = new Point2D.Double(xComp, yComp);
+    return robot_point;
   }
 
   @Override

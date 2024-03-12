@@ -8,7 +8,6 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
-import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.simulation.InterpolationOptimization;
 
 public class CalculateAngle {
@@ -87,7 +86,7 @@ public class CalculateAngle {
         currentSquare.add(p4);
     }
 
-    public double InterpolateAngle() {
+    public double InterpolateAngle(Point2D robotPoint) {
 
         int index = optimizer.scheduleFunctionChanges();
 
@@ -121,26 +120,7 @@ public class CalculateAngle {
             bilinearMap.put(currentSquare.get(3), value4 + coeff4 * scalar);
         }
 
-        double xComp = 0.0;
-        double yComp = 0.0;
-
-        // if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
-        // xComp = Math.abs(
-        // SubsystemContainer.swerveSubsystem.currentPoseL.getX() -
-        // SwerveConstants.SPEAKER_RED_SIDE.getX());
-        // yComp = Math.abs(
-        // SubsystemContainer.swerveSubsystem.currentPoseL.getY() -
-        // SwerveConstants.SPEAKER_RED_SIDE.getY());
-        // } else {
-        // xComp = Math.abs(SubsystemContainer.swerveSubsystem.currentPoseL.getX());
-        // yComp = Math.abs(
-        // SubsystemContainer.swerveSubsystem.currentPoseL.getY() -
-        // SwerveConstants.SPEAKER_BLUE_SIDE.getY());
-        // }
-
         // define robot point, this is the point that we are approximating f(x,y) for
-
-        Point2D robotPoint = new Point2D.Double(xComp, yComp);
 
         currentRobotPoint = robotPoint;
 
