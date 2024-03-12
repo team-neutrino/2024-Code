@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.FieldConstants;
 import frc.robot.util.SubsystemContainer;
 
 public class AutoAlignSequentialCommand extends AutoAlignCommand {
@@ -27,7 +26,6 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
         currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
         offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
         SubsystemContainer.swerveSubsystem.autonRotateSwerve(currentYaw - offsetYaw);
-        System.out.println("Current yaw: " + currentYaw + "\nOffset yaw " + offsetYaw);
 
     }
 
