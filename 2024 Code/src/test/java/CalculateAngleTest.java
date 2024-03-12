@@ -60,9 +60,14 @@ public class CalculateAngleTest {
 
     @Test
     void interpolateAlongXAndVerifyAngleIncreases() {
+
+        final double START_POINT = 1.6;
+        final double END_POINT = 4.0;
+        final double INTERVAL = 0.05;
+
         // populate points and calculate angles
         ArrayList<PointAnglePair> points = new ArrayList<PointAnglePair>();
-        for (double x = 1.6; x < 4.0; x = x + 0.05) {
+        for (double x = START_POINT; x < END_POINT; x = x + INTERVAL) {
             points.add(new PointAnglePair(x, 0.0, m_calculate_angle));
         }
 
