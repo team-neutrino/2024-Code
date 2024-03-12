@@ -29,10 +29,6 @@ public class SwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // double y = m_xboxController.getLeftY();
-    // double x = m_xboxController.getLeftX();
-    // double total = Math.sqrt(Math.pow(y, 2), Math.pow(x, 2));
-
     // REAL CODE vv
     m_swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1,
         m_xboxController.getLeftX() * -1,
