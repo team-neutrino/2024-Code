@@ -197,35 +197,56 @@ public class CalculateAngle {
         // one stores the values of the function at each point, one stores
         // some delta y terms, the other stores corresponding delta x terms
 
-        Matrix<N2, N2> zMatrix = new Matrix<N2, N2>(Nat.N2(), Nat.N2());
+        // Matrix<N2, N2> zMatrix = new Matrix<N2, N2>(Nat.N2(), Nat.N2());
 
-        zMatrix.set(0, 0, bilinearMap.get(p1));
-        zMatrix.set(0, 1, bilinearMap.get(p2));
-        zMatrix.set(1, 0, bilinearMap.get(p3));
-        zMatrix.set(1, 1, bilinearMap.get(p4));
+        // zMatrix.set(0, 0, bilinearMap.get(p1));
+        // zMatrix.set(0, 1, bilinearMap.get(p2));
+        // zMatrix.set(1, 0, bilinearMap.get(p3));
+        // zMatrix.set(1, 1, bilinearMap.get(p4));
 
-        Matrix<N2, N1> deltaYMatrix = new Matrix<N2, N1>(Nat.N2(), Nat.N1());
+        // Matrix<N2, N1> deltaYMatrix = new Matrix<N2, N1>(Nat.N2(), Nat.N1());
 
-        deltaYMatrix.set(0, 0, y2 - robotPoint.getY());
-        deltaYMatrix.set(1, 0, robotPoint.getY() - y1);
+        // deltaYMatrix.set(0, 0, y2 - robotPoint.getY());
+        // deltaYMatrix.set(1, 0, robotPoint.getY() - y1);
 
-        Matrix<N1, N2> deltaXMatrix = new Matrix<N1, N2>(Nat.N1(), Nat.N2());
+        // Matrix<N1, N2> deltaXMatrix = new Matrix<N1, N2>(Nat.N1(), Nat.N2());
 
-        deltaXMatrix.set(0, 0, x2 - robotPoint.getX());
-        deltaXMatrix.set(0, 1, robotPoint.getX() - x1);
+        // deltaXMatrix.set(0, 0, x2 - robotPoint.getX());
+        // deltaXMatrix.set(0, 1, robotPoint.getX() - x1);
 
-        // carry out computation
+        // // carry out computation
 
-        Matrix<N1, N2> productOne = deltaXMatrix.times(zMatrix);
+        // Matrix<N1, N2> productOne = deltaXMatrix.times(zMatrix);
 
-        Matrix<N1, N1> productTwo = productOne.times(deltaYMatrix);
+        // Matrix<N1, N1> productTwo = productOne.times(deltaYMatrix);
 
-        double result = productTwo.get(0, 0) / ((x2 - x1) * (y2 - y1));
+        // double result = productTwo.get(0, 0) / ((x2 - x1) * (y2 - y1));
 
         // reset point (running into oscillation issues, probably because this point not
         // being reset
         // led to interference with the shortest distance algorithm necessary to
         // complete the square)
+
+        double deltaY = currentSquare.get(2).getY() - currentSquare.get(0).getY();
+        double deltaX = currentSquare.get(1).getX() - currentSquare.get(0).getX();
+
+        double yPart1 = ((currentSquare.get(2).getY() - currentRobotPoint.getY()) / deltaY);
+        double yPart2 = ((currentRobotPoint.getY() - currentSquare.get(0).getY()) / deltaY);
+
+        double xPart1 = ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
+        double xPart2 = ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
+
+        double coeff1 = yPart1 * xPart1;
+        double coeff2 = yPart1 * xPart2;
+        double coeff3 = yPart2 * xPart1;
+        double coeff4 = yPart2 * xPart2;
+
+        double value1 = bilinearMap.get(currentSquare.get(0));
+        double value2 = bilinearMap.get(currentSquare.get(1));
+        double value3 = bilinearMap.get(currentSquare.get(2));
+        double value4 = bilinearMap.get(currentSquare.get(3));
+
+        double result = value1 * coeff1 + value2 * coeff2 + value3 * coeff3 + value4 * coeff4;
 
         p1 = new Point2D.Double(-10.0, -10.0);
 
