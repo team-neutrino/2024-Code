@@ -145,7 +145,7 @@ public final class Constants {
   }
 
   public final class IntakeConstants {
-    public static double INTAKE_MOTOR_VOLTAGE = 0.5;
+    public static double INTAKE_MOTOR_VOLTAGE = 1;
     public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2;
     public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1;
     public static double INDEX_JITTER_MOTOR_VOLTAGE = 0.125;
