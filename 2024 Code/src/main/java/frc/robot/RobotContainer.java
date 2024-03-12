@@ -131,7 +131,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("Below Subwoofer");
+    return new PathPlannerAuto("3 Note");
   }
 
   public void simulationInit() {

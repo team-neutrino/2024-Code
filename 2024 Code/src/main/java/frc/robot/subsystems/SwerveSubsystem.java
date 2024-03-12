@@ -87,8 +87,8 @@ public class SwerveSubsystem extends SubsystemBase {
   public Command m_pathfindAmp;
   public boolean isRedAlliance;
 
-  SlewRateLimiter filterX = new SlewRateLimiter(2.5);
-  SlewRateLimiter filterY = new SlewRateLimiter(2.5);
+  SlewRateLimiter filterX = new SlewRateLimiter(4.0);
+  SlewRateLimiter filterY = new SlewRateLimiter(4.0);
   SlewRateLimiter filterOmega = new SlewRateLimiter(10.0);
 
   public SwerveSubsystem() {
@@ -141,9 +141,15 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void Swerve(double vx, double vy, double omega) {
 
-    vx = filterX.calculate(vx);
-    vy = filterY.calculate(vy);
-    omega = filterOmega.calculate(omega);
+    vx = Limiter.deadzone(vx, 0.1);
+    vy = Limiter.deadzone(vy, 0.1);
+    omega = Limiter.deadzone(omega, 0.1);
+
+    if (vx != 0 && vy != 0) {
+      vx = filterX.calculate(vx);
+      vy = filterY.calculate(vy);
+      omega = filterOmega.calculate(omega);
+    }
 
     vx = Limiter.scale(Limiter.deadzone(vx, 0.1), -SwerveConstants.MAX_CHASSIS_LINEAR_SPEED,
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
