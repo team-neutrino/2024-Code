@@ -86,6 +86,7 @@ public class SwerveSubsystem extends SubsystemBase {
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
   public Pose2d currentPoseL = new Pose2d();
+  public Point2D speaker_to_robot = new Point2D.Double();
   public Command m_pathfindAmp;
   public boolean isRedAlliance;
 
@@ -431,7 +432,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
   }
 
-  public Point2D RobotPoint() {
+  private void UpdateSpeakerToRobot(Pose2d currentPose) {
     double xComp = 0.0;
     double yComp = 0.0;
     if (isRedAlliance) {
@@ -442,8 +443,11 @@ public class SwerveSubsystem extends SubsystemBase {
       yComp = Math.abs(currentPoseL.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
     }
 
-    Point2D robot_point = new Point2D.Double(xComp, yComp);
-    return robot_point;
+    speaker_to_robot.setLocation(xComp, yComp);
+  }
+
+  public Point2D GetSpeakerToRobot() {
+    return speaker_to_robot;
   }
 
   @Override
@@ -456,6 +460,7 @@ public class SwerveSubsystem extends SubsystemBase {
     currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
     currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    UpdateSpeakerToRobot(currentPoseL);
 
     field.getObject("odometry w/o limelight").setPose(currentPose);
     field.getObject("with limelight").setPose(currentPoseL);
