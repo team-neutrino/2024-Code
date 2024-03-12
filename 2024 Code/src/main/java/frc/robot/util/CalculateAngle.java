@@ -1,6 +1,7 @@
 package frc.robot.util;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.awt.geom.Point2D;
@@ -68,17 +69,19 @@ public class CalculateAngle {
         bilinearMap.put(new Point2D.Double(3.5, 2.7), 20.40);
         bilinearMap.put(new Point2D.Double(4.0, 2.7), 21.6);
 
-        col.add(1.625);
-        col.add(2.3);
-        col.add(2.8);
-        col.add(3.5);
-        col.add(4.0);
-
-        row.add(0.0);
-        row.add(0.85);
-        row.add(1.2);
-        row.add(2.13);
-        row.add(2.7);
+        for ( Point2D.Double cur_key : bilinearMap.keySet() )
+        {
+            if( !col.contains(cur_key.x) )
+            {
+                col.add(cur_key.x);
+            }
+            if( !row.contains(cur_key.y) )
+            {
+                row.add(cur_key.y);
+            }
+        }
+        col.sort(Comparator.naturalOrder());
+        row.sort(Comparator.naturalOrder());
 
         currentSquare.add(p1);
         currentSquare.add(p2);
@@ -88,42 +91,41 @@ public class CalculateAngle {
 
     public double InterpolateAngle(Point2D robotPoint) {
 
-        int index = optimizer.scheduleFunctionChanges();
+        // int index = optimizer.scheduleFunctionChanges();
 
-        if (index != -1) {
+        // if (index != -1) {
 
-            double deltaY = currentSquare.get(2).getY() - currentSquare.get(0).getY();
-            double deltaX = currentSquare.get(1).getX() - currentSquare.get(0).getX();
+        //     double deltaY = currentSquare.get(2).getY() - currentSquare.get(0).getY();
+        //     double deltaX = currentSquare.get(1).getX() - currentSquare.get(0).getX();
 
-            double yPart1 = ((currentSquare.get(2).getY() - currentRobotPoint.getY()) / deltaY);
-            double yPart2 = ((currentRobotPoint.getY() - currentSquare.get(0).getY()) / deltaY);
+        //     double yPart1 = ((currentSquare.get(2).getY() - currentRobotPoint.getY()) / deltaY);
+        //     double yPart2 = ((currentRobotPoint.getY() - currentSquare.get(0).getY()) / deltaY);
 
-            double xPart1 = ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
-            double xPart2 = ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
+        //     double xPart1 = ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
+        //     double xPart2 = ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
 
-            double coeff1 = yPart1 * xPart1;
-            double coeff2 = yPart1 * xPart2;
-            double coeff3 = yPart2 * xPart1;
-            double coeff4 = yPart2 * xPart2;
+        //     double coeff1 = yPart1 * xPart1;
+        //     double coeff2 = yPart1 * xPart2;
+        //     double coeff3 = yPart2 * xPart1;
+        //     double coeff4 = yPart2 * xPart2;
 
-            double scalar = changeAmt[index]
-                    / (Math.pow(coeff1, 2) + Math.pow(coeff2, 2) + Math.pow(coeff3, 2) + Math.pow(coeff4, 2));
+        //     double scalar = changeAmt[index]
+        //             / (Math.pow(coeff1, 2) + Math.pow(coeff2, 2) + Math.pow(coeff3, 2) + Math.pow(coeff4, 2));
 
-            double value1 = bilinearMap.get(currentSquare.get(0));
-            double value2 = bilinearMap.get(currentSquare.get(1));
-            double value3 = bilinearMap.get(currentSquare.get(2));
-            double value4 = bilinearMap.get(currentSquare.get(3));
+        //     double value1 = bilinearMap.get(currentSquare.get(0));
+        //     double value2 = bilinearMap.get(currentSquare.get(1));
+        //     double value3 = bilinearMap.get(currentSquare.get(2));
+        //     double value4 = bilinearMap.get(currentSquare.get(3));
 
-            bilinearMap.put(currentSquare.get(0), value1 + coeff1 * scalar);
-            bilinearMap.put(currentSquare.get(1), value2 + coeff2 * scalar);
-            bilinearMap.put(currentSquare.get(2), value3 + coeff3 * scalar);
-            bilinearMap.put(currentSquare.get(3), value4 + coeff4 * scalar);
-        }
+        //     bilinearMap.put(currentSquare.get(0), value1 + coeff1 * scalar);
+        //     bilinearMap.put(currentSquare.get(1), value2 + coeff2 * scalar);
+        //     bilinearMap.put(currentSquare.get(2), value3 + coeff3 * scalar);
+        //     bilinearMap.put(currentSquare.get(3), value4 + coeff4 * scalar);
+        // }
 
         // define robot point, this is the point that we are approximating f(x,y) for
 
-        currentRobotPoint = robotPoint;
-
+        // currentRobotPoint = robotPoint;
         int rowN = 0;
         int colN = 0;
 
@@ -178,6 +180,14 @@ public class CalculateAngle {
         p2 = new Point2D.Double(x2, y1);
         p3 = new Point2D.Double(x1, y2);
         p4 = new Point2D.Double(x2, y2);
+
+        System.err.println(p3.x + "," + p3.y + "______________________________________" + p4.x + "," + p4.y);
+        System.err.println("|"               + "                                                      " + "|");
+        System.err.println("|"               + "                                                      " + "|");
+        System.err.println("|"               + "                    " + robotPoint.getX() + "," + robotPoint.getY() +  "                         " + "|");
+        System.err.println("|"               + "                                                      " + "|");
+        System.err.println("|"               + "                                                      " + "|");
+        System.err.println(p1.x + "," + p1.y + "______________________________________" + p2.x + "," + p2.y);
 
         currentSquare.set(0, p1);
         currentSquare.set(1, p2);
