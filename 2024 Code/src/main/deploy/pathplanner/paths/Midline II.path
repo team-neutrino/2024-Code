@@ -3,13 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
-        "y": 2.75
+        "x": 1.7,
+        "y": 4.15
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.0,
-        "y": 2.25
+        "x": 2.0752240077946618,
+        "y": 2.6817815689839652
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.0,
+        "y": 1.7
+      },
+      "prevControl": {
+        "x": 3.9317528082274418,
+        "y": 1.9050103151472348
+      },
+      "nextControl": {
+        "x": 6.068247191772558,
+        "y": 1.4949896848527644
       },
       "isLocked": false,
       "linkedName": null
@@ -17,11 +33,11 @@
     {
       "anchor": {
         "x": 8.3,
-        "y": 0.78
+        "y": 2.45
       },
       "prevControl": {
-        "x": 7.194137529674824,
-        "y": 0.9875358907538696
+        "x": 7.555895511220408,
+        "y": 1.7111072320575458
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,31 +46,13 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.7,
       "rotationDegrees": 0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake",
-      "waypointRelativePos": 0.85,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeCommand"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

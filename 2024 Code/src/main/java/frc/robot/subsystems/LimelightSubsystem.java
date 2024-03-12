@@ -112,7 +112,7 @@ public class LimelightSubsystem extends SubsystemBase {
       else if (pose[10] > 0.2 && poseDifference < 0.2) {
         xyStds = 3.0;
       }
-      // need to zero, badly
+      // need to zero, badly. Do not use this in the middle of a match
       else if (poseDifference >= 3) {
         SubsystemContainer.swerveSubsystem.resetPose(limelightPose);
       }

@@ -6,7 +6,7 @@ import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class ShootManualCommand extends Command {
+public class AutonSingleShotCommand extends Command {
 
     private ShooterSubsystem m_shooterSubsystem;
     private IntakeSubsystem m_intakeSubsystem;
@@ -15,14 +15,14 @@ public class ShootManualCommand extends Command {
     private double m_rpm;
     double i = 0;
 
-    public ShootManualCommand(double p_angle, double p_rpm) {
+    public AutonSingleShotCommand(double p_angle, double p_rpm) {
         m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
         m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
         m_armSubsystem = SubsystemContainer.armSubsystem;
         m_angle = p_angle;
         m_rpm = p_rpm;
 
-        addRequirements(m_shooterSubsystem, m_armSubsystem);
+        addRequirements(m_shooterSubsystem, m_armSubsystem, m_intakeSubsystem);
     }
 
     public void initialize() {
@@ -45,6 +45,15 @@ public class ShootManualCommand extends Command {
 
     @Override
     public boolean isFinished() {
+        if (!m_intakeSubsystem.isBeamBroken()) {
+            i++;
+        } else {
+            i = 0;
+        }
+        if (i >= 20) {
+            return true;
+        }
+
         return false;
     }
 }

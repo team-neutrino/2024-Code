@@ -20,7 +20,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Subwoofer"
+            "name": "SingleSubwooferShot"
           }
         },
         {
@@ -33,12 +33,6 @@
           "type": "path",
           "data": {
             "pathName": "un"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAlignCommand"
           }
         },
         {
@@ -81,6 +75,42 @@
           "type": "path",
           "data": {
             "pathName": "Copy of quatre"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeDefaultCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MagicSpeakerCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmDown"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "cinq"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "six"
           }
         },
         {

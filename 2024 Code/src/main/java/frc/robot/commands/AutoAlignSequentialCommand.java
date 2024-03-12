@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.FieldConstants;
 import frc.robot.util.SubsystemContainer;
 
 public class AutoAlignSequentialCommand extends AutoAlignCommand {
@@ -24,17 +23,18 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
 
     @Override
     public void execute() {
-        super.execute();
-        SubsystemContainer.swerveSubsystem.Swerve(0, 0, 0);
+        currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
+        offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+        SubsystemContainer.swerveSubsystem.autonRotateSwerve(currentYaw - offsetYaw);
+
     }
 
     @Override
     public boolean isFinished() {
-        if (timer.get() >= 0.5) {
-            timer.stop();
-            timer.reset();
+        if (SubsystemContainer.limelightSubsystem.getTx() < 1) {
             return true;
         }
+
         return false;
     }
 }

@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.0,
+        "x": 1.5,
         "y": 4.15
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.015600254415789,
+        "x": 1.515600254415789,
         "y": 4.15
       },
       "isLocked": false,
@@ -16,15 +16,15 @@
     },
     {
       "anchor": {
-        "x": 2.6607658350837373,
+        "x": 2.8,
         "y": 4.1
       },
       "prevControl": {
-        "x": 2.2274648828898216,
+        "x": 2.366699047806084,
         "y": 4.11050362756931
       },
       "nextControl": {
-        "x": 2.7607364668385967,
+        "x": 2.8999706317548593,
         "y": 4.097576616717538
       },
       "isLocked": false,
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 1.5950797094176201,
-        "y": 4.50867207012588
+        "x": 1.5,
+        "y": 4.15
       },
       "prevControl": {
-        "x": 1.591999455040278,
-        "y": 4.50867207012588
+        "x": 1.496919745622658,
+        "y": 4.15
       },
       "nextControl": null,
       "isLocked": false,
@@ -52,59 +52,7 @@
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake1",
-      "waypointRelativePos": 0.6,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeCommand"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "StopIntake",
-      "waypointRelativePos": 1.35,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeDefaultCommand"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "ArmUp",
-      "waypointRelativePos": 1.4,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "ArmUp"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 1.0,
     "maxAcceleration": 3.0,

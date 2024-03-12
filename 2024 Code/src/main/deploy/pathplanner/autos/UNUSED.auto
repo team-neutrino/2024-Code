@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4,
+      "x": 1.41,
       "y": 7.0
     },
-    "rotation": 0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -38,7 +38,55 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Two Note Path"
+            "pathName": "All Close Part I"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MagicSpeakerCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmDown"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "All Close Part II"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MagicSpeakerCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmDown"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "All Close Part III"
           }
         },
         {
