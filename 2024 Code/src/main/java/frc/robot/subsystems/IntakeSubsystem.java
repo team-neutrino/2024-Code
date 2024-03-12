@@ -32,7 +32,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     protected DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
 
-    SlewRateLimiter limiter = new SlewRateLimiter(12.0);
+    SlewRateLimiter intakeLimiter = new SlewRateLimiter(3.0);
+    // SlewRateLimiter indexLimiter = new SlewRateLimiter(10.0);
 
     public IntakeSubsystem() {
         m_intakeEncoder = m_intakeMotor.getEncoder();
@@ -140,9 +141,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        m_indexMotor.setVoltage(limiter.calculate(indexVoltage));
+        // m_indexMotor.set(indexLimiter.calculate(indexVoltage));
+        m_indexMotor.set(indexVoltage);
         // m_indexMotor.setVoltage(indexVoltage);
-        m_intakeMotor.setVoltage(limiter.calculate(intakeVoltage));
+        m_intakeMotor.set(intakeLimiter.calculate(intakeVoltage));
+        // m_intakeMotor.set(intakeVoltage);
         // m_intakeMotor.setVoltage(intakeVoltage);
     }
 }

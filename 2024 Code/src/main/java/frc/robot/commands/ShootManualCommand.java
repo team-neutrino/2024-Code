@@ -22,7 +22,7 @@ public class ShootManualCommand extends Command {
         m_angle = p_angle;
         m_rpm = p_rpm;
 
-        addRequirements(m_shooterSubsystem, m_armSubsystem);
+        addRequirements(m_shooterSubsystem, m_armSubsystem, m_intakeSubsystem);
     }
 
     public void initialize() {
