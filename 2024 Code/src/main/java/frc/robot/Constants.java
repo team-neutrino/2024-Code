@@ -68,6 +68,7 @@ public final class Constants {
 
   public final class DigitalConstants {
     public static int INTAKE_MOTOR_BEAMBREAK = 0;
+    public static int INDEX_MOTOR_BEAMBREAK = 1;
     public static int SHOOTER_BEAMBREAK = 1;
     public static int ARM_ENCODER = 2;
 
@@ -147,6 +148,7 @@ public final class Constants {
   public final class IntakeConstants {
     public static double INTAKE_MOTOR_VOLTAGE = 1 * 12;
     public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2 * 12;
+    public static double INDEX_MOTOR_VOLTAGE_POSITION = 0.1;
     public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1 * 12;
     public static double INDEX_JITTER_MOTOR_VOLTAGE = 0.125 * 12;
     public static int INTAKE_CURRENT_LIMIT = 55;

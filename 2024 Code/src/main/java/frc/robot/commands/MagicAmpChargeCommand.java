@@ -39,7 +39,7 @@ public class MagicAmpChargeCommand extends Command {
     m_shooterSubsystem.setTargetRPM(1000);
 
     if (!m_intakeSubsystem.isBeamBroken()) {
-      m_intakeSubsystem.runIndexIntake();
+      m_intakeSubsystem.runIndexFeed();
     } else {
       m_intakeSubsystem.stopIndex();
     }

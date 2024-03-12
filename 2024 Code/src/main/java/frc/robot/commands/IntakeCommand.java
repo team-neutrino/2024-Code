@@ -29,7 +29,7 @@ public class IntakeCommand extends Command {
         && SubsystemContainer.armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
         && SubsystemContainer.armSubsystem.getInPosition()) {
       m_intakeSubsystem.runIntake();
-      m_intakeSubsystem.runIndexIntake();
+      m_intakeSubsystem.runIndexFeed();
     } else {
       m_intakeSubsystem.stopIntake();
       m_intakeSubsystem.stopIndex();

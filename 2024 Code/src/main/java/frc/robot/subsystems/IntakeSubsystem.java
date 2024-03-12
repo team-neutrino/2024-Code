@@ -31,6 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
     protected CANSparkMax m_indexMotor2 = new CANSparkMax(MotorIDs.INDEX_MOTOR2, CANSparkLowLevel.MotorType.kBrushless);
 
     protected DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
+    protected DigitalInput m_indexBeamBreak = new DigitalInput(DigitalConstants.INDEX_MOTOR_BEAMBREAK);
 
     SlewRateLimiter limiter = new SlewRateLimiter(12.0);
 
@@ -66,8 +67,14 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeVoltage = IntakeConstants.INTAKE_MOTOR_VOLTAGE;
     }
 
-    public void runIndexIntake() {
-        indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
+    public void runIndexFeed() {
+        if (!isBeamBrokenIndex() && !isBeamBrokenIntake()) {
+            indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
+        } else if (isBeamBrokenIndex()) {
+            indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_POSITION;
+        } else {
+            stopIndex();
+        }
     }
 
     public void runIndexShoot() {
@@ -121,7 +128,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void indexJitter() {
-        if (isBeamBroken()) {
+        if (isBeamBrokenIntake()) {
             runIndexJitterReverse();
         } else {
             runIndexJitter();
@@ -134,8 +141,12 @@ public class IntakeSubsystem extends SubsystemBase {
      * 
      * @return The state of the intake beam break.
      */
-    public boolean isBeamBroken() {
+    public boolean isBeamBrokenIntake() {
         return !m_intakeBeamBreak.get();
+    }
+
+    public boolean isBeamBrokenIndex() {
+        return !m_indexBeamBreak.get();
     }
 
     @Override

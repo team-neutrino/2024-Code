@@ -41,7 +41,7 @@ public class MagicSpeakerChargeCommand extends Command {
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
 
     if (!m_intakeSubsystem.isBeamBroken()) {
-      m_intakeSubsystem.runIndexIntake();
+      m_intakeSubsystem.runIndexFeed();
     } else {
       m_intakeSubsystem.stopIndex();
     }
