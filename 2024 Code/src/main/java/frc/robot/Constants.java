@@ -145,10 +145,10 @@ public final class Constants {
   }
 
   public final class IntakeConstants {
-    public static double INTAKE_MOTOR_VOLTAGE = 1 * 12;
-    public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2 * 12;
-    public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1 * 12;
-    public static double INDEX_JITTER_MOTOR_VOLTAGE = 0.125 * 12;
+    public static double INTAKE_MOTOR_VOLTAGE = 1;
+    public static double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2;
+    public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1;
+    public static double INDEX_JITTER_MOTOR_VOLTAGE = 0.125;
     public static int INTAKE_CURRENT_LIMIT = 55;
     public static int INDEX_CURRENT_LIMIT = 20;
   }
