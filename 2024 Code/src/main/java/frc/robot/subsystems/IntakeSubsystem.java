@@ -18,6 +18,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private double indexVoltage = 0.0;
     private double intakeVoltage = 0.0;
+    private boolean m_indexBeam = false;
+    private boolean m_intakeBeam = false;
+    private boolean m_centered = false;
+    private int i;
 
     protected RelativeEncoder m_intakeEncoder;
     protected RelativeEncoder m_intakeEncoder2;
@@ -31,9 +35,9 @@ public class IntakeSubsystem extends SubsystemBase {
     protected CANSparkMax m_indexMotor2 = new CANSparkMax(MotorIDs.INDEX_MOTOR2, CANSparkLowLevel.MotorType.kBrushless);
 
     protected DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
+    protected DigitalInput m_indexBeamBreak = new DigitalInput(DigitalConstants.INDEX_MOTOR_BEAMBREAK);
 
-    SlewRateLimiter intakeLimiter = new SlewRateLimiter(3.0);
-    // SlewRateLimiter indexLimiter = new SlewRateLimiter(10.0);
+    SlewRateLimiter intakeLimiter = new SlewRateLimiter(5.0);
 
     public IntakeSubsystem() {
         m_intakeEncoder = m_intakeMotor.getEncoder();
@@ -64,15 +68,54 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake() {
-        intakeVoltage = IntakeConstants.INTAKE_MOTOR_VOLTAGE;
+        if (isBeamBrokenIntake()) {
+            stopIntake();
+        } else {
+
+            intakeVoltage = IntakeConstants.INTAKE_MOTOR_VOLTAGE;
+        }
     }
 
-    public void runIndexIntake() {
-        indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
+    private boolean IndexFeedCheck() {
+        double threshold = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE * 75;
+        if (centerNote()) {
+            i++;
+        } else {
+            i = 0;
+        }
+
+        m_centered = i > threshold;
+        return m_centered;
+
+    }
+
+    public boolean isCentered() {
+        return m_centered;
+    }
+
+    public void runIndexFeed() {
+        IndexFeedCheck();
+        if (!noNote()) {
+            indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
+        } else if (tooFarNote()) {
+            indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_POSITION;
+        } else if (isCentered()) {
+            stopIndex();
+        }
+
+    }
+
+    public void intakeNote() {
+        runIndexFeed();
+        runIntake();
     }
 
     public void runIndexShoot() {
         indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT;
+    }
+
+    public void runIndex() {
+        indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
     }
 
     public void runIntakeReverse() {
@@ -122,7 +165,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void indexJitter() {
-        if (isBeamBroken()) {
+        if (isBeamBrokenIndex()) {
             runIndexJitterReverse();
         } else {
             runIndexJitter();
@@ -135,17 +178,32 @@ public class IntakeSubsystem extends SubsystemBase {
      * 
      * @return The state of the intake beam break.
      */
-    public boolean isBeamBroken() {
-        return !m_intakeBeamBreak.get();
+    public boolean isBeamBrokenIntake() {
+        return m_intakeBeam;
+    }
+
+    public boolean isBeamBrokenIndex() {
+        return m_indexBeam;
+    }
+
+    public boolean noNote() {
+        return !m_indexBeam && !m_intakeBeam;
+    }
+
+    public boolean tooFarNote() {
+        return m_indexBeam && m_intakeBeam;
+    }
+
+    private boolean centerNote() {
+        return m_intakeBeam && !m_indexBeam;
     }
 
     @Override
     public void periodic() {
-        // m_indexMotor.set(indexLimiter.calculate(indexVoltage));
         m_indexMotor.set(indexVoltage);
-        // m_indexMotor.setVoltage(indexVoltage);
         m_intakeMotor.set(intakeLimiter.calculate(intakeVoltage));
-        // m_intakeMotor.set(intakeVoltage);
-        // m_intakeMotor.setVoltage(intakeVoltage);
+        m_indexBeam = !m_indexBeamBreak.get();
+        m_intakeBeam = !m_intakeBeamBreak.get();
+
     }
 }
