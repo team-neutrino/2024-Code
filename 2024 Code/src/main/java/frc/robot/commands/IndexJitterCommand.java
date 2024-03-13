@@ -41,6 +41,6 @@ public class IndexJitterCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_timer.get() > 2 && m_intake.isBeamBrokenIntake());
+    return (m_timer.get() > 2 && m_intake.m_intakeBeam);
   }
 }

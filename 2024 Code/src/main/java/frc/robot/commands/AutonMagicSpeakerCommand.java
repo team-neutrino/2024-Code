@@ -52,7 +52,7 @@ public class AutonMagicSpeakerCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (!m_intakeSubsystem.isBeamBrokenIntake()) {
+    if (!m_intakeSubsystem.m_intakeBeam) {
       i++;
       if (i > 10) {
         return true;
