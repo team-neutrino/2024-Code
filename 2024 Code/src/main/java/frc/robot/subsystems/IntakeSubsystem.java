@@ -77,15 +77,15 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     private boolean IndexFeedCheck() {
-        double r = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE * 75;
+        double threshold = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE * 75;
         if (centerNote()) {
             i++;
         } else {
             i = 0;
         }
 
-        m_centered = i > r;
-        return (i > r);
+        m_centered = i > threshold;
+        return m_centered;
 
     }
 
@@ -186,16 +186,16 @@ public class IntakeSubsystem extends SubsystemBase {
         return m_indexBeam;
     }
 
-    public boolean noNote() {
-        return (!m_indexBeam && !m_intakeBeam);
+    private boolean noNote() {
+        return !m_indexBeam && !m_intakeBeam;
     }
 
-    public boolean tooFarNote() {
-        return (m_indexBeam) && m_intakeBeam;
+    private boolean tooFarNote() {
+        return m_indexBeam && m_intakeBeam;
     }
 
-    public boolean centerNote() {
-        return (m_intakeBeam && !m_indexBeam);
+    private boolean centerNote() {
+        return m_intakeBeam && !m_indexBeam;
     }
 
     @Override
