@@ -121,7 +121,7 @@ public class IntakeSimulation extends IntakeSubsystem {
             m_indexWheelLigament.setColor(color);
         }
 
-        if (m_intakeBeam) {
+        if (isBeamBrokenIntake()) {
             m_beambreakLigament.setColor(green);
         } else {
             m_beambreakLigament.setColor(red);
@@ -132,7 +132,7 @@ public class IntakeSimulation extends IntakeSubsystem {
         super.periodic();
         intakeWheelEncSpeed_pub.set(m_intakeEncoder.getVelocity(), NetworkTablesJNI.now());
         indexWheelEncSpeed_pub.set(m_indexEncoder.getVelocity(), NetworkTablesJNI.now());
-        beambreakStatus_pub.set(m_intakeBeam);
+        beambreakStatus_pub.set(isBeamBrokenIntake());
         indexSpeed_pub.set(getIndexVoltage());
     }
 }

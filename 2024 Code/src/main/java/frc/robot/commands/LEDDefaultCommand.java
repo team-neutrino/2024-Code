@@ -38,7 +38,7 @@ public class LEDDefaultCommand extends Command {
     } else if (m_swerveSubsystem
         .getCommandState() == (States.AUTOALIGN)) {
       m_LEDSubsystem.setToBlue();
-    } else if (m_IntakeSubsystem.m_intakeBeam && m_IntakeSubsystem.m_intakeBeam) {
+    } else if (m_IntakeSubsystem.isBeamBrokenIntake() && m_IntakeSubsystem.isBeamBrokenIndex()) {
       m_LEDSubsystem.setToPurple();
     } else {
       m_LEDSubsystem.setToOrange();

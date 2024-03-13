@@ -45,7 +45,7 @@ public class AutonShootManualCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (!m_intakeSubsystem.m_intakeBeam) {
+        if (!m_intakeSubsystem.isBeamBrokenIntake()) {
             i++;
         } else {
             i = 0;

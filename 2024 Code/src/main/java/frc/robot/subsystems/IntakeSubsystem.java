@@ -18,8 +18,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private double indexVoltage = 0.0;
     private double intakeVoltage = 0.0;
-    public boolean m_indexBeam = false;
-    public boolean m_intakeBeam = false;
+    private boolean m_indexBeam = false;
+    private boolean m_intakeBeam = false;
     public boolean m_centered = false;
     private int i;
 
@@ -38,7 +38,6 @@ public class IntakeSubsystem extends SubsystemBase {
     protected DigitalInput m_indexBeamBreak = new DigitalInput(DigitalConstants.INDEX_MOTOR_BEAMBREAK);
 
     SlewRateLimiter intakeLimiter = new SlewRateLimiter(5.0);
-    // SlewRateLimiter indexLimiter = new SlewRateLimiter(10.0);
 
     public IntakeSubsystem() {
         m_intakeEncoder = m_intakeMotor.getEncoder();
@@ -189,11 +188,11 @@ public class IntakeSubsystem extends SubsystemBase {
      * 
      * @return The state of the intake beam break.
      */
-    private boolean isBeamBrokenIntake() {
+    public boolean isBeamBrokenIntake() {
         return m_intakeBeam;
     }
 
-    private boolean isBeamBrokenIndex() {
+    public boolean isBeamBrokenIndex() {
         return m_indexBeam;
     }
 
