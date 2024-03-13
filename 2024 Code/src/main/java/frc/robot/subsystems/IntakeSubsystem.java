@@ -18,6 +18,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private double indexVoltage = 0.0;
     private double intakeVoltage = 0.0;
+    private boolean m_indexBeam = false;
+    private boolean m_intakeBeam = false;
+    public boolean m_centered = false;
     private int i;
 
     protected RelativeEncoder m_intakeEncoder;
@@ -74,25 +77,48 @@ public class IntakeSubsystem extends SubsystemBase {
         }
     }
 
-    public boolean IndexFeedCheck() {
+    private boolean IndexFeedCheck() {
+        double r = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE * 75;
         if (isBeamBrokenIntake() && !isBeamBrokenIndex()) {
             i++;
         } else {
             i = 0;
         }
-        return (i > 20);
+
+        m_centered = i > r;
+        return (i > r);
+
     }
 
     public void runIndexFeed() {
-        boolean m_debounced = IndexFeedCheck();
+        IndexFeedCheck();
+        noNote();
+        tooFarNote();
+        centerNote();
+
+    }
+
+    private void noNote() {
         if (!isBeamBrokenIndex() && !isBeamBrokenIntake()) {
             indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
-        } else if (isBeamBrokenIndex() && isBeamBrokenIntake()) {
+        }
+    }
+
+    private void tooFarNote() {
+        if (isBeamBrokenIndex() && isBeamBrokenIntake()) {
             indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_POSITION;
-        } else if (m_debounced) {
+        }
+    }
+
+    private void centerNote() {
+        if (m_centered) {
             stopIndex();
         }
+    }
 
+    public void intakeNote() {
+        runIndexFeed();
+        runIntake();
     }
 
     public void runIndexShoot() {
@@ -164,19 +190,19 @@ public class IntakeSubsystem extends SubsystemBase {
      * @return The state of the intake beam break.
      */
     public boolean isBeamBrokenIntake() {
-        return !m_intakeBeamBreak.get();
+        return m_intakeBeam;
     }
 
     public boolean isBeamBrokenIndex() {
-        return !m_indexBeamBreak.get();
+        return m_indexBeam;
     }
 
     @Override
     public void periodic() {
-        // m_indexMotor.set(indexLimiter.calculate(indexVoltage));
         m_indexMotor.set(indexVoltage);
-        // m_indexMotor.setVoltage(indexVoltage);
         m_intakeMotor.set(intakeLimiter.calculate(intakeVoltage));
+        m_indexBeam = !m_indexBeamBreak.get();
+        m_intakeBeam = !m_intakeBeamBreak.get();
 
     }
 }

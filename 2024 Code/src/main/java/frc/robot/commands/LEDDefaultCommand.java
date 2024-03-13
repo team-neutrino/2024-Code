@@ -30,7 +30,7 @@ public class LEDDefaultCommand extends Command {
     if (m_swerveSubsystem == null) {
       return;
     }
-    if (m_IntakeSubsystem.IndexFeedCheck()) {
+    if (m_IntakeSubsystem.m_centered) {
       m_LEDSubsystem.setToGreen();
     } else if (m_swerveSubsystem
         .getCommandState() == States.PATHFINDING) {
@@ -39,7 +39,7 @@ public class LEDDefaultCommand extends Command {
         .getCommandState() == (States.AUTOALIGN)) {
       m_LEDSubsystem.setToBlue();
     } else if (m_IntakeSubsystem.isBeamBrokenIntake() && m_IntakeSubsystem.isBeamBrokenIndex()) {
-      m_LEDSubsystem.setToRed();
+      m_LEDSubsystem.setToPurple();
     } else {
       m_LEDSubsystem.setToOrange();
     }
