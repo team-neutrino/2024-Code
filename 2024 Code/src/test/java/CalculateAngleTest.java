@@ -70,7 +70,7 @@ public class CalculateAngleTest {
         // populate points and calculate angles
         ArrayList<PointAnglePair> points = new ArrayList<PointAnglePair>();
         for (double x = START_POINT; x < END_POINT; x = x + INTERVAL) {
-            points.add(new PointAnglePair(x * Math.cos(Math.PI / 6), x * Math.sin(Math.PI / 6), m_calculate_angle));
+            points.add(new PointAnglePair(x, Math.PI / 6, m_calculate_angle));
         }
 
         // verify that angle increases
