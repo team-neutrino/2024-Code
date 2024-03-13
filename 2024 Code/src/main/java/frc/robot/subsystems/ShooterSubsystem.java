@@ -20,7 +20,6 @@ public class ShooterSubsystem extends SubsystemBase {
   protected RelativeEncoder m_shooterEncoder1;
   protected RelativeEncoder m_shooterEncoder2;
   private SparkPIDController m_pidController1;
-  private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
   protected double WHEEL_P = 0.00075;
   protected double WHEEL_I = 0.000001;
   protected double WHEEL_D = 0;
@@ -63,10 +62,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     m_shooter1.burnFlash();
     m_shooter2.burnFlash();
-  }
-
-  public boolean detectedGamePiece() {
-    return !m_beamBreak.get();
   }
 
   public double getShooterEncoder1() {

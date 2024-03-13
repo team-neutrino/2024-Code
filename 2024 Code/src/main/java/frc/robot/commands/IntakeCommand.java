@@ -25,14 +25,9 @@ public class IntakeCommand extends Command {
 
   @Override
   public void execute() {
-    if (!m_intakeSubsystem.isBeamBroken()
-        && SubsystemContainer.armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
+    if (SubsystemContainer.armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
         && SubsystemContainer.armSubsystem.getInPosition()) {
-      m_intakeSubsystem.runIntake();
-      m_intakeSubsystem.runIndexIntake();
-    } else {
-      m_intakeSubsystem.stopIntake();
-      m_intakeSubsystem.stopIndex();
+      m_intakeSubsystem.intakeNote();
     }
   }
 
@@ -43,6 +38,6 @@ public class IntakeCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return (m_intakeSubsystem.isBeamBroken());
+    return (m_intakeSubsystem.isCentered());
   }
 }

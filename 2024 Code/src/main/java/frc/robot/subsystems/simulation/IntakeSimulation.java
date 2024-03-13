@@ -45,8 +45,10 @@ public class IntakeSimulation extends IntakeSubsystem {
     DoubleTopic intakeWheelSimSpeed_topic = inst.getDoubleTopic("Intake/sim_speed");
     DoubleTopic intakeWheelEncSpeed_topic = inst.getDoubleTopic("Intake/encoder_speed");
     BooleanTopic beambreakStatus_topic = inst.getBooleanTopic("Intake/beam_break");
+    DoubleTopic indexSpeed_topic = inst.getDoubleTopic("Index/target_speed");
     final DoublePublisher intakeWheelSimSpeed_pub;
     final DoublePublisher intakeWheelEncSpeed_pub;
+    final DoublePublisher indexSpeed_pub;
 
     final BooleanPublisher beambreakStatus_pub;
 
@@ -69,6 +71,9 @@ public class IntakeSimulation extends IntakeSubsystem {
 
         indexWheelSimSpeed_pub = indexWheelSimSpeed_topic.publish();
         indexWheelSimSpeed_pub.setDefault(0.0);
+
+        indexSpeed_pub = indexSpeed_topic.publish();
+        indexSpeed_pub.setDefault(0.0);
 
         indexWheelEncSpeed_pub = indexWheelEncSpeed_topic.publish();
         indexWheelEncSpeed_pub.setDefault(0.0);
@@ -116,7 +121,7 @@ public class IntakeSimulation extends IntakeSubsystem {
             m_indexWheelLigament.setColor(color);
         }
 
-        if (isBeamBroken()) {
+        if (isBeamBrokenIntake()) {
             m_beambreakLigament.setColor(green);
         } else {
             m_beambreakLigament.setColor(red);
@@ -127,6 +132,7 @@ public class IntakeSimulation extends IntakeSubsystem {
         super.periodic();
         intakeWheelEncSpeed_pub.set(m_intakeEncoder.getVelocity(), NetworkTablesJNI.now());
         indexWheelEncSpeed_pub.set(m_indexEncoder.getVelocity(), NetworkTablesJNI.now());
-        beambreakStatus_pub.set(isBeamBroken());
+        beambreakStatus_pub.set(isBeamBrokenIntake());
+        indexSpeed_pub.set(getIndexVoltage());
     }
 }

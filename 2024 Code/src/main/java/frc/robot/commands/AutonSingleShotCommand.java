@@ -45,7 +45,7 @@ public class AutonSingleShotCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (!m_intakeSubsystem.isBeamBroken()) {
+        if (!m_intakeSubsystem.isBeamBrokenIntake()) {
             i++;
         } else {
             i = 0;
