@@ -38,6 +38,6 @@ public class IntakeCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return (m_intakeSubsystem.m_centered);
+    return (m_intakeSubsystem.isCentered());
   }
 }

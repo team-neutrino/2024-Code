@@ -20,7 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private double intakeVoltage = 0.0;
     private boolean m_indexBeam = false;
     private boolean m_intakeBeam = false;
-    public boolean m_centered = false;
+    private boolean m_centered = false;
     private int i;
 
     protected RelativeEncoder m_intakeEncoder;
@@ -78,7 +78,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private boolean IndexFeedCheck() {
         double r = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE * 75;
-        if (isBeamBrokenIntake() && !isBeamBrokenIndex()) {
+        if (centerNote()) {
             i++;
         } else {
             i = 0;
@@ -89,27 +89,31 @@ public class IntakeSubsystem extends SubsystemBase {
 
     }
 
+    public boolean isCentered() {
+        return m_centered;
+    }
+
     public void runIndexFeed() {
         IndexFeedCheck();
-        noNote();
-        tooFarNote();
-        centerNote();
+        runNoNote();
+        runTooFarNote();
+        runCenterNote();
 
     }
 
-    private void noNote() {
-        if (!isBeamBrokenIndex() && !isBeamBrokenIntake()) {
+    private void runNoNote() {
+        if (!noNote()) {
             indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
         }
     }
 
-    private void tooFarNote() {
-        if (isBeamBrokenIndex() && isBeamBrokenIntake()) {
+    private void runTooFarNote() {
+        if (tooFarNote()) {
             indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_POSITION;
         }
     }
 
-    private void centerNote() {
+    private void runCenterNote() {
         if (m_centered) {
             stopIndex();
         }
@@ -194,6 +198,18 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public boolean isBeamBrokenIndex() {
         return m_indexBeam;
+    }
+
+    public boolean noNote() {
+        return (!m_indexBeam && !m_intakeBeam);
+    }
+
+    public boolean tooFarNote() {
+        return (m_indexBeam) && m_intakeBeam;
+    }
+
+    public boolean centerNote() {
+        return (m_intakeBeam && !m_indexBeam);
     }
 
     @Override

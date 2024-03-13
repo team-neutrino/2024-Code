@@ -51,6 +51,6 @@ public class MagicSpeakerChargeCommand extends Command {
   @Override
   public boolean isFinished() {
     return m_controller.getHID().getLeftBumper() && m_armSubsystem.getInPosition()
-        && m_shooterSubsystem.approveShoot() && m_intakeSubsystem.m_centered;
+        && m_shooterSubsystem.approveShoot() && m_intakeSubsystem.isCentered();
   }
 }
