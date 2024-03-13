@@ -95,28 +95,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void runIndexFeed() {
         IndexFeedCheck();
-        runNoNote();
-        runTooFarNote();
-        runCenterNote();
-
-    }
-
-    private void runNoNote() {
         if (!noNote()) {
             indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
-        }
-    }
-
-    private void runTooFarNote() {
-        if (tooFarNote()) {
+        } else if (tooFarNote()) {
             indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_POSITION;
-        }
-    }
-
-    private void runCenterNote() {
-        if (m_centered) {
+        } else if (isCentered()) {
             stopIndex();
         }
+
     }
 
     public void intakeNote() {
