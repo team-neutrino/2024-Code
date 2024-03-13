@@ -30,7 +30,7 @@ public class LEDDefaultCommand extends Command {
     if (m_swerveSubsystem == null) {
       return;
     }
-    if (m_IntakeSubsystem.runIndexFeedCheck()) {
+    if (m_IntakeSubsystem.IndexFeedCheck()) {
       m_LEDSubsystem.setToGreen();
     } else if (m_swerveSubsystem
         .getCommandState() == States.PATHFINDING) {

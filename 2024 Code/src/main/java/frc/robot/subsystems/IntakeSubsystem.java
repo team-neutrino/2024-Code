@@ -74,7 +74,7 @@ public class IntakeSubsystem extends SubsystemBase {
         }
     }
 
-    public boolean runIndexFeedCheck() {
+    public boolean IndexFeedCheck() {
         if (isBeamBrokenIntake() && !isBeamBrokenIndex()) {
             i++;
         } else {
@@ -84,7 +84,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIndexFeed() {
-        boolean m_debounced = runIndexFeedCheck();
+        boolean m_debounced = IndexFeedCheck();
         if (!isBeamBrokenIndex() && !isBeamBrokenIntake()) {
             indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
         } else if (isBeamBrokenIndex() && isBeamBrokenIntake()) {
@@ -150,7 +150,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void indexJitter() {
-        if (isBeamBrokenIntake()) {
+        if (isBeamBrokenIndex()) {
             runIndexJitterReverse();
         } else {
             runIndexJitter();
