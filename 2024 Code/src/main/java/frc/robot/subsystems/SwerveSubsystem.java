@@ -34,6 +34,7 @@ import frc.robot.Constants.LEDConstants.States;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
+import frc.robot.util.PolarCoord;
 
 public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
@@ -86,7 +87,7 @@ public class SwerveSubsystem extends SubsystemBase {
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
   public Pose2d currentPoseL = new Pose2d();
-  public Point2D speaker_to_robot = new Point2D.Double();
+  public PolarCoord speaker_to_robot = new PolarCoord();
   public Command m_pathfindAmp;
   public boolean isRedAlliance;
 
@@ -433,20 +434,26 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   private void UpdateSpeakerToRobot(Pose2d currentPose) {
-    double xComp = 0.0;
-    double yComp = 0.0;
+    double xComp = 0;
+    double yComp = 0;
+    double radius = 0.0;
+    double theta = 0.0;
     if (isRedAlliance) {
       xComp = Math.abs(currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX());
       yComp = Math.abs(currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY());
+      radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));
+      theta = Math.atan(yComp / xComp);
     } else {
       xComp = Math.abs(currentPoseL.getX());
       yComp = Math.abs(currentPoseL.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
+      radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));
+      theta = Math.atan(yComp / xComp);
     }
 
-    speaker_to_robot.setLocation(xComp, yComp);
+    speaker_to_robot.setLocation(radius, theta);
   }
 
-  public Point2D GetSpeakerToRobot() {
+  public PolarCoord GetSpeakerToRobot() {
     return speaker_to_robot;
   }
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.text.DecimalFormat;
 
 import frc.robot.util.CalculateAngle;
+import frc.robot.util.PolarCoord;
 
 public class CalculateAngleTest {
 
@@ -31,20 +32,21 @@ public class CalculateAngleTest {
 
     @Test
     void interpolateZeroPoint() {
-        assertEquals(1.22654, m_calculate_angle.InterpolateAngle(new Point2D.Double(0.0, 0.0)), DELTA);
+        System.out.println("**************THIS " + m_calculate_angle.InterpolateAngle(new PolarCoord(0.0, 0.0)));
+        assertEquals(1.22654, m_calculate_angle.InterpolateAngle(new PolarCoord(0.0, 0.0)), DELTA);
     }
 
     @Test
     void interpolatePointClosestToSpeaker() {
-        assertEquals(1.22654, m_calculate_angle.InterpolateAngle(new Point2D.Double(1.625, 0.0)), DELTA);
+        assertEquals(1.22654, m_calculate_angle.InterpolateAngle(new PolarCoord(1.625, 0.0)), DELTA);
     }
 
     public class PointAnglePair {
-        private Point2D pt;
+        private PolarCoord pt;
         private double angle;
 
         PointAnglePair(double x, double y, CalculateAngle calc) {
-            pt = new Point2D.Double(x, y);
+            pt = new PolarCoord(x, y);
             angle = calc.InterpolateAngle(pt);
         }
 
@@ -68,7 +70,7 @@ public class CalculateAngleTest {
         // populate points and calculate angles
         ArrayList<PointAnglePair> points = new ArrayList<PointAnglePair>();
         for (double x = START_POINT; x < END_POINT; x = x + INTERVAL) {
-            points.add(new PointAnglePair(x, 0.0, m_calculate_angle));
+            points.add(new PointAnglePair(x * Math.cos(Math.PI / 6), x * Math.sin(Math.PI / 6), m_calculate_angle));
         }
 
         // verify that angle increases

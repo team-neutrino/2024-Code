@@ -34,40 +34,67 @@ public class CalculateAngle {
     Point2D.Double p3;
     Point2D.Double p4;
 
-    double[] changeAmt = { -0.5, 0.5, -1, 1, -2, 2 };
+    double[] changeAmt = { -0.5, 0.5, -1, 1, -3, 3 };
+
+    double pi = Math.PI;
 
     public CalculateAngle() {
 
-        bilinearMap.put(new Point2D.Double(1.625, 0), 1.22654);
-        bilinearMap.put(new Point2D.Double(2.3, 0), 5.0);
-        bilinearMap.put(new Point2D.Double(2.8, 0), 11.5);
-        bilinearMap.put(new Point2D.Double(3.5, 0), 14.9); // 12 in auton testing
-        bilinearMap.put(new Point2D.Double(4.0, 0.0), 16.0);
-        bilinearMap.put(new Point2D.Double(1.625, 0.85), 2.04);
+        // bilinearMap.put(new Point2D.Double(1.625, 0), 1.22654);
+        // bilinearMap.put(new Point2D.Double(2.3, 0), 5.0);
+        // bilinearMap.put(new Point2D.Double(2.8, 0), 11.5);
+        // bilinearMap.put(new Point2D.Double(3.5, 0), 14.9); // 12 in auton testing
+        // bilinearMap.put(new Point2D.Double(4.0, 0.0), 16.0);
 
-        bilinearMap.put(new Point2D.Double(2.3, 0.85), 14.97);
-        bilinearMap.put(new Point2D.Double(2.8, 0.85), 14.35);
-        bilinearMap.put(new Point2D.Double(3.5, 0.85), 18.25);
-        bilinearMap.put(new Point2D.Double(4.0, 0.85), 20.25);
-        bilinearMap.put(new Point2D.Double(1.625, 1.2), 6.45619);
+        bilinearMap.put(new PolarCoord(1.625, 0), 1.22654);
+        bilinearMap.put(new PolarCoord(2.3, 0), 5.0);
+        bilinearMap.put(new PolarCoord(2.8, 0), 11.5);
+        bilinearMap.put(new PolarCoord(3.5, 0), 14.9);
+        bilinearMap.put(new PolarCoord(4.0, 0), 16.0);
 
-        bilinearMap.put(new Point2D.Double(2.3, 1.2), 15.4825);
-        bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4);
+        bilinearMap.put(new PolarCoord(1.625, pi / 12), 1.5);
+        bilinearMap.put(new PolarCoord(2.3, pi / 12), 10.0);
+        bilinearMap.put(new PolarCoord(2.8, pi / 12), 14.35);
+        bilinearMap.put(new PolarCoord(3.5, pi / 12), 18.25);
+        bilinearMap.put(new PolarCoord(4.0, pi / 12), 20.25);
 
-        bilinearMap.put(new Point2D.Double(3.5, 1.2), 19.21);
-        bilinearMap.put(new Point2D.Double(4.0, 1.2), 22.0);
+        bilinearMap.put(new PolarCoord(1.625, pi / 6), 2.04);
+        bilinearMap.put(new PolarCoord(2.3, pi / 6), 10.0);
+        bilinearMap.put(new PolarCoord(2.8, pi / 6), 15.0);
+        bilinearMap.put(new PolarCoord(3.5, pi / 6), 16.0);
+        bilinearMap.put(new PolarCoord(4.0, pi / 6), 21.27);
 
-        bilinearMap.put(new Point2D.Double(1.625, 2.13), 9.16);
-        bilinearMap.put(new Point2D.Double(2.3, 2.13), 20.15);
-        bilinearMap.put(new Point2D.Double(2.8, 2.13), 16.6);
-        bilinearMap.put(new Point2D.Double(3.5, 2.13), 21.27);
-        bilinearMap.put(new Point2D.Double(4.0, 2.13), 22.14);
+        bilinearMap.put(new PolarCoord(1.625, pi / 4), 6.5);
+        bilinearMap.put(new PolarCoord(2.3, pi / 4), 7.5);
+        bilinearMap.put(new PolarCoord(2.8, pi / 4), 15.0);
+        bilinearMap.put(new PolarCoord(3.5, pi / 4), 20.25);
+        bilinearMap.put(new PolarCoord(4.0, pi / 4), 20.66);
 
-        bilinearMap.put(new Point2D.Double(1.625, 2.7), 15.0);
-        bilinearMap.put(new Point2D.Double(2.3, 2.7), 17.31);
-        bilinearMap.put(new Point2D.Double(2.8, 2.7), 20.66);
-        bilinearMap.put(new Point2D.Double(3.5, 2.7), 20.40);
-        bilinearMap.put(new Point2D.Double(4.0, 2.7), 21.6);
+        // bilinearMap.put(new Point2D.Double(1.625, 0.85), 2.04);
+
+        // bilinearMap.put(new Point2D.Double(2.3, 0.85), 14.97);
+        // bilinearMap.put(new Point2D.Double(2.8, 0.85), 14.35);
+        // bilinearMap.put(new Point2D.Double(3.5, 0.85), 18.25);
+        // bilinearMap.put(new Point2D.Double(4.0, 0.85), 20.25);
+        // bilinearMap.put(new Point2D.Double(1.625, 1.2), 6.45619);
+
+        // bilinearMap.put(new Point2D.Double(2.3, 1.2), 15.4825);
+        // bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4);
+
+        // bilinearMap.put(new Point2D.Double(3.5, 1.2), 19.21);
+        // bilinearMap.put(new Point2D.Double(4.0, 1.2), 22.0);
+
+        // bilinearMap.put(new Point2D.Double(1.625, 2.13), 9.16);
+        // bilinearMap.put(new Point2D.Double(2.3, 2.13), 20.15);
+        // bilinearMap.put(new Point2D.Double(2.8, 2.13), 16.6);
+        // bilinearMap.put(new Point2D.Double(3.5, 2.13), 21.27);
+        // bilinearMap.put(new Point2D.Double(4.0, 2.13), 22.14);
+
+        // bilinearMap.put(new Point2D.Double(1.625, 2.7), 15.0);
+        // bilinearMap.put(new Point2D.Double(2.3, 2.7), 17.31);
+        // bilinearMap.put(new Point2D.Double(2.8, 2.7), 20.66);
+        // bilinearMap.put(new Point2D.Double(3.5, 2.7), 20.40);
+        // bilinearMap.put(new Point2D.Double(4.0, 2.7), 21.6);
 
         for (Point2D.Double cur_key : bilinearMap.keySet()) {
             if (!col.contains(cur_key.x)) {
@@ -86,7 +113,7 @@ public class CalculateAngle {
         currentSquare.add(p4);
     }
 
-    public double InterpolateAngle(Point2D robotPoint) {
+    public double InterpolateAngle(PolarCoord robotPoint) {
 
         int index = optimizer.scheduleFunctionChanges();
 
@@ -149,11 +176,11 @@ public class CalculateAngle {
         }
 
         if (robotPoint.getX() > col.get(col.size() - 1) || (robotPoint.getX() < col.get(0))) {
-            robotPoint = new Point2D.Double(col.get(colN), robotPoint.getY());
+            robotPoint = new PolarCoord(col.get(colN), robotPoint.getY());
         }
 
         if ((robotPoint.getY() > row.get(row.size() - 1)) || (robotPoint.getY() < row.get(0))) {
-            robotPoint = new Point2D.Double(robotPoint.getX(), row.get(rowN));
+            robotPoint = new PolarCoord(robotPoint.getX(), row.get(rowN));
         }
 
         if (colN == col.size() - 1 || robotPoint.getX() < col.get(colN)) {
@@ -179,14 +206,16 @@ public class CalculateAngle {
         p3 = new Point2D.Double(x1, y2);
         p4 = new Point2D.Double(x2, y2);
 
-        System.err.println(p3.x + "," + p3.y + "______________________________________" + p4.x + "," + p4.y);
-        System.err.println("|" + "                                                      " + "|");
-        System.err.println("|" + "                                                      " + "|");
-        System.err.println("|" + "                    " + robotPoint.getX() + "," + robotPoint.getY()
-                + "                         " + "|");
-        System.err.println("|" + "                                                      " + "|");
-        System.err.println("|" + "                                                      " + "|");
-        System.err.println(p1.x + "," + p1.y + "______________________________________" + p2.x + "," + p2.y);
+        // System.err.println(p3.x + "," + p3.y +
+        // "______________________________________" + p4.x + "," + p4.y);
+        // System.err.println("|" + " " + "|");
+        // System.err.println("|" + " " + "|");
+        // System.err.println("|" + " " + robotPoint.getX() + "," + robotPoint.getY()
+        // + " " + "|");
+        // System.err.println("|" + " " + "|");
+        // System.err.println("|" + " " + "|");
+        // System.err.println(p1.x + "," + p1.y +
+        // "______________________________________" + p2.x + "," + p2.y);
 
         currentSquare.set(0, p1);
         currentSquare.set(1, p2);
@@ -235,6 +264,11 @@ public class CalculateAngle {
 
         double xPart1 = ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
         double xPart2 = ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
+
+        System.out.println("ypart1 " + yPart1);
+        System.out.println("ypart2 " + yPart2);
+        System.out.println("xpart1 " + xPart1);
+        System.out.println("xpart2 " + xPart2);
 
         double coeff1 = yPart1 * xPart1;
         double coeff2 = yPart1 * xPart2;
