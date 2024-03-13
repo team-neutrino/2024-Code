@@ -18,6 +18,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private double indexVoltage = 0.0;
     private double intakeVoltage = 0.0;
+    private int i;
 
     protected RelativeEncoder m_intakeEncoder;
     protected RelativeEncoder m_intakeEncoder2;
@@ -33,7 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
     protected DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
     protected DigitalInput m_indexBeamBreak = new DigitalInput(DigitalConstants.INDEX_MOTOR_BEAMBREAK);
 
-    SlewRateLimiter intakeLimiter = new SlewRateLimiter(3.0);
+    SlewRateLimiter intakeLimiter = new SlewRateLimiter(5.0);
     // SlewRateLimiter indexLimiter = new SlewRateLimiter(10.0);
 
     public IntakeSubsystem() {
@@ -65,21 +66,41 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIntake() {
-        intakeVoltage = IntakeConstants.INTAKE_MOTOR_VOLTAGE;
+        if (isBeamBrokenIntake()) {
+            stopIntake();
+        } else {
+
+            intakeVoltage = IntakeConstants.INTAKE_MOTOR_VOLTAGE;
+        }
+    }
+
+    public boolean runIndexFeedCheck() {
+        if (isBeamBrokenIntake() && !isBeamBrokenIndex()) {
+            i++;
+        } else {
+            i = 0;
+        }
+        return (i > 20);
     }
 
     public void runIndexFeed() {
+        boolean m_debounced = runIndexFeedCheck();
         if (!isBeamBrokenIndex() && !isBeamBrokenIntake()) {
             indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
-        } else if (isBeamBrokenIndex()) {
+        } else if (isBeamBrokenIndex() && isBeamBrokenIntake()) {
             indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_POSITION;
-        } else {
+        } else if (m_debounced) {
             stopIndex();
         }
+
     }
 
     public void runIndexShoot() {
         indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT;
+    }
+
+    public void runIndex() {
+        indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
     }
 
     public void runIntakeReverse() {
@@ -156,7 +177,6 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexMotor.set(indexVoltage);
         // m_indexMotor.setVoltage(indexVoltage);
         m_intakeMotor.set(intakeLimiter.calculate(intakeVoltage));
-        // m_intakeMotor.set(intakeVoltage);
-        // m_intakeMotor.setVoltage(intakeVoltage);
+
     }
 }

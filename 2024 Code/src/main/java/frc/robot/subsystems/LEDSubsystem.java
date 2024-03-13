@@ -44,6 +44,10 @@ public class LEDSubsystem extends SubsystemBase {
         setToColor(255, 255, 0);
     }
 
+    public void setToRed() {
+        setToColor(255, 0, 0);
+    }
+
     // false = broken
     public void sarahStrobe() {
         double timeConst = Math.PI;
