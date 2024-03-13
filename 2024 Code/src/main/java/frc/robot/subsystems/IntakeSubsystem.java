@@ -18,8 +18,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private double indexVoltage = 0.0;
     private double intakeVoltage = 0.0;
-    private boolean m_indexBeam = false;
-    private boolean m_intakeBeam = false;
+    public boolean m_indexBeam = false;
+    public boolean m_intakeBeam = false;
     public boolean m_centered = false;
     private int i;
 
@@ -189,11 +189,11 @@ public class IntakeSubsystem extends SubsystemBase {
      * 
      * @return The state of the intake beam break.
      */
-    public boolean isBeamBrokenIntake() {
+    private boolean isBeamBrokenIntake() {
         return m_intakeBeam;
     }
 
-    public boolean isBeamBrokenIndex() {
+    private boolean isBeamBrokenIndex() {
         return m_indexBeam;
     }
 
