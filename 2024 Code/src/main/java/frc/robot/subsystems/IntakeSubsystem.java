@@ -95,7 +95,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void runIndexFeed() {
         IndexFeedCheck();
-        if (!noNote()) {
+        if (noNote()) {
             indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
         } else if (tooFarNote()) {
             indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_POSITION;
