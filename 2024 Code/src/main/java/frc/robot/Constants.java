@@ -115,7 +115,7 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-    public static double Arm_kp = 0.02;
+    public static double Arm_kp = 0.03;
     public static double Arm_ki = 0.0;
     public static double Arm_kd = 0.0;
 
