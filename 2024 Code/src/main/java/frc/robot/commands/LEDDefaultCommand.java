@@ -49,7 +49,6 @@ public class LEDDefaultCommand extends Command {
     } else {
       m_LEDSubsystem.setToOrange();
     }
-  }
 
   }
 
