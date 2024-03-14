@@ -131,7 +131,14 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("3 Note");
+    Command auto;
+    try {
+      auto = new PathPlannerAuto("3 Note");
+    } catch (Exception e) {
+      auto = new PathPlannerAuto("Nothing");
+    }
+
+    return auto;
   }
 
   public void simulationInit() {
