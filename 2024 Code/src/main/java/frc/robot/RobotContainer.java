@@ -111,6 +111,9 @@ public class RobotContainer {
 
     m_driverController.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
 
+    m_driverController.start()
+        .whileTrue(new InstantCommand(() -> SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose()));
+
     // separate button binding to left bumper contained within the magic speaker
     // charge command
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
@@ -131,7 +134,14 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("3 Note");
+    Command auto;
+    try {
+      auto = new PathPlannerAuto("3 Note");
+    } catch (Exception e) {
+      auto = new PathPlannerAuto("Nothing");
+    }
+
+    return auto;
   }
 
   public void simulationInit() {

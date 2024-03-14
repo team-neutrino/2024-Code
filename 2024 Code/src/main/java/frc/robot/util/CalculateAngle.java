@@ -27,7 +27,7 @@ public class CalculateAngle {
 
     ArrayList<Point2D.Double> currentSquare = new ArrayList<>();
 
-    Point2D currentRobotPoint;
+    PolarCoord currentRobotPoint;
 
     Point2D.Double p1 = new Point2D.Double(-10.0, -10.0); // far bottom left point, initialization for evaluation
     Point2D.Double p2;
@@ -47,22 +47,22 @@ public class CalculateAngle {
         // bilinearMap.put(new Point2D.Double(4.0, 0.0), 16.0);
 
         bilinearMap.put(new PolarCoord(1.625, 0), 1.22654);
-        bilinearMap.put(new PolarCoord(2.3, 0), 5.0);
-        bilinearMap.put(new PolarCoord(2.8, 0), 11.5);
-        bilinearMap.put(new PolarCoord(3.5, 0), 14.9);
-        bilinearMap.put(new PolarCoord(4.0, 0), 16.0);
+        bilinearMap.put(new PolarCoord(2.3, 0), 6.69);
+        bilinearMap.put(new PolarCoord(2.8, 0), 15.48);
+        bilinearMap.put(new PolarCoord(3.5, 0), 21.93);
+        bilinearMap.put(new PolarCoord(4.0, 0), 19.33);
 
         bilinearMap.put(new PolarCoord(1.625, pi / 12), 1.5);
-        bilinearMap.put(new PolarCoord(2.3, pi / 12), 10.0);
-        bilinearMap.put(new PolarCoord(2.8, pi / 12), 14.35);
-        bilinearMap.put(new PolarCoord(3.5, pi / 12), 18.25);
-        bilinearMap.put(new PolarCoord(4.0, pi / 12), 20.25);
+        bilinearMap.put(new PolarCoord(2.3, pi / 12), 10.5);
+        bilinearMap.put(new PolarCoord(2.8, pi / 12), 15.429);
+        bilinearMap.put(new PolarCoord(3.5, pi / 12), 18.33);
+        bilinearMap.put(new PolarCoord(4.0, pi / 12), 21.31);
 
         bilinearMap.put(new PolarCoord(1.625, pi / 6), 2.04);
         bilinearMap.put(new PolarCoord(2.3, pi / 6), 10.0);
-        bilinearMap.put(new PolarCoord(2.8, pi / 6), 15.0);
-        bilinearMap.put(new PolarCoord(3.5, pi / 6), 16.0);
-        bilinearMap.put(new PolarCoord(4.0, pi / 6), 21.27);
+        bilinearMap.put(new PolarCoord(2.8, pi / 6), 16.38);
+        bilinearMap.put(new PolarCoord(3.5, pi / 6), 17.42);
+        bilinearMap.put(new PolarCoord(4.0, pi / 6), 22.45);
 
         bilinearMap.put(new PolarCoord(1.625, pi / 4), 6.5);
         bilinearMap.put(new PolarCoord(2.3, pi / 4), 7.5);
@@ -265,10 +265,10 @@ public class CalculateAngle {
         double xPart1 = ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
         double xPart2 = ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
 
-        System.out.println("ypart1 " + yPart1);
-        System.out.println("ypart2 " + yPart2);
-        System.out.println("xpart1 " + xPart1);
-        System.out.println("xpart2 " + xPart2);
+        // System.out.println("ypart1 " + yPart1);
+        // System.out.println("ypart2 " + yPart2);
+        // System.out.println("xpart1 " + xPart1);
+        // System.out.println("xpart2 " + xPart2);
 
         double coeff1 = yPart1 * xPart1;
         double coeff2 = yPart1 * xPart2;
@@ -298,5 +298,7 @@ public class CalculateAngle {
                 System.out.println(bilinearMap.get(temp));
             }
         }
+        System.out.println("current robot location: r " + currentRobotPoint.getRadius() + " theta "
+                + currentRobotPoint.getTheta());
     }
 }
