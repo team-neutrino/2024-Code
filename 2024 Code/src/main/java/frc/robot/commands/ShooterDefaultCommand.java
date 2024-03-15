@@ -24,8 +24,7 @@ public class ShooterDefaultCommand extends Command {
 
     @Override
     public void execute() {
-        if (m_shooterSubsystem.getShooterRpm1() > ShooterSpeeds.INITIAL_SHOOTER_SPEED
-                && initialSpeed > ShooterSpeeds.INITIAL_SHOOTER_SPEED) {
+        if (initialSpeed > ShooterSpeeds.INITIAL_SHOOTER_SPEED) {
             initialSpeed -= 10;
         }
 
