@@ -112,7 +112,7 @@ public class LimelightSubsystem extends SubsystemBase {
       double xyStds = 1.0;
 
       // multiple targets detected
-      if (pose[7] >= 2 && distanceToSpeaker < 3.1) {
+      if (pose[7] >= 2 && distanceToSpeaker < 2.8) {
         xyStds = 0.5;
         // System.out.println("case 1 ");
       } else if (pose[7] >= 2 && distanceToSpeaker < 4) {

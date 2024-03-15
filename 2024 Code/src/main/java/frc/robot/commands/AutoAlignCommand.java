@@ -35,7 +35,8 @@ public class AutoAlignCommand extends Command {
         if (SubsystemContainer.limelightSubsystem.getTv()) {
             currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
             offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
-            SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - offsetYaw);
+            double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
+            SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - offsetYaw + (pose[5] * 0.05));
         } else {
             // SUPER auto align!!
             if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
