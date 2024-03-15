@@ -13,14 +13,16 @@ public class LEDDefaultCommand extends Command {
 
   private SwerveSubsystem m_swerveSubsystem;
   private LEDSubsystem m_LEDSubsystem;
-  private IntakeSubsystem m_IntakeSubsystem;
-  private ArmSubsystem m_ArmSubsystem;
-  private ShooterSubsystem m_ShooterSubsystem;
+  private IntakeSubsystem m_intakeSubsystem;
+  private ArmSubsystem m_armSubsystem;
+  private ShooterSubsystem m_shooterSubsystem;
 
   public LEDDefaultCommand() {
     m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
     m_LEDSubsystem = SubsystemContainer.LEDSubsystem;
-    m_IntakeSubsystem = SubsystemContainer.intakeSubsystem;
+    m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
+    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
+    m_armSubsystem = SubsystemContainer.armSubsystem;
     addRequirements(m_LEDSubsystem);
   }
 
@@ -34,9 +36,9 @@ public class LEDDefaultCommand extends Command {
     if (m_swerveSubsystem == null) {
       return;
     }
-    if (m_ShooterSubsystem.approveShoot() && m_ArmSubsystem.getInPosition() && m_IntakeSubsystem.isCentered()) {
+    if (m_shooterSubsystem.approveShoot() && m_armSubsystem.getInPosition() && m_intakeSubsystem.isCentered()) {
       m_LEDSubsystem.setToGreen();
-    } else if (m_IntakeSubsystem.isCentered()) {
+    } else if (m_intakeSubsystem.isCentered()) {
       m_LEDSubsystem.setToCyan();
     } else if (m_swerveSubsystem
         .getCommandState() == States.PATHFINDING) {
@@ -44,7 +46,7 @@ public class LEDDefaultCommand extends Command {
     } else if (m_swerveSubsystem
         .getCommandState() == (States.AUTOALIGN)) {
       m_LEDSubsystem.setToBlue();
-    } else if (m_IntakeSubsystem.tooFarNote()) {
+    } else if (m_intakeSubsystem.tooFarNote()) {
       m_LEDSubsystem.setToPurple();
     } else {
       m_LEDSubsystem.setToOrange();
