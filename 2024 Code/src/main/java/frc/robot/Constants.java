@@ -62,8 +62,8 @@ public final class Constants {
     public static Pose2d RED_TARGET_POSE3;
     public static Pose2d RED_TARGET_POSE4;
 
-    public static int ANGLE_MOTOR_CURRENT_LIMIT = 40;
-    public static int SPEED_MOTOR_CURRENT_LIMIT = 55;
+    public static int ANGLE_MOTOR_CURRENT_LIMIT = 25;
+    public static int SPEED_MOTOR_CURRENT_LIMIT = 40;
   }
 
   public final class DigitalConstants {
@@ -115,7 +115,7 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-    public static double Arm_kp = 0.03;
+    public static double Arm_kp = 0.022;
     public static double Arm_ki = 0.0;
     public static double Arm_kd = 0.0;
 
@@ -150,7 +150,7 @@ public final class Constants {
     public static double INDEX_MOTOR_VOLTAGE_POSITION = 0.05;
     public static double INDEX_MOTOR_VOLTAGE_SHOOT = 1;
     public static double INDEX_JITTER_MOTOR_VOLTAGE = 0.125;
-    public static int INTAKE_CURRENT_LIMIT = 55;
+    public static int INTAKE_CURRENT_LIMIT = 35;
     public static int INDEX_CURRENT_LIMIT = 20;
   }
 

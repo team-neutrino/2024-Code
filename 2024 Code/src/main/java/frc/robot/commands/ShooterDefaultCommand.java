@@ -7,6 +7,7 @@ import frc.robot.util.SubsystemContainer;
 
 public class ShooterDefaultCommand extends Command {
     private ShooterSubsystem m_shooterSubsystem;
+    double initialSpeed = 0;
 
     public ShooterDefaultCommand() {
         m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
@@ -14,11 +15,21 @@ public class ShooterDefaultCommand extends Command {
     }
 
     public void initialize() {
+        initialSpeed = m_shooterSubsystem.getShooterRpm1();
+
+        if (initialSpeed == 0) {
+            initialSpeed = 700;
+        }
     }
 
     @Override
     public void execute() {
-        m_shooterSubsystem.setTargetRPM(ShooterSpeeds.INITIAL_SHOOTER_SPEED);
+        if (m_shooterSubsystem.getShooterRpm1() > ShooterSpeeds.INITIAL_SHOOTER_SPEED
+                && initialSpeed > ShooterSpeeds.INITIAL_SHOOTER_SPEED) {
+            initialSpeed -= 10;
+        }
+
+        m_shooterSubsystem.setTargetRPM(initialSpeed);
     }
 
     @Override
