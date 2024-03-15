@@ -77,7 +77,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     private boolean IndexFeedCheck() {
-        double threshold = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE * 75;
+        double threshold = 20;
         if (centerNote()) {
             i++;
         } else {
@@ -204,6 +204,8 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor.set(intakeLimiter.calculate(intakeVoltage));
         m_indexBeam = !m_indexBeamBreak.get();
         m_intakeBeam = !m_intakeBeamBreak.get();
+
+        System.out.println(m_intakeBeam);
 
     }
 }
