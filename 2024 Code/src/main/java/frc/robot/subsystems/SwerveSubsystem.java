@@ -91,8 +91,8 @@ public class SwerveSubsystem extends SubsystemBase {
   public Command m_pathfindAmp;
   public boolean isRedAlliance;
 
-  SlewRateLimiter filterX = new SlewRateLimiter(4.0);
-  SlewRateLimiter filterY = new SlewRateLimiter(4.0);
+  SlewRateLimiter filterX = new SlewRateLimiter(2);
+  SlewRateLimiter filterY = new SlewRateLimiter(2);
   SlewRateLimiter filterOmega = new SlewRateLimiter(10.0);
 
   public SwerveSubsystem() {
