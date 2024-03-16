@@ -2,12 +2,35 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import edu.wpi.first.hal.HAL;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.awt.geom.Point2D;
+
+import org.jzy3d.analysis.AWTAbstractAnalysis;
+import org.jzy3d.analysis.AnalysisLauncher;
+import org.jzy3d.chart.Chart;
+import org.jzy3d.chart.ChartLauncher;
+import org.jzy3d.chart.factories.AWTChartFactory;
+import org.jzy3d.chart.factories.AWTPainterFactory;
+import org.jzy3d.chart.factories.IChartFactory;
+import org.jzy3d.chart.factories.IPainterFactory;
+import org.jzy3d.colors.Color;
+import org.jzy3d.colors.ColorMapper;
+import org.jzy3d.colors.colormaps.ColorMapRainbow;
+import org.jzy3d.maths.Range;
+import org.jzy3d.plot3d.builder.Func3D;
+import org.jzy3d.plot3d.builder.SurfaceBuilder;
+import org.jzy3d.plot3d.builder.concrete.OrthonormalGrid;
+import org.jzy3d.plot3d.primitives.Shape;
+import org.jzy3d.plot3d.rendering.canvas.Quality;
+
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.awt.GLCanvas;
+
 import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 import frc.robot.util.CalculateAngle;
@@ -17,6 +40,7 @@ public class CalculateAngleTest {
 
     static final double DELTA = 1e-4;
     private static final DecimalFormat two_points = new DecimalFormat("0.00");
+    protected Chart chart;
 
     // the thing under test
     CalculateAngle m_calculate_angle;
@@ -84,5 +108,37 @@ public class CalculateAngleTest {
             assertTrue(p_big.Angle() > p_small.Angle(),
                     "big point:" + p_big.Angle() + " small point:" + p_small.Angle());
         }
+    }
+
+    @Test
+    void visualizeInterpolation() throws IOException {
+
+        // Define a function to plot
+        Func3D func = new Func3D((x, y) -> x * Math.sin(x * y));
+        Range range = new Range(-3, 3);
+        int steps = 80;
+
+        // Create the object to represent the function over the given range.
+        final Shape surface = new SurfaceBuilder().orthonormal(new OrthonormalGrid(range, steps), func);
+        surface
+                .setColorMapper(new ColorMapper(new ColorMapRainbow(), surface, new Color(1, 1, 1, .5f)));
+        surface.setFaceDisplayed(true);
+        surface.setWireframeDisplayed(true);
+        surface.setWireframeColor(Color.BLACK);
+
+        // Create a chart
+        // GLCapabilities c = new GLCapabilities(GLProfile.get(GLProfile.GL4));
+        // IPainterFactory p = new AWTPainterFactory(c);
+        // IChartFactory f = new AWTChartFactory(p);
+        IChartFactory f = new AWTChartFactory();
+
+        chart = f.newChart(Quality.Advanced().setHiDPIEnabled(true));
+        chart.getScene().getGraph().add(surface);
+
+        ChartLauncher.instructions();
+        // ChartLauncher.openChart(chart);
+        // ChartLauncher.openStaticChart(chart);
+        String FILENAME = "/home/andrew/visualizeInterpolation.png";
+        ChartLauncher.screenshot(chart, FILENAME);
     }
 }

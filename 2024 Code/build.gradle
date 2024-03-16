@@ -42,7 +42,7 @@ deploy {
 def deployArtifact = deploy.targets.roborio.artifacts.frcJava
 
 // Set to true to use debug for JNI.
-wpi.java.debugJni = false
+wpi.java.debugJni = true
 
 // Set this to true to enable desktop support.
 def includeDesktopSupport = true
@@ -73,7 +73,16 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
-    testImplementation 'org.jzy3d:jzy3d-javafx:1.0.2'
+    // testImplementation 'org.jzy3d:jzy3d-api:1.0.3'
+    // testImplementation 'org.jzy3d:jzy3d-javafx:1.0.2'
+    testImplementation 'org.jzy3d:jzy3d-core:2.2.1'
+    // testImplementation 'org.jzy3d:jzy3d-core-awt:2.2.1'
+    // testImplementation 'org.jzy3d:jzy3d-all:2.2.1'
+    testImplementation 'org.jzy3d:jzy3d-native-jogl-awt:2.2.1'
+    testImplementation 'org.jzy3d:jzy3d-native-jogl-core:2.2.1'
+    testImplementation 'org.jzy3d:jzy3d-native-jogl-javafx:2.2.1'
+    // testImplementation 'org.jzy3d:jzy3d-graphs:1.0.2'
+
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -82,6 +91,7 @@ dependencies {
 test {
     useJUnitPlatform()
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+    systemProperty 'arg1', System.getProperty('--add-exports=java.desktop/sun.awt=ALL-UNNAMED')
 }
 
 // Simulation configuration (e.g. environment variables).
