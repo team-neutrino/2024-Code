@@ -40,6 +40,12 @@
                     {
                       "type": "named",
                       "data": {
+                        "name": "AutoAlignCommand"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
                         "name": "MagicSpeakerCommand"
                       }
                     },
@@ -48,27 +54,7 @@
                       "data": {
                         "name": "ArmDown"
                       }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeCommand"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
+                    },
                     {
                       "type": "path",
                       "data": {

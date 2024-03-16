@@ -204,6 +204,5 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor.set(intakeLimiter.calculate(intakeVoltage));
         m_indexBeam = !m_indexBeamBreak.get();
         m_intakeBeam = !m_intakeBeamBreak.get();
-        System.out.println(m_indexBeam);
     }
 }

@@ -115,8 +115,8 @@ public class LimelightSubsystem extends SubsystemBase {
       if (pose[7] >= 2 && distanceToSpeaker < 2.8) {
         xyStds = 0.5;
         // System.out.println("case 1 ");
-      } else if (pose[7] >= 2 && distanceToSpeaker < 4) {
-        xyStds = 2.0;
+      } else if (pose[7] >= 2 && distanceToSpeaker < 4 && poseDifference < 0.2) {
+        xyStds = 3.0;
         // System.out.println("case 1.5 ");
       }
       // 1 target with large area and close to estimated pose (find constant for area

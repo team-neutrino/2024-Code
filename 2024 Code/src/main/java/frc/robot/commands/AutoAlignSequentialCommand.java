@@ -10,6 +10,7 @@ import frc.robot.util.SubsystemContainer;
 public class AutoAlignSequentialCommand extends AutoAlignCommand {
 
     Timer timer = new Timer();
+    double[] pose;
 
     public AutoAlignSequentialCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
@@ -25,15 +26,26 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
     public void execute() {
         currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
         offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
-        SubsystemContainer.swerveSubsystem.autonRotateSwerve(currentYaw - offsetYaw);
+        pose = SubsystemContainer.limelightSubsystem.getBotPose();
+        System.out.println("tx " + offsetYaw);
+        SubsystemContainer.swerveSubsystem.autonRotateSwerve(currentYaw - offsetYaw + (pose[5] * 0.04));
 
     }
 
     @Override
     public boolean isFinished() {
-        if (SubsystemContainer.limelightSubsystem.getTx() < 1) {
+        System.out.println("termination - " + (Math.abs((currentYaw - offsetYaw + (pose[5] * 0.04)) - (currentYaw))));
+        if (Math.abs((currentYaw - offsetYaw + (pose[5] * 0.04)) - (currentYaw)) < 0.5) {
+            SubsystemContainer.swerveSubsystem.stopSwerve();
             return true;
         }
+        // } else if (Math.abs(startYaw - currentYaw) > 6) {
+        // return true;
+        // } else if (timer.get() > 2) {
+        // timer.stop();
+        // timer.reset();
+        // return true;
+        // }
 
         return false;
     }
