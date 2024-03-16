@@ -108,7 +108,8 @@ public class RobotContainer {
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
 
-    m_driverController.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
+    // m_driverController.a().whileTrue(new InstantCommand(() ->
+    // m_angleCalculate.dumpData()));
 
     m_driverController.start()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose()));

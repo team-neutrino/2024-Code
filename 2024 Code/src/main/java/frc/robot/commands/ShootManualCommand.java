@@ -35,6 +35,7 @@ public class ShootManualCommand extends Command {
     public void execute() {
         m_armSubsystem.setArmReferenceAngle(m_angle);
         m_shooterSubsystem.setTargetRPM(m_rpm);
+        m_intakeSubsystem.runIndexFeed();
     }
 
     @Override
@@ -44,6 +45,6 @@ public class ShootManualCommand extends Command {
     @Override
     public boolean isFinished() {
         return m_xboxController.getHID().getLeftBumper() && m_armSubsystem.getInPosition()
-                && m_shooterSubsystem.approveShoot();
+                && m_shooterSubsystem.approveShoot() && m_intakeSubsystem.isCentered();
     }
 }

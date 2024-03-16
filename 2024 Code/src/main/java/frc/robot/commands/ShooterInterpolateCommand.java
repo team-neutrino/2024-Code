@@ -35,12 +35,8 @@ public class ShooterInterpolateCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterSubsystem.setTargetRPM(m_RPMCalculate.InterpolateRPM());
-    if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
-      m_intakeSubsystem.runIndexShoot();
-    } else {
-      m_intakeSubsystem.stopIndex();
-    }
+    m_shooterSubsystem.setTargetRPM(2000);
+    m_intakeSubsystem.runIndexShoot();
   }
 
   // Called once the command ends or is interrupted.
