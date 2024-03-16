@@ -27,6 +27,14 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
         currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
         offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
         pose = SubsystemContainer.limelightSubsystem.getBotPose();
+        if (!SubsystemContainer.swerveSubsystem.isRedAlliance) {
+            if (pose[5] > 0) {
+                pose[5] -= 180;
+            } else {
+                pose[5] += 180;
+            }
+
+        }
         System.out.println("tx " + offsetYaw);
         SubsystemContainer.swerveSubsystem.autonRotateSwerve(currentYaw - offsetYaw + (pose[5] * 0.04));
 
@@ -37,6 +45,15 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
         System.out.println("termination - " + (Math.abs((currentYaw - offsetYaw + (pose[5] * 0.04)) - (currentYaw))));
         if (Math.abs((currentYaw - offsetYaw + (pose[5] * 0.04)) - (currentYaw)) < 0.5) {
             SubsystemContainer.swerveSubsystem.stopSwerve();
+            System.out.println("auto align ended termination reached");
+            timer.stop();
+            timer.reset();
+            return true;
+        } else if (timer.get() > 1.5) {
+            SubsystemContainer.swerveSubsystem.stopSwerve();
+            timer.stop();
+            timer.reset();
+            System.out.println("auto align ended timer reached");
             return true;
         }
         // } else if (Math.abs(startYaw - currentYaw) > 6) {

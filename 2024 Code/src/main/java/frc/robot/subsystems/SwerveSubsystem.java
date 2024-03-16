@@ -121,7 +121,7 @@ public class SwerveSubsystem extends SubsystemBase {
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
             new PIDConstants(5, 0.0, 0.0),
-            new PIDConstants(0.6, 0.0, 0.0),
+            new PIDConstants(1.0, 0.0, 0.0), // 0.6 before
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -472,10 +472,10 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
     m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
 
-    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond, feedForwardFR);
-    m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
-    m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
-    m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+    m_frontRight.setSpeedPID(0, 0);
+    m_frontLeft.setSpeedPID(0, 0);
+    m_backRight.setSpeedPID(0, 0);
+    m_backLeft.setSpeedPID(0, 0);
   }
 
   private void UpdateSpeakerToRobot(Pose2d currentPose) {

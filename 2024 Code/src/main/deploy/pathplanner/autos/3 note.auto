@@ -38,9 +38,22 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "race",
                       "data": {
-                        "name": "AutoAlignCommand"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "ArmUp"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "AutoAlignCommand"
+                            }
+                          }
+                        ]
                       }
                     },
                     {
@@ -62,9 +75,22 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "race",
                       "data": {
-                        "name": "AutoAlignCommand"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "ArmUp"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "AutoAlignCommand"
+                            }
+                          }
+                        ]
                       }
                     },
                     {

@@ -78,7 +78,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
     NamedCommands.registerCommand("AutoAlignCommand", new AutoAlignSequentialCommand());
     NamedCommands.registerCommand("ArmDown", new AutonArmAngleCommand(ArmConstants.INTAKE_POSE));
-    NamedCommands.registerCommand("ArmUp", new AutonArmAngleCommand(15));
+    NamedCommands.registerCommand("ArmUp", new AutonArmAngleCommand(0));
     NamedCommands.registerCommand("BelowSubwooferShot", new AutonShootManualCommand(8, 4000));
     NamedCommands.registerCommand("SingleSubwooferShot",
         new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
@@ -138,7 +138,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("3 Note");
+      auto = new PathPlannerAuto("All Close Notes");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }

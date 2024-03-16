@@ -14,12 +14,6 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoAlignCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "SingleSubwooferShot"
           }
         },
@@ -88,7 +82,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Copy of quatre"
+                        "pathName": "quatre good"
                       }
                     },
                     {
