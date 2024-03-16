@@ -68,8 +68,8 @@ public class CalculateAngle {
         bilinearMap.put(new PolarCoord(2.0, pi / 12), 8.0);
         bilinearMap.put(new PolarCoord(2.3, pi / 12), 9.579);
         bilinearMap.put(new PolarCoord(2.55, pi / 12), 11.19);
-        bilinearMap.put(new PolarCoord(2.8, pi / 12), 14.08);
-        bilinearMap.put(new PolarCoord(3.2, pi / 12), 14.86);
+        bilinearMap.put(new PolarCoord(2.8, pi / 12), 14.08); // 12.74
+        bilinearMap.put(new PolarCoord(3.2, pi / 12), 14.86); // 13.86
         bilinearMap.put(new PolarCoord(3.5, pi / 12), 16.37);
         bilinearMap.put(new PolarCoord(4.0, pi / 12), 16.02);
 
@@ -77,8 +77,8 @@ public class CalculateAngle {
         bilinearMap.put(new PolarCoord(2.0, pi / 8), 8.0);
         bilinearMap.put(new PolarCoord(2.3, pi / 8), 9.579);
         bilinearMap.put(new PolarCoord(2.55, pi / 8), 11.0);
-        bilinearMap.put(new PolarCoord(2.8, pi / 8), 13.3);
-        bilinearMap.put(new PolarCoord(3.2, pi / 8), 11.56);
+        bilinearMap.put(new PolarCoord(2.8, pi / 8), 13.3); // 12.89
+        bilinearMap.put(new PolarCoord(3.2, pi / 8), 11.56); // 11.257
         bilinearMap.put(new PolarCoord(3.5, pi / 8), 15.439);
         bilinearMap.put(new PolarCoord(4.0, pi / 8), 20.72);
 
