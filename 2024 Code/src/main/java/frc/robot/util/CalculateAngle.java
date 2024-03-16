@@ -18,21 +18,21 @@ public class CalculateAngle {
     TreeMap<Double, Double> m_xAxis = new TreeMap<>();
     TreeMap<Double, Double> m_yAxis = new TreeMap<>();
 
-    HashMap<Point2D.Double, Double> bilinearMap = new HashMap<>();
+    HashMap<PolarCoord, Double> bilinearMap = new HashMap<>();
 
     ArrayList<Double> row = new ArrayList<>();
     ArrayList<Double> col = new ArrayList<>();
 
     InterpolationOptimization optimizer = new InterpolationOptimization();
 
-    ArrayList<Point2D.Double> currentSquare = new ArrayList<>();
+    ArrayList<PolarCoord> currentSquare = new ArrayList<>();
 
     PolarCoord currentRobotPoint;
 
-    Point2D.Double p1 = new Point2D.Double(-10.0, -10.0); // far bottom left point, initialization for evaluation
-    Point2D.Double p2;
-    Point2D.Double p3;
-    Point2D.Double p4;
+    PolarCoord p1 = new PolarCoord(10.0, Math.PI); // far bottom left point, initialization for evaluation
+    PolarCoord p2;
+    PolarCoord p3;
+    PolarCoord p4;
 
     double[] changeAmt = { -0.5, 0.5, -1, 1, -3, 3 };
 
@@ -46,67 +46,67 @@ public class CalculateAngle {
         // bilinearMap.put(new Point2D.Double(3.5, 0), 14.9); // 12 in auton testing
         // bilinearMap.put(new Point2D.Double(4.0, 0.0), 16.0);
 
-        bilinearMap.put(new PolarCoord(1.625, 0), 4.207);
-        bilinearMap.put(new PolarCoord(2.0, 0), 11.534);
+        bilinearMap.put(new PolarCoord(1.625, 0), 1.22654);
+        bilinearMap.put(new PolarCoord(2.0, 0), 5.0);
         bilinearMap.put(new PolarCoord(2.3, 0), 6.34);
         bilinearMap.put(new PolarCoord(2.55, 0), 8.733);
         bilinearMap.put(new PolarCoord(2.8, 0), 12.88);
-        bilinearMap.put(new PolarCoord(3.2, 0), 15.0);
-        bilinearMap.put(new PolarCoord(3.5, 0), 17.988);
-        bilinearMap.put(new PolarCoord(4.0, 0), 16.929);
+        bilinearMap.put(new PolarCoord(3.2, 0), 14.0);
+        bilinearMap.put(new PolarCoord(3.5, 0), 14.9);
+        bilinearMap.put(new PolarCoord(4.0, 0), 16.0);
 
-        bilinearMap.put(new PolarCoord(1.625, pi / 24), 6.65);
-        bilinearMap.put(new PolarCoord(2.0, pi / 24), 9.22);
+        bilinearMap.put(new PolarCoord(1.625, pi / 24), 3.4);
+        bilinearMap.put(new PolarCoord(2.0, pi / 24), 6.5);
         bilinearMap.put(new PolarCoord(2.3, pi / 24), 9.0);
-        bilinearMap.put(new PolarCoord(2.55, pi / 24), 16.66);
-        bilinearMap.put(new PolarCoord(2.8, pi / 24), 15.907);
-        bilinearMap.put(new PolarCoord(3.2, pi / 24), 9.809);
-        bilinearMap.put(new PolarCoord(3.5, pi / 24), 12.0);
-        bilinearMap.put(new PolarCoord(4.0, pi / 24), 12.5);
+        bilinearMap.put(new PolarCoord(2.55, pi / 24), 11.0);
+        bilinearMap.put(new PolarCoord(2.8, pi / 24), 13.0);
+        bilinearMap.put(new PolarCoord(3.2, pi / 24), 15.0);
+        bilinearMap.put(new PolarCoord(3.5, pi / 24), 16.5);
+        bilinearMap.put(new PolarCoord(4.0, pi / 24), 18.0);
 
-        bilinearMap.put(new PolarCoord(1.625, pi / 12), 8.46);
-        bilinearMap.put(new PolarCoord(2.0, pi / 12), 11.21);
+        bilinearMap.put(new PolarCoord(1.625, pi / 12), 4.0);
+        bilinearMap.put(new PolarCoord(2.0, pi / 12), 8.0);
         bilinearMap.put(new PolarCoord(2.3, pi / 12), 9.579);
         bilinearMap.put(new PolarCoord(2.55, pi / 12), 11.19);
-        bilinearMap.put(new PolarCoord(2.8, pi / 12), 17.12);
+        bilinearMap.put(new PolarCoord(2.8, pi / 12), 14.0);
         bilinearMap.put(new PolarCoord(3.2, pi / 12), 15.25);
         bilinearMap.put(new PolarCoord(3.5, pi / 12), 16.18);
-        bilinearMap.put(new PolarCoord(4.0, pi / 12), 13.855);
+        bilinearMap.put(new PolarCoord(4.0, pi / 12), 20.0);
 
         bilinearMap.put(new PolarCoord(1.625, pi / 8), 4.76);
-        bilinearMap.put(new PolarCoord(2.0, pi / 8), 8.61);
+        bilinearMap.put(new PolarCoord(2.0, pi / 8), 8.0);
         bilinearMap.put(new PolarCoord(2.3, pi / 8), 9.579);
         bilinearMap.put(new PolarCoord(2.55, pi / 8), 11.0);
-        bilinearMap.put(new PolarCoord(2.8, pi / 8), 15.0);
+        bilinearMap.put(new PolarCoord(2.8, pi / 8), 14.3);
         bilinearMap.put(new PolarCoord(3.2, pi / 8), 15.27);
         bilinearMap.put(new PolarCoord(3.5, pi / 8), 16.25);
-        bilinearMap.put(new PolarCoord(4.0, pi / 8), 15.0);
+        bilinearMap.put(new PolarCoord(4.0, pi / 8), 21.4);
 
-        bilinearMap.put(new PolarCoord(1.625, pi / 6), 4.922);
-        bilinearMap.put(new PolarCoord(2.0, pi / 6), 7.0);
+        bilinearMap.put(new PolarCoord(1.625, pi / 6), 5.0);
+        bilinearMap.put(new PolarCoord(2.0, pi / 6), 8.5);
         bilinearMap.put(new PolarCoord(2.3, pi / 6), 9.56);
         bilinearMap.put(new PolarCoord(2.55, pi / 6), 11.0);
-        bilinearMap.put(new PolarCoord(2.8, pi / 6), 14.95);
-        bilinearMap.put(new PolarCoord(3.2, pi / 6), 14.95);
+        bilinearMap.put(new PolarCoord(2.8, pi / 6), 14.7);
+        bilinearMap.put(new PolarCoord(3.2, pi / 6), 15.5);
         bilinearMap.put(new PolarCoord(3.5, pi / 6), 17.42);
-        bilinearMap.put(new PolarCoord(4.0, pi / 6), 22.45);
+        bilinearMap.put(new PolarCoord(4.0, pi / 6), 22.0);
 
         bilinearMap.put(new PolarCoord(1.625, pi / 4.8), 6.0);
-        bilinearMap.put(new PolarCoord(2.0, pi / 4.8), 7.943);
+        bilinearMap.put(new PolarCoord(2.0, pi / 4.8), 8.5);
         bilinearMap.put(new PolarCoord(2.3, pi / 4.8), 10.1);
-        bilinearMap.put(new PolarCoord(2.55, pi / 4.8), 12.57);
-        bilinearMap.put(new PolarCoord(2.8, pi / 4.8), 15.8039);
+        bilinearMap.put(new PolarCoord(2.55, pi / 4.8), 12.4);
+        bilinearMap.put(new PolarCoord(2.8, pi / 4.8), 15.0);
         bilinearMap.put(new PolarCoord(3.2, pi / 4.8), 16.0);
         bilinearMap.put(new PolarCoord(3.5, pi / 4.8), 17.0);
-        bilinearMap.put(new PolarCoord(4.0, pi / 4.8), 22.5);
+        bilinearMap.put(new PolarCoord(4.0, pi / 4.8), 21.5);
 
         bilinearMap.put(new PolarCoord(1.625, pi / 4), 6.5);
-        bilinearMap.put(new PolarCoord(2.0, pi / 4), 7.0);
-        bilinearMap.put(new PolarCoord(2.3, pi / 4), 7.35);
-        bilinearMap.put(new PolarCoord(2.55, pi / 4), 9.618);
+        bilinearMap.put(new PolarCoord(2.0, pi / 4), 8.5);
+        bilinearMap.put(new PolarCoord(2.3, pi / 4), 9.0);
+        bilinearMap.put(new PolarCoord(2.55, pi / 4), 12.5);
         bilinearMap.put(new PolarCoord(2.8, pi / 4), 14.797);
         bilinearMap.put(new PolarCoord(3.2, pi / 4), 16.0);
-        bilinearMap.put(new PolarCoord(3.5, pi / 4), 20.25);
+        bilinearMap.put(new PolarCoord(3.5, pi / 4), 28.0);
         bilinearMap.put(new PolarCoord(4.0, pi / 4), 20.66);
 
         // bilinearMap.put(new Point2D.Double(1.625, 0.85), 2.04);
@@ -135,7 +135,7 @@ public class CalculateAngle {
         // bilinearMap.put(new Point2D.Double(3.5, 2.7), 20.40);
         // bilinearMap.put(new Point2D.Double(4.0, 2.7), 21.6);
 
-        for (Point2D.Double cur_key : bilinearMap.keySet()) {
+        for (PolarCoord cur_key : bilinearMap.keySet()) {
             if (!col.contains(cur_key.x)) {
                 col.add(cur_key.x);
             }
@@ -205,7 +205,7 @@ public class CalculateAngle {
 
         for (int i = 0; i < row.size(); i++) {
             for (int j = 0; j < col.size(); j++) {
-                Point2D.Double temp = new Point2D.Double(col.get(j), row.get(i));
+                PolarCoord temp = new PolarCoord(col.get(j), row.get(i));
                 if (p1.distance(robotPoint) > temp.distance(robotPoint)) {
                     p1 = temp;
                     rowN = i;
@@ -240,21 +240,24 @@ public class CalculateAngle {
 
         // define the four corners
 
-        p1 = new Point2D.Double(x1, y1);
-        p2 = new Point2D.Double(x2, y1);
-        p3 = new Point2D.Double(x1, y2);
-        p4 = new Point2D.Double(x2, y2);
+        p1 = new PolarCoord(x1, y1);
+        p2 = new PolarCoord(x2, y1);
+        p3 = new PolarCoord(x1, y2);
+        p4 = new PolarCoord(x2, y2);
 
-        // System.err.println(p3.x + "," + p3.y +
-        // "______________________________________" + p4.x + "," + p4.y);
+        // System.err.println(p3.getRadius() + "," + p3.getTheta() +
+        // "______________________________________" + p4.getRadius() + "," +
+        // p4.getTheta());
         // System.err.println("|" + " " + "|");
         // System.err.println("|" + " " + "|");
-        // System.err.println("|" + " " + robotPoint.getX() + "," + robotPoint.getY()
+        // System.err.println("|" + " " + robotPoint.getRadius() + "," +
+        // robotPoint.getTheta()
         // + " " + "|");
         // System.err.println("|" + " " + "|");
         // System.err.println("|" + " " + "|");
-        // System.err.println(p1.x + "," + p1.y +
-        // "______________________________________" + p2.x + "," + p2.y);
+        // System.err.println(p1.getRadius() + "," + p1.getTheta() +
+        // "______________________________________" + p2.getRadius() + "," +
+        // p2.getTheta());
 
         currentSquare.set(0, p1);
         currentSquare.set(1, p2);
@@ -321,7 +324,7 @@ public class CalculateAngle {
 
         double result = value1 * coeff1 + value2 * coeff2 + value3 * coeff3 + value4 * coeff4;
 
-        p1 = new Point2D.Double(-10.0, -10.0);
+        p1 = new PolarCoord(10.0, Math.PI);
 
         return result;
     }

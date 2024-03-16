@@ -30,7 +30,13 @@ public class PolarCoord extends Point2D.Double {
         return this.getY();
     }
 
-    // @Override
+    /**
+     * Find the distance between two polar coordinates using the formula
+     * sqrt(r1^2 + r2^2 - 2*r1*r2*cos(theta2 - theta1))
+     * 
+     * @param other find distance to this point
+     * @return distance between this point and other
+     */
     public double distance(PolarCoord other) {
         // if (this.getClass() == point.getClass()) {
         // throw new IllegalArgumentException("argument must be a polar coord");

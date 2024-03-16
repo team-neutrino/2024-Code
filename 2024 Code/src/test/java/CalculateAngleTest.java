@@ -45,8 +45,8 @@ public class CalculateAngleTest {
         private PolarCoord pt;
         private double angle;
 
-        PointAnglePair(double x, double y, CalculateAngle calc) {
-            pt = new PolarCoord(x, y);
+        PointAnglePair(double r, double theta, CalculateAngle calc) {
+            pt = new PolarCoord(r, theta);
             angle = calc.InterpolateAngle(pt);
         }
 
@@ -70,7 +70,7 @@ public class CalculateAngleTest {
         // populate points and calculate angles
         ArrayList<PointAnglePair> points = new ArrayList<PointAnglePair>();
         for (double x = START_POINT; x < END_POINT; x = x + INTERVAL) {
-            points.add(new PointAnglePair(x, Math.PI / 6, m_calculate_angle));
+            points.add(new PointAnglePair(x, 0.4, m_calculate_angle));
         }
 
         // verify that angle increases
