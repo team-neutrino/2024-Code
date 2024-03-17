@@ -77,7 +77,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     private boolean IndexFeedCheck() {
-        double threshold = 20;
+        double threshold = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE*75;
         if (centerNote()) {
             i++;
         } else {
