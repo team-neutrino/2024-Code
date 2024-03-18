@@ -184,6 +184,34 @@ public class ArmSubsystem extends SubsystemBase {
     pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 1, feedforward);
   }
 
+  public void resetEverything() {
+    m_arm.restoreFactoryDefaults();
+    m_arm.setIdleMode(IdleMode.kBrake);
+
+    armEncoderContainer = new ArmEncoderContainer(m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle));
+    armEncoderContainer.setPositionConversionFactor(360);
+    armEncoderContainer.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
+
+    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
+    m_arm.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);
+
+    pidController = m_arm.getPIDController();
+    pidController.setP(ArmConstants.Arm_kp, 0);
+    pidController.setI(ArmConstants.Arm_ki, 0);
+    pidController.setD(ArmConstants.Arm_kd, 0);
+    pidController.setFeedbackDevice(armEncoderContainer.m_armEncoder);
+    pidController.setPositionPIDWrappingMaxInput(360);
+    pidController.setPositionPIDWrappingMinInput(0);
+    pidController.setPositionPIDWrappingEnabled(true);
+
+    // climb settings
+    pidController.setP(ArmConstants.Arm_kp, 1);
+    pidController.setI(0.0001, 1);
+    pidController.setIZone(30, 1);
+
+    m_arm.burnFlash();
+  }
+
   @Override
   public void periodic() {
     m_inPosition = ArmDebouncer();
