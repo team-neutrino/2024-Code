@@ -36,7 +36,7 @@ public class MagicAmpChargeCommand extends Command {
   @Override
   public void execute() {
     m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
-    m_shooterSubsystem.setTargetRPM(1500);
+    m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.AMP_SPEED);
     m_intakeSubsystem.runIndexFeed();
   }
 
