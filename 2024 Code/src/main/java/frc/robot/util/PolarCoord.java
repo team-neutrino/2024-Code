@@ -38,12 +38,6 @@ public class PolarCoord extends Point2D.Double {
      * @return distance between this point and other
      */
     public double distance(PolarCoord other) {
-        // if (this.getClass() == point.getClass()) {
-        // throw new IllegalArgumentException("argument must be a polar coord");
-        // }
-
-        // // safely convert to PolarCoord object
-        // PolarCoord other = (PolarCoord) point;
 
         return Math.sqrt(Math.pow(this.getRadius(), 2) + Math.pow(other.getRadius(), 2)
                 - 2 * this.getRadius() * other.getRadius() * Math.cos(other.getTheta() - this.getTheta()));

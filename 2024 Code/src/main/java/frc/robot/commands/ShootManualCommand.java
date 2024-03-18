@@ -14,14 +14,16 @@ public class ShootManualCommand extends Command {
     private ArmSubsystem m_armSubsystem;
     private double m_angle;
     private double m_rpm;
+    private CommandXboxController m_Controller;
     double i = 0;
 
-    public ShootManualCommand(double p_angle, double p_rpm) {
+    public ShootManualCommand(double p_angle, double p_rpm, CommandXboxController p_Controller) {
         m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
         m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
         m_armSubsystem = SubsystemContainer.armSubsystem;
         m_angle = p_angle;
         m_rpm = p_rpm;
+        m_Controller = p_Controller;
 
         addRequirements(m_shooterSubsystem, m_armSubsystem, m_intakeSubsystem);
     }
@@ -33,12 +35,7 @@ public class ShootManualCommand extends Command {
     public void execute() {
         m_armSubsystem.setArmReferenceAngle(m_angle);
         m_shooterSubsystem.setTargetRPM(m_rpm);
-        if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
-            m_intakeSubsystem.runIndexShoot();
-        } else {
-            m_intakeSubsystem.stopIndex();
-        }
-        
+        m_intakeSubsystem.runIndexFeed();
     }
 
     @Override
@@ -47,6 +44,7 @@ public class ShootManualCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return m_Controller.getHID().getLeftBumper() && m_armSubsystem.getInPosition()
+                && m_shooterSubsystem.approveShoot() && m_intakeSubsystem.isCentered();
     }
 }

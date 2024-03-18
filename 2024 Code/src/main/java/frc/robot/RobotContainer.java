@@ -91,24 +91,17 @@ public class RobotContainer {
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    // m_driverController.leftStick()
-    // .toggleOnTrue(new InstantCommand(() ->
-    // SubsystemContainer.swerveSubsystem.setFastMode(true)));
-    // m_driverController.leftStick()
-    // .toggleOnFalse(new InstantCommand(() ->
-    // SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       for (int i = 0; i < 4; i++) {
         SubsystemContainer.swerveSubsystem.swerveModules[i].resetEverything();
       }
+      SubsystemContainer.armSubsystem.resetEverything();
     }));
 
     // shooter buttons
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
-
-    m_driverController.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
 
     m_driverController.start()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose()));
@@ -118,10 +111,14 @@ public class RobotContainer {
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
         new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicShootCommand()));
 
-    m_buttonsController.x().whileTrue(
-          new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
+    m_buttonsController.x().whileTrue(new SequentialCommandGroup(
+        new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED,
+            m_buttonsController),
+        new MagicShootCommand()));
 
-    m_buttonsController.b().whileTrue(new ShootManualCommand(Constants.ArmConstants.PODIUM_ANGLE, Constants.ShooterSpeeds.PODIUM_SPEED));
+    m_buttonsController.b()
+        .whileTrue(new SequentialCommandGroup(new ShootManualCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
+            Constants.ShooterSpeeds.SHUTTLE_SPEED, m_buttonsController), new MagicShootCommand()));
 
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 

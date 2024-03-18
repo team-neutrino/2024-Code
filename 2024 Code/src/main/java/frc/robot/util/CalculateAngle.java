@@ -40,12 +40,6 @@ public class CalculateAngle {
 
     public CalculateAngle() {
 
-        // bilinearMap.put(new Point2D.Double(1.625, 0), 1.22654);
-        // bilinearMap.put(new Point2D.Double(2.3, 0), 5.0);
-        // bilinearMap.put(new Point2D.Double(2.8, 0), 11.5);
-        // bilinearMap.put(new Point2D.Double(3.5, 0), 14.9); // 12 in auton testing
-        // bilinearMap.put(new Point2D.Double(4.0, 0.0), 16.0);
-
         bilinearMap.put(new PolarCoord(1.625, 0), 1.22654);
         bilinearMap.put(new PolarCoord(2.0, 0), 5.0);
         bilinearMap.put(new PolarCoord(2.3, 0), 6.34);
@@ -106,34 +100,8 @@ public class CalculateAngle {
         bilinearMap.put(new PolarCoord(2.55, pi / 4), 12.5);
         bilinearMap.put(new PolarCoord(2.8, pi / 4), 11.17);
         bilinearMap.put(new PolarCoord(3.2, pi / 4), 15.54);
-        bilinearMap.put(new PolarCoord(3.5, pi / 4), 28.0);
+        bilinearMap.put(new PolarCoord(3.5, pi / 4), 18.0);
         bilinearMap.put(new PolarCoord(4.0, pi / 4), 20.66);
-
-        // bilinearMap.put(new Point2D.Double(1.625, 0.85), 2.04);
-
-        // bilinearMap.put(new Point2D.Double(2.3, 0.85), 14.97);
-        // bilinearMap.put(new Point2D.Double(2.8, 0.85), 14.35);
-        // bilinearMap.put(new Point2D.Double(3.5, 0.85), 18.25);
-        // bilinearMap.put(new Point2D.Double(4.0, 0.85), 20.25);
-        // bilinearMap.put(new Point2D.Double(1.625, 1.2), 6.45619);
-
-        // bilinearMap.put(new Point2D.Double(2.3, 1.2), 15.4825);
-        // bilinearMap.put(new Point2D.Double(2.8, 1.2), 14.4);
-
-        // bilinearMap.put(new Point2D.Double(3.5, 1.2), 19.21);
-        // bilinearMap.put(new Point2D.Double(4.0, 1.2), 22.0);
-
-        // bilinearMap.put(new Point2D.Double(1.625, 2.13), 9.16);
-        // bilinearMap.put(new Point2D.Double(2.3, 2.13), 20.15);
-        // bilinearMap.put(new Point2D.Double(2.8, 2.13), 16.6);
-        // bilinearMap.put(new Point2D.Double(3.5, 2.13), 21.27);
-        // bilinearMap.put(new Point2D.Double(4.0, 2.13), 22.14);
-
-        // bilinearMap.put(new Point2D.Double(1.625, 2.7), 15.0);
-        // bilinearMap.put(new Point2D.Double(2.3, 2.7), 17.31);
-        // bilinearMap.put(new Point2D.Double(2.8, 2.7), 20.66);
-        // bilinearMap.put(new Point2D.Double(3.5, 2.7), 20.40);
-        // bilinearMap.put(new Point2D.Double(4.0, 2.7), 21.6);
 
         for (PolarCoord cur_key : bilinearMap.keySet()) {
             if (!col.contains(cur_key.x)) {
@@ -245,58 +213,13 @@ public class CalculateAngle {
         p3 = new PolarCoord(x1, y2);
         p4 = new PolarCoord(x2, y2);
 
-        // System.err.println(p3.getRadius() + "," + p3.getTheta() +
-        // "______________________________________" + p4.getRadius() + "," +
-        // p4.getTheta());
-        // System.err.println("|" + " " + "|");
-        // System.err.println("|" + " " + "|");
-        // System.err.println("|" + " " + robotPoint.getRadius() + "," +
-        // robotPoint.getTheta()
-        // + " " + "|");
-        // System.err.println("|" + " " + "|");
-        // System.err.println("|" + " " + "|");
-        // System.err.println(p1.getRadius() + "," + p1.getTheta() +
-        // "______________________________________" + p2.getRadius() + "," +
-        // p2.getTheta());
-
         currentSquare.set(0, p1);
         currentSquare.set(1, p2);
         currentSquare.set(2, p3);
         currentSquare.set(3, p4);
 
-        // define the three matrices that are needed for the computation,
-        // one stores the values of the function at each point, one stores
-        // some delta y terms, the other stores corresponding delta x terms
-
-        // Matrix<N2, N2> zMatrix = new Matrix<N2, N2>(Nat.N2(), Nat.N2());
-
-        // zMatrix.set(0, 0, bilinearMap.get(p1));
-        // zMatrix.set(0, 1, bilinearMap.get(p2));
-        // zMatrix.set(1, 0, bilinearMap.get(p3));
-        // zMatrix.set(1, 1, bilinearMap.get(p4));
-
-        // Matrix<N2, N1> deltaYMatrix = new Matrix<N2, N1>(Nat.N2(), Nat.N1());
-
-        // deltaYMatrix.set(0, 0, y2 - robotPoint.getY());
-        // deltaYMatrix.set(1, 0, robotPoint.getY() - y1);
-
-        // Matrix<N1, N2> deltaXMatrix = new Matrix<N1, N2>(Nat.N1(), Nat.N2());
-
-        // deltaXMatrix.set(0, 0, x2 - robotPoint.getX());
-        // deltaXMatrix.set(0, 1, robotPoint.getX() - x1);
-
-        // // carry out computation
-
-        // Matrix<N1, N2> productOne = deltaXMatrix.times(zMatrix);
-
-        // Matrix<N1, N1> productTwo = productOne.times(deltaYMatrix);
-
-        // double result = productTwo.get(0, 0) / ((x2 - x1) * (y2 - y1));
-
-        // reset point (running into oscillation issues, probably because this point not
-        // being reset
-        // led to interference with the shortest distance algorithm necessary to
-        // complete the square)
+        // define weights (coeff 1-4) and multipy the function value at the four corners
+        // by each weight determined by the robot's position
 
         double deltaY = currentSquare.get(2).getY() - currentSquare.get(0).getY();
         double deltaX = currentSquare.get(1).getX() - currentSquare.get(0).getX();
@@ -306,11 +229,6 @@ public class CalculateAngle {
 
         double xPart1 = ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
         double xPart2 = ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
-
-        // System.out.println("ypart1 " + yPart1);
-        // System.out.println("ypart2 " + yPart2);
-        // System.out.println("xpart1 " + xPart1);
-        // System.out.println("xpart2 " + xPart2);
 
         double coeff1 = yPart1 * xPart1;
         double coeff2 = yPart1 * xPart2;
