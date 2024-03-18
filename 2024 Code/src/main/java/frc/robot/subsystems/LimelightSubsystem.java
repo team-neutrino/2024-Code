@@ -114,27 +114,21 @@ public class LimelightSubsystem extends SubsystemBase {
       // multiple targets detected
       if (pose[7] >= 2 && distanceToSpeaker < 2.8) {
         xyStds = 0.5;
-        // System.out.println("case 1 ");
-      } else if (pose[7] >= 2 && distanceToSpeaker < 4 && poseDifference < 0.2) {
+      }
+      // multiple targets but we don't want to trust it as much because the robot is
+      // far away
+      else if (pose[7] >= 2 && distanceToSpeaker < 4 && poseDifference < 0.2) {
         xyStds = 3.0;
-        // System.out.println("case 1.5 ");
       }
       // 1 target with large area and close to estimated pose (find constant for area
       // (percent))
       else if (pose[10] > 0.7 && poseDifference < 1) {
         xyStds = 1.0;
-        // System.out.println("case 2 ");
-
       }
       // 1 target farther away and estimated pose is close
       else if (pose[10] > 0.2 && poseDifference < 0.2) {
         xyStds = 3.0;
-        // System.out.println("case 3 ");
       }
-      // need to zero, badly. Do not use this in the middle of a match
-      // else if (poseDifference >= 3) {
-      // SubsystemContainer.swerveSubsystem.resetPose(limelightPose);
-      // }
       // conditions don't match to add a vision measurement
       else {
         return;

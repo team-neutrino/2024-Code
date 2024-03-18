@@ -32,7 +32,8 @@ public class CalculateAngleTest {
 
     @Test
     void interpolateZeroPoint() {
-        System.out.println("**************THIS " + m_calculate_angle.InterpolateAngle(new PolarCoord(0.0, 0.0)));
+        // System.out.println("**************THIS " +
+        // m_calculate_angle.InterpolateAngle(new PolarCoord(0.0, 0.0)));
         assertEquals(1.22654, m_calculate_angle.InterpolateAngle(new PolarCoord(0.0, 0.0)), DELTA);
     }
 

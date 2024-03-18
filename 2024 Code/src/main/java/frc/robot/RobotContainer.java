@@ -91,12 +91,6 @@ public class RobotContainer {
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    // m_driverController.leftStick()
-    // .toggleOnTrue(new InstantCommand(() ->
-    // SubsystemContainer.swerveSubsystem.setFastMode(true)));
-    // m_driverController.leftStick()
-    // .toggleOnFalse(new InstantCommand(() ->
-    // SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       for (int i = 0; i < 4; i++) {
@@ -107,9 +101,6 @@ public class RobotContainer {
     // shooter buttons
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
-
-    // m_driverController.a().whileTrue(new InstantCommand(() ->
-    // m_angleCalculate.dumpData()));
 
     m_driverController.start()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose()));
