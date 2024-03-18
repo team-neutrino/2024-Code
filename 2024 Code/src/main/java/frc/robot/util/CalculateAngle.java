@@ -106,7 +106,7 @@ public class CalculateAngle {
         bilinearMap.put(new PolarCoord(2.55, pi / 4), 12.5);
         bilinearMap.put(new PolarCoord(2.8, pi / 4), 11.17);
         bilinearMap.put(new PolarCoord(3.2, pi / 4), 15.54);
-        bilinearMap.put(new PolarCoord(3.5, pi / 4), 28.0);
+        bilinearMap.put(new PolarCoord(3.5, pi / 4), 18.0); // I think I trolled with this one
         bilinearMap.put(new PolarCoord(4.0, pi / 4), 20.66);
 
         // bilinearMap.put(new Point2D.Double(1.625, 0.85), 2.04);
@@ -245,19 +245,19 @@ public class CalculateAngle {
         p3 = new PolarCoord(x1, y2);
         p4 = new PolarCoord(x2, y2);
 
-        // System.err.println(p3.getRadius() + "," + p3.getTheta() +
-        // "______________________________________" + p4.getRadius() + "," +
-        // p4.getTheta());
-        // System.err.println("|" + " " + "|");
-        // System.err.println("|" + " " + "|");
-        // System.err.println("|" + " " + robotPoint.getRadius() + "," +
-        // robotPoint.getTheta()
-        // + " " + "|");
-        // System.err.println("|" + " " + "|");
-        // System.err.println("|" + " " + "|");
-        // System.err.println(p1.getRadius() + "," + p1.getTheta() +
-        // "______________________________________" + p2.getRadius() + "," +
-        // p2.getTheta());
+        System.err.println(p3.getRadius() + "," + p3.getTheta() +
+                "______________________________________" + p4.getRadius() + "," +
+                p4.getTheta());
+        System.err.println("|" + " " + "|");
+        System.err.println("|" + " " + "|");
+        System.err.println("|" + " " + robotPoint.getRadius() + "," +
+                robotPoint.getTheta()
+                + " " + "|");
+        System.err.println("|" + " " + "|");
+        System.err.println("|" + " " + "|");
+        System.err.println(p1.getRadius() + "," + p1.getTheta() +
+                "______________________________________" + p2.getRadius() + "," +
+                p2.getTheta());
 
         currentSquare.set(0, p1);
         currentSquare.set(1, p2);
