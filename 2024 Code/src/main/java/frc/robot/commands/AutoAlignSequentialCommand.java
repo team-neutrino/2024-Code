@@ -45,7 +45,6 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
         System.out.println("termination - " + (Math.abs((currentYaw - offsetYaw + (pose[5] * 0.04)) - (currentYaw))));
         if (Math.abs((currentYaw - offsetYaw + (pose[5] * 0.04)) - (currentYaw)) < 0.5) {
             SubsystemContainer.swerveSubsystem.stopSwerve();
-            System.out.println("auto align ended termination reached");
             timer.stop();
             timer.reset();
             return true;
@@ -53,16 +52,8 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
             SubsystemContainer.swerveSubsystem.stopSwerve();
             timer.stop();
             timer.reset();
-            System.out.println("auto align ended timer reached");
             return true;
         }
-        // } else if (Math.abs(startYaw - currentYaw) > 6) {
-        // return true;
-        // } else if (timer.get() > 2) {
-        // timer.stop();
-        // timer.reset();
-        // return true;
-        // }
 
         return false;
     }
