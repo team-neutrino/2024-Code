@@ -96,6 +96,7 @@ public class RobotContainer {
       for (int i = 0; i < 4; i++) {
         SubsystemContainer.swerveSubsystem.swerveModules[i].resetEverything();
       }
+      SubsystemContainer.armSubsystem.resetEverything();
     }));
 
     // shooter buttons
