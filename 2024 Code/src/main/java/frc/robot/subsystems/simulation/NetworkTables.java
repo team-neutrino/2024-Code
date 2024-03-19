@@ -117,9 +117,6 @@ public class NetworkTables extends SubsystemBase {
 
     @Override
     public void periodic() {
-        for (int i = 0; i < ports_pub.length; i++) {
-            ports_pub[i].set(m_Pdh.getCurrentFromChannel(i));
-        }
         totalCurrent.set(m_Pdh.getTotalCurrent());
     }
 }

@@ -34,26 +34,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "un"
+                        "pathName": "one"
                       }
                     },
                     {
-                      "type": "race",
+                      "type": "named",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "ArmUp"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "AutoAlignCommand"
-                            }
-                          }
-                        ]
+                        "name": "AutoAlignCommand"
                       }
                     },
                     {
@@ -71,26 +58,37 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "deux"
+                        "pathName": "two"
                       }
                     },
                     {
-                      "type": "race",
+                      "type": "named",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "ArmUp"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "AutoAlignCommand"
-                            }
-                          }
-                        ]
+                        "name": "AutoAlignCommand"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "MagicSpeakerCommand"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ArmDown"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "three"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoAlignCommand"
                       }
                     },
                     {

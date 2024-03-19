@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -96,12 +97,28 @@ public class LimelightSubsystem extends SubsystemBase {
     double poseDifference = poseEstimator.getEstimatedPosition().getTranslation()
         .getDistance(limelightPose.getTranslation());
 
+    double distanceToSpeaker;
+
+    if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
+      distanceToSpeaker = poseEstimator.getEstimatedPosition().getTranslation()
+          .getDistance(SwerveConstants.SPEAKER_RED_SIDE);
+
+    } else {
+      distanceToSpeaker = poseEstimator.getEstimatedPosition().getTranslation()
+          .getDistance(SwerveConstants.SPEAKER_BLUE_SIDE);
+    }
+
     if (getTv()) {
       double xyStds = 1.0;
 
       // multiple targets detected
-      if (pose[7] >= 2) {
+      if (pose[7] >= 2 && distanceToSpeaker < 2.8) {
         xyStds = 0.5;
+      }
+      // multiple targets but we don't want to trust it as much because the robot is
+      // far away
+      else if (pose[7] >= 2 && distanceToSpeaker < 4 && poseDifference < 0.2) {
+        xyStds = 3.0;
       }
       // 1 target with large area and close to estimated pose (find constant for area
       // (percent))
@@ -112,10 +129,6 @@ public class LimelightSubsystem extends SubsystemBase {
       else if (pose[10] > 0.2 && poseDifference < 0.2) {
         xyStds = 3.0;
       }
-      // need to zero, badly. Do not use this in the middle of a match
-      else if (poseDifference >= 3) {
-        SubsystemContainer.swerveSubsystem.resetPose(limelightPose);
-      }
       // conditions don't match to add a vision measurement
       else {
         return;
@@ -125,5 +138,10 @@ public class LimelightSubsystem extends SubsystemBase {
 
       poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
     }
+  }
+
+  public void resetOdometryToLimelightPose() {
+    SubsystemContainer.swerveSubsystem.resetPose(new Pose2d(pose[0], pose[1],
+        SubsystemContainer.swerveSubsystem.currentPoseL.getRotation()));
   }
 }

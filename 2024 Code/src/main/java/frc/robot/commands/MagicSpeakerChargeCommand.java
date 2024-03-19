@@ -11,6 +11,7 @@ import frc.robot.util.CalculateAngle;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class MagicSpeakerChargeCommand extends Command {
@@ -18,6 +19,7 @@ public class MagicSpeakerChargeCommand extends Command {
   private ArmSubsystem m_armSubsystem;
   private ShooterSubsystem m_shooterSubsystem;
   private IntakeSubsystem m_intakeSubsystem;
+  private SwerveSubsystem m_swerve;
   private CommandXboxController m_controller;
 
   public MagicSpeakerChargeCommand(CalculateAngle p_calculateAngle, CommandXboxController p_controller) {
@@ -25,6 +27,7 @@ public class MagicSpeakerChargeCommand extends Command {
     m_armSubsystem = SubsystemContainer.armSubsystem;
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
+    m_swerve = SubsystemContainer.swerveSubsystem;
     m_controller = p_controller;
     addRequirements(m_armSubsystem, m_shooterSubsystem, m_intakeSubsystem);
   }
@@ -37,7 +40,7 @@ public class MagicSpeakerChargeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
+    m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
   }

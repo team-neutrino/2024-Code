@@ -8,6 +8,7 @@ import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.LEDConstants.States;
+import frc.robot.subsystems.SwerveSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
@@ -35,7 +36,17 @@ public class AutoAlignCommand extends Command {
         if (SubsystemContainer.limelightSubsystem.getTv()) {
             currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
             offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
-            SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - offsetYaw);
+            double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
+            if (!SubsystemContainer.swerveSubsystem.isRedAlliance) {
+                if (pose[5] > 0) {
+                    pose[5] -= 180;
+                } else {
+                    pose[5] += 180;
+                }
+            }
+            SubsystemContainer.swerveSubsystem
+                    .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, pose[5]));
+
         } else {
             // SUPER auto align!!
             if (SubsystemContainer.swerveSubsystem.isRedAlliance) {

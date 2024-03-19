@@ -10,12 +10,14 @@ import frc.robot.util.CalculateAngle;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class AutonMagicSpeakerCommand extends Command {
   CalculateAngle m_calculateAngle;
   ArmSubsystem m_armSubsystem;
   ShooterSubsystem m_shooterSubsystem;
+  private SwerveSubsystem m_swerve;
   IntakeSubsystem m_intakeSubsystem;
   int i = 0;
 
@@ -24,6 +26,7 @@ public class AutonMagicSpeakerCommand extends Command {
     m_armSubsystem = SubsystemContainer.armSubsystem;
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
+    m_swerve = SubsystemContainer.swerveSubsystem;
     addRequirements(m_armSubsystem, m_shooterSubsystem);
   }
 
@@ -35,7 +38,7 @@ public class AutonMagicSpeakerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle());
+    m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
       m_intakeSubsystem.runIndexShoot();

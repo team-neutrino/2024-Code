@@ -47,7 +47,7 @@ public final class Constants {
     public static Translation2d CENTER_OF_FIELD_M = new Translation2d(8.29564, 4.105656);
 
     public static Translation2d SPEAKER_BLUE_SIDE = new Translation2d(0, 5.35);
-    public static Translation2d SPEAKER_RED_SIDE = new Translation2d(16.1, 5.35);
+    public static Translation2d SPEAKER_RED_SIDE = new Translation2d(16.5, 5.35);
 
     public static Translation2d AMP_TARGET_POSE_RED = new Translation2d(12.7254, 7.75);
     public static Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(1.84, 7.75);
@@ -115,7 +115,7 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-    public static double Arm_kp = 0.02;
+    public static double Arm_kp = 0.022;
     public static double Arm_ki = 0.0;
     public static double Arm_kd = 0.0;
 

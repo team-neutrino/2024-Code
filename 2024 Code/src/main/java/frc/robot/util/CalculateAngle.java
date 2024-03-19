@@ -1,6 +1,7 @@
 package frc.robot.util;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.awt.geom.Point2D;
@@ -8,7 +9,6 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
-import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.simulation.InterpolationOptimization;
 
 public class CalculateAngle {
@@ -18,68 +18,101 @@ public class CalculateAngle {
     TreeMap<Double, Double> m_xAxis = new TreeMap<>();
     TreeMap<Double, Double> m_yAxis = new TreeMap<>();
 
-    HashMap<Point2D.Double, Double> bilinearMap = new HashMap<>();
+    HashMap<PolarCoord, Double> bilinearMap = new HashMap<>();
 
     ArrayList<Double> row = new ArrayList<>();
     ArrayList<Double> col = new ArrayList<>();
 
     InterpolationOptimization optimizer = new InterpolationOptimization();
 
-    ArrayList<Point2D.Double> currentSquare = new ArrayList<>();
+    ArrayList<PolarCoord> currentSquare = new ArrayList<>();
 
-    Point2D currentRobotPoint;
+    PolarCoord currentRobotPoint;
 
-    Point2D.Double p1 = new Point2D.Double(-10.0, -10.0); // far bottom left point, initialization for evaluation
-    Point2D.Double p2;
-    Point2D.Double p3;
-    Point2D.Double p4;
+    PolarCoord p1 = new PolarCoord(10.0, Math.PI); // far bottom left point, initialization for evaluation
+    PolarCoord p2;
+    PolarCoord p3;
+    PolarCoord p4;
 
-    double[] changeAmt = { -0.5, 0.5, -1, 1, -2, 2 };
+    double[] changeAmt = { -0.5, 0.5, -1, 1, -3, 3 };
+
+    double pi = Math.PI;
 
     public CalculateAngle() {
 
-        bilinearMap.put(new Point2D.Double(1.625, 0), 1.22654);
-        bilinearMap.put(new Point2D.Double(2.3, 0), 5.0);
-        bilinearMap.put(new Point2D.Double(2.8, 0), 12.33);
-        bilinearMap.put(new Point2D.Double(3.5, 0), 17.35); // 12 in auton testing
-        bilinearMap.put(new Point2D.Double(4.0, 0.0), 16.0);
-        bilinearMap.put(new Point2D.Double(1.625, 0.85), 2.04);
+        bilinearMap.put(new PolarCoord(1.625, 0), 1.22654);
+        bilinearMap.put(new PolarCoord(2.0, 0), 5.0);
+        bilinearMap.put(new PolarCoord(2.3, 0), 6.34);
+        bilinearMap.put(new PolarCoord(2.55, 0), 8.733);
+        bilinearMap.put(new PolarCoord(2.8, 0), 12.88);
+        bilinearMap.put(new PolarCoord(3.2, 0), 14.0);
+        bilinearMap.put(new PolarCoord(3.5, 0), 15.51);
+        bilinearMap.put(new PolarCoord(4.0, 0), 16.0);
 
-        bilinearMap.put(new Point2D.Double(2.3, 0.85), 14.97);
-        bilinearMap.put(new Point2D.Double(2.8, 0.85), 15.14);
-        bilinearMap.put(new Point2D.Double(3.5, 0.85), 20.59);
-        bilinearMap.put(new Point2D.Double(4.0, 0.85), 20.25);
-        bilinearMap.put(new Point2D.Double(1.625, 1.2), 6.45619);
+        bilinearMap.put(new PolarCoord(1.625, pi / 24), 3.4);
+        bilinearMap.put(new PolarCoord(2.0, pi / 24), 6.5);
+        bilinearMap.put(new PolarCoord(2.3, pi / 24), 9.0);
+        bilinearMap.put(new PolarCoord(2.55, pi / 24), 11.0);
+        bilinearMap.put(new PolarCoord(2.8, pi / 24), 14.48);
+        bilinearMap.put(new PolarCoord(3.2, pi / 24), 17.47);
+        bilinearMap.put(new PolarCoord(3.5, pi / 24), 16.6);
+        bilinearMap.put(new PolarCoord(4.0, pi / 24), 18.0);
 
-        bilinearMap.put(new Point2D.Double(2.3, 1.2), 11.96);
-        bilinearMap.put(new Point2D.Double(2.8, 1.2), 3.638);
+        bilinearMap.put(new PolarCoord(1.625, pi / 12), 4.0);
+        bilinearMap.put(new PolarCoord(2.0, pi / 12), 8.0);
+        bilinearMap.put(new PolarCoord(2.3, pi / 12), 9.579);
+        bilinearMap.put(new PolarCoord(2.55, pi / 12), 11.19);
+        bilinearMap.put(new PolarCoord(2.8, pi / 12), 14.08); // 12.74
+        bilinearMap.put(new PolarCoord(3.2, pi / 12), 14.86); // 13.86
+        bilinearMap.put(new PolarCoord(3.5, pi / 12), 16.37);
+        bilinearMap.put(new PolarCoord(4.0, pi / 12), 16.02);
 
-        bilinearMap.put(new Point2D.Double(3.5, 1.2), 19.21);
-        bilinearMap.put(new Point2D.Double(4.0, 1.2), 22.0);
+        bilinearMap.put(new PolarCoord(1.625, pi / 8), 4.76);
+        bilinearMap.put(new PolarCoord(2.0, pi / 8), 8.0);
+        bilinearMap.put(new PolarCoord(2.3, pi / 8), 9.579);
+        bilinearMap.put(new PolarCoord(2.55, pi / 8), 11.0);
+        bilinearMap.put(new PolarCoord(2.8, pi / 8), 13.3); // 12.89
+        bilinearMap.put(new PolarCoord(3.2, pi / 8), 11.56); // 11.257
+        bilinearMap.put(new PolarCoord(3.5, pi / 8), 15.439);
+        bilinearMap.put(new PolarCoord(4.0, pi / 8), 20.72);
 
-        bilinearMap.put(new Point2D.Double(1.625, 2.13), 9.16);
-        bilinearMap.put(new Point2D.Double(2.3, 2.13), 17.7829);
-        bilinearMap.put(new Point2D.Double(2.8, 2.13), 10.554);
-        bilinearMap.put(new Point2D.Double(3.5, 2.13), 21.27);
-        bilinearMap.put(new Point2D.Double(4.0, 2.13), 22.14);
+        bilinearMap.put(new PolarCoord(1.625, pi / 6), 5.0);
+        bilinearMap.put(new PolarCoord(2.0, pi / 6), 8.5);
+        bilinearMap.put(new PolarCoord(2.3, pi / 6), 9.56);
+        bilinearMap.put(new PolarCoord(2.55, pi / 6), 11.0);
+        bilinearMap.put(new PolarCoord(2.8, pi / 6), 11.05);
+        bilinearMap.put(new PolarCoord(3.2, pi / 6), 12.56);
+        bilinearMap.put(new PolarCoord(3.5, pi / 6), 15.08);
+        bilinearMap.put(new PolarCoord(4.0, pi / 6), 21.6359);
 
-        bilinearMap.put(new Point2D.Double(1.625, 2.7), 15.0);
-        bilinearMap.put(new Point2D.Double(2.3, 2.7), 17.31);
-        bilinearMap.put(new Point2D.Double(2.8, 2.7), 20.66);
-        bilinearMap.put(new Point2D.Double(3.5, 2.7), 20.40);
-        bilinearMap.put(new Point2D.Double(4.0, 2.7), 21.6);
+        bilinearMap.put(new PolarCoord(1.625, pi / 4.8), 6.0);
+        bilinearMap.put(new PolarCoord(2.0, pi / 4.8), 8.5);
+        bilinearMap.put(new PolarCoord(2.3, pi / 4.8), 10.1);
+        bilinearMap.put(new PolarCoord(2.55, pi / 4.8), 12.4);
+        bilinearMap.put(new PolarCoord(2.8, pi / 4.8), 12.04);
+        bilinearMap.put(new PolarCoord(3.2, pi / 4.8), 16.145);
+        bilinearMap.put(new PolarCoord(3.5, pi / 4.8), 14.7445);
+        bilinearMap.put(new PolarCoord(4.0, pi / 4.8), 17.57);
 
-        col.add(1.625);
-        col.add(2.3);
-        col.add(2.8);
-        col.add(3.5);
-        col.add(4.0);
+        bilinearMap.put(new PolarCoord(1.625, pi / 4), 6.5);
+        bilinearMap.put(new PolarCoord(2.0, pi / 4), 8.5);
+        bilinearMap.put(new PolarCoord(2.3, pi / 4), 9.0);
+        bilinearMap.put(new PolarCoord(2.55, pi / 4), 12.5);
+        bilinearMap.put(new PolarCoord(2.8, pi / 4), 11.17);
+        bilinearMap.put(new PolarCoord(3.2, pi / 4), 15.54);
+        bilinearMap.put(new PolarCoord(3.5, pi / 4), 18.0);
+        bilinearMap.put(new PolarCoord(4.0, pi / 4), 20.66);
 
-        row.add(0.0);
-        row.add(0.85);
-        row.add(1.2);
-        row.add(2.13);
-        row.add(2.7);
+        for (PolarCoord cur_key : bilinearMap.keySet()) {
+            if (!col.contains(cur_key.x)) {
+                col.add(cur_key.x);
+            }
+            if (!row.contains(cur_key.y)) {
+                row.add(cur_key.y);
+            }
+        }
+        col.sort(Comparator.naturalOrder());
+        row.sort(Comparator.naturalOrder());
 
         currentSquare.add(p1);
         currentSquare.add(p2);
@@ -87,7 +120,7 @@ public class CalculateAngle {
         currentSquare.add(p4);
     }
 
-    public double InterpolateAngle() {
+    public double InterpolateAngle(PolarCoord robotPoint) {
 
         int index = optimizer.scheduleFunctionChanges();
 
@@ -121,23 +154,7 @@ public class CalculateAngle {
             bilinearMap.put(currentSquare.get(3), value4 + coeff4 * scalar);
         }
 
-        double xComp;
-        double yComp;
-
-        if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
-            xComp = Math.abs(
-                    SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX());
-            yComp = Math.abs(
-                    SubsystemContainer.swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY());
-        } else {
-            xComp = Math.abs(SubsystemContainer.swerveSubsystem.currentPoseL.getX());
-            yComp = Math.abs(
-                    SubsystemContainer.swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
-        }
-
         // define robot point, this is the point that we are approximating f(x,y) for
-
-        Point2D robotPoint = new Point2D.Double(xComp, yComp);
 
         currentRobotPoint = robotPoint;
 
@@ -156,7 +173,7 @@ public class CalculateAngle {
 
         for (int i = 0; i < row.size(); i++) {
             for (int j = 0; j < col.size(); j++) {
-                Point2D.Double temp = new Point2D.Double(col.get(j), row.get(i));
+                PolarCoord temp = new PolarCoord(col.get(j), row.get(i));
                 if (p1.distance(robotPoint) > temp.distance(robotPoint)) {
                     p1 = temp;
                     rowN = i;
@@ -166,11 +183,11 @@ public class CalculateAngle {
         }
 
         if (robotPoint.getX() > col.get(col.size() - 1) || (robotPoint.getX() < col.get(0))) {
-            robotPoint = new Point2D.Double(col.get(colN), robotPoint.getY());
+            robotPoint = new PolarCoord(col.get(colN), robotPoint.getY());
         }
 
         if ((robotPoint.getY() > row.get(row.size() - 1)) || (robotPoint.getY() < row.get(0))) {
-            robotPoint = new Point2D.Double(robotPoint.getX(), row.get(rowN));
+            robotPoint = new PolarCoord(robotPoint.getX(), row.get(rowN));
         }
 
         if (colN == col.size() - 1 || robotPoint.getX() < col.get(colN)) {
@@ -191,53 +208,61 @@ public class CalculateAngle {
 
         // define the four corners
 
-        p1 = new Point2D.Double(x1, y1);
-        p2 = new Point2D.Double(x2, y1);
-        p3 = new Point2D.Double(x1, y2);
-        p4 = new Point2D.Double(x2, y2);
+        p1 = new PolarCoord(x1, y1);
+        p2 = new PolarCoord(x2, y1);
+        p3 = new PolarCoord(x1, y2);
+        p4 = new PolarCoord(x2, y2);
 
         currentSquare.set(0, p1);
         currentSquare.set(1, p2);
         currentSquare.set(2, p3);
         currentSquare.set(3, p4);
 
-        // define the three matrices that are needed for the computation,
-        // one stores the values of the function at each point, one stores
-        // some delta y terms, the other stores corresponding delta x terms
+        // define weights (coeff 1-4) and multipy the function value at the four corners
+        // by each weight determined by the robot's position
 
-        Matrix<N2, N2> zMatrix = new Matrix<N2, N2>(Nat.N2(), Nat.N2());
+        double deltaY = currentSquare.get(2).getY() - currentSquare.get(0).getY();
+        double deltaX = currentSquare.get(1).getX() - currentSquare.get(0).getX();
 
-        zMatrix.set(0, 0, bilinearMap.get(p1));
-        zMatrix.set(0, 1, bilinearMap.get(p2));
-        zMatrix.set(1, 0, bilinearMap.get(p3));
-        zMatrix.set(1, 1, bilinearMap.get(p4));
+        double yPart1 = ((currentSquare.get(2).getY() - currentRobotPoint.getY()) / deltaY);
+        double yPart2 = ((currentRobotPoint.getY() - currentSquare.get(0).getY()) / deltaY);
 
-        Matrix<N2, N1> deltaYMatrix = new Matrix<N2, N1>(Nat.N2(), Nat.N1());
+        double xPart1 = ((currentSquare.get(1).getX() - currentRobotPoint.getX()) / deltaX);
+        double xPart2 = ((currentRobotPoint.getX() - currentSquare.get(0).getX()) / deltaX);
 
-        deltaYMatrix.set(0, 0, y2 - robotPoint.getY());
-        deltaYMatrix.set(1, 0, robotPoint.getY() - y1);
+        double coeff1 = yPart1 * xPart1;
+        double coeff2 = yPart1 * xPart2;
+        double coeff3 = yPart2 * xPart1;
+        double coeff4 = yPart2 * xPart2;
 
-        Matrix<N1, N2> deltaXMatrix = new Matrix<N1, N2>(Nat.N1(), Nat.N2());
+        double value1 = bilinearMap.get(currentSquare.get(0));
+        double value2 = bilinearMap.get(currentSquare.get(1));
+        double value3 = bilinearMap.get(currentSquare.get(2));
+        double value4 = bilinearMap.get(currentSquare.get(3));
 
-        deltaXMatrix.set(0, 0, x2 - robotPoint.getX());
-        deltaXMatrix.set(0, 1, robotPoint.getX() - x1);
+        double result = value1 * coeff1 + value2 * coeff2 + value3 * coeff3 + value4 * coeff4;
 
-        // carry out computation
-
-        Matrix<N1, N2> productOne = deltaXMatrix.times(zMatrix);
-
-        Matrix<N1, N1> productTwo = productOne.times(deltaYMatrix);
-
-        double result = productTwo.get(0, 0) / ((x2 - x1) * (y2 - y1));
-
-        // reset point (running into oscillation issues, probably because this point not
-        // being reset
-        // led to interference with the shortest distance algorithm necessary to
-        // complete the square)
-
-        p1 = new Point2D.Double(-10.0, -10.0);
+        p1 = new PolarCoord(10.0, Math.PI);
 
         return result;
+    }
+
+    /**
+     * Calculates set angle for arm while shooting using a best fit kinda wacky
+     * plane instead of piecewise bilinear interpolation
+     * 
+     * @param robotPoint
+     * @return
+     */
+    public double bestFitCalculateAngle(PolarCoord robotPoint) {
+        Point2D.Double robotPointxy = new Point2D.Double(robotPoint.getRadius() * Math.cos(robotPoint.getTheta()),
+                robotPoint.getRadius() * Math.sin(robotPoint.getTheta()));
+
+        if (robotPointxy.getY() < 0.25) {
+            return robotPointxy.getX() * 4;
+        }
+
+        return 4.59 * Math.pow(robotPointxy.getX(), 1.09) * Math.pow(robotPointxy.getY(), 0.15);
     }
 
     /**
@@ -251,5 +276,7 @@ public class CalculateAngle {
                 System.out.println(bilinearMap.get(temp));
             }
         }
+        System.out.println("current robot location: r " + currentRobotPoint.getRadius() + " theta "
+                + currentRobotPoint.getTheta());
     }
 }

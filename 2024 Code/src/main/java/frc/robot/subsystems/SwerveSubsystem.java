@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.awt.geom.Point2D;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -32,6 +34,7 @@ import frc.robot.Constants.LEDConstants.States;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
+import frc.robot.util.PolarCoord;
 
 public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
@@ -84,6 +87,7 @@ public class SwerveSubsystem extends SubsystemBase {
   Field2d field = new Field2d();
   Pose2d currentPose = new Pose2d();
   public Pose2d currentPoseL = new Pose2d();
+  public PolarCoord speaker_to_robot = new PolarCoord();
   public Command m_pathfindAmp;
   public boolean isRedAlliance;
 
@@ -117,7 +121,7 @@ public class SwerveSubsystem extends SubsystemBase {
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
             new PIDConstants(5, 0.0, 0.0),
-            new PIDConstants(0.6, 0.0, 0.0),
+            new PIDConstants(1.0, 0.0, 0.0), // 0.6 before
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -435,6 +439,73 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
   }
 
+  public void stopSwerve() {
+    ChassisSpeeds fieldSpeeds = new ChassisSpeeds(0, 0, 0);
+    ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
+
+    moduleStates = m_kinematics.toSwerveModuleStates(robotSpeeds);
+
+    moduleStates[0] = SwerveModuleState.optimize(moduleStates[0],
+        m_frontRight.getOptimizationAngle());
+    moduleStates[1] = SwerveModuleState.optimize(moduleStates[1],
+        m_frontLeft.getOptimizationAngle());
+    moduleStates[2] = SwerveModuleState.optimize(moduleStates[2],
+        m_backRight.getOptimizationAngle());
+    moduleStates[3] = SwerveModuleState.optimize(moduleStates[3],
+        m_backLeft.getOptimizationAngle());
+
+    double feedForwardFR = m_feedForward.calculate(moduleStates[0].speedMetersPerSecond);
+    double feedForwardFL = m_feedForward.calculate(moduleStates[1].speedMetersPerSecond);
+    double feedForwardBR = m_feedForward.calculate(moduleStates[2].speedMetersPerSecond);
+    double feedForwardBL = m_feedForward.calculate(moduleStates[3].speedMetersPerSecond);
+
+    for (int i = 0; i < 4; i++) {
+      if (moduleStates[i].angle.getDegrees() <= 0) {
+        moduleStates[i].angle = Rotation2d.fromDegrees(moduleStates[i].angle.getDegrees() * -1);
+      } else {
+        moduleStates[i].angle = Rotation2d.fromDegrees(360 - moduleStates[i].angle.getDegrees());
+      }
+    }
+
+    m_frontRight.setAnglePID(moduleStates[0].angle.getDegrees());
+    m_frontLeft.setAnglePID(moduleStates[1].angle.getDegrees());
+    m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
+    m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
+
+    m_frontRight.setSpeedPID(0, 0);
+    m_frontLeft.setSpeedPID(0, 0);
+    m_backRight.setSpeedPID(0, 0);
+    m_backLeft.setSpeedPID(0, 0);
+  }
+
+  private void UpdateSpeakerToRobot(Pose2d currentPose) {
+    double xComp = 0;
+    double yComp = 0;
+    double radius = 0.0;
+    double theta = 0.0;
+    if (isRedAlliance) {
+      xComp = Math.abs(currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX());
+      yComp = Math.abs(currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY());
+      radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));
+      theta = Math.atan(yComp / xComp);
+    } else {
+      xComp = Math.abs(currentPoseL.getX());
+      yComp = Math.abs(currentPoseL.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
+      radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));
+      theta = Math.atan(yComp / xComp);
+    }
+
+    speaker_to_robot.setLocation(radius, theta);
+  }
+
+  public PolarCoord GetSpeakerToRobot() {
+    return speaker_to_robot;
+  }
+
+  public static double calculateLimelightOffsetAngle(double currentYaw, double offsetYaw, double robotTheta) {
+    return currentYaw - offsetYaw + (robotTheta * 0.04);
+  }
+
   @Override
   public void periodic() {
     modulePositions[0] = m_frontRight.getModulePosition();
@@ -445,6 +516,7 @@ public class SwerveSubsystem extends SubsystemBase {
     currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
 
     currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    UpdateSpeakerToRobot(currentPoseL);
 
     field.getObject("odometry w/o limelight").setPose(currentPose);
     field.getObject("with limelight").setPose(currentPoseL);

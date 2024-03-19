@@ -78,7 +78,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
     NamedCommands.registerCommand("AutoAlignCommand", new AutoAlignSequentialCommand());
     NamedCommands.registerCommand("ArmDown", new AutonArmAngleCommand(ArmConstants.INTAKE_POSE));
-    NamedCommands.registerCommand("ArmUp", new AutonArmAngleCommand(15));
+    NamedCommands.registerCommand("ArmUp", new AutonArmAngleCommand(0));
     NamedCommands.registerCommand("BelowSubwooferShot", new AutonShootManualCommand(8, 4000));
     NamedCommands.registerCommand("SingleSubwooferShot",
         new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
@@ -91,24 +91,20 @@ public class RobotContainer {
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
-    // m_driverController.leftStick()
-    // .toggleOnTrue(new InstantCommand(() ->
-    // SubsystemContainer.swerveSubsystem.setFastMode(true)));
-    // m_driverController.leftStick()
-    // .toggleOnFalse(new InstantCommand(() ->
-    // SubsystemContainer.swerveSubsystem.setFastMode(false)));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       for (int i = 0; i < 4; i++) {
         SubsystemContainer.swerveSubsystem.swerveModules[i].resetEverything();
       }
+      SubsystemContainer.armSubsystem.resetEverything();
     }));
 
     // shooter buttons
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
 
-    // m_driverController.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
+    m_driverController.start()
+        .whileTrue(new InstantCommand(() -> SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose()));
 
     // separate button binding to left bumper contained within the magic speaker
     // charge command
@@ -116,10 +112,13 @@ public class RobotContainer {
         new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicShootCommand()));
 
     m_buttonsController.x().whileTrue(new SequentialCommandGroup(
-        new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED, m_buttonsController), new MagicShootCommand()));
+        new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED,
+            m_buttonsController),
+        new MagicShootCommand()));
 
     m_buttonsController.b()
-        .whileTrue(new SequentialCommandGroup(new ShootManualCommand(Constants.ArmConstants.SHUTTLE_ANGLE, Constants.ShooterSpeeds.SHUTTLE_SPEED, m_buttonsController), new MagicShootCommand()));
+        .whileTrue(new SequentialCommandGroup(new ShootManualCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
+            Constants.ShooterSpeeds.SHUTTLE_SPEED, m_buttonsController), new MagicShootCommand()));
 
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
@@ -132,7 +131,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("3 Note");
+      auto = new PathPlannerAuto("All Close Notes");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }
