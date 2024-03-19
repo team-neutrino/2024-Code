@@ -258,6 +258,10 @@ public class CalculateAngle {
         Point2D.Double robotPointxy = new Point2D.Double(robotPoint.getRadius() * Math.cos(robotPoint.getTheta()),
                 robotPoint.getRadius() * Math.sin(robotPoint.getTheta()));
 
+        if (robotPointxy.getY() < 0.25) {
+            return robotPointxy.getX() * 4;
+        }
+
         return 4.59 * Math.pow(robotPointxy.getX(), 1.09) * Math.pow(robotPointxy.getY(), 0.15);
     }
 
