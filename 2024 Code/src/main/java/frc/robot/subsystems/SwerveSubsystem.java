@@ -502,6 +502,10 @@ public class SwerveSubsystem extends SubsystemBase {
     return speaker_to_robot;
   }
 
+  public static double calculateLimelightOffsetAngle(double currentYaw, double offsetYaw, double robotTheta) {
+    return currentYaw - offsetYaw + (robotTheta * 0.04);
+  }
+
   @Override
   public void periodic() {
     modulePositions[0] = m_frontRight.getModulePosition();
