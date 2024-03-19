@@ -48,7 +48,7 @@ public class CalculateAngleTest {
 
         PointAnglePair(double r, double theta, CalculateAngle calc) {
             pt = new PolarCoord(r, theta);
-            angle = calc.InterpolateAngle(pt);
+            angle = calc.bestFitCalculateAngle(pt);
         }
 
         public double Angle() {

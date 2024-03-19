@@ -248,6 +248,20 @@ public class CalculateAngle {
     }
 
     /**
+     * Calculates set angle for arm while shooting using a best fit kinda wacky
+     * plane instead of piecewise bilinear interpolation
+     * 
+     * @param robotPoint
+     * @return
+     */
+    public double bestFitCalculateAngle(PolarCoord robotPoint) {
+        Point2D.Double robotPointxy = new Point2D.Double(robotPoint.getRadius() * Math.cos(robotPoint.getTheta()),
+                robotPoint.getRadius() * Math.sin(robotPoint.getTheta()));
+
+        return 4.59 * Math.pow(robotPointxy.getX(), 1.09) * Math.pow(robotPointxy.getY(), 0.15);
+    }
+
+    /**
      * This method is used for tuning and is required for acquring the modified
      * function value set
      */
