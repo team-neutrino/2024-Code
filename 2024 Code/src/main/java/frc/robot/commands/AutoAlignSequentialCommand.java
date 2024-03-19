@@ -35,14 +35,12 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
             }
 
         }
-        System.out.println("tx " + offsetYaw);
         SubsystemContainer.swerveSubsystem.autonRotateSwerve(currentYaw - offsetYaw + (pose[5] * 0.04));
 
     }
 
     @Override
     public boolean isFinished() {
-        System.out.println("termination - " + (Math.abs((currentYaw - offsetYaw + (pose[5] * 0.04)) - (currentYaw))));
         if (Math.abs((currentYaw - offsetYaw + (pose[5] * 0.04)) - (currentYaw)) < 0.5) {
             SubsystemContainer.swerveSubsystem.stopSwerve();
             timer.stop();
