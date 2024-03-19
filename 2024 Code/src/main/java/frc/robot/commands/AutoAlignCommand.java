@@ -45,7 +45,7 @@ public class AutoAlignCommand extends Command {
                 }
             }
             SubsystemContainer.swerveSubsystem
-                    .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, currentYaw));
+                    .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, pose[5]));
 
         } else {
             // SUPER auto align!!
