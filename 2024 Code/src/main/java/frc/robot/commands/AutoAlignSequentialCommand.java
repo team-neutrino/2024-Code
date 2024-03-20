@@ -19,7 +19,11 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
 
     @Override
     public void initialize() {
-        super.initialize();
+        if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
+            SubsystemContainer.limelightSubsystem.setPriorityID(4);
+        } else {
+            SubsystemContainer.limelightSubsystem.setPriorityID(7);
+        }
         timer.start();
     }
 
@@ -38,7 +42,6 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
         }
         SubsystemContainer.swerveSubsystem
                 .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, pose[5]));
-
     }
 
     @Override

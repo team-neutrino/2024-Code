@@ -29,6 +29,8 @@ public class AutoAlignCommand extends Command {
         } else {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
         }
+
+        SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
     }
 
     @Override
