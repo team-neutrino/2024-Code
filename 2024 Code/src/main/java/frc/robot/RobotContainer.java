@@ -51,7 +51,6 @@ public class RobotContainer {
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand();
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
-  CalculateAngle m_angleCalculate = new CalculateAngle();
 
   public RobotContainer() {
     configureBindings();
@@ -73,7 +72,8 @@ public class RobotContainer {
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // set named commands
-    NamedCommands.registerCommand("MagicSpeakerCommand", new AutonMagicSpeakerCommand(m_angleCalculate));
+    NamedCommands.registerCommand("MagicSpeakerCommand",
+        new AutonMagicSpeakerCommand(SubsystemContainer.m_angleCalculate));
     NamedCommands.registerCommand("IntakeCommand", new IntakeCommand());
     NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
     NamedCommands.registerCommand("AutoAlignCommand", new AutoAlignSequentialCommand());
@@ -103,7 +103,7 @@ public class RobotContainer {
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
 
-    m_driverController.a().whileTrue(new InstantCommand(() -> m_angleCalculate.dumpData()));
+    m_driverController.a().whileTrue(new InstantCommand(() -> SubsystemContainer.m_angleCalculate.dumpData()));
 
     m_driverController.start()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose()));
@@ -111,7 +111,8 @@ public class RobotContainer {
     // separate button binding to left bumper contained within the magic speaker
     // charge command
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
-        new MagicSpeakerChargeCommand(m_angleCalculate, m_buttonsController), new MagicShootCommand()));
+        new MagicSpeakerChargeCommand(SubsystemContainer.m_angleCalculate, m_buttonsController),
+        new MagicShootCommand()));
 
     m_buttonsController.x().whileTrue(new SequentialCommandGroup(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED,

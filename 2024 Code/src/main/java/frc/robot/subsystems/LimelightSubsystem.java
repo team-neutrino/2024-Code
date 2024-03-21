@@ -99,7 +99,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     double distanceToSpeaker;
 
-    if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
+    if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
       distanceToSpeaker = poseEstimator.getEstimatedPosition().getTranslation()
           .getDistance(SwerveConstants.SPEAKER_RED_SIDE);
 

@@ -32,7 +32,7 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
         currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
         offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
         pose = SubsystemContainer.limelightSubsystem.getBotPose();
-        if (!SubsystemContainer.swerveSubsystem.isRedAlliance) {
+        if (!SubsystemContainer.swerveSubsystem.isRedAlliance()) {
             if (pose[5] > 0) {
                 pose[5] -= 180;
             } else {

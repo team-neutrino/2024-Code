@@ -134,7 +134,7 @@ public class SwerveSubsystem extends SubsystemBase {
         },
         this);
 
-    if (isRedAlliance) {
+    if (isRedAlliance()) {
       m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d(-90)),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     } else {
@@ -263,7 +263,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_navX.reset();
     m_referenceAngle = 0;
 
-    if (isRedAlliance) {
+    if (isRedAlliance()) {
       m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
           modulePositions,
           new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
@@ -315,7 +315,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     Pose2d closestPose;
 
-    if (isRedAlliance) {
+    if (isRedAlliance()) {
       closestPose = SwerveConstants.RED_TARGET_POSE1;
 
       double d2 = distanceFormula(SwerveConstants.RED_TARGET_POSE2);
@@ -483,7 +483,7 @@ public class SwerveSubsystem extends SubsystemBase {
     double yComp = 0;
     double radius = 0.0;
     double theta = 0.0;
-    if (isRedAlliance) {
+    if (isRedAlliance()) {
       xComp = Math.abs(currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX());
       yComp = Math.abs(currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY());
       radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));
