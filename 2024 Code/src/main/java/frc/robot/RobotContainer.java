@@ -122,6 +122,8 @@ public class RobotContainer {
         .whileTrue(new SequentialCommandGroup(new ShootManualCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
             Constants.ShooterSpeeds.SHUTTLE_SPEED, m_buttonsController), new MagicShootCommand()));
 
+    m_buttonsController.povDown().onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.resetEverything()));
+
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 
     // arm buttons

@@ -503,7 +503,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public static double calculateLimelightOffsetAngle(double currentYaw, double offsetYaw, double robotTheta) {
-    return currentYaw - offsetYaw + (robotTheta * 0.04);
+    return currentYaw - offsetYaw + (robotTheta * 0.06);
   }
 
   @Override
