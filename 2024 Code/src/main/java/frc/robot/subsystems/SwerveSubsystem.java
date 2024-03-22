@@ -89,7 +89,6 @@ public class SwerveSubsystem extends SubsystemBase {
   public Pose2d currentPoseL = new Pose2d();
   public PolarCoord speaker_to_robot = new PolarCoord();
   public Command m_pathfindAmp;
-  public boolean isRedAlliance;
 
   SlewRateLimiter filterX = new SlewRateLimiter(2);
   SlewRateLimiter filterY = new SlewRateLimiter(2);
@@ -100,8 +99,6 @@ public class SwerveSubsystem extends SubsystemBase {
     modulePositions[1] = new SwerveModulePosition();
     modulePositions[2] = new SwerveModulePosition();
     modulePositions[3] = new SwerveModulePosition();
-
-    isRedAlliance = isRedAlliance();
 
     m_swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
         modulePositions);
