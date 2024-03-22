@@ -194,7 +194,7 @@ public class IntakeSubsystem extends SubsystemBase {
         return m_indexBeam && m_intakeBeam;
     }
 
-    private boolean centerNote() {
+    public boolean centerNote() {
         return m_intakeBeam && !m_indexBeam;
     }
 
