@@ -475,19 +475,19 @@ public class SwerveSubsystem extends SubsystemBase {
     m_backLeft.setSpeedPID(0, 0);
   }
 
-  private void UpdateSpeakerToRobot(Pose2d currentPose) {
+  private void UpdateSpeakerToRobot(Pose2d pose) {
     double xComp = 0;
     double yComp = 0;
     double radius = 0.0;
     double theta = 0.0;
     if (isRedAlliance()) {
-      xComp = Math.abs(currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX());
-      yComp = Math.abs(currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY());
+      xComp = Math.abs(pose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX());
+      yComp = Math.abs(pose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY());
       radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));
       theta = Math.atan(yComp / xComp);
     } else {
-      xComp = Math.abs(currentPoseL.getX());
-      yComp = Math.abs(currentPoseL.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
+      xComp = Math.abs(pose.getX());
+      yComp = Math.abs(pose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
       radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));
       theta = Math.atan(yComp / xComp);
     }
