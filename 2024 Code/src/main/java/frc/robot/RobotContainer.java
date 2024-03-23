@@ -32,6 +32,7 @@ import frc.robot.commands.ArmClimbCommandDown;
 import frc.robot.commands.ArmClimbCommandUp;
 import frc.robot.commands.ArmManualCommand;
 import frc.robot.commands.AutoAlignCommand;
+import frc.robot.commands.AutoAlignForeverCommand;
 import frc.robot.commands.IndexJitterCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeDefaultCommand;
@@ -86,8 +87,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
     NamedCommands.registerCommand("AutoAlignCommand", new AutoAlignSequentialCommand());
     NamedCommands.registerCommand("ArmDown", new AutonArmAngleCommand(ArmConstants.INTAKE_POSE));
-    NamedCommands.registerCommand("ArmUp", new AutonArmAngleCommand(0));
-    NamedCommands.registerCommand("BelowSubwooferShot", new AutonShootManualCommand(8, 4000));
     NamedCommands.registerCommand("SingleSubwooferShot",
         new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
     NamedCommands.registerCommand("AutonIntakeCommand", new AutonIntakeCommand());
@@ -99,6 +98,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("AutonArmDown", new AutonArmCommand(Constants.ArmConstants.INTAKE_POSE));
     NamedCommands.registerCommand("AutonArmInterpolate",
         new AutonArmInterpolateAngle(SubsystemContainer.m_angleCalculate));
+    NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand());
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
@@ -153,7 +153,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("New Close Notes From Source");
+      auto = new PathPlannerAuto("1 Note and Mid");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }

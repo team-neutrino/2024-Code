@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 
-public class AutoAlignSequentialCommand extends AutoAlignCommand {
+public class AutoAlignForeverCommand extends AutoAlignCommand {
 
     Timer timer = new Timer();
     double[] pose;
 
-    public AutoAlignSequentialCommand() {
+    public AutoAlignForeverCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
@@ -46,19 +46,6 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
 
     @Override
     public boolean isFinished() {
-        if (Math.abs((SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, pose[5]))
-                - (currentYaw)) < 0.5) {
-            SubsystemContainer.swerveSubsystem.stopSwerve();
-            timer.stop();
-            timer.reset();
-            return true;
-        } else if (timer.get() > 1.5) {
-            SubsystemContainer.swerveSubsystem.stopSwerve();
-            timer.stop();
-            timer.reset();
-            return true;
-        }
-
         return false;
     }
 }

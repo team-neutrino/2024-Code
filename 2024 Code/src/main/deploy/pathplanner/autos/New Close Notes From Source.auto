@@ -34,7 +34,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "AutoAlignCommand"
+                        "name": "AutoAlignForever"
                       }
                     }
                   ]
@@ -86,7 +86,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoAlignCommand"
+                  "name": "AutoAlignForever"
                 }
               }
             ]
@@ -109,7 +109,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "AutoAlignCommand"
+                        "name": "AutoAlignForever"
                       }
                     }
                   ]
@@ -161,7 +161,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoAlignCommand"
+                  "name": "AutoAlignForever"
                 }
               }
             ]
@@ -184,7 +184,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "AutoAlignCommand"
+                        "name": "AutoAlignForever"
                       }
                     }
                   ]
@@ -236,7 +236,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoAlignCommand"
+                  "name": "AutoAlignForever"
                 }
               }
             ]

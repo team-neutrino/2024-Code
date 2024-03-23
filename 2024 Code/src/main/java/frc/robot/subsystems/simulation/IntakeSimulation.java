@@ -46,6 +46,7 @@ public class IntakeSimulation extends IntakeSubsystem {
     DoubleTopic intakeWheelEncSpeed_topic = inst.getDoubleTopic("Intake/encoder_speed");
     BooleanTopic beambreakStatus_topic = inst.getBooleanTopic("Intake/beam_break");
     DoubleTopic indexSpeed_topic = inst.getDoubleTopic("Index/target_speed");
+    DoubleTopic indexBeam_topic = inst.getDoubleTopic("Index/beam_breaks");
     final DoublePublisher intakeWheelSimSpeed_pub;
     final DoublePublisher intakeWheelEncSpeed_pub;
     final DoublePublisher indexSpeed_pub;
@@ -80,6 +81,7 @@ public class IntakeSimulation extends IntakeSubsystem {
 
         beambreakStatus_pub = beambreakStatus_topic.publish();
         beambreakStatus_pub.setDefault(false);
+
 
     }
 

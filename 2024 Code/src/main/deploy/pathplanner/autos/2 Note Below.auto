@@ -26,7 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "BelowSubwooferShot"
+            "name": "MagicSpeakerCommand"
           }
         },
         {
@@ -58,7 +58,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "BelowSubwooferShot"
+                        "name": "MagicSpeakerCommand"
                       }
                     }
                   ]
