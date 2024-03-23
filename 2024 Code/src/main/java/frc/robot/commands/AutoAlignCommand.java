@@ -12,7 +12,12 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
+
+    /**
+     * Gives the current yaw (test)
+     */
     protected double currentYaw;
+
     protected double offsetYaw;
 
     double y = 0;
