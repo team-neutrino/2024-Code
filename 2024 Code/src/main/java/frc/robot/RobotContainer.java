@@ -13,6 +13,7 @@ import frc.robot.commands.MagicShootCommand;
 import frc.robot.commands.MagicSpeakerChargeCommand;
 import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShooterDefaultCommand;
+import frc.robot.commands.ShuttleCloseCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.AutonArmAngleCommand;
@@ -99,7 +100,7 @@ public class RobotContainer {
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
-    m_driverController.rightTrigger().whileTrue(new IntakeCommand());
+    m_driverController.rightTrigger().whileTrue(new ShuttleCloseCommand());
     m_driverController.leftTrigger().whileTrue(new SequentialCommandGroup(
         new IntakeCommand(), new IndexJitterCommand()));
 
@@ -150,7 +151,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("Close Notes From Source");
+      auto = new PathPlannerAuto("1 Note and Mid");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }
