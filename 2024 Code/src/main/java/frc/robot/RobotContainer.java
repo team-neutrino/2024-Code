@@ -17,8 +17,15 @@ import frc.robot.commands.ShuttleCloseCommand;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.AutonArmAngleCommand;
+import frc.robot.commands.AutonArmCommand;
+import frc.robot.commands.AutonArmInterpolateAngle;
+import frc.robot.commands.AutonFeederCommand;
+import frc.robot.commands.AutonIntakeCommand;
+import frc.robot.commands.AutonIntakeCommand2;
 import frc.robot.commands.AutonMagicSpeakerCommand;
 import frc.robot.commands.AutonShootManualCommand;
+import frc.robot.commands.AutonShooterCommand;
+import frc.robot.commands.AutonShooterIdleCommand;
 import frc.robot.commands.AutonSingleShotCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmClimbCommandDown;
@@ -83,6 +90,15 @@ public class RobotContainer {
     NamedCommands.registerCommand("BelowSubwooferShot", new AutonShootManualCommand(8, 4000));
     NamedCommands.registerCommand("SingleSubwooferShot",
         new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
+    NamedCommands.registerCommand("AutonIntakeCommand", new AutonIntakeCommand());
+    NamedCommands.registerCommand("AutonFeederCommmand", new AutonFeederCommand());
+    NamedCommands.registerCommand("AutonShooterIdle",
+        new AutonShooterIdleCommand(Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
+    NamedCommands.registerCommand("AutonShoot",
+        new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED));
+    NamedCommands.registerCommand("AutonArmDown", new AutonArmCommand(Constants.ArmConstants.INTAKE_POSE));
+    NamedCommands.registerCommand("AutonArmInterpolate",
+        new AutonArmInterpolateAngle(SubsystemContainer.m_angleCalculate));
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
@@ -137,7 +153,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("Copy of Close Notes From Source");
+      auto = new PathPlannerAuto("New Close Notes From Source");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }

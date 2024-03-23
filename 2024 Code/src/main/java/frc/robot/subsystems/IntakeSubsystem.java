@@ -190,6 +190,10 @@ public class IntakeSubsystem extends SubsystemBase {
         return !m_indexBeam && !m_intakeBeam;
     }
 
+    public boolean hasNote() {
+        return m_indexBeam || m_intakeBeam;
+    }
+
     public boolean tooFarNote() {
         return m_indexBeam && m_intakeBeam;
     }
