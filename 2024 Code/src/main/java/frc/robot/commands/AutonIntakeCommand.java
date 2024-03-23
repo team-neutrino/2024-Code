@@ -28,6 +28,8 @@ public class AutonIntakeCommand extends Command {
     if (SubsystemContainer.armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
         && SubsystemContainer.armSubsystem.getInPosition()) {
       m_intakeSubsystem.intakeNote();
+    } else {
+      m_intakeSubsystem.stopIntake();
     }
   }
 
@@ -38,6 +40,6 @@ public class AutonIntakeCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return (SubsystemContainer.intakeSubsystem.centerNote());
+    return (SubsystemContainer.intakeSubsystem.hasNote());
   }
 }
