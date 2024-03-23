@@ -19,6 +19,7 @@ import frc.robot.commands.AutoAlignSequentialCommand;
 import frc.robot.commands.AutonArmAngleCommand;
 import frc.robot.commands.AutonArmCommand;
 import frc.robot.commands.AutonArmInterpolateAngle;
+import frc.robot.commands.AutonFeederCommand;
 import frc.robot.commands.AutonIntakeCommand;
 import frc.robot.commands.AutonIntakeCommand2;
 import frc.robot.commands.AutonMagicSpeakerCommand;
@@ -89,13 +90,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("SingleSubwooferShot",
         new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
     NamedCommands.registerCommand("AutonIntakeCommand", new AutonIntakeCommand());
-    NamedCommands.registerCommand("AutonIntakeCommand2", new AutonIntakeCommand2());
-    NamedCommands.registerCommand("AutonShooterCommandIdle",
+    NamedCommands.registerCommand("AutonFeederCommmand", new AutonFeederCommand());
+    NamedCommands.registerCommand("AutonShooterIdle",
         new AutonShooterCommand(Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
-    NamedCommands.registerCommand("AutonShooterCommandShoot",
+    NamedCommands.registerCommand("AutonShoot",
         new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED));
-    NamedCommands.registerCommand("AutonArmCommandDown", new AutonArmCommand(Constants.ArmConstants.ARM_LOWER_LIMIT));
-    NamedCommands.registerCommand("AutonArmInterpolateAngle",
+    NamedCommands.registerCommand("AutonArmDown", new AutonArmCommand(Constants.ArmConstants.ARM_LOWER_LIMIT));
+    NamedCommands.registerCommand("AutonArmInterpolate",
         new AutonArmInterpolateAngle(SubsystemContainer.m_angleCalculate));
 
     // Intake buttons
