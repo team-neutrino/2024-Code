@@ -15,7 +15,7 @@ public class AutonArmCommand extends Command {
 
   public AutonArmCommand(double p_angle) {
     m_armSubsystem = SubsystemContainer.armSubsystem;
-    p_angle = m_angle;
+    m_angle = p_angle;
     addRequirements(m_armSubsystem);
   }
 

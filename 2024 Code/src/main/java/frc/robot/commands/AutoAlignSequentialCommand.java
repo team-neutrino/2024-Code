@@ -14,7 +14,7 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
     double[] pose;
 
     public AutoAlignSequentialCommand() {
-        addRequirements(SubsystemContainer.limelightSubsystem, SubsystemContainer.swerveSubsystem);
+        addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
     @Override

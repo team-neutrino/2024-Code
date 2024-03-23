@@ -25,6 +25,7 @@ import frc.robot.commands.AutonIntakeCommand2;
 import frc.robot.commands.AutonMagicSpeakerCommand;
 import frc.robot.commands.AutonShootManualCommand;
 import frc.robot.commands.AutonShooterCommand;
+import frc.robot.commands.AutonShooterIdleCommand;
 import frc.robot.commands.AutonSingleShotCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmClimbCommandDown;
@@ -92,10 +93,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("AutonIntakeCommand", new AutonIntakeCommand());
     NamedCommands.registerCommand("AutonFeederCommmand", new AutonFeederCommand());
     NamedCommands.registerCommand("AutonShooterIdle",
-        new AutonShooterCommand(Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
+        new AutonShooterIdleCommand(Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
     NamedCommands.registerCommand("AutonShoot",
         new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED));
-    NamedCommands.registerCommand("AutonArmDown", new AutonArmCommand(Constants.ArmConstants.ARM_LOWER_LIMIT));
+    NamedCommands.registerCommand("AutonArmDown", new AutonArmCommand(Constants.ArmConstants.INTAKE_POSE));
     NamedCommands.registerCommand("AutonArmInterpolate",
         new AutonArmInterpolateAngle(SubsystemContainer.m_angleCalculate));
 
@@ -152,7 +153,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("1 Note and Mid");
+      auto = new PathPlannerAuto("New Close Notes From Source");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }

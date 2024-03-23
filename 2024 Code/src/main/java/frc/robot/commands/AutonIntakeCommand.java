@@ -25,12 +25,7 @@ public class AutonIntakeCommand extends Command {
 
   @Override
   public void execute() {
-    if (SubsystemContainer.armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
-        && SubsystemContainer.armSubsystem.getInPosition()) {
-      m_intakeSubsystem.intakeNote();
-    } else {
-      m_intakeSubsystem.stopIntake();
-    }
+    m_intakeSubsystem.intakeNote();
   }
 
   @Override
