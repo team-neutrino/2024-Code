@@ -147,7 +147,6 @@ public class ShooterSubsystem extends SubsystemBase {
       m_pidController1.setI(WHEEL_I);
       m_pidController1.setD(WHEEL_D);
       m_pidController1.setFF(WHEEL_FF);
-      System.out.println("PID values updated");
     }
 
   }

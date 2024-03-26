@@ -2,31 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5,
-      "y": 4.15
+      "x": 0.75,
+      "y": 4.45
     },
-    "rotation": 0.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "Wall start"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "AutoAlignCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MagicSpeakerCommand"
+            "name": "SingleSubwooferShot"
           }
         },
         {
@@ -46,7 +34,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "below speaker"
+                        "pathName": "shoot and mid"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Copy of shoot mid II"
                       }
                     },
                     {

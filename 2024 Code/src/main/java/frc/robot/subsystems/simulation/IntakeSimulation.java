@@ -81,6 +81,7 @@ public class IntakeSimulation extends IntakeSubsystem {
         beambreakStatus_pub = beambreakStatus_topic.publish();
         beambreakStatus_pub.setDefault(false);
 
+
     }
 
     public void simulationInit() {

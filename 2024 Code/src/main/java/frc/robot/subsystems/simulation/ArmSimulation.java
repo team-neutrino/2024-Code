@@ -18,9 +18,11 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.util.CalculateAngle;
 import frc.robot.util.SubsystemContainer;
 
 public class ArmSimulation extends ArmSubsystem {
+    CalculateAngle m_calculateAngle;
     public static double currentSimAngle;
     DutyCycleEncoderSim m_armEncoderSim;
     Mechanism2d m_mech = SubsystemContainer.simOverview.m_mech;
@@ -40,11 +42,15 @@ public class ArmSimulation extends ArmSubsystem {
     DoubleTopic m_realEncoderAngle = nt.getDoubleTopic("arm/real_encoder_angle");
     DoubleTopic Target_Angle = nt.getDoubleTopic("arm/target_angle");
     DoubleTopic Arm_Voltage = nt.getDoubleTopic("arm/motor_set_voltage");
+    DoubleTopic theta_topic = nt.getDoubleTopic("arm/ theta");
+    DoubleTopic radius_topic = nt.getDoubleTopic("arm/radius");
     final DoublePublisher simAnglePub;
     final DoublePublisher encoderAnglePub;
     final DoublePublisher targetAnglePub;
     final DoublePublisher motorVoltagePub;
     final DoublePublisher eAnglePub;
+    final DoublePublisher radiPublisher;
+    final DoublePublisher thetaPublisher;
     CanSparkMaxPidSim pidSim;
 
     double kG = 0.001;
@@ -55,7 +61,8 @@ public class ArmSimulation extends ArmSubsystem {
 
     Color8Bit background = new Color8Bit(0, 0, 32);
 
-    public ArmSimulation() {
+    public ArmSimulation(CalculateAngle calculateAngle) {
+        m_calculateAngle = calculateAngle;
         m_armEncoderSim = new DutyCycleEncoderSim(m_armEncoder);
         m_upperArm = m_root.append(new MechanismLigament2d("upperarm", 24, 0));
         m_indexMounterLigament = m_indexMounterRoot.append(new MechanismLigament2d("mounter", 12, 0));
@@ -80,6 +87,12 @@ public class ArmSimulation extends ArmSubsystem {
 
         eAnglePub = m_realEncoderAngle.publish();
         eAnglePub.setDefault(0.0);
+
+        thetaPublisher = theta_topic.publish();
+        thetaPublisher.setDefault(0.0);
+
+        radiPublisher = radius_topic.publish();
+        radiPublisher.setDefault(0.0);
 
         m_shooterMounterLigament.setColor(background);
     }
@@ -115,10 +128,13 @@ public class ArmSimulation extends ArmSubsystem {
     @Override
     public void periodic() {
         super.periodic();
-        targetAnglePub.set(m_targetAngle, NetworkTablesJNI.now());
-        encoderAnglePub.set(m_armEncoder.getAbsolutePosition(), NetworkTablesJNI.now());
-        motorVoltagePub.set(motor_volts, NetworkTablesJNI.now());
-        eAnglePub.set(getArmAngleDegrees(), NetworkTablesJNI.now());
+        final long now = NetworkTablesJNI.now();
+        targetAnglePub.set(m_targetAngle, now);
+        encoderAnglePub.set(m_armEncoder.getAbsolutePosition(), now);
+        motorVoltagePub.set(motor_volts, now);
+        eAnglePub.set(getArmAngleDegrees(), now);
+        radiPublisher.set(m_calculateAngle.getRadius(), now);
+        thetaPublisher.set(m_calculateAngle.getTheta(), now);
     }
 }
 // 688.78 is CG inertia Distance bwetwwn cg and axis is 15.17247438

@@ -139,9 +139,9 @@ public final class Constants {
     public static double INTAKE_POSE = -27;
     public static double AMP_POSE = 90;
     public static double ARM_ADJUST_DEADZONE = 0.2;
-    public static double CLIMB_POSITION = 30; 
-    public static final double SHUTTLE_ANGLE = 0; 
-    public static final double SUBWOOFER_ANGLE = -10; 
+    public static double CLIMB_POSITION = 30;
+    public static final double SHUTTLE_ANGLE = 0;
+    public static final double SUBWOOFER_ANGLE = -10;
   }
 
   public final class IntakeConstants {
@@ -156,7 +156,7 @@ public final class Constants {
 
   public final class ShooterSpeeds {
     public static final double SHOOTING_SPEED = 4000;
-    public static final double SHUTTLE_SPEED = 4500;
+    public static final double SHUTTLE_SPEED = 3200;
     public static final double AMP_SPEED = 1500;
     public static final double INITIAL_SHOOTER_SPEED = 700;
   }

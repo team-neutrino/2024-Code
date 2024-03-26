@@ -12,7 +12,12 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
+
+    /**
+     * Gives the current yaw (test)
+     */
     protected double currentYaw;
+
     protected double offsetYaw;
 
     double y = 0;
@@ -39,7 +44,7 @@ public class AutoAlignCommand extends Command {
             currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
             offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
             double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
-            if (!SubsystemContainer.swerveSubsystem.isRedAlliance) {
+            if (!SubsystemContainer.swerveSubsystem.isRedAlliance()) {
                 if (pose[5] > 0) {
                     pose[5] -= 180;
                 } else {
@@ -51,7 +56,7 @@ public class AutoAlignCommand extends Command {
 
         } else {
             // SUPER auto align!!
-            if (SubsystemContainer.swerveSubsystem.isRedAlliance) {
+            if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
                 y = SubsystemContainer.swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY();
                 x = SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX();
             } else {
