@@ -12,6 +12,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 
 public class ShooterSubsystem extends SubsystemBase {
   private CANSparkMax m_shooterMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
@@ -53,7 +54,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterMotor.burnFlash();
     m_followerMotor.burnFlash();
 
-    m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME);
+    m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME, DebounceType.kRising);
   }
 
   public boolean approveShoot() {

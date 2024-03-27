@@ -62,8 +62,8 @@ public class Arm extends ArmSubsystem {
     public void periodic() {
         super.periodic();
         final long now = NetworkTablesJNI.now();
-        targetAnglePub.set(m_targetAngle, now);
-        encoderAnglePub.set(m_armEncoder.getAbsolutePosition(), now);
+        targetAnglePub.set(getTargetAngle(), now);
+        encoderAnglePub.set(getArmAngleDegrees(), now);
         motorVoltagePub.set(motor_volts, now);
         eAnglePub.set(getArmAngleDegrees(), now);
         radiPublisher.set(m_calculateAngle.getRadius(), now);

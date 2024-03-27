@@ -69,7 +69,6 @@ public final class Constants {
   public final class DigitalConstants {
     public static final int INTAKE_MOTOR_BEAMBREAK = 0;
     public static final int INDEX_MOTOR_BEAMBREAK = 1;
-    public static final int ARM_ENCODER = 2;
 
   }
 
@@ -142,6 +141,9 @@ public final class Constants {
     public static final double CLIMB_POSITION = 30;
     public static final double SHUTTLE_ANGLE = 0;
     public static final double SUBWOOFER_ANGLE = -10;
+
+    public static final double DEBOUNCE_TIME = 0.2;
+    public static final double POSITION_ERROR_THRESHOLD = 1.5;
   }
 
   public final class IntakeConstants {
