@@ -6,11 +6,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.LEDConstants.States;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class ArmDefaultCommand extends Command {
-  /** Creates a new ArmDefaultCommand. */
+  /** Creates a new ArmClimbCommandUp. */
+
+  private ArmSubsystem m_armSubsystem;
+
   public ArmDefaultCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    m_armSubsystem = SubsystemContainer.armSubsystem;
     addRequirements(SubsystemContainer.armSubsystem);
   }
 
@@ -28,6 +35,7 @@ public class ArmDefaultCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_armSubsystem.setCommandState(States.CLIMBING);
   }
 
   // Returns true when the command should end.
