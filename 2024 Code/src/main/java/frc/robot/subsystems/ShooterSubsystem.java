@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.math.filter.Debouncer;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -17,15 +18,8 @@ public class ShooterSubsystem extends SubsystemBase {
   protected RelativeEncoder m_shooterEncoder;
   protected RelativeEncoder m_followerEncoder;
   private SparkPIDController m_pidController;
-  protected double WHEEL_P = 0.00075;
-  protected double WHEEL_I = 0.000001;
-  protected double WHEEL_D = 0;
-  protected double WHEEL_FF = 0.00021;
-  protected double WHEEL_IZONE = 250;
   protected double m_targetRPM;
   private Debouncer m_shootDebouncer;
-  final private double DEBOUNCE_TIME = 0.1;
-  final private double RPM_ERROR_THRESHOLD = 200;
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooterMotor.getEncoder();
@@ -45,17 +39,17 @@ public class ShooterSubsystem extends SubsystemBase {
     m_followerMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
     m_followerMotor.follow(m_shooterMotor, true);
 
-    m_pidController.setP(WHEEL_P);
-    m_pidController.setI(WHEEL_I);
-    m_pidController.setD(WHEEL_D);
-    m_pidController.setFF(WHEEL_FF);
-    m_pidController.setIZone(WHEEL_IZONE);
+    m_pidController.setP(ShooterConstants.WHEEL_P);
+    m_pidController.setI(ShooterConstants.WHEEL_I);
+    m_pidController.setD(ShooterConstants.WHEEL_D);
+    m_pidController.setFF(ShooterConstants.WHEEL_FF);
+    m_pidController.setIZone(ShooterConstants.WHEEL_IZONE);
     m_pidController.setOutputRange(0, 1);
 
     m_shooterMotor.burnFlash();
     m_followerMotor.burnFlash();
 
-    m_shootDebouncer = new Debouncer(DEBOUNCE_TIME);
+    m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME);
   }
 
   public double getShooterRPM() {
@@ -76,7 +70,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean approveShoot() {
-    return m_shootDebouncer.calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= RPM_ERROR_THRESHOLD);
+    return m_shootDebouncer
+        .calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= ShooterConstants.RPM_ERROR_THRESHOLD);
   }
 
   @Override

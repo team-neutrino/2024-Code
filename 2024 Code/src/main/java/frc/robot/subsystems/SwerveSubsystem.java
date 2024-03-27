@@ -364,14 +364,6 @@ public class SwerveSubsystem extends SubsystemBase {
     commandState = state;
   }
 
-  public void setFastMode(boolean mode) {
-    if (mode) {
-      SwerveConstants.MAX_CHASSIS_LINEAR_SPEED = SwerveConstants.MAX_CHASSIS_LINEAR_SPEED_FAST;
-    } else {
-      SwerveConstants.MAX_CHASSIS_LINEAR_SPEED = 1;
-    }
-  }
-
   /**
    * D-pad addition: pressing any of the 4 main buttons on the D-pad
    * serve as hotkeys for rotation to forward, backward, left, and right

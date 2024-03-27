@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.SubsystemContainer;
 
@@ -73,8 +74,9 @@ public class Shooter extends ShooterSubsystem {
     public void simulationPeriodic() {
         double motor_volts = 0.0;
         if (m_spark_max_pid_sim != null) {
-            motor_volts = m_spark_max_pid_sim.runPid(WHEEL_P, WHEEL_I, WHEEL_D, WHEEL_FF, m_targetRPM,
-                    m_flywheel_sim.getAngularVelocityRPM(), WHEEL_IZONE, 0.0, 100.0);
+            motor_volts = m_spark_max_pid_sim.runPid(ShooterConstants.WHEEL_P, ShooterConstants.WHEEL_I,
+                    ShooterConstants.WHEEL_D, ShooterConstants.WHEEL_FF, m_targetRPM,
+                    m_flywheel_sim.getAngularVelocityRPM(), ShooterConstants.WHEEL_IZONE, 0.0, 100.0);
         }
 
         m_flywheel_sim.setInputVoltage(motor_volts);
