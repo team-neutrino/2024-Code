@@ -61,25 +61,12 @@ public class ShooterSubsystem extends SubsystemBase {
     m_followerMotor.burnFlash();
   }
 
-  public double getShooterEncoder1() {
-    return m_shooterEncoder.getPosition();
-  }
-
-  public double getShooterRpm1() {
+  public double getShooterRPM() {
     return m_shooterEncoder.getVelocity();
-  }
-
-  public void resetEncoders() {
-    m_shooterEncoder.setPosition(0);
-    m_followerEncoder.setPosition(0);
   }
 
   public void setVoltage(double voltage) {
     m_shooterMotor.setVoltage(voltage);
-  }
-
-  public double getP() {
-    return m_pidController.getP() * 1000.0;
   }
 
   public double getTargetRPM() {
@@ -94,40 +81,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public boolean approveShoot() {
     countCounter();
-    return (Math.abs(getShooterRpm1() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD
+    return (Math.abs(getShooterRPM() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD
         && (counter > APPROVE_COUNTER_THRESHOLD));
   }
 
-  public double getFF() {
-    return m_pidController.getFF() * 1000.0;
-  }
-
-  public void setP(double P) {
-    m_pidController.setP(P / 1000.0);
-  }
-
-  public double getI() {
-    return m_pidController.getI() * 1000.0;
-  }
-
-  public void setI(double I) {
-    m_pidController.setI(I / 1000.0);
-  }
-
-  public double getD() {
-    return m_pidController.getD() * 1000.0;
-  }
-
-  public void setD(double D) {
-    m_pidController.setD(D / 1000.0);
-  }
-
-  public void setFF(double FF) {
-    m_pidController.setFF(FF / 1000.0);
-  }
-
   private void countCounter() {
-    if (Math.abs(getTargetRPM() - getShooterRpm1()) < COUNTER_ERROR_THRESHOLD) {
+    if (Math.abs(getTargetRPM() - getShooterRPM()) < COUNTER_ERROR_THRESHOLD) {
       counter++;
     } else {
       counter = 0;
