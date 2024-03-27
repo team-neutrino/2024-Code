@@ -87,10 +87,11 @@ public class LimelightSubsystem extends SubsystemBase {
    * @param limelightPose
    */
   public void updatePoseEstimatorWithVisionBotPose(SwerveDrivePoseEstimator poseEstimator, Pose2d limelightPose) {
-    // invalid limelight data
-    if (limelightPose.getX() == 0.0) {
-      return;
-    }
+    // delete this?
+    // // invalid limelight data
+    // if (limelightPose.getX() == 0.0) {
+    // return;
+    // }
 
     // distance from current pose to vision estimated pose
     double poseDifference = poseEstimator.getEstimatedPosition().getTranslation()
@@ -110,32 +111,72 @@ public class LimelightSubsystem extends SubsystemBase {
     if (getTv()) {
       double xyStds = 1.0;
 
-      // multiple targets detected
-      if (pose[7] >= 2 && distanceToSpeaker < 2.8) {
-        xyStds = 0.5;
-      }
-      // multiple targets but we don't want to trust it as much because the robot is
-      // far away
-      else if (pose[7] >= 2 && distanceToSpeaker < 4 && poseDifference < 0.2) {
-        xyStds = 3.0;
-      }
-      // 1 target with large area and close to estimated pose (find constant for area
-      // (percent))
-      else if (pose[10] > 0.7 && poseDifference < 1) {
-        xyStds = 1.0;
-      }
-      // 1 target farther away and estimated pose is close
-      else if (pose[10] > 0.2 && poseDifference < 0.2) {
-        xyStds = 3.0;
-      }
-      // conditions don't match to add a vision measurement
-      else {
-        return;
-      }
+      /**
+       * here are my thoughts lol and the basic overview of the structure that I have
+       * in mind. Many of the numerical values
+       * are subject to change as appropiate I just thought these ones made sense
+       * based on past experience
+       * 
+       * key features
+       * 
+       * std needs to be a function of distance and take into account how many tags
+       * are in view
+       * the accepted "pose difference" also needs to be a function of distance, ie
+       * the margin for accepted error is smaller when the robot is farther away
+       * 
+       * (these are rough numbers the functions that I have put in have been modified
+       * slightly after looking at them in desmos)
+       * domain of std function is 0 - 5
+       * range of std function is 0 - 3
+       * 
+       * domain of accepted pose difference 0 - 5
+       * range of accepted pose difference 0.75 - 0.2
+       * 
+       * first layer - reject all measurements that are outside the field
+       * second layer - reject all measurements that are greater than 0.75m off the
+       * current estimated position (maybe 0.5?)
+       * third layer - apply std function and accepted pose difference function. For
+       * single tags, multiply the distance by 1.75, apply the functions as normal
+       * fourth layer -
+       * 
+       * maybe more layers? This seemed sufficient to me but I could be forgetting
+       * something
+       */
 
-      poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, 0.0));
+      if (limelightPose.getX() > 0 && limelightPose.getX() < 16.541 &&
+          limelightPose.getY() > 0 && limelightPose.getY() < 8.211) {
+        // actually I could be throwing with this if statement it might not be needed
+        // lol
+        if (poseDifference < 0.75) {
+          double distanceToPrimaryTag = pose[9];
 
-      poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
+          // increases the effective viewing distance for single tags because they are
+          // less accurate.
+          // This change means that the std will go up for a single tag and the
+          // poseDifference threshold
+          // will be even lower for a single tag at the same distance as a double
+          if (pose[7] <= 1) {
+            distanceToPrimaryTag *= 1.75;
+          }
+
+          // apply std linear function. As the distance increases, the applied standard
+          // deviation goes up
+          xyStds = (3.0 / 5.0) * distanceToPrimaryTag + 0.1;
+
+          // apply the accepted pose difference function. Returns the maximum pose
+          // difference that is accepted
+          // for a given distance input
+          double maxPoseDifferenceAccepted = (-0.65 / 5.0) * distanceToPrimaryTag + 0.75;
+
+          // the pose difference falls in the accepted range, as described by the linear
+          // function above^^
+          if (maxPoseDifferenceAccepted > poseDifference) {
+            poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, 0.0));
+
+            poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
+          }
+        }
+      }
     }
   }
 
