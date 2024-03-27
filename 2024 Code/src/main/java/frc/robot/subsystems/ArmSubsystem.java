@@ -7,28 +7,26 @@ package frc.robot.subsystems;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.util.ArmEncoderContainer;
 
 public class ArmSubsystem extends SubsystemBase {
-  protected CANSparkFlex m_arm = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
-  protected DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(DigitalConstants.ARM_ENCODER);
-  protected double m_angle;
-  protected double m_targetAngle = 0.0;
+  private CANSparkFlex m_arm = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
+  private AbsoluteEncoder m_armEncoder;
+  private double m_targetAngle = 0.0;
   private boolean m_inPosition;
-  public int i = 0;
+  private Debouncer m_armDebouncer;
   private SparkPIDController pidController;
-  private ArmEncoderContainer armEncoderContainer;
 
   public ArmFeedforward feedforward = new ArmFeedforward(ArmConstants.FF_ks, ArmConstants.FF_kg, ArmConstants.FF_ks,
       ArmConstants.FF_ka);
@@ -37,9 +35,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_arm.restoreFactoryDefaults();
     m_arm.setIdleMode(IdleMode.kBrake);
 
-    armEncoderContainer = new ArmEncoderContainer(m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle));
-    armEncoderContainer.setPositionConversionFactor(360);
-    armEncoderContainer.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
+    m_armEncoder = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
     m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
     m_arm.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);
@@ -48,7 +44,83 @@ public class ArmSubsystem extends SubsystemBase {
     pidController.setP(ArmConstants.Arm_kp, 0);
     pidController.setI(ArmConstants.Arm_ki, 0);
     pidController.setD(ArmConstants.Arm_kd, 0);
-    pidController.setFeedbackDevice(armEncoderContainer.m_armEncoder);
+    pidController.setFeedbackDevice(m_armEncoder);
+    pidController.setPositionPIDWrappingMaxInput(360);
+    pidController.setPositionPIDWrappingMinInput(0);
+    pidController.setPositionPIDWrappingEnabled(true);
+
+    // climb settings
+    pidController.setP(ArmConstants.Arm_kp, 1);
+    pidController.setI(0.0001, 1);
+    pidController.setIZone(30, 1);
+
+    m_arm.burnFlash();
+
+    m_armDebouncer = new Debouncer(ArmConstants.DEBOUNCE_TIME, DebounceType.kRising);
+  }
+
+  // converts to (0, 360)
+  private double adjustAngleIn(double angle) {
+    if (angle < 0) {
+      angle += 360;
+    }
+    return angle;
+  }
+
+  // converts to (0, 180)
+  private double adjustAngleOut(double angle) {
+    if (angle > 180) {
+      angle -= 360;
+    }
+    return angle;
+  }
+
+  public boolean ArmDebouncer() {
+    return m_armDebouncer
+        .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
+  }
+
+  // -180, 180
+  public double getArmAngleDegrees() {
+    return adjustAngleOut(m_armEncoder.getPosition());
+  }
+
+  // -pi, pi
+  public double getArmAngleRadians() {
+    return adjustAngleOut(m_armEncoder.getPosition()) * (Math.PI / 180);
+  }
+
+  public double getTargetAngle() {
+    return m_targetAngle;
+  }
+
+  public boolean getInPosition() {
+    return m_inPosition;
+  }
+
+  public double limitShiftAngle(double angle) {
+    if (angle > ArmConstants.ARM_UPPER_LIMIT) {
+      return ArmConstants.ARM_UPPER_LIMIT;
+    } else if (angle < ArmConstants.ARM_LOWER_LIMIT) {
+      return ArmConstants.ARM_LOWER_LIMIT;
+    }
+    return angle;
+  }
+
+  public void resetEverything() {
+    m_arm.restoreFactoryDefaults();
+    m_arm.setIdleMode(IdleMode.kBrake);
+
+    m_armEncoder = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+
+    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
+    m_arm.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);
+
+    pidController = m_arm.getPIDController();
+    pidController.setP(ArmConstants.Arm_kp, 0);
+    pidController.setI(ArmConstants.Arm_ki, 0);
+    pidController.setD(ArmConstants.Arm_kd, 0);
+    pidController.setFeedbackDevice(m_armEncoder);
     pidController.setPositionPIDWrappingMaxInput(360);
     pidController.setPositionPIDWrappingMinInput(0);
     pidController.setPositionPIDWrappingEnabled(true);
@@ -61,33 +133,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_arm.burnFlash();
   }
 
-  public double getTargetAngle() {
-    return m_targetAngle;
-  }
-
-  /**
-   * 
-   * @return returns current arm angle in degrees (-180, 180)
-   */
-  public double getArmAngleDegrees() {
-    return adjustAngleOut(armEncoderContainer.getPosition());
-  }
-
-  /**
-   * 
-   * @return returns current arm angle in radians (-pi, pi)
-   */
-  public double getArmAngleRadians() {
-    return adjustAngleOut(armEncoderContainer.getPosition()) * (Math.PI / 180);
-  }
-
-  /**
-   * Set arm reference angle, target angle should be in degrees. Will be converted
-   * to (0, 360) before sent
-   * to the motor controller
-   * 
-   * @param targetAngle must be in degrees (-180, 180)
-   */
+  // in degrees. converted to (0, 360)
   public void setArmReferenceAngle(double targetAngle) {
 
     if (targetAngle > ArmConstants.ARM_UPPER_LIMIT) {
@@ -108,55 +154,13 @@ public class ArmSubsystem extends SubsystemBase {
     pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
   }
 
-  /**
-   * Adjusts the angle going into the pid reference logic to conform to the (0,
-   * 360) angle system
-   * 
-   * @param angle desired angle to adjust
-   * @return adjusted angle that is ready to use as a reference
-   */
-  private double adjustAngleIn(double angle) {
-    if (angle < 0) {
-      angle += 360;
-    }
-    return angle;
-  }
+  public void setClimbReferenceAngle() {
+    double targetAngle = adjustAngleIn(-20);
 
-  /**
-   * Adjusts the arm angle going out of the subsystem so that it conforms with
-   * (-180, 180)
-   * (like when the position is being accessed).
-   * 
-   * @param angle in (0, 360) (raw return from abs encoder)
-   * @return angle in (-180, 180)
-   */
-  private double adjustAngleOut(double angle) {
-    if (angle > 180) {
-      angle -= 360;
-    }
-    return angle;
-  }
+    double feedforward = ArmConstants.FF_kg
+        * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
 
-  public double limitShiftAngle(double angle) {
-    if (angle > ArmConstants.ARM_UPPER_LIMIT) {
-      return ArmConstants.ARM_UPPER_LIMIT;
-    } else if (angle < ArmConstants.ARM_LOWER_LIMIT) {
-      return ArmConstants.ARM_LOWER_LIMIT;
-    }
-    return angle;
-  }
-
-  private boolean ArmDebouncer() {
-    if (Math.abs(getArmAngleDegrees() - m_targetAngle) <= 1.5) {
-      i++;
-    } else {
-      i = 0;
-    }
-    return i >= 10;
-  }
-
-  public boolean getInPosition() {
-    return m_inPosition;
+    pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 1, feedforward);
   }
 
   public double withinRange(double check) {
@@ -169,43 +173,6 @@ public class ArmSubsystem extends SubsystemBase {
     } else {
       return check;
     }
-  }
-
-  public void setClimbReferenceAngle() {
-    double targetAngle = adjustAngleIn(-20);
-
-    double feedforward = ArmConstants.FF_kg
-        * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
-
-    pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 1, feedforward);
-  }
-
-  public void resetEverything() {
-    m_arm.restoreFactoryDefaults();
-    m_arm.setIdleMode(IdleMode.kBrake);
-
-    armEncoderContainer = new ArmEncoderContainer(m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle));
-    armEncoderContainer.setPositionConversionFactor(360);
-    armEncoderContainer.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
-
-    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
-    m_arm.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);
-
-    pidController = m_arm.getPIDController();
-    pidController.setP(ArmConstants.Arm_kp, 0);
-    pidController.setI(ArmConstants.Arm_ki, 0);
-    pidController.setD(ArmConstants.Arm_kd, 0);
-    pidController.setFeedbackDevice(armEncoderContainer.m_armEncoder);
-    pidController.setPositionPIDWrappingMaxInput(360);
-    pidController.setPositionPIDWrappingMinInput(0);
-    pidController.setPositionPIDWrappingEnabled(true);
-
-    // climb settings
-    pidController.setP(ArmConstants.Arm_kp, 1);
-    pidController.setI(0.0001, 1);
-    pidController.setIZone(30, 1);
-
-    m_arm.burnFlash();
   }
 
   @Override
