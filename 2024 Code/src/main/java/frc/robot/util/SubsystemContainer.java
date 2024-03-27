@@ -7,11 +7,9 @@ import frc.robot.subsystems.wrapper.Arm;
 import frc.robot.subsystems.wrapper.Intake;
 import frc.robot.subsystems.wrapper.NetworkTables;
 import frc.robot.subsystems.wrapper.Shooter;
-import frc.robot.subsystems.wrapper.SimulationOverview;
 
 public class SubsystemContainer {
     public static CalculateAngle m_angleCalculate = new CalculateAngle();
-    public static final SimulationOverview simOverview = new SimulationOverview();
     public static final NetworkTables sendables = new NetworkTables();
     public static final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
     public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
