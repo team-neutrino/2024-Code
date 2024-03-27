@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorIDs;
+import edu.wpi.first.math.filter.Debouncer;
 
 public class ShooterSubsystem extends SubsystemBase {
   protected CANSparkMax m_shooterMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
@@ -22,10 +23,9 @@ public class ShooterSubsystem extends SubsystemBase {
   protected double WHEEL_FF = 0.00021;
   protected double WHEEL_IZONE = 250;
   protected double m_targetRPM;
-  private int counter;
-  final private double APPROVE_ERROR_THRESHOLD = 200;
-  final private double APPROVE_COUNTER_THRESHOLD = 5;
-  final private double COUNTER_ERROR_THRESHOLD = 200;
+  private Debouncer m_shootDebouncer;
+  final private double DEBOUNCE_TIME = 0.1;
+  final private double RPM_ERROR_THRESHOLD = 200;
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooterMotor.getEncoder();
@@ -54,6 +54,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     m_shooterMotor.burnFlash();
     m_followerMotor.burnFlash();
+
+    m_shootDebouncer = new Debouncer(DEBOUNCE_TIME);
   }
 
   public double getShooterRPM() {
@@ -74,17 +76,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean approveShoot() {
-    countCounter();
-    return (Math.abs(getShooterRPM() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD
-        && (counter > APPROVE_COUNTER_THRESHOLD));
-  }
-
-  private void countCounter() {
-    if (Math.abs(getTargetRPM() - getShooterRPM()) < COUNTER_ERROR_THRESHOLD) {
-      counter++;
-    } else {
-      counter = 0;
-    }
+    return m_shootDebouncer.calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= RPM_ERROR_THRESHOLD);
   }
 
   @Override
