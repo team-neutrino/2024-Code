@@ -51,18 +51,6 @@
                 "data": {
                   "name": "AutonIntakeCommand"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonArmDown"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonShooterIdle"
-                }
               }
             ]
           }
@@ -74,12 +62,6 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutonFeederCommmand"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "AutonShoot"
                 }
               },
@@ -87,12 +69,6 @@
                 "type": "named",
                 "data": {
                   "name": "AutoAlignForever"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonArmInterpolate"
                 }
               }
             ]
