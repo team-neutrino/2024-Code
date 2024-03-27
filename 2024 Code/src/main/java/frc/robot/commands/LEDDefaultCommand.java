@@ -41,17 +41,15 @@ public class LEDDefaultCommand extends Command {
     } else if (m_intakeSubsystem.isCentered()) {
       m_LEDSubsystem.setToCyan();
     } else if (m_swerveSubsystem
-        .getCommandState() == States.PATHFINDING) {
-      m_LEDSubsystem.setToYellow();
-    } else if (m_swerveSubsystem
         .getCommandState() == (States.AUTOALIGN)) {
       m_LEDSubsystem.setToBlue();
     } else if (m_intakeSubsystem.tooFarNote()) {
       m_LEDSubsystem.setToPurple();
+    } else if (m_armSubsystem
+        .getCommandState() == (States.CLIMBING)) {
     } else {
       m_LEDSubsystem.setToOrange();
     }
-
   }
 
   @Override

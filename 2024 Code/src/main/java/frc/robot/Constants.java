@@ -83,7 +83,8 @@ public final class Constants {
     public enum States {
       DEFAULT,
       PATHFINDING,
-      AUTOALIGN
+      AUTOALIGN,
+      CLIMBING
     }
   }
 

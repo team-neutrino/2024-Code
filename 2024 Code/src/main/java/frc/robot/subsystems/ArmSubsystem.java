@@ -18,6 +18,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.simulation.PIDChangerSimulation;
 import frc.robot.util.ArmEncoderContainer;
 
@@ -30,6 +31,7 @@ public class ArmSubsystem extends SubsystemBase {
   public int i = 0;
   private SparkPIDController pidController;
   private ArmEncoderContainer armEncoderContainer;
+  States commandState;
 
   public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
       ArmConstants.Arm_kd);
@@ -210,6 +212,14 @@ public class ArmSubsystem extends SubsystemBase {
     pidController.setIZone(30, 1);
 
     m_arm.burnFlash();
+  }
+
+  public States getCommandState() {
+    return commandState;
+  }
+
+  public void setCommandState(States state) {
+    commandState = state;
   }
 
   @Override
