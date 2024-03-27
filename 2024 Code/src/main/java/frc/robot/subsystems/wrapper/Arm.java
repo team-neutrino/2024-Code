@@ -11,7 +11,7 @@ import edu.wpi.first.networktables.NetworkTablesJNI;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.util.CalculateAngle;
 
-public class ArmSimulation extends ArmSubsystem {
+public class Arm extends ArmSubsystem {
     CalculateAngle m_calculateAngle;
     public static double currentSimAngle;
     double motor_volts;
@@ -31,15 +31,8 @@ public class ArmSimulation extends ArmSubsystem {
     final DoublePublisher eAnglePub;
     final DoublePublisher radiPublisher;
     final DoublePublisher thetaPublisher;
-    CanSparkMaxPidSim pidSim;
 
-    double kG = 0.001;
-
-    double armMassKg = 7;
-    double radius = 0.6555;
-    double armMOI = armMassKg * Math.pow(radius, 2) * ((double) 1 / 3);
-
-    public ArmSimulation(CalculateAngle calculateAngle) {
+    public Arm(CalculateAngle calculateAngle) {
         m_calculateAngle = calculateAngle;
 
         simAnglePub = Sim_Angle.publish();
