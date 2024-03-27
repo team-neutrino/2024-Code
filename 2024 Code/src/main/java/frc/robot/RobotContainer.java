@@ -38,8 +38,6 @@ import frc.robot.commands.IntakeReverseCommand;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.revrobotics.REVPhysicsSim;
-import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -62,8 +60,6 @@ public class RobotContainer {
     configureBindings();
 
     DataLogManager.start();
-
-    DataLog log = DataLogManager.getLog();
 
     DriverStation.startDataLog(DataLogManager.getLog());
   }
@@ -156,15 +152,6 @@ public class RobotContainer {
     }
 
     return auto;
-  }
-
-  public void simulationInit() {
-    SubsystemContainer.armSubsystem.simulationInit();
-    SubsystemContainer.shooterSubsystem.simulationInit();
-  }
-
-  public void simulationPeriodic() {
-    REVPhysicsSim.getInstance().run();
   }
 
   public void teleopperiodic() {

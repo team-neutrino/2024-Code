@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.awt.geom.Point2D;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -364,14 +362,6 @@ public class SwerveSubsystem extends SubsystemBase {
     commandState = state;
   }
 
-  public void setFastMode(boolean mode) {
-    if (mode) {
-      SwerveConstants.MAX_CHASSIS_LINEAR_SPEED = SwerveConstants.MAX_CHASSIS_LINEAR_SPEED_FAST;
-    } else {
-      SwerveConstants.MAX_CHASSIS_LINEAR_SPEED = 1;
-    }
-  }
-
   /**
    * D-pad addition: pressing any of the 4 main buttons on the D-pad
    * serve as hotkeys for rotation to forward, backward, left, and right
@@ -450,11 +440,6 @@ public class SwerveSubsystem extends SubsystemBase {
         m_backRight.getOptimizationAngle());
     moduleStates[3] = SwerveModuleState.optimize(moduleStates[3],
         m_backLeft.getOptimizationAngle());
-
-    double feedForwardFR = m_feedForward.calculate(moduleStates[0].speedMetersPerSecond);
-    double feedForwardFL = m_feedForward.calculate(moduleStates[1].speedMetersPerSecond);
-    double feedForwardBR = m_feedForward.calculate(moduleStates[2].speedMetersPerSecond);
-    double feedForwardBL = m_feedForward.calculate(moduleStates[3].speedMetersPerSecond);
 
     for (int i = 0; i < 4; i++) {
       if (moduleStates[i].angle.getDegrees() <= 0) {

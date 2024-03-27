@@ -5,11 +5,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.awt.geom.Point2D;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N2;
-import frc.robot.subsystems.simulation.InterpolationOptimization;
 
 public class CalculateAngle {
 

@@ -33,9 +33,6 @@ public class ArmSubsystem extends SubsystemBase {
   private ArmEncoderContainer armEncoderContainer;
   States commandState;
 
-  public final PIDChangerSimulation PIDSimulation = new PIDChangerSimulation(ArmConstants.Arm_kp, ArmConstants.Arm_ki,
-      ArmConstants.Arm_kd);
-
   public ArmFeedforward feedforward = new ArmFeedforward(ArmConstants.FF_ks, ArmConstants.FF_kg, ArmConstants.FF_ks,
       ArmConstants.FF_ka);
 
