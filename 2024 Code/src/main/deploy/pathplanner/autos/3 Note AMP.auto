@@ -45,18 +45,6 @@
                 "data": {
                   "name": "AutonIntakeCommand"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonShooterIdle"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonArmDown"
-                }
               }
             ]
           }
@@ -65,18 +53,6 @@
           "type": "race",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonFeederCommmand"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonArmInterpolate"
-                }
-              },
               {
                 "type": "named",
                 "data": {
@@ -120,18 +96,6 @@
                 "data": {
                   "name": "AutonIntakeCommand"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonShooterIdle"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonArmDown"
-                }
               }
             ]
           }
@@ -140,18 +104,6 @@
           "type": "race",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonFeederCommmand"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonArmInterpolate"
-                }
-              },
               {
                 "type": "named",
                 "data": {
