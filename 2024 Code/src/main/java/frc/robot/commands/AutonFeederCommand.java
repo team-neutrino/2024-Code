@@ -11,12 +11,12 @@ public class AutonFeederCommand extends Command {
 
   private IntakeSubsystem m_intakeSubsystem;
   private ShooterSubsystem m_shooterSubsystem;
-  private ArmSubsystem m_ArmSubsystem;
+  private ArmSubsystem m_armSubsystem;
 
   public AutonFeederCommand() {
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
-    m_ArmSubsystem = SubsystemContainer.armSubsystem;
+    m_armSubsystem = SubsystemContainer.armSubsystem;
     addRequirements(m_intakeSubsystem);
   }
 
@@ -28,7 +28,7 @@ public class AutonFeederCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_ArmSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
+    if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
       m_intakeSubsystem.runIndexShoot();
     } else {
       m_intakeSubsystem.stopIndex();

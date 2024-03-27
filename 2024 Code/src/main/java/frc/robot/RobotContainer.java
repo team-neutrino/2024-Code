@@ -15,13 +15,10 @@ import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShuttleCloseCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.AutoAlignSequentialCommand;
-import frc.robot.commands.AutonArmAngleCommand;
 import frc.robot.commands.AutonArmCommand;
 import frc.robot.commands.AutonArmInterpolateAngle;
 import frc.robot.commands.AutonFeederCommand;
 import frc.robot.commands.AutonIntakeCommand;
-import frc.robot.commands.AutonMagicSpeakerCommand;
 import frc.robot.commands.AutonShooterCommand;
 import frc.robot.commands.AutonShooterIdleCommand;
 import frc.robot.commands.AutonSingleShotCommand;
@@ -74,12 +71,6 @@ public class RobotContainer {
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // set named commands
-    NamedCommands.registerCommand("MagicSpeakerCommand",
-        new AutonMagicSpeakerCommand(SubsystemContainer.m_angleCalculate));
-    NamedCommands.registerCommand("IntakeCommand", new IntakeCommand());
-    NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
-    NamedCommands.registerCommand("AutoAlignCommand", new AutoAlignSequentialCommand());
-    NamedCommands.registerCommand("ArmDown", new AutonArmAngleCommand(ArmConstants.INTAKE_POSE));
     NamedCommands.registerCommand("SingleSubwooferShot",
         new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
     NamedCommands.registerCommand("AutonIntakeCommand", new AutonIntakeCommand());
