@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -19,7 +18,6 @@ public class AutonAlignAndChargeCommand extends Command {
   private double[] pose;
   private LimelightSubsystem m_limlightSubsystem = SubsystemContainer.limelightSubsystem;
 
-
   /** Creates a new AutonAlignAndChargeCommand. */
   public AutonAlignAndChargeCommand() {
     addRequirements(m_limlightSubsystem);
@@ -30,33 +28,34 @@ public class AutonAlignAndChargeCommand extends Command {
   public void initialize() {
     if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
       SubsystemContainer.limelightSubsystem.setPriorityID(4);
-  } else {
+    } else {
       SubsystemContainer.limelightSubsystem.setPriorityID(7);
-  }
-  timer.start();
+    }
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-        offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
-        pose = SubsystemContainer.limelightSubsystem.getBotPose();
-        if (!SubsystemContainer.swerveSubsystem.isRedAlliance()) {
-            if (pose[5] > 0) {
-                pose[5] -= 180;
-            } else {
-                pose[5] += 180;
-            }
+    offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+    pose = SubsystemContainer.limelightSubsystem.getBotPose();
+    if (!SubsystemContainer.swerveSubsystem.isRedAlliance()) {
+      if (pose[5] > 0) {
+        pose[5] -= 180;
+      } else {
+        pose[5] += 180;
+      }
 
-        }
-        SubsystemContainer.swerveSubsystem
-                .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, pose[5]));
+    }
+    SubsystemContainer.swerveSubsystem
+        .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, pose[5]));
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

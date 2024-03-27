@@ -3,7 +3,7 @@ package frc.robot.util;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkAbsoluteEncoder;
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.subsystems.simulation.ArmSimulation;
+import frc.robot.subsystems.wrapper.Arm;
 
 public class ArmEncoderContainer {
     public SparkAbsoluteEncoder m_armEncoder;
@@ -22,7 +22,7 @@ public class ArmEncoderContainer {
 
     public double getPosition() {
         if (RobotBase.isSimulation()) {
-            return ArmSimulation.currentSimAngle;
+            return Arm.currentSimAngle;
         } else {
             return m_armEncoder.getPosition();
         }
