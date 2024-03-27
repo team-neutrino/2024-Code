@@ -75,7 +75,7 @@ public class Shooter extends ShooterSubsystem {
         double motor_volts = 0.0;
         if (m_spark_max_pid_sim != null) {
             motor_volts = m_spark_max_pid_sim.runPid(ShooterConstants.WHEEL_P, ShooterConstants.WHEEL_I,
-                    ShooterConstants.WHEEL_D, ShooterConstants.WHEEL_FF, m_targetRPM,
+                    ShooterConstants.WHEEL_D, ShooterConstants.WHEEL_FF, getTargetRPM(),
                     m_flywheel_sim.getAngularVelocityRPM(), ShooterConstants.WHEEL_IZONE, 0.0, 100.0);
         }
 
@@ -88,7 +88,7 @@ public class Shooter extends ShooterSubsystem {
 
         wheel_sim_speed_pub.set(rev_per_s, NetworkTablesJNI.now());
 
-        if (m_targetRPM > 0) {
+        if (getTargetRPM() > 0) {
             m_wheel_ligament.setColor(blue);
         } else {
             m_wheel_ligament.setColor(grey);

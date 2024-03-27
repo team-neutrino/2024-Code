@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems.simulation;
 
-import com.revrobotics.REVPhysicsSim;
-
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;

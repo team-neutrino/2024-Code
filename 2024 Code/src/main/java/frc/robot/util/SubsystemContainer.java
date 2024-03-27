@@ -8,7 +8,6 @@ import frc.robot.subsystems.simulation.NetworkTables;
 import frc.robot.subsystems.simulation.ArmSimulation;
 import frc.robot.subsystems.simulation.Shooter;
 import frc.robot.subsystems.simulation.SimulationOverview;
-import frc.robot.util.CalculateAngle;
 
 public class SubsystemContainer {
     public static CalculateAngle m_angleCalculate = new CalculateAngle();

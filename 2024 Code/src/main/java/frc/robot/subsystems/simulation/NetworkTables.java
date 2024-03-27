@@ -5,7 +5,6 @@ import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.PDH;
-import frc.robot.util.SubsystemContainer;
 
 public class NetworkTables extends SubsystemBase {
     PDH m_Pdh = new PDH();
