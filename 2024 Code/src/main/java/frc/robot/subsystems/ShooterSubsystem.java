@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,8 +19,11 @@ public class ShooterSubsystem extends SubsystemBase {
   protected RelativeEncoder m_shooterEncoder;
   protected RelativeEncoder m_followerEncoder;
   private SparkPIDController m_pidController;
-  protected double m_targetRPM;
   private Debouncer m_shootDebouncer;
+
+  private ControlType m_shootControlType;
+  private double m_targetVoltage;
+  private double m_targetRPM;
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooterMotor.getEncoder();
@@ -52,29 +56,36 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME);
   }
 
-  public double getShooterRPM() {
-    return m_shooterEncoder.getVelocity();
+  public boolean approveShoot() {
+    return m_shootDebouncer
+        .calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= ShooterConstants.RPM_ERROR_THRESHOLD);
   }
 
-  public void setVoltage(double voltage) {
-    m_shooterMotor.setVoltage(voltage);
+  public double getShooterRPM() {
+    return m_shooterEncoder.getVelocity();
   }
 
   public double getTargetRPM() {
     return m_targetRPM;
   }
 
-  public void setTargetRPM(double p_targetRpm) {
-    m_targetRPM = p_targetRpm;
-    m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
+  public void setTargetRPM(double p_targetRPM) {
+    m_targetRPM = p_targetRPM;
+    m_shootControlType = ControlType.kVelocity;
   }
 
-  public boolean approveShoot() {
-    return m_shootDebouncer
-        .calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= ShooterConstants.RPM_ERROR_THRESHOLD);
+  public void setVoltage(double voltage) {
+    m_targetVoltage = voltage;
+    m_shootControlType = ControlType.kVoltage;
   }
 
   @Override
   public void periodic() {
+    if (m_shootControlType == ControlType.kVelocity) {
+      m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
+    } else {
+      m_shooterMotor.setVoltage(m_targetVoltage);
+    }
+
   }
 }
