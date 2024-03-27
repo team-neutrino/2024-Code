@@ -1,4 +1,4 @@
-package frc.robot.subsystems.simulation;
+package frc.robot.subsystems.wrapper;
 
 import com.revrobotics.REVPhysicsSim;
 
@@ -80,7 +80,6 @@ public class IntakeSimulation extends IntakeSubsystem {
 
         beambreakStatus_pub = beambreakStatus_topic.publish();
         beambreakStatus_pub.setDefault(false);
-
 
     }
 

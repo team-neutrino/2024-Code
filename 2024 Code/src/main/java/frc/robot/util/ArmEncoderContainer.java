@@ -3,7 +3,7 @@ package frc.robot.util;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkAbsoluteEncoder;
 import edu.wpi.first.wpilibj.RobotBase;
-import frc.robot.subsystems.simulation.ArmSimulation;
+import frc.robot.subsystems.wrapper.ArmSimulation;
 
 public class ArmEncoderContainer {
     public SparkAbsoluteEncoder m_armEncoder;

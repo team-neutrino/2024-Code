@@ -1,4 +1,4 @@
-package frc.robot.subsystems.simulation;
+package frc.robot.subsystems.wrapper;
 
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.BooleanSubscriber;

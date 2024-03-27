@@ -14,10 +14,10 @@ import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.math.filter.Debouncer;
 
 public class ShooterSubsystem extends SubsystemBase {
-  protected CANSparkMax m_shooterMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
-  protected CANSparkMax m_followerMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR2, MotorType.kBrushless);
-  protected RelativeEncoder m_shooterEncoder;
-  protected RelativeEncoder m_followerEncoder;
+  private CANSparkMax m_shooterMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
+  private CANSparkMax m_followerMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR2, MotorType.kBrushless);
+  private RelativeEncoder m_shooterEncoder;
+  private RelativeEncoder m_followerEncoder;
   private SparkPIDController m_pidController;
   private Debouncer m_shootDebouncer;
 
@@ -59,6 +59,10 @@ public class ShooterSubsystem extends SubsystemBase {
   public boolean approveShoot() {
     return m_shootDebouncer
         .calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= ShooterConstants.RPM_ERROR_THRESHOLD);
+  }
+
+  public double getFollowerRPM() {
+    return m_followerEncoder.getVelocity();
   }
 
   public double getShooterRPM() {

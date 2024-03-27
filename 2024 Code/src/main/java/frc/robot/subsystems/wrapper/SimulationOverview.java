@@ -1,4 +1,4 @@
-package frc.robot.subsystems.simulation;
+package frc.robot.subsystems.wrapper;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

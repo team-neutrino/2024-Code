@@ -3,11 +3,11 @@ package frc.robot.util;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.simulation.IntakeSimulation;
-import frc.robot.subsystems.simulation.NetworkTables;
-import frc.robot.subsystems.simulation.ArmSimulation;
-import frc.robot.subsystems.simulation.Shooter;
-import frc.robot.subsystems.simulation.SimulationOverview;
+import frc.robot.subsystems.wrapper.ArmSimulation;
+import frc.robot.subsystems.wrapper.IntakeSimulation;
+import frc.robot.subsystems.wrapper.NetworkTables;
+import frc.robot.subsystems.wrapper.Shooter;
+import frc.robot.subsystems.wrapper.SimulationOverview;
 
 public class SubsystemContainer {
     public static CalculateAngle m_angleCalculate = new CalculateAngle();

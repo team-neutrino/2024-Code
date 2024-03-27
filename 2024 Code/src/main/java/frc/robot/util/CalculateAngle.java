@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.TreeMap;
+
+import frc.robot.subsystems.wrapper.InterpolationOptimization;
+
 import java.awt.geom.Point2D;
-import frc.robot.subsystems.simulation.InterpolationOptimization;
 
 public class CalculateAngle {
 
