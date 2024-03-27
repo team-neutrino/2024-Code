@@ -6,26 +6,23 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.subsystems.simulation.PIDChangerSimulationShooter;
-import frc.robot.util.SubsystemContainer;
 
 public class ShooterSubsystem extends SubsystemBase {
-  protected CANSparkMax m_shooter1 = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
-  protected CANSparkMax m_shooter2 = new CANSparkMax(MotorIDs.SHOOTER_MOTOR2, MotorType.kBrushless);
-  protected RelativeEncoder m_shooterEncoder1;
-  protected RelativeEncoder m_shooterEncoder2;
-  private SparkPIDController m_pidController1;
+  protected CANSparkMax m_shooterMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
+  protected CANSparkMax m_followerMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR2, MotorType.kBrushless);
+  protected RelativeEncoder m_shooterEncoder;
+  protected RelativeEncoder m_followerEncoder;
+  private SparkPIDController m_pidController;
   protected double WHEEL_P = 0.00075;
   protected double WHEEL_I = 0.000001;
   protected double WHEEL_D = 0;
   protected double WHEEL_FF = 0.00021;
+  protected double WHEEL_IZONE = 250;
   protected double m_targetRPM;
-  protected double Izone = 250;
   private int counter;
   final private double APPROVE_ERROR_THRESHOLD = 200;
   final private double APPROVE_COUNTER_THRESHOLD = 5;
@@ -36,53 +33,53 @@ public class ShooterSubsystem extends SubsystemBase {
       WHEEL_D, WHEEL_FF, approve);
 
   public ShooterSubsystem() {
-    m_shooterEncoder1 = m_shooter1.getEncoder();
-    m_pidController1 = m_shooter1.getPIDController();
-    m_pidController1.setFeedbackDevice(m_shooterEncoder1);
-    m_shooter1.restoreFactoryDefaults();
-    m_shooter1.setIdleMode(IdleMode.kCoast);
-    m_shooter1.setInverted(false);
-    m_shooter1.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
-    m_shooter1.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
+    m_shooterEncoder = m_shooterMotor.getEncoder();
+    m_pidController = m_shooterMotor.getPIDController();
+    m_pidController.setFeedbackDevice(m_shooterEncoder);
+    m_shooterMotor.restoreFactoryDefaults();
+    m_shooterMotor.setIdleMode(IdleMode.kCoast);
+    m_shooterMotor.setInverted(false);
+    m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+    m_shooterMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
 
-    m_shooterEncoder2 = m_shooter2.getEncoder();
-    m_shooter2.restoreFactoryDefaults();
-    m_shooter2.setIdleMode(IdleMode.kCoast);
-    m_shooter2.setInverted(true);
-    m_shooter2.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
-    m_shooter2.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
-    m_shooter2.follow(m_shooter1, true);
+    m_followerEncoder = m_followerMotor.getEncoder();
+    m_followerMotor.restoreFactoryDefaults();
+    m_followerMotor.setIdleMode(IdleMode.kCoast);
+    m_followerMotor.setInverted(true);
+    m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+    m_followerMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
+    m_followerMotor.follow(m_shooterMotor, true);
 
-    m_pidController1.setP(WHEEL_P);
-    m_pidController1.setI(WHEEL_I);
-    m_pidController1.setD(WHEEL_D);
-    m_pidController1.setFF(WHEEL_FF);
-    m_pidController1.setIZone(Izone);
-    m_pidController1.setOutputRange(0, 1);
+    m_pidController.setP(WHEEL_P);
+    m_pidController.setI(WHEEL_I);
+    m_pidController.setD(WHEEL_D);
+    m_pidController.setFF(WHEEL_FF);
+    m_pidController.setIZone(WHEEL_IZONE);
+    m_pidController.setOutputRange(0, 1);
 
-    m_shooter1.burnFlash();
-    m_shooter2.burnFlash();
+    m_shooterMotor.burnFlash();
+    m_followerMotor.burnFlash();
   }
 
   public double getShooterEncoder1() {
-    return m_shooterEncoder1.getPosition();
+    return m_shooterEncoder.getPosition();
   }
 
   public double getShooterRpm1() {
-    return m_shooterEncoder1.getVelocity();
+    return m_shooterEncoder.getVelocity();
   }
 
   public void resetEncoders() {
-    m_shooterEncoder1.setPosition(0);
-    m_shooterEncoder2.setPosition(0);
+    m_shooterEncoder.setPosition(0);
+    m_followerEncoder.setPosition(0);
   }
 
   public void setVoltage(double voltage) {
-    m_shooter1.setVoltage(voltage);
+    m_shooterMotor.setVoltage(voltage);
   }
 
   public double getP() {
-    return m_pidController1.getP() * 1000.0;
+    return m_pidController.getP() * 1000.0;
   }
 
   public double getTargetRPM() {
@@ -92,7 +89,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setTargetRPM(double p_targetRpm) {
     m_targetRPM = p_targetRpm;
     approvePIDChanges();
-    m_pidController1.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
+    m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
   }
 
   public boolean approveShoot() {
@@ -102,31 +99,31 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getFF() {
-    return m_pidController1.getFF() * 1000.0;
+    return m_pidController.getFF() * 1000.0;
   }
 
   public void setP(double P) {
-    m_pidController1.setP(P / 1000.0);
+    m_pidController.setP(P / 1000.0);
   }
 
   public double getI() {
-    return m_pidController1.getI() * 1000.0;
+    return m_pidController.getI() * 1000.0;
   }
 
   public void setI(double I) {
-    m_pidController1.setI(I / 1000.0);
+    m_pidController.setI(I / 1000.0);
   }
 
   public double getD() {
-    return m_pidController1.getD() * 1000.0;
+    return m_pidController.getD() * 1000.0;
   }
 
   public void setD(double D) {
-    m_pidController1.setD(D / 1000.0);
+    m_pidController.setD(D / 1000.0);
   }
 
   public void setFF(double FF) {
-    m_pidController1.setFF(FF / 1000.0);
+    m_pidController.setFF(FF / 1000.0);
   }
 
   private void countCounter() {
@@ -143,10 +140,10 @@ public class ShooterSubsystem extends SubsystemBase {
       WHEEL_I = PIDSimulationShooter.GetI();
       WHEEL_D = PIDSimulationShooter.GetD();
       WHEEL_FF = PIDSimulationShooter.GetFF();
-      m_pidController1.setP(WHEEL_P);
-      m_pidController1.setI(WHEEL_I);
-      m_pidController1.setD(WHEEL_D);
-      m_pidController1.setFF(WHEEL_FF);
+      m_pidController.setP(WHEEL_P);
+      m_pidController.setI(WHEEL_I);
+      m_pidController.setD(WHEEL_D);
+      m_pidController.setFF(WHEEL_FF);
     }
 
   }
