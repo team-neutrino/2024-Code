@@ -9,7 +9,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.subsystems.simulation.PIDChangerSimulationShooter;
 
 public class ShooterSubsystem extends SubsystemBase {
   protected CANSparkMax m_shooterMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
@@ -27,10 +26,6 @@ public class ShooterSubsystem extends SubsystemBase {
   final private double APPROVE_ERROR_THRESHOLD = 200;
   final private double APPROVE_COUNTER_THRESHOLD = 5;
   final private double COUNTER_ERROR_THRESHOLD = 200;
-  private boolean approve = false;
-
-  public final PIDChangerSimulationShooter PIDSimulationShooter = new PIDChangerSimulationShooter(WHEEL_P, WHEEL_I,
-      WHEEL_D, WHEEL_FF, approve);
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooterMotor.getEncoder();
@@ -75,7 +70,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setTargetRPM(double p_targetRpm) {
     m_targetRPM = p_targetRpm;
-    approvePIDChanges();
     m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
   }
 
@@ -91,20 +85,6 @@ public class ShooterSubsystem extends SubsystemBase {
     } else {
       counter = 0;
     }
-  }
-
-  public void approvePIDChanges() {
-    if (PIDSimulationShooter.simPIDChangeApprove()) {
-      WHEEL_P = PIDSimulationShooter.GetP();
-      WHEEL_I = PIDSimulationShooter.GetI();
-      WHEEL_D = PIDSimulationShooter.GetD();
-      WHEEL_FF = PIDSimulationShooter.GetFF();
-      m_pidController.setP(WHEEL_P);
-      m_pidController.setI(WHEEL_I);
-      m_pidController.setD(WHEEL_D);
-      m_pidController.setFF(WHEEL_FF);
-    }
-
   }
 
   @Override
