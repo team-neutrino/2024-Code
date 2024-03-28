@@ -6,7 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ShooterSpeeds;
 import frc.robot.subsystems.*;
 import frc.robot.util.SubsystemContainer;
 
@@ -35,8 +36,8 @@ public class MagicAmpChargeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
-    m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.AMP_SPEED);
+    m_armSubsystem.setArmReferenceAngle(ArmConstants.AMP_POSE);
+    m_shooterSubsystem.setTargetRPM(ShooterSpeeds.AMP_SPEED);
     m_intakeSubsystem.runIndexFeed();
   }
 
