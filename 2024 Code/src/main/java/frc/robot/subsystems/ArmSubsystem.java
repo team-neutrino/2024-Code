@@ -12,8 +12,6 @@ import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -70,11 +68,13 @@ public class ArmSubsystem extends SubsystemBase {
     return m_inPosition;
   }
 
-  public double limitShiftAngle(double angle) {
+  public double limitArmAngle(double angle) {
     if (angle > ArmConstants.ARM_UPPER_LIMIT) {
       return ArmConstants.ARM_UPPER_LIMIT;
     } else if (angle < ArmConstants.ARM_LOWER_LIMIT) {
       return ArmConstants.ARM_LOWER_LIMIT;
+    } else if (Double.isNaN(angle)) {
+      return Constants.ArmConstants.INTAKE_POSE;
     }
     return angle;
   }
@@ -98,9 +98,10 @@ public class ArmSubsystem extends SubsystemBase {
     m_pidController.setPositionPIDWrappingEnabled(true);
 
     // climb settings
-    m_pidController.setP(ArmConstants.Arm_kp, 1);
-    m_pidController.setI(0.0001, 1);
-    m_pidController.setIZone(30, 1);
+    m_pidController.setP(ArmConstants.ClimbArm_ki, 1);
+    m_pidController.setI(ArmConstants.ClimbArm_kp, 1);
+    m_pidController.setD(ArmConstants.ClimbArm_kd, 1);
+    m_pidController.setIZone(ArmConstants.ClimbIZone, 1);
 
     m_armMotor.burnFlash();
   }
@@ -118,13 +119,7 @@ public class ArmSubsystem extends SubsystemBase {
   // in degrees. converted to (0, 360)
   private void updateArmAngle(double targetAngle, int PIDslot) {
 
-    if (targetAngle > ArmConstants.ARM_UPPER_LIMIT) {
-      targetAngle = ArmConstants.ARM_UPPER_LIMIT;
-    } else if (targetAngle < ArmConstants.ARM_LOWER_LIMIT) {
-      targetAngle = ArmConstants.ARM_LOWER_LIMIT;
-    } else if (Double.isNaN(targetAngle)) {
-      return;
-    }
+    targetAngle = limitArmAngle(targetAngle);
 
     double feedforward = ArmConstants.FF_kg
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
@@ -132,18 +127,6 @@ public class ArmSubsystem extends SubsystemBase {
     targetAngle = adjustAngleIn(targetAngle);
 
     m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, feedforward);
-  }
-
-  public double withinRange(double check) {
-    if (check >= ArmConstants.INTAKE_LIMIT) {
-      return ArmConstants.INTAKE_LIMIT;
-
-    } else if (check <= ArmConstants.AMP_LIMIT) {
-      return ArmConstants.AMP_LIMIT;
-
-    } else {
-      return check;
-    }
   }
 
   @Override
