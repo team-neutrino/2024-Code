@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,7 +27,8 @@ public class ArmManualCommand extends Command {
   public void initialize() {
     // Here too
     // Rename shift angle to manual target angle. Its not a shift of anything
-    // Why save this at init at all? Why not grab the current angle during the execute portion?
+    // Why save this at init at all? Why not grab the current angle during the
+    // execute portion?
     m_shiftAngle = SubsystemContainer.armSubsystem.getArmAngleDegrees();
   }
 

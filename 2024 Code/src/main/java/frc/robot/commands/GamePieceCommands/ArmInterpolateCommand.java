@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.SubsystemContainer;
@@ -16,12 +16,14 @@ public class ArmInterpolateCommand extends Command {
   private CalculateAngle m_angleCalculate;
 
   public ArmInterpolateCommand(CalculateAngle p_angleCalculate) {
-    // Why is this passed in instead of re-instantiated? Why isn't it just a big static lookup?
+    // Why is this passed in instead of re-instantiated? Why isn't it just a big
+    // static lookup?
     m_angleCalculate = p_angleCalculate;
     m_armSubsystem = SubsystemContainer.armSubsystem;
     m_swerve = SubsystemContainer.swerveSubsystem;
     addRequirements(m_armSubsystem);
-    // TODO was adding this necessary? Is there some kind of reader writer lock system?
+    // TODO was adding this necessary? Is there some kind of reader writer lock
+    // system?
     addRequirements(m_swerve);
   }
 
