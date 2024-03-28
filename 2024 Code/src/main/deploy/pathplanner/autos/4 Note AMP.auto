@@ -28,7 +28,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Amp 3 or 4 I"
+                        "pathName": "Amp 4 I"
                       }
                     },
                     {
@@ -79,7 +79,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Amp 3 or 4 II"
+                        "pathName": "Amp 4 II"
                       }
                     },
                     {
@@ -130,7 +130,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Amp 3 or 4 III"
+                        "pathName": "Amp 4 III"
                       }
                     },
                     {
