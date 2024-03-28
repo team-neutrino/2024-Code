@@ -8,16 +8,21 @@ import frc.robot.Constants.LEDConstants;
 import frc.robot.Constants.PWMConstants;
 
 public class LEDSubsystem extends SubsystemBase {
-    private AddressableLED m_addressableLED;
+    private AddressableLED m_addressableLED1;
+    private AddressableLED m_addressableLED2;
     private AddressableLEDBuffer m_LEDBuffer;
     private Timer timer = new Timer();
 
     public LEDSubsystem() {
-        m_addressableLED = new AddressableLED(PWMConstants.LED);
+        m_addressableLED1 = new AddressableLED(PWMConstants.LED1);
+        m_addressableLED2 = new AddressableLED(PWMConstants.LED2);
         m_LEDBuffer = new AddressableLEDBuffer(LEDConstants.LEDBufferLen);
-        m_addressableLED.setLength(m_LEDBuffer.getLength());
-        m_addressableLED.setData(m_LEDBuffer);
-        m_addressableLED.start();
+        m_addressableLED1.setLength(m_LEDBuffer.getLength());
+        m_addressableLED2.setLength(m_LEDBuffer.getLength());
+        m_addressableLED1.setData(m_LEDBuffer);
+        m_addressableLED2.setData(m_LEDBuffer);
+        m_addressableLED1.start();
+        m_addressableLED2.start();
         setToOrange();
         timer.start();
     }
@@ -67,7 +72,8 @@ public class LEDSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        m_addressableLED.setData(m_LEDBuffer);
+        m_addressableLED1.setData(m_LEDBuffer);
+        m_addressableLED2.setData(m_LEDBuffer);
     }
 
 }
