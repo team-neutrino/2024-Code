@@ -36,9 +36,9 @@ public class LEDDefaultCommand extends Command {
     if (m_swerveSubsystem == null) {
       return;
     }
-    if (m_shooterSubsystem.approveShoot() && m_armSubsystem.getInPosition() && m_intakeSubsystem.isDebounced()) {
+    if (m_shooterSubsystem.approveShoot() && m_armSubsystem.getInPosition() && m_intakeSubsystem.isNoteReady()) {
       m_LEDSubsystem.setToGreen();
-    } else if (m_intakeSubsystem.isDebounced()) {
+    } else if (m_intakeSubsystem.isNoteReady()) {
       m_LEDSubsystem.setToCyan();
     } else if (m_swerveSubsystem
         .getCommandState() == States.PATHFINDING) {

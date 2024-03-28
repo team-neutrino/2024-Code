@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private double intakeVoltage = 0.0;
     private boolean m_indexBeam = false;
     private boolean m_intakeBeam = false;
-    private boolean m_debounced = false;
+    private boolean m_noteReady = false;
 
     private RelativeEncoder m_intakeEncoder;
     private RelativeEncoder m_indexEncoder;
@@ -87,10 +87,6 @@ public class IntakeSubsystem extends SubsystemBase {
         return m_indexBeam || m_intakeBeam;
     }
 
-    private void indexFeedCheck() {
-        m_debounced = m_intakeDebouncer.calculate(isNoteCentered());
-    }
-
     public void indexJitter() {
         if (isBeamBrokenIndex()) {
             indexVoltage = IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE;
@@ -107,8 +103,8 @@ public class IntakeSubsystem extends SubsystemBase {
         return m_indexBeam;
     }
 
-    public boolean isDebounced() {
-        return m_debounced;
+    public boolean isNoteReady() {
+        return m_noteReady;
     }
 
     private boolean isNoteCentered() {
@@ -120,12 +116,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIndexFeed() {
-        indexFeedCheck();
         if (hasNoNote()) {
             indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
         } else if (isNoteTooFar()) {
             indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_POSITION;
-        } else if (isDebounced()) {
+        } else if (isNoteReady()) {
             stopIndex();
         }
 
@@ -172,6 +167,8 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeMotor.set(intakeLimiter.calculate(intakeVoltage));
         m_indexBeam = !m_indexBeamBreak.get();
         m_intakeBeam = !m_intakeBeamBreak.get();
+
+        m_noteReady = m_intakeDebouncer.calculate(isNoteCentered());
     }
 
 }
