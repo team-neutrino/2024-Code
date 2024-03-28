@@ -50,8 +50,8 @@ public class Intake extends IntakeSubsystem {
 
     public void periodic() {
         super.periodic();
-        intakeWheelEncSpeed_pub.set(m_intakeEncoder.getVelocity(), NetworkTablesJNI.now());
-        indexWheelEncSpeed_pub.set(m_indexEncoder.getVelocity(), NetworkTablesJNI.now());
+        intakeWheelEncSpeed_pub.set(getIntakeVelocity(), NetworkTablesJNI.now());
+        indexWheelEncSpeed_pub.set(getIndexVelocity(), NetworkTablesJNI.now());
         beambreakStatus_pub.set(isBeamBrokenIntake());
         indexSpeed_pub.set(getIndexVoltage());
     }

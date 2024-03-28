@@ -27,7 +27,7 @@ public class IntakeCommand extends Command {
   public void execute() {
     if (SubsystemContainer.armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
         && SubsystemContainer.armSubsystem.getInPosition()) {
-      m_intakeSubsystem.intakeNote();
+      m_intakeSubsystem.smartIntake();
     }
   }
 

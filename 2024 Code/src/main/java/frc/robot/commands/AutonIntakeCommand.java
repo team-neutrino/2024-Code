@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -40,7 +39,7 @@ public class AutonIntakeCommand extends Command {
   @Override
   public void execute() {
     m_armSubsystem.setArmReferenceAngle(m_angle);
-    m_intakeSubsystem.intakeNote();
+    m_intakeSubsystem.smartIntake();
     m_shooterSubsystem.setTargetRPM(m_rpm);
   }
 

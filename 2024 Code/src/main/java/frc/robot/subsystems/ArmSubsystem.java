@@ -15,7 +15,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
 
@@ -74,7 +73,7 @@ public class ArmSubsystem extends SubsystemBase {
     } else if (angle < ArmConstants.ARM_LOWER_LIMIT) {
       return ArmConstants.ARM_LOWER_LIMIT;
     } else if (Double.isNaN(angle)) {
-      return Constants.ArmConstants.INTAKE_POSE;
+      return ArmConstants.INTAKE_POSE;
     }
     return angle;
   }
@@ -88,7 +87,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_armEncoder.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
 
     m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
-    m_armMotor.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);
+    m_armMotor.setSmartCurrentLimit(ArmConstants.ARM_CURRENT_LIMIT);
 
     m_pidController = m_armMotor.getPIDController();
     m_pidController.setP(ArmConstants.Arm_kp, 0);
@@ -114,7 +113,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setClimbReferenceAngle() {
-    m_targetAngle = Constants.ArmConstants.CLIMB_ANGLE;
+    m_targetAngle = ArmConstants.CLIMB_ANGLE;
     m_PIDslot = 1;
   }
 
