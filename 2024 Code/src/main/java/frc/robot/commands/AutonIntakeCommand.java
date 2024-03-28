@@ -28,7 +28,7 @@ public class AutonIntakeCommand extends Command {
 
   @Override
   public void execute() {
-    m_intakeSubsystem.intakeNote();
+    m_intakeSubsystem.smartIntake();
   }
 
   @Override

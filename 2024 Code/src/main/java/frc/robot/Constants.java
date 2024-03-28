@@ -154,6 +154,7 @@ public final class Constants {
     public static final double INDEX_JITTER_MOTOR_VOLTAGE = 0.125;
     public static final int INTAKE_CURRENT_LIMIT = 35;
     public static final int INDEX_CURRENT_LIMIT = 20;
+    public static final double INTAKE_ERROR_THRESHOLD = 0.4;
   }
 
   public final class ShooterSpeeds {
