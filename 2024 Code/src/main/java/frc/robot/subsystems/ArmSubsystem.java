@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,40 +22,16 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
 
 public class ArmSubsystem extends SubsystemBase {
-  private CANSparkFlex m_arm = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
+  private CANSparkFlex m_armMotor = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
   private AbsoluteEncoder m_armEncoder;
   private double m_targetAngle = 0.0;
   private boolean m_inPosition;
   private Debouncer m_armDebouncer;
-  private SparkPIDController pidController;
-
-  public ArmFeedforward feedforward = new ArmFeedforward(ArmConstants.FF_ks, ArmConstants.FF_kg, ArmConstants.FF_ks,
-      ArmConstants.FF_ka);
+  private SparkPIDController m_pidController;
+  private int m_PIDslot;
 
   public ArmSubsystem() {
-    m_arm.restoreFactoryDefaults();
-    m_arm.setIdleMode(IdleMode.kBrake);
-
-    m_armEncoder = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-
-    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
-    m_arm.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);
-
-    pidController = m_arm.getPIDController();
-    pidController.setP(ArmConstants.Arm_kp, 0);
-    pidController.setI(ArmConstants.Arm_ki, 0);
-    pidController.setD(ArmConstants.Arm_kd, 0);
-    pidController.setFeedbackDevice(m_armEncoder);
-    pidController.setPositionPIDWrappingMaxInput(360);
-    pidController.setPositionPIDWrappingMinInput(0);
-    pidController.setPositionPIDWrappingEnabled(true);
-
-    // climb settings
-    pidController.setP(ArmConstants.Arm_kp, 1);
-    pidController.setI(0.0001, 1);
-    pidController.setIZone(30, 1);
-
-    m_arm.burnFlash();
+    initializeMotorControllers();
 
     m_armDebouncer = new Debouncer(ArmConstants.DEBOUNCE_TIME, DebounceType.kRising);
   }
@@ -73,11 +50,6 @@ public class ArmSubsystem extends SubsystemBase {
       angle -= 360;
     }
     return angle;
-  }
-
-  public boolean ArmDebouncer() {
-    return m_armDebouncer
-        .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
   }
 
   // -180, 180
@@ -107,34 +79,44 @@ public class ArmSubsystem extends SubsystemBase {
     return angle;
   }
 
-  public void resetEverything() {
-    m_arm.restoreFactoryDefaults();
-    m_arm.setIdleMode(IdleMode.kBrake);
+  public void initializeMotorControllers() {
+    m_armMotor.restoreFactoryDefaults();
+    m_armMotor.setIdleMode(IdleMode.kBrake);
 
-    m_armEncoder = m_arm.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+    m_armEncoder = m_armMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
-    m_arm.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
-    m_arm.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
+    m_armMotor.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);
 
-    pidController = m_arm.getPIDController();
-    pidController.setP(ArmConstants.Arm_kp, 0);
-    pidController.setI(ArmConstants.Arm_ki, 0);
-    pidController.setD(ArmConstants.Arm_kd, 0);
-    pidController.setFeedbackDevice(m_armEncoder);
-    pidController.setPositionPIDWrappingMaxInput(360);
-    pidController.setPositionPIDWrappingMinInput(0);
-    pidController.setPositionPIDWrappingEnabled(true);
+    m_pidController = m_armMotor.getPIDController();
+    m_pidController.setP(ArmConstants.Arm_kp, 0);
+    m_pidController.setI(ArmConstants.Arm_ki, 0);
+    m_pidController.setD(ArmConstants.Arm_kd, 0);
+    m_pidController.setFeedbackDevice(m_armEncoder);
+    m_pidController.setPositionPIDWrappingMaxInput(360);
+    m_pidController.setPositionPIDWrappingMinInput(0);
+    m_pidController.setPositionPIDWrappingEnabled(true);
 
     // climb settings
-    pidController.setP(ArmConstants.Arm_kp, 1);
-    pidController.setI(0.0001, 1);
-    pidController.setIZone(30, 1);
+    m_pidController.setP(ArmConstants.Arm_kp, 1);
+    m_pidController.setI(0.0001, 1);
+    m_pidController.setIZone(30, 1);
 
-    m_arm.burnFlash();
+    m_armMotor.burnFlash();
+  }
+
+  public void setArmReferenceAngle(double targetAngle) {
+    m_targetAngle = targetAngle;
+    m_PIDslot = 0;
+  }
+
+  public void setClimbReferenceAngle() {
+    m_targetAngle = Constants.ArmConstants.CLIMB_ANGLE;
+    m_PIDslot = 1;
   }
 
   // in degrees. converted to (0, 360)
-  public void setArmReferenceAngle(double targetAngle) {
+  private void updateArmAngle(double targetAngle, int PIDslot) {
 
     if (targetAngle > ArmConstants.ARM_UPPER_LIMIT) {
       targetAngle = ArmConstants.ARM_UPPER_LIMIT;
@@ -144,23 +126,12 @@ public class ArmSubsystem extends SubsystemBase {
       return;
     }
 
-    m_targetAngle = targetAngle;
-
     double feedforward = ArmConstants.FF_kg
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
 
     targetAngle = adjustAngleIn(targetAngle);
 
-    pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 0, feedforward);
-  }
-
-  public void setClimbReferenceAngle() {
-    double targetAngle = adjustAngleIn(-20);
-
-    double feedforward = ArmConstants.FF_kg
-        * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
-
-    pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, 1, feedforward);
+    m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, feedforward);
   }
 
   public double withinRange(double check) {
@@ -177,6 +148,9 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_inPosition = ArmDebouncer();
+    updateArmAngle(m_targetAngle, m_PIDslot);
+
+    m_inPosition = m_armDebouncer
+        .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
   }
 }
