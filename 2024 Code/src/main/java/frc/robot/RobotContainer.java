@@ -15,15 +15,8 @@ import frc.robot.commands.ShootManualCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShuttleCloseCommand;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.AutoAlignSequentialCommand;
-import frc.robot.commands.AutonArmAngleCommand;
-import frc.robot.commands.AutonArmCommand;
-import frc.robot.commands.AutonArmInterpolateAngle;
-import frc.robot.commands.AutonFeederCommand;
 import frc.robot.commands.AutonIntakeCommand;
-import frc.robot.commands.AutonMagicSpeakerCommand;
 import frc.robot.commands.AutonShooterCommand;
-import frc.robot.commands.AutonShooterIdleCommand;
 import frc.robot.commands.AutonSingleShotCommand;
 import frc.robot.commands.ArmAngleCommand;
 import frc.robot.commands.ArmClimbCommandDown;
@@ -74,24 +67,13 @@ public class RobotContainer {
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // set named commands
-    NamedCommands.registerCommand("MagicSpeakerCommand",
-        new AutonMagicSpeakerCommand(SubsystemContainer.m_angleCalculate));
-    NamedCommands.registerCommand("IntakeCommand", new IntakeCommand());
-    NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
-    NamedCommands.registerCommand("AutoAlignCommand", new AutoAlignSequentialCommand());
-    NamedCommands.registerCommand("ArmDown", new AutonArmAngleCommand(ArmConstants.INTAKE_POSE));
+    NamedCommands.registerCommand("AutonIntakeCommand",
+        new AutonIntakeCommand(Constants.ArmConstants.INTAKE_POSE, Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
+    NamedCommands.registerCommand("AutonShoot",
+        new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED, SubsystemContainer.m_angleCalculate));
+    NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand());
     NamedCommands.registerCommand("SingleSubwooferShot",
         new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
-    NamedCommands.registerCommand("AutonIntakeCommand", new AutonIntakeCommand());
-    NamedCommands.registerCommand("AutonFeederCommmand", new AutonFeederCommand());
-    NamedCommands.registerCommand("AutonShooterIdle",
-        new AutonShooterIdleCommand(Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
-    NamedCommands.registerCommand("AutonShoot",
-        new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED));
-    NamedCommands.registerCommand("AutonArmDown", new AutonArmCommand(Constants.ArmConstants.INTAKE_POSE));
-    NamedCommands.registerCommand("AutonArmInterpolate",
-        new AutonArmInterpolateAngle(SubsystemContainer.m_angleCalculate));
-    NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand());
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
