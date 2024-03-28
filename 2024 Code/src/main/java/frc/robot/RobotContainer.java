@@ -106,7 +106,7 @@ public class RobotContainer {
       for (int i = 0; i < 4; i++) {
         SubsystemContainer.swerveSubsystem.swerveModules[i].resetEverything();
       }
-      SubsystemContainer.armSubsystem.resetEverything();
+      SubsystemContainer.armSubsystem.initializeMotorControllers();
     }));
 
     // shooter buttons
@@ -133,7 +133,8 @@ public class RobotContainer {
         .whileTrue(new SequentialCommandGroup(new ShootManualCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
             Constants.ShooterSpeeds.SHUTTLE_SPEED, m_buttonsController), new MagicShootCommand()));
 
-    m_buttonsController.povDown().onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.resetEverything()));
+    m_buttonsController.povDown()
+        .onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
 
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 

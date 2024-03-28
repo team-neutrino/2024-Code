@@ -26,6 +26,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private double m_targetVoltage;
   private double m_targetRPM;
 
+  private boolean m_atSpeed;
+
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooterMotor.getEncoder();
     m_pidController = m_shooterMotor.getPIDController();
@@ -58,8 +60,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean approveShoot() {
-    return m_shootDebouncer
-        .calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= ShooterConstants.RPM_ERROR_THRESHOLD);
+    return m_atSpeed;
   }
 
   public double getFollowerRPM() {
@@ -92,5 +93,7 @@ public class ShooterSubsystem extends SubsystemBase {
       m_shooterMotor.setVoltage(m_targetVoltage);
     }
 
+    m_atSpeed = m_shootDebouncer
+        .calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= ShooterConstants.RPM_ERROR_THRESHOLD);
   }
 }
