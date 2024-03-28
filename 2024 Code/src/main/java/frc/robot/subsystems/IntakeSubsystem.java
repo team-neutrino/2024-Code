@@ -9,7 +9,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel;
 
-import frc.robot.Constants;
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MotorIDs;
@@ -23,42 +22,38 @@ public class IntakeSubsystem extends SubsystemBase {
     private boolean m_centered = false;
     private int i;
 
-    protected RelativeEncoder m_intakeEncoder;
-    protected RelativeEncoder m_intakeEncoder2;
-    protected RelativeEncoder m_indexEncoder;
-    protected RelativeEncoder m_indexEncoder2;
+    private RelativeEncoder m_intakeEncoder;
+    private RelativeEncoder m_indexEncoder;
 
-    protected CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
-    protected CANSparkMax m_intakeMotor2 = new CANSparkMax(MotorIDs.INTAKE_MOTOR_TWO,
+    private CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
+    private CANSparkMax m_intakeMotor2 = new CANSparkMax(MotorIDs.INTAKE_MOTOR_TWO,
             CANSparkLowLevel.MotorType.kBrushless);
-    protected CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
-    protected CANSparkMax m_indexMotor2 = new CANSparkMax(MotorIDs.INDEX_MOTOR2, CANSparkLowLevel.MotorType.kBrushless);
+    private CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
+    private CANSparkMax m_indexMotor2 = new CANSparkMax(MotorIDs.INDEX_MOTOR2, CANSparkLowLevel.MotorType.kBrushless);
 
-    protected DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
-    protected DigitalInput m_indexBeamBreak = new DigitalInput(DigitalConstants.INDEX_MOTOR_BEAMBREAK);
+    private DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
+    private DigitalInput m_indexBeamBreak = new DigitalInput(DigitalConstants.INDEX_MOTOR_BEAMBREAK);
 
     SlewRateLimiter intakeLimiter = new SlewRateLimiter(5.0);
 
     public IntakeSubsystem() {
         m_intakeEncoder = m_intakeMotor.getEncoder();
-        m_intakeEncoder2 = m_intakeMotor2.getEncoder();
         m_indexEncoder = m_indexMotor.getEncoder();
-        m_indexEncoder2 = m_indexMotor2.getEncoder();
 
         m_intakeMotor.restoreFactoryDefaults();
         m_intakeMotor2.restoreFactoryDefaults();
-        m_intakeMotor.setSmartCurrentLimit(Constants.IntakeConstants.INTAKE_CURRENT_LIMIT);
-        m_intakeMotor2.setSmartCurrentLimit(Constants.IntakeConstants.INTAKE_CURRENT_LIMIT);
+        m_intakeMotor.setSmartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT);
+        m_intakeMotor2.setSmartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT);
         m_intakeMotor2.follow(m_intakeMotor, false);
 
         m_indexMotor.restoreFactoryDefaults();
-        m_indexMotor.setSmartCurrentLimit(Constants.IntakeConstants.INDEX_CURRENT_LIMIT);
+        m_indexMotor.setSmartCurrentLimit(IntakeConstants.INDEX_CURRENT_LIMIT);
 
         m_intakeMotor.setIdleMode(IdleMode.kCoast);
         m_intakeMotor2.setIdleMode(IdleMode.kCoast);
 
         m_indexMotor2.restoreFactoryDefaults();
-        m_indexMotor2.setSmartCurrentLimit(Constants.IntakeConstants.INDEX_CURRENT_LIMIT);
+        m_indexMotor2.setSmartCurrentLimit(IntakeConstants.INDEX_CURRENT_LIMIT);
         m_indexMotor2.follow(m_indexMotor, true);
 
         m_intakeMotor.burnFlash();
@@ -159,9 +154,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void resetEncoders() {
         m_intakeEncoder.setPosition(0);
-        m_intakeEncoder2.setPosition(0);
         m_indexEncoder.setPosition(0);
-        m_indexEncoder2.setPosition(0);
     }
 
     public void indexJitter() {
@@ -209,4 +202,5 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexBeam = !m_indexBeamBreak.get();
         m_intakeBeam = !m_intakeBeamBreak.get();
     }
+
 }
