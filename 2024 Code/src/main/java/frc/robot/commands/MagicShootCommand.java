@@ -9,15 +9,14 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class MagicShootCommand extends Command {
-
+  // Use a timer like everywhere else
   private int i = 0;
   private IntakeSubsystem m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
 
   /** Creates a new MagicAmpCommand. */
   public MagicShootCommand() {
 
-    addRequirements(SubsystemContainer.armSubsystem, SubsystemContainer.shooterSubsystem,
-        m_intakeSubsystem);
+    addRequirements(m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -39,6 +38,7 @@ public class MagicShootCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Do we need to check both beams?
     if (!m_intakeSubsystem.isBeamBrokenIntake()) {
       i++;
     } else {

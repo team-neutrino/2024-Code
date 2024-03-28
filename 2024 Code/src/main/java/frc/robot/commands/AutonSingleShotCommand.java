@@ -13,6 +13,7 @@ public class AutonSingleShotCommand extends Command {
     private ArmSubsystem m_armSubsystem;
     private double m_angle;
     private double m_rpm;
+    // Use a timer like everywhere else
     double i = 0;
 
     public AutonSingleShotCommand(double p_angle, double p_rpm) {
@@ -22,7 +23,9 @@ public class AutonSingleShotCommand extends Command {
         m_angle = p_angle;
         m_rpm = p_rpm;
 
-        addRequirements(m_shooterSubsystem, m_armSubsystem, m_intakeSubsystem);
+        addRequirements(m_shooterSubsystem);
+        addRequirements(m_armSubsystem);
+        addRequirements(m_intakeSubsystem);
     }
 
     public void initialize() {
@@ -32,9 +35,11 @@ public class AutonSingleShotCommand extends Command {
     public void execute() {
         m_armSubsystem.setArmReferenceAngle(m_angle);
         m_shooterSubsystem.setTargetRPM(m_rpm);
+        // Rename getInPosition to isInPosition
         if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
             m_intakeSubsystem.runIndexShoot();
         } else {
+            // Still suspicious
             m_intakeSubsystem.stopIndex();
         }
     }
@@ -45,6 +50,7 @@ public class AutonSingleShotCommand extends Command {
 
     @Override
     public boolean isFinished() {
+        // Use a timer
         if (!m_intakeSubsystem.isBeamBrokenIntake()) {
             i++;
         } else {

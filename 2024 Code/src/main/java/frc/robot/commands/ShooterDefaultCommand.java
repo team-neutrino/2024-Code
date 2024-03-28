@@ -24,6 +24,7 @@ public class ShooterDefaultCommand extends Command {
 
     @Override
     public void execute() {
+        // Why any of this?
         if (initialSpeed > ShooterSpeeds.INITIAL_SHOOTER_SPEED) {
             initialSpeed -= 10;
         }

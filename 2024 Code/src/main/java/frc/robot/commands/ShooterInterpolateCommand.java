@@ -22,9 +22,9 @@ public class ShooterInterpolateCommand extends Command {
     m_armSubsystem = SubsystemContainer.armSubsystem;
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
-    addRequirements(m_armSubsystem,
-        m_shooterSubsystem,
-        m_intakeSubsystem);
+    addRequirements(m_armSubsystem);
+    addRequirements(m_shooterSubsystem);
+    addRequirements(m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -39,6 +39,7 @@ public class ShooterInterpolateCommand extends Command {
     if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
       m_intakeSubsystem.runIndexShoot();
       } else {
+        // Still suspicous this is necessary due to a conflict
         m_intakeSubsystem.stopIndex();
       }
   }

@@ -14,6 +14,7 @@ import frc.robot.util.SubsystemContainer;
 
 public class AutonShooterCommand extends Command {
 
+  // We are crazy inconsistent with our access modifiers
   private ShooterSubsystem m_shooterSubsystem;
   private double m_rpm;
   private ArmSubsystem m_armSubsystem;
@@ -56,6 +57,7 @@ public class AutonShooterCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Shouldn't we check the other beam break here?
     return SubsystemContainer.intakeSubsystem.noNote();
   }
 }

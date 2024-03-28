@@ -19,16 +19,21 @@ public class ArmManualCommand extends Command {
   public ArmManualCommand(CommandXboxController p_controller) {
     m_armSubsystem = SubsystemContainer.armSubsystem;
     m_controller = p_controller.getHID();
+    // Either save the subsystem or don't, don't mix it
     addRequirements(SubsystemContainer.armSubsystem);
   }
 
   @Override
   public void initialize() {
+    // Here too
+    // Rename shift angle to manual target angle. Its not a shift of anything
+    // Why save this at init at all? Why not grab the current angle during the execute portion?
     m_shiftAngle = SubsystemContainer.armSubsystem.getArmAngleDegrees();
   }
 
   @Override
   public void execute() {
+    // What if someone changes the arms angle inbetween here and initialize?
     if (Math.abs(m_controller.getLeftX()) > ArmConstants.ARM_ADJUST_DEADZONE) {
       m_shiftAngle -= m_controller.getLeftX();
     }

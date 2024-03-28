@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
+// Do not import every subsystem
 import frc.robot.subsystems.*;
 import frc.robot.util.SubsystemContainer;
 
@@ -24,7 +25,9 @@ public class MagicAmpChargeCommand extends Command {
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
 
-    addRequirements(m_shooterSubsystem, m_intakeSubsystem, m_armSubsystem);
+    addRequirements(m_shooterSubsystem);
+    addRequirements(m_intakeSubsystem);
+    addRequirements(m_armSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -48,6 +51,7 @@ public class MagicAmpChargeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Rename getInPosition to isInPosition
     return m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot() && m_controller.getHID().getLeftBumper();
   }
 }

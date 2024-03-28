@@ -16,10 +16,13 @@ public class ArmInterpolateCommand extends Command {
   private CalculateAngle m_angleCalculate;
 
   public ArmInterpolateCommand(CalculateAngle p_angleCalculate) {
+    // Why is this passed in instead of re-instantiated? Why isn't it just a big static lookup?
     m_angleCalculate = p_angleCalculate;
     m_armSubsystem = SubsystemContainer.armSubsystem;
     m_swerve = SubsystemContainer.swerveSubsystem;
     addRequirements(m_armSubsystem);
+    // TODO was adding this necessary? Is there some kind of reader writer lock system?
+    addRequirements(m_swerve);
   }
 
   // Called when the command is initially scheduled.

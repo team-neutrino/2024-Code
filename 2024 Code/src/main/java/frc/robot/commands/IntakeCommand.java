@@ -25,6 +25,9 @@ public class IntakeCommand extends Command {
 
   @Override
   public void execute() {
+    // It would be more safe to check <= ARM_LOWER_LIMIT in case it somehow goes a bit lower
+    // Then again, maybe it wouldn't intake well. Probably should be some degree of error zone
+    // Also should use Compare() and not ==
     if (SubsystemContainer.armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
         && SubsystemContainer.armSubsystem.getInPosition()) {
       m_intakeSubsystem.intakeNote();

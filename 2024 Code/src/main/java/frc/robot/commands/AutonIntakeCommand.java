@@ -52,6 +52,7 @@ public class AutonIntakeCommand extends Command {
 
   @Override
   public boolean isFinished() {
+    // We need a global set of constants for timer thresholds and really every other magic number
     return ((SubsystemContainer.intakeSubsystem.hasNote()) || m_timer.get() > 3);
   }
 }

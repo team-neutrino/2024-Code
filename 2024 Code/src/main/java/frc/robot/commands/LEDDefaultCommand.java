@@ -23,7 +23,12 @@ public class LEDDefaultCommand extends Command {
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_armSubsystem = SubsystemContainer.armSubsystem;
+    addRequirements(m_swerveSubsystem);
     addRequirements(m_LEDSubsystem);
+    addRequirements(m_intakeSubsystem);
+    addRequirements(m_shooterSubsystem);
+    addRequirements(m_armSubsystem);
+
   }
 
   @Override

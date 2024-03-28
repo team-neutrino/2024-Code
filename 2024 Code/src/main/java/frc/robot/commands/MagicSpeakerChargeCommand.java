@@ -29,7 +29,10 @@ public class MagicSpeakerChargeCommand extends Command {
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
     m_swerve = SubsystemContainer.swerveSubsystem;
     m_controller = p_controller;
-    addRequirements(m_armSubsystem, m_shooterSubsystem, m_intakeSubsystem);
+    addRequirements(m_armSubsystem);
+    addRequirements(m_shooterSubsystem);
+    addRequirements(m_intakeSubsystem);
+    addRequirements(m_swerve);
   }
 
   // Called when the command is initially scheduled.
@@ -42,6 +45,7 @@ public class MagicSpeakerChargeCommand extends Command {
   public void execute() {
     // for testing polynomial surface
     // m_armSubsystem.setArmReferenceAngle(m_calculateAngle.quarticFitCalculateAngle(m_swerve.GetSpeakerToRobot()));
+    // MAke calculate angle a static
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
@@ -55,6 +59,7 @@ public class MagicSpeakerChargeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // Rename getInposition to isInPosition
     return m_controller.getHID().getLeftBumper() && m_armSubsystem.getInPosition()
         && m_shooterSubsystem.approveShoot() && m_intakeSubsystem.isCentered();
   }

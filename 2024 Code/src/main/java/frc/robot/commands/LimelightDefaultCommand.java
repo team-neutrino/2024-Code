@@ -14,11 +14,14 @@ public class LimelightDefaultCommand extends Command {
     public LimelightDefaultCommand() {
         poseEstimator = SubsystemContainer.swerveSubsystem.m_swervePoseEstimator;
         addRequirements(SubsystemContainer.limelightSubsystem);
+        // Grabbing a variable from a subsystem counts as using it
+        addRequirements(SubsystemContainer.swerveSubsystem);
     }
 
     @Override
     public void initialize() {
         SubsystemContainer.limelightSubsystem.setPipeline(0);
+        // Copied code again
         if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
             SubsystemContainer.limelightSubsystem.setPriorityID(4);
         } else {
@@ -28,6 +31,7 @@ public class LimelightDefaultCommand extends Command {
 
     @Override
     public void execute() {
+        // Big block of copied code, same bizarre stuff with Tv
         if (SubsystemContainer.limelightSubsystem.getTv()) {
             botPoseArray = SubsystemContainer.limelightSubsystem.getBotPose();
             if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
