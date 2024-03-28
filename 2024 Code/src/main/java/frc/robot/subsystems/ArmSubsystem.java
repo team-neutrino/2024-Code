@@ -84,6 +84,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_armMotor.setIdleMode(IdleMode.kBrake);
 
     m_armEncoder = m_armMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
+    m_armEncoder.setPositionConversionFactor(360);
+    m_armEncoder.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
 
     m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
     m_armMotor.setSmartCurrentLimit(Constants.ArmConstants.ARM_CURRENT_LIMIT);
