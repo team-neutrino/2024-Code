@@ -32,12 +32,6 @@
                       }
                     },
                     {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Midline Second II"
-                      }
-                    },
-                    {
                       "type": "named",
                       "data": {
                         "name": "AutoAlignForever"
@@ -53,6 +47,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Midline Second II"
           }
         },
         {
