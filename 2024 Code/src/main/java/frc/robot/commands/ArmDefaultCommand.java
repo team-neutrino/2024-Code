@@ -30,12 +30,12 @@ public class ArmDefaultCommand extends Command {
   @Override
   public void execute() {
     SubsystemContainer.armSubsystem.setArmReferenceAngle(ArmConstants.INTAKE_POSE);
+    m_armSubsystem.setCommandState(States.CLIMBING);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_armSubsystem.setCommandState(States.CLIMBING);
   }
 
   // Returns true when the command should end.
