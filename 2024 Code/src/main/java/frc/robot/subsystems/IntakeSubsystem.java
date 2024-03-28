@@ -35,7 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
     private DigitalInput m_indexBeamBreak = new DigitalInput(DigitalConstants.INDEX_MOTOR_BEAMBREAK);
 
-    SlewRateLimiter intakeLimiter = new SlewRateLimiter(5.0);
+    SlewRateLimiter intakeLimiter = new SlewRateLimiter(IntakeConstants.INTAKE_SLEW_RATE);
 
     private Debouncer m_intakeDebouncer;
 

@@ -157,11 +157,13 @@ public final class Constants {
     public static final int INTAKE_CURRENT_LIMIT = 35;
     public static final int INDEX_CURRENT_LIMIT = 20;
     public static final double INTAKE_ERROR_THRESHOLD = 0.4;
+    public static final double INTAKE_SLEW_RATE = 5.0;
   }
 
   public final class ShooterSpeeds {
     public static final double SHOOTING_SPEED = 4000;
     public static final double SHUTTLE_SPEED = 3200;
+    public static final double SHUTTLE_CLOSE_SPEED = 2700;
     public static final double AMP_SPEED = 1500;
     public static final double INITIAL_SHOOTER_SPEED = 700;
   }
