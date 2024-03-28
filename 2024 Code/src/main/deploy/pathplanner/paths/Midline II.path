@@ -65,7 +65,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Midline Paths",
   "previewStartingState": {
     "rotation": -40.0,
     "velocity": 0
