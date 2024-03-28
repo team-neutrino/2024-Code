@@ -12,6 +12,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.ShooterConstants;
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 
 public class ShooterSubsystem extends SubsystemBase {
   private CANSparkMax m_shooterMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
@@ -24,6 +25,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private ControlType m_shootControlType;
   private double m_targetVoltage;
   private double m_targetRPM;
+
+  private boolean m_atSpeed;
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooterMotor.getEncoder();
@@ -53,12 +56,11 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterMotor.burnFlash();
     m_followerMotor.burnFlash();
 
-    m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME);
+    m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME, DebounceType.kRising);
   }
 
   public boolean approveShoot() {
-    return m_shootDebouncer
-        .calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= ShooterConstants.RPM_ERROR_THRESHOLD);
+    return m_atSpeed;
   }
 
   public double getFollowerRPM() {
@@ -91,5 +93,7 @@ public class ShooterSubsystem extends SubsystemBase {
       m_shooterMotor.setVoltage(m_targetVoltage);
     }
 
+    m_atSpeed = m_shootDebouncer
+        .calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= ShooterConstants.RPM_ERROR_THRESHOLD);
   }
 }

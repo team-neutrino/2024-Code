@@ -33,7 +33,7 @@ public class ArmManualCommand extends Command {
       m_shiftAngle -= m_controller.getLeftX();
     }
 
-    m_shiftAngle = m_armSubsystem.limitShiftAngle(m_shiftAngle);
+    m_shiftAngle = m_armSubsystem.limitArmAngle(m_shiftAngle);
 
     m_armSubsystem.setArmReferenceAngle(m_shiftAngle);
   }
