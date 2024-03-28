@@ -25,7 +25,9 @@ public class ShootManualCommand extends Command {
         m_rpm = p_rpm;
         m_Controller = p_Controller;
 
-        addRequirements(m_shooterSubsystem, m_armSubsystem, m_intakeSubsystem);
+        addRequirements(m_shooterSubsystem);
+        addRequirements(m_armSubsystem);
+        addRequirements(m_intakeSubsystem);
     }
 
     public void initialize() {

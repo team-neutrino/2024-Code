@@ -26,6 +26,7 @@ public class ShuttleCloseCommand extends Command {
   @Override
   public void execute() {
      m_shooterSubsystem.setTargetRPM(2700);
+     // Do we need to check the other beam break?
     if(m_intakeSubsystem.isBeamBrokenIntake() || m_intakeSubsystem.isBeamBrokenIndex() && m_shooterSubsystem.approveShoot()){
       m_intakeSubsystem.runIndexShoot();
     } else {
