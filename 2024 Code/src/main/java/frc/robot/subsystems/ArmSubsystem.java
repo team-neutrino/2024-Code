@@ -64,7 +64,7 @@ public class ArmSubsystem extends SubsystemBase {
     return m_targetAngle;
   }
 
-  public boolean getInPosition() {
+  public boolean isInPosition() {
     return m_inPosition;
   }
 

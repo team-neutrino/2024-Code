@@ -4,33 +4,32 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-public class ArmAngleCommand extends GamePieceCommand {
-  private double m_angle;
+import frc.robot.Constants;
 
-  public ArmAngleCommand(double p_angle) {
-    m_angle = p_angle;
+public class IntakeCommand extends GamePieceCommand {
+  public IntakeCommand() {
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setArmReferenceAngle(m_angle);
+    if (m_armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
+        && m_armSubsystem.isInPosition()) {
+      m_intakeSubsystem.intakeNote();
+    }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
   }
-
 }

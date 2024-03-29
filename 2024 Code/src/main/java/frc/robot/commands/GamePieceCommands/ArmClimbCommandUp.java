@@ -4,14 +4,9 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.util.SubsystemContainer;
-
-public class ArmClimbCommandUp extends Command {
+public class ArmClimbCommandUp extends GamePieceCommand {
   /** Creates a new ArmClimbCommandUp. */
   public ArmClimbCommandUp() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(SubsystemContainer.armSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +17,7 @@ public class ArmClimbCommandUp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.armSubsystem.setArmReferenceAngle(90);
+    m_armSubsystem.setArmReferenceAngle(90);
   }
 
   // Called once the command ends or is interrupted.

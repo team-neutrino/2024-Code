@@ -4,11 +4,9 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-public class ArmAngleCommand extends GamePieceCommand {
-  private double m_angle;
+public class ShuttleCloseCommand extends GamePieceCommand {
 
-  public ArmAngleCommand(double p_angle) {
-    m_angle = p_angle;
+  public ShuttleCloseCommand() {
   }
 
   // Called when the command is initially scheduled.
@@ -19,7 +17,15 @@ public class ArmAngleCommand extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setArmReferenceAngle(m_angle);
+    m_shooterSubsystem.setTargetRPM(2700);
+    if (m_intakeSubsystem.isBeamBrokenIntake()
+        || m_intakeSubsystem.isBeamBrokenIndex() && m_shooterSubsystem.approveShoot()) {
+      m_intakeSubsystem.runIndexShoot();
+    } else {
+      m_intakeSubsystem.runIntake();
+      m_intakeSubsystem.runIndex();
+    }
+
   }
 
   // Called once the command ends or is interrupted.
@@ -32,5 +38,4 @@ public class ArmAngleCommand extends GamePieceCommand {
   public boolean isFinished() {
     return false;
   }
-
 }

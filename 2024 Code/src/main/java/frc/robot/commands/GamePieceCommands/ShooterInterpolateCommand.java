@@ -2,29 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.CalculateRPM;
-import frc.robot.util.SubsystemContainer;
 
-public class ShooterInterpolateCommand extends Command {
-  private ArmSubsystem m_armSubsystem;
-  private ShooterSubsystem m_shooterSubsystem;
-  private IntakeSubsystem m_intakeSubsystem;
+public class ShooterInterpolateCommand extends GamePieceCommand {
   private CalculateRPM m_RPMCalculate;
 
   public ShooterInterpolateCommand(CalculateRPM p_RPMCalculate) {
     m_RPMCalculate = p_RPMCalculate;
-    m_armSubsystem = SubsystemContainer.armSubsystem;
-    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
-    m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
-    addRequirements(m_armSubsystem);
-    addRequirements(m_shooterSubsystem);
-    addRequirements(m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -36,12 +22,11 @@ public class ShooterInterpolateCommand extends Command {
   @Override
   public void execute() {
     m_shooterSubsystem.setTargetRPM(m_RPMCalculate.InterpolateRPM());
-    if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
+    if (m_armSubsystem.isInPosition() && m_shooterSubsystem.approveShoot()) {
       m_intakeSubsystem.runIndexShoot();
-      } else {
-        // Still suspicous this is necessary due to a conflict
-        m_intakeSubsystem.stopIndex();
-      }
+    } else {
+      m_intakeSubsystem.stopIndex();
+    }
   }
 
   // Called once the command ends or is interrupted.

@@ -4,33 +4,40 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-public class ArmAngleCommand extends GamePieceCommand {
-  private double m_angle;
+import edu.wpi.first.wpilibj.Timer;
 
-  public ArmAngleCommand(double p_angle) {
+public class AutonIntakeCommand extends GamePieceCommand {
+  private Timer m_timer;
+  private double m_angle;
+  private double m_rpm;
+
+  public AutonIntakeCommand(double p_angle, double p_rpm) {
     m_angle = p_angle;
+    m_rpm = p_rpm;
+    m_timer = new Timer();
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_timer.reset();
+    m_timer.start();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_armSubsystem.setArmReferenceAngle(m_angle);
+    m_intakeSubsystem.intakeNote();
+    m_shooterSubsystem.setTargetRPM(m_rpm);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_timer.stop();
+    m_timer.reset();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return ((m_intakeSubsystem.hasNote()) || m_timer.get() > 3);
   }
-
 }

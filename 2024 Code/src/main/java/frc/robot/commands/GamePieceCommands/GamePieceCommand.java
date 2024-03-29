@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.util.SubsystemContainer;
+import frc.robot.util.SubsystemContainer;;;;;
 
 /**
  * Skeleton requirements class that all GamePieceCommands should extend rather
@@ -19,16 +19,16 @@ import frc.robot.util.SubsystemContainer;
  */
 public class GamePieceCommand extends Command {
   protected ArmSubsystem m_armSubsystem;
-  protected ShooterSubsystem m_shooterSubystem;
+  protected ShooterSubsystem m_shooterSubsystem;
   protected IntakeSubsystem m_intakeSubsystem;
 
   /** Creates a new GamePieceCommand. */
   public GamePieceCommand() {
     m_armSubsystem = SubsystemContainer.armSubsystem;
-    m_shooterSubystem = SubsystemContainer.shooterSubsystem;
+    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
 
-    addRequirements(m_armSubsystem, m_shooterSubystem,
+    addRequirements(m_armSubsystem, m_shooterSubsystem,
         m_intakeSubsystem);
   }
 }

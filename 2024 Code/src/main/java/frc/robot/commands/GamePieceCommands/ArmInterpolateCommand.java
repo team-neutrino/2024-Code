@@ -4,27 +4,15 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.util.SubsystemContainer;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.CalculateAngle;
 
-public class ArmInterpolateCommand extends Command {
-  private ArmSubsystem m_armSubsystem;
+public class ArmInterpolateCommand extends GamePieceCommand {
   private SwerveSubsystem m_swerve;
   private CalculateAngle m_angleCalculate;
 
   public ArmInterpolateCommand(CalculateAngle p_angleCalculate) {
-    // Why is this passed in instead of re-instantiated? Why isn't it just a big
-    // static lookup?
     m_angleCalculate = p_angleCalculate;
-    m_armSubsystem = SubsystemContainer.armSubsystem;
-    m_swerve = SubsystemContainer.swerveSubsystem;
-    addRequirements(m_armSubsystem);
-    // TODO was adding this necessary? Is there some kind of reader writer lock
-    // system?
-    addRequirements(m_swerve);
   }
 
   // Called when the command is initially scheduled.

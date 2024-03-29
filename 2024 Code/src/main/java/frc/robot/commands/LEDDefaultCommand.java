@@ -41,7 +41,7 @@ public class LEDDefaultCommand extends Command {
     if (m_swerveSubsystem == null) {
       return;
     }
-    if (m_shooterSubsystem.approveShoot() && m_armSubsystem.getInPosition() && m_intakeSubsystem.isCentered()) {
+    if (m_shooterSubsystem.approveShoot() && m_armSubsystem.isInPosition() && m_intakeSubsystem.isCentered()) {
       m_LEDSubsystem.setToGreen();
     } else if (m_intakeSubsystem.isCentered()) {
       m_LEDSubsystem.setToCyan();
