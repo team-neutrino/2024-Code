@@ -44,6 +44,6 @@ public class AutonShooterCommand extends GamePieceCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return SubsystemContainer.intakeSubsystem.hasNoNote();
+    return m_intakeSubsystem.hasNoNote();
   }
 }

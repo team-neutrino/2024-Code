@@ -6,12 +6,8 @@ package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
-import frc.robot.subsystems.*;
 
 public class MagicAmpChargeCommand extends GamePieceCommand {
-
-  private ShooterSubsystem m_shooterSubsystem;
-  private IntakeSubsystem m_intakeSubsystem;
   private CommandXboxController m_controller;
 
   /** Creates a new MagicAmpChargeCommand. */
