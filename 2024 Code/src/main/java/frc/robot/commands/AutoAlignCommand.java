@@ -58,9 +58,9 @@ public class AutoAlignCommand extends Command {
         } else {
             // SUPER auto align!!
 
-            SubsystemContainer.swerveSubsystem.setRobotYaw(Math
-                    .toDegrees(Math.atan2(m_speakerPose.getY() - SubsystemContainer.swerveSubsystem.currentPoseL.getY(),
-                            m_speakerPose.getX() - SubsystemContainer.swerveSubsystem.currentPoseL.getX())));
+            SubsystemContainer.swerveSubsystem.setRobotYaw(Math.toDegrees(
+                    Math.atan((SubsystemContainer.swerveSubsystem.currentPoseL.getY() - m_speakerPose.getY()) /
+                            (SubsystemContainer.swerveSubsystem.currentPoseL.getX() - m_speakerPose.getX()))));
         }
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }

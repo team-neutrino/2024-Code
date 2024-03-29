@@ -140,7 +140,9 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public void resetOdometryToLimelightPose() {
-    SubsystemContainer.swerveSubsystem.resetPose(new Pose2d(pose[0], pose[1],
-        SubsystemContainer.swerveSubsystem.currentPoseL.getRotation()));
+    if (getTv()) {
+      SubsystemContainer.swerveSubsystem.resetPose(new Pose2d(pose[0], pose[1],
+          SubsystemContainer.swerveSubsystem.currentPoseL.getRotation()));
+    }
   }
 }
