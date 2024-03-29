@@ -4,6 +4,8 @@
 
 package frc.robot.commands.GamePieceCommands;
 
+import frc.robot.Constants;
+
 public class ShuttleCloseCommand extends GamePieceCommand {
 
   public ShuttleCloseCommand() {
@@ -17,7 +19,7 @@ public class ShuttleCloseCommand extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterSubsystem.setTargetRPM(2700);
+    m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHUTTLE_CLOSE_SPEED);
     if (m_intakeSubsystem.isBeamBrokenIntake()
         || m_intakeSubsystem.isBeamBrokenIndex() && m_shooterSubsystem.approveShoot()) {
       m_intakeSubsystem.runIndexShoot();
