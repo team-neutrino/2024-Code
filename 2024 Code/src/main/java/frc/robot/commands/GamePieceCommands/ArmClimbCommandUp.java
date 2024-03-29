@@ -4,8 +4,6 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-;
-
 public class ArmClimbCommandUp extends GamePieceCommand {
   /** Creates a new ArmClimbCommandUp. */
   public ArmClimbCommandUp() {
