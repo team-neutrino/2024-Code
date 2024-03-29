@@ -12,8 +12,10 @@ public class AutonIntakeCommand extends GamePieceCommand {
   private double m_angle;
   private double m_rpm;
 
-  public AutonIntakeCommand() {
+  public AutonIntakeCommand(double p_angle, double p_rpm) {
     m_timer = new Timer();
+    m_angle = p_angle;
+    m_rpm = p_rpm;
   }
 
   @Override
