@@ -10,7 +10,7 @@ import frc.robot.subsystems.wrapper.Shooter;
 
 public class SubsystemContainer {
     public static CalculateAngle m_angleCalculate = new CalculateAngle();
-    public static frc.robot.util.Alliance alliance = new Alliance();
+    public static Alliance alliance = new Alliance();
 
     public static final NetworkTables sendables = new NetworkTables();
     public static final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
