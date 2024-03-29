@@ -7,6 +7,10 @@ package frc.robot.commands.GamePieceCommands;
 public class AutonShooterCommand extends GamePieceCommand {
 
   private double m_rpm;
+  private ArmSubsystem m_armSubsystem;
+  private SwerveSubsystem m_swerve;
+  private CalculateAngle m_angleCalculate;
+  private IntakeSubsystem m_intakeSubsystem;
 
   public AutonShooterCommand(double p_rpm) {
     m_rpm = p_rpm;
@@ -21,6 +25,12 @@ public class AutonShooterCommand extends GamePieceCommand {
   @Override
   public void execute() {
     m_shooterSubsystem.setTargetRPM(m_rpm);
+    m_armSubsystem.setArmReferenceAngle(m_angleCalculate.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
+    if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
+      m_intakeSubsystem.runIndexShoot();
+    } else {
+      m_intakeSubsystem.stopIndex();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -31,6 +41,6 @@ public class AutonShooterCommand extends GamePieceCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_intakeSubsystem.noNote();
+    return SubsystemContainer.intakeSubsystem.hasNoNote();
   }
 }

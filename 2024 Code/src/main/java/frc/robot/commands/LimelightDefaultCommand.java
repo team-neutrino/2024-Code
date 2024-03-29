@@ -19,7 +19,7 @@ public class LimelightDefaultCommand extends Command {
     @Override
     public void initialize() {
         SubsystemContainer.limelightSubsystem.setPipeline(0);
-        if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
+        if (SubsystemContainer.alliance.isRedAlliance()) {
             SubsystemContainer.limelightSubsystem.setPriorityID(4);
         } else {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
@@ -30,7 +30,7 @@ public class LimelightDefaultCommand extends Command {
     public void execute() {
         if (SubsystemContainer.limelightSubsystem.getTv()) {
             botPoseArray = SubsystemContainer.limelightSubsystem.getBotPose();
-            if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
+            if (SubsystemContainer.alliance.isRedAlliance()) {
                 botPose = new Pose2d(botPoseArray[0], botPoseArray[1],
                         Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem.getYaw() + 180));
             } else {

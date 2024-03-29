@@ -74,24 +74,13 @@ public class RobotContainer {
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // set named commands
-    NamedCommands.registerCommand("MagicSpeakerCommand",
-        new AutonMagicSpeakerCommand(SubsystemContainer.m_angleCalculate));
-    NamedCommands.registerCommand("IntakeCommand", new IntakeCommand());
-    NamedCommands.registerCommand("IntakeDefaultCommand", m_intakeDefaultCommand);
-    NamedCommands.registerCommand("AutoAlignCommand", new AutoAlignSequentialCommand());
-    NamedCommands.registerCommand("ArmDown", new AutonArmAngleCommand(ArmConstants.INTAKE_POSE));
+    NamedCommands.registerCommand("AutonIntakeCommand",
+        new AutonIntakeCommand(Constants.ArmConstants.INTAKE_POSE, Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
+    NamedCommands.registerCommand("AutonShoot",
+        new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED, SubsystemContainer.m_angleCalculate));
+    NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand());
     NamedCommands.registerCommand("SingleSubwooferShot",
         new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
-    NamedCommands.registerCommand("AutonIntakeCommand", new AutonIntakeCommand());
-    NamedCommands.registerCommand("AutonFeederCommmand", new AutonFeederCommand());
-    NamedCommands.registerCommand("AutonShooterIdle",
-        new AutonShooterIdleCommand(Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
-    NamedCommands.registerCommand("AutonShoot",
-        new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED));
-    NamedCommands.registerCommand("AutonArmDown", new AutonArmCommand(Constants.ArmConstants.INTAKE_POSE));
-    NamedCommands.registerCommand("AutonArmInterpolate",
-        new AutonArmInterpolateAngle(SubsystemContainer.m_angleCalculate));
-    NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand());
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
@@ -106,7 +95,7 @@ public class RobotContainer {
       for (int i = 0; i < 4; i++) {
         SubsystemContainer.swerveSubsystem.swerveModules[i].resetEverything();
       }
-      SubsystemContainer.armSubsystem.resetEverything();
+      SubsystemContainer.armSubsystem.initializeMotorControllers();
     }));
 
     // shooter buttons
@@ -133,7 +122,8 @@ public class RobotContainer {
         .whileTrue(new SequentialCommandGroup(new ShootManualCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
             Constants.ShooterSpeeds.SHUTTLE_SPEED, m_buttonsController), new MagicShootCommand()));
 
-    m_buttonsController.povDown().onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.resetEverything()));
+    m_buttonsController.povDown()
+        .onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
 
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
 

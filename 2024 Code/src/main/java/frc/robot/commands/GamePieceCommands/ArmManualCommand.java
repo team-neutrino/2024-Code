@@ -28,7 +28,7 @@ public class ArmManualCommand extends GamePieceCommand {
       m_shiftAngle -= m_controller.getLeftX();
     }
 
-    m_shiftAngle = m_armSubsystem.limitShiftAngle(m_shiftAngle);
+    m_shiftAngle = m_armSubsystem.limitArmAngle(m_shiftAngle);
 
     m_armSubsystem.setArmReferenceAngle(m_shiftAngle);
   }

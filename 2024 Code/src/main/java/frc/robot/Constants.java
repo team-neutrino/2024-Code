@@ -69,7 +69,6 @@ public final class Constants {
   public final class DigitalConstants {
     public static final int INTAKE_MOTOR_BEAMBREAK = 0;
     public static final int INDEX_MOTOR_BEAMBREAK = 1;
-    public static final int ARM_ENCODER = 2;
 
   }
 
@@ -118,6 +117,10 @@ public final class Constants {
     public static final double Arm_kp = 0.022;
     public static final double Arm_ki = 0.0;
     public static final double Arm_kd = 0.0;
+    public static final double ClimbArm_kp = Arm_kp;
+    public static final double ClimbArm_ki = .0001;
+    public static final double ClimbArm_kd = 0.0;
+    public static final double ClimbIZone = 30;
 
     public static final double FF_kg = 0.007;
     public static final double ARM_MASS_KG = 8.3733; // LBS 18.46
@@ -134,16 +137,17 @@ public final class Constants {
     public static final double ARM_UPPER_LIMIT = 105;
     public static final double ARM_LOWER_LIMIT = -27;
 
-    public static final double INTAKE_LIMIT = 95;
-    public static final double AMP_LIMIT = 15;
     public static final double INTAKE_POSE = -27;
     public static final double AMP_POSE = 90;
     public static final double ARM_ADJUST_DEADZONE = 0.2;
-    public static final double CLIMB_POSITION = 30;
     public static final double SHUTTLE_ANGLE = 0;
     public static final double SUBWOOFER_ANGLE = -10;
 
     public static final double ARM_CLIMB_UP_ANGLE = 90;
+    public static final double CLIMB_ANGLE = -20;
+
+    public static final double DEBOUNCE_TIME = 0.2;
+    public static final double POSITION_ERROR_THRESHOLD = 1.5;
   }
 
   public final class IntakeConstants {
@@ -154,11 +158,14 @@ public final class Constants {
     public static final double INDEX_JITTER_MOTOR_VOLTAGE = 0.125;
     public static final int INTAKE_CURRENT_LIMIT = 35;
     public static final int INDEX_CURRENT_LIMIT = 20;
+    public static final double INTAKE_ERROR_THRESHOLD = 0.4;
+    public static final double INTAKE_SLEW_RATE = 5.0;
   }
 
   public final class ShooterSpeeds {
     public static final double SHOOTING_SPEED = 4000;
     public static final double SHUTTLE_SPEED = 3200;
+    public static final double SHUTTLE_CLOSE_SPEED = 2700;
     public static final double AMP_SPEED = 1500;
     public static final double INITIAL_SHOOTER_SPEED = 700;
   }

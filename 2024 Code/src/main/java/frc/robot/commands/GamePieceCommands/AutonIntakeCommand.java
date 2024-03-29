@@ -9,6 +9,10 @@ import edu.wpi.first.wpilibj.Timer;
 public class AutonIntakeCommand extends GamePieceCommand {
 
   private Timer m_timer;
+  private ArmSubsystem m_armSubsystem;
+  private double m_angle;
+  private ShooterSubsystem m_shooterSubsystem;
+  private double m_rpm;
 
   public AutonIntakeCommand() {
     m_timer = new Timer();
@@ -22,7 +26,9 @@ public class AutonIntakeCommand extends GamePieceCommand {
 
   @Override
   public void execute() {
-    m_intakeSubsystem.intakeNote();
+    m_armSubsystem.setArmReferenceAngle(m_angle);
+    m_intakeSubsystem.smartIntake();
+    m_shooterSubsystem.setTargetRPM(m_rpm);
   }
 
   @Override

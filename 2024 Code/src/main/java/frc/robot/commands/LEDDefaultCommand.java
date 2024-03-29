@@ -36,9 +36,9 @@ public class LEDDefaultCommand extends Command {
     if (m_swerveSubsystem == null) {
       return;
     }
-    if (m_shooterSubsystem.approveShoot() && m_armSubsystem.getInPosition() && m_intakeSubsystem.isCentered()) {
+    if (m_shooterSubsystem.approveShoot() && m_armSubsystem.getInPosition() && m_intakeSubsystem.isNoteReady()) {
       m_LEDSubsystem.setToGreen();
-    } else if (m_intakeSubsystem.isCentered()) {
+    } else if (m_intakeSubsystem.isNoteReady()) {
       m_LEDSubsystem.setToCyan();
     } else if (m_swerveSubsystem
         .getCommandState() == States.PATHFINDING) {
@@ -46,7 +46,7 @@ public class LEDDefaultCommand extends Command {
     } else if (m_swerveSubsystem
         .getCommandState() == (States.AUTOALIGN)) {
       m_LEDSubsystem.setToBlue();
-    } else if (m_intakeSubsystem.tooFarNote()) {
+    } else if (m_intakeSubsystem.isNoteTooFar()) {
       m_LEDSubsystem.setToPurple();
     } else {
       m_LEDSubsystem.setToOrange();
