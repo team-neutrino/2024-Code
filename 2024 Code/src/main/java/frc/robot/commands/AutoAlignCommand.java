@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.LEDConstants.States;
@@ -23,6 +24,8 @@ public class AutoAlignCommand extends Command {
     double y = 0;
     double x = 0;
 
+    Translation2d SPEAKER_POSE;
+
     public AutoAlignCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
     }
@@ -31,8 +34,10 @@ public class AutoAlignCommand extends Command {
     public void initialize() {
         if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
             SubsystemContainer.limelightSubsystem.setPriorityID(4);
+            SPEAKER_POSE = SwerveConstants.SPEAKER_RED_SIDE;
         } else {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
+            SPEAKER_POSE = SwerveConstants.SPEAKER_BLUE_SIDE;
         }
 
         SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
@@ -56,15 +61,10 @@ public class AutoAlignCommand extends Command {
 
         } else {
             // SUPER auto align!!
-            if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
-                y = SubsystemContainer.swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY();
-                x = SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX();
-            } else {
-                y = SubsystemContainer.swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY();
-                x = SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX();
-            }
+            y = SPEAKER_POSE.getY() - SubsystemContainer.swerveSubsystem.currentPoseL.getY();
+            x = SPEAKER_POSE.getX() - SubsystemContainer.swerveSubsystem.currentPoseL.getX();
 
-            SubsystemContainer.swerveSubsystem.setRobotYaw(Math.toDegrees(Math.atan(y / x)));
+            SubsystemContainer.swerveSubsystem.setRobotYaw(Math.toDegrees(Math.atan2(y, x)));
         }
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
