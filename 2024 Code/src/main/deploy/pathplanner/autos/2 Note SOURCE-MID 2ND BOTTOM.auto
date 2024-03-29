@@ -28,7 +28,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Midline Second I"
+                        "pathName": "Midline Source Second I"
                       }
                     },
                     {
@@ -52,7 +52,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Midline Second II"
+            "pathName": "Midline Source Second II"
           }
         },
         {
