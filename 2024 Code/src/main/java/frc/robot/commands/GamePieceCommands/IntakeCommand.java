@@ -18,8 +18,8 @@ public class IntakeCommand extends GamePieceCommand {
 
   @Override
   public void execute() {
-    if (SubsystemContainer.armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
-        && SubsystemContainer.armSubsystem.getInPosition()) {
+    if (m_armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
+        && m_armSubsystem.getInPosition()) {
       m_intakeSubsystem.smartIntake();
     }
   }

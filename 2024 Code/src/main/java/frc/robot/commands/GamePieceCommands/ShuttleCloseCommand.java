@@ -22,8 +22,7 @@ public class ShuttleCloseCommand extends GamePieceCommand {
         || m_intakeSubsystem.isBeamBrokenIndex() && m_shooterSubsystem.approveShoot()) {
       m_intakeSubsystem.runIndexShoot();
     } else {
-      m_intakeSubsystem.runIntake();
-      m_intakeSubsystem.runIndex();
+      m_intakeSubsystem.smartIntake();
     }
 
   }

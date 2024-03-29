@@ -4,15 +4,19 @@
 
 package frc.robot.commands.GamePieceCommands;
 
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.util.CalculateAngle;
+import frc.robot.util.SubsystemContainer;
+
 public class AutonShooterCommand extends GamePieceCommand {
 
   private double m_rpm;
-  private ArmSubsystem m_armSubsystem;
-  private SwerveSubsystem m_swerve;
   private CalculateAngle m_angleCalculate;
-  private IntakeSubsystem m_intakeSubsystem;
+  private SwerveSubsystem m_swerve;
 
   public AutonShooterCommand(double p_rpm) {
+    m_swerve = SubsystemContainer.swerveSubsystem;
     m_rpm = p_rpm;
   }
 
@@ -41,6 +45,6 @@ public class AutonShooterCommand extends GamePieceCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return SubsystemContainer.intakeSubsystem.hasNoNote();
+    return m_intakeSubsystem.hasNoNote();
   }
 }

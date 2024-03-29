@@ -9,9 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class AutonIntakeCommand extends GamePieceCommand {
 
   private Timer m_timer;
-  private ArmSubsystem m_armSubsystem;
   private double m_angle;
-  private ShooterSubsystem m_shooterSubsystem;
   private double m_rpm;
 
   public AutonIntakeCommand() {
