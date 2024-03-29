@@ -2,21 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.util.SubsystemContainer;
+;
 
-public class AutonShooterIdleCommand extends Command {
-
-  private ShooterSubsystem m_shooterSubsystem;
-  private double m_rpm;
-
-  public AutonShooterIdleCommand(double p_rpm) {
-    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
-    m_rpm = p_rpm;
-    addRequirements(m_shooterSubsystem);
+public class ArmClimbCommandUp extends GamePieceCommand {
+  /** Creates a new ArmClimbCommandUp. */
+  public ArmClimbCommandUp() {
+    // Use () here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +20,7 @@ public class AutonShooterIdleCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterSubsystem.setTargetRPM(m_rpm);
+    m_armSubsystem.setArmReferenceAngle(90);
   }
 
   // Called once the command ends or is interrupted.

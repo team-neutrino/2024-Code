@@ -2,34 +2,21 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.util.SubsystemContainer;
 import frc.robot.util.CalculateAngle;
 import frc.robot.Constants;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 
-public class MagicSpeakerChargeCommand extends Command {
+public class MagicSpeakerChargeCommand extends GamePieceCommand {
   private CalculateAngle m_calculateAngle;
-  private ArmSubsystem m_armSubsystem;
-  private ShooterSubsystem m_shooterSubsystem;
-  private IntakeSubsystem m_intakeSubsystem;
   private SwerveSubsystem m_swerve;
   private CommandXboxController m_controller;
 
   public MagicSpeakerChargeCommand(CalculateAngle p_calculateAngle, CommandXboxController p_controller) {
     m_calculateAngle = p_calculateAngle;
-    m_armSubsystem = SubsystemContainer.armSubsystem;
-    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
-    m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
-    m_swerve = SubsystemContainer.swerveSubsystem;
     m_controller = p_controller;
-    addRequirements(m_armSubsystem, m_shooterSubsystem, m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.

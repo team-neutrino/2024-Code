@@ -2,29 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
-import frc.robot.subsystems.*;
-import frc.robot.util.SubsystemContainer;
 
-public class MagicAmpChargeCommand extends Command {
-
-  private ArmSubsystem m_armSubsystem;
-  private ShooterSubsystem m_shooterSubsystem;
-  private IntakeSubsystem m_intakeSubsystem;
+public class MagicAmpChargeCommand extends GamePieceCommand {
   private CommandXboxController m_controller;
 
   /** Creates a new MagicAmpChargeCommand. */
   public MagicAmpChargeCommand(CommandXboxController p_xboxcontroller) {
     m_controller = p_xboxcontroller;
-    m_armSubsystem = SubsystemContainer.armSubsystem;
-    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
-    m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
-
-    addRequirements(m_shooterSubsystem, m_intakeSubsystem, m_armSubsystem);
   }
 
   // Called when the command is initially scheduled.
