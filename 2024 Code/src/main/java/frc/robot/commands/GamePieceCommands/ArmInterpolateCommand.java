@@ -2,24 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.util.SubsystemContainer;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.CalculateAngle;
+import frc.robot.util.SubsystemContainer;
 
-public class ArmInterpolateCommand extends Command {
-  private ArmSubsystem m_armSubsystem;
+public class ArmInterpolateCommand extends GamePieceCommand {
+
   private SwerveSubsystem m_swerve;
   private CalculateAngle m_angleCalculate;
 
   public ArmInterpolateCommand(CalculateAngle p_angleCalculate) {
     m_angleCalculate = p_angleCalculate;
-    m_armSubsystem = SubsystemContainer.armSubsystem;
     m_swerve = SubsystemContainer.swerveSubsystem;
-    addRequirements(m_armSubsystem);
   }
 
   // Called when the command is initially scheduled.

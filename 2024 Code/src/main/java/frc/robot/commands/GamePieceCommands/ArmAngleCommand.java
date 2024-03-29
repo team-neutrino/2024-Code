@@ -2,39 +2,30 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.util.SubsystemContainer;
+public class ArmAngleCommand extends GamePieceCommand {
 
-public class ArmClimbCommandDown extends Command {
+  private double m_angle;
 
-  ArmSubsystem m_armSubsystem;
-
-  /** Creates a new ArmClimbCommand. */
-  public ArmClimbCommandDown() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_armSubsystem = SubsystemContainer.armSubsystem;
-    addRequirements(m_armSubsystem);
+  public ArmAngleCommand(double p_angle) {
+    m_angle = p_angle;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("climb enabled------------------");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setClimbReferenceAngle();
+    m_armSubsystem.setArmReferenceAngle(m_angle);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("climb disabled---------------------");
   }
 
   // Returns true when the command should end.
@@ -42,4 +33,5 @@ public class ArmClimbCommandDown extends Command {
   public boolean isFinished() {
     return false;
   }
+
 }

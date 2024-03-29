@@ -1,29 +1,18 @@
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.Constants.LEDConstants.States;
 
-public class LEDDefaultCommand extends Command {
+public class LEDDefaultCommand extends GamePieceCommand {
 
   private SwerveSubsystem m_swerveSubsystem;
   private LEDSubsystem m_LEDSubsystem;
-  private IntakeSubsystem m_intakeSubsystem;
-  private ArmSubsystem m_armSubsystem;
-  private ShooterSubsystem m_shooterSubsystem;
 
   public LEDDefaultCommand() {
-    m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
     m_LEDSubsystem = SubsystemContainer.LEDSubsystem;
-    m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
-    m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
-    m_armSubsystem = SubsystemContainer.armSubsystem;
-    addRequirements(m_LEDSubsystem);
   }
 
   @Override

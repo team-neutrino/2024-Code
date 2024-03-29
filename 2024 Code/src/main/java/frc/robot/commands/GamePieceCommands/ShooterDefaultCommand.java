@@ -1,17 +1,11 @@
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterSpeeds;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.util.SubsystemContainer;
 
-public class ShooterDefaultCommand extends Command {
-    private ShooterSubsystem m_shooterSubsystem;
+public class ShooterDefaultCommand extends GamePieceCommand {
     double initialSpeed = 0;
 
     public ShooterDefaultCommand() {
-        m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
-        addRequirements(m_shooterSubsystem);
     }
 
     public void initialize() {

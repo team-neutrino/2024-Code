@@ -1,19 +1,17 @@
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.SubsystemContainer;
 
-public class LimelightDefaultCommand extends Command {
+public class LimelightDefaultCommand extends GamePieceCommand {
     private Pose2d botPose;
     private double[] botPoseArray;
     SwerveDrivePoseEstimator poseEstimator;
 
     public LimelightDefaultCommand() {
         poseEstimator = SubsystemContainer.swerveSubsystem.m_swervePoseEstimator;
-        addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
     @Override
