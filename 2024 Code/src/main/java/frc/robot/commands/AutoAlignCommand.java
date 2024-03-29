@@ -17,14 +17,13 @@ public class AutoAlignCommand extends Command {
     /**
      * Gives the current yaw (test)
      */
-    protected double currentYaw;
+    private double currentYaw;
+    private double offsetYaw;
 
-    protected double offsetYaw;
+    private double y = 0;
+    private double x = 0;
 
-    double y = 0;
-    double x = 0;
-
-    Translation2d SPEAKER_POSE;
+    private Translation2d m_speakerPose;
 
     public AutoAlignCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
@@ -34,10 +33,10 @@ public class AutoAlignCommand extends Command {
     public void initialize() {
         if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
             SubsystemContainer.limelightSubsystem.setPriorityID(4);
-            SPEAKER_POSE = SwerveConstants.SPEAKER_RED_SIDE;
+            m_speakerPose = SwerveConstants.SPEAKER_RED_SIDE;
         } else {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
-            SPEAKER_POSE = SwerveConstants.SPEAKER_BLUE_SIDE;
+            m_speakerPose = SwerveConstants.SPEAKER_BLUE_SIDE;
         }
 
         SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
@@ -61,8 +60,8 @@ public class AutoAlignCommand extends Command {
 
         } else {
             // SUPER auto align!!
-            y = SPEAKER_POSE.getY() - SubsystemContainer.swerveSubsystem.currentPoseL.getY();
-            x = SPEAKER_POSE.getX() - SubsystemContainer.swerveSubsystem.currentPoseL.getX();
+            y = m_speakerPose.getY() - SubsystemContainer.swerveSubsystem.currentPoseL.getY();
+            x = m_speakerPose.getX() - SubsystemContainer.swerveSubsystem.currentPoseL.getX();
 
             SubsystemContainer.swerveSubsystem.setRobotYaw(Math.toDegrees(Math.atan2(y, x)));
         }
