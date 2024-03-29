@@ -17,11 +17,8 @@ public class AutoAlignCommand extends Command {
     /**
      * Gives the current yaw (test)
      */
-    private double currentYaw;
-    private double offsetYaw;
-
-    private double y = 0;
-    private double x = 0;
+    public double currentYaw;
+    public double offsetYaw;
 
     private Translation2d m_speakerPose;
 
@@ -60,10 +57,10 @@ public class AutoAlignCommand extends Command {
 
         } else {
             // SUPER auto align!!
-            y = m_speakerPose.getY() - SubsystemContainer.swerveSubsystem.currentPoseL.getY();
-            x = m_speakerPose.getX() - SubsystemContainer.swerveSubsystem.currentPoseL.getX();
 
-            SubsystemContainer.swerveSubsystem.setRobotYaw(Math.toDegrees(Math.atan2(y, x)));
+            SubsystemContainer.swerveSubsystem.setRobotYaw(Math
+                    .toDegrees(Math.atan2(m_speakerPose.getY() - SubsystemContainer.swerveSubsystem.currentPoseL.getY(),
+                            m_speakerPose.getX() - SubsystemContainer.swerveSubsystem.currentPoseL.getX())));
         }
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
