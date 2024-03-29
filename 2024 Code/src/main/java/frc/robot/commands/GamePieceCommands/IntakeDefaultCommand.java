@@ -1,7 +1,5 @@
 package frc.robot.commands.GamePieceCommands;
 
-;;
-
 public class IntakeDefaultCommand extends GamePieceCommand {
     public IntakeDefaultCommand() {
     }

@@ -7,7 +7,6 @@ package frc.robot.commands.GamePieceCommands;
 public class ArmClimbCommandDown extends GamePieceCommand {
   /** Creates a new ArmClimbCommand. */
   public ArmClimbCommandDown() {
-    // Use () here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

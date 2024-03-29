@@ -4,7 +4,7 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj.Timer;;;
+import edu.wpi.first.wpilibj.Timer;
 
 public class AutonIntakeCommand extends GamePieceCommand {
 

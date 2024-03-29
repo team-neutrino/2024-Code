@@ -6,6 +6,7 @@ package frc.robot.commands.GamePieceCommands;
 
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.CalculateAngle;
+import frc.robot.util.SubsystemContainer;
 
 public class AutonArmInterpolateAngle extends GamePieceCommand {
   private SwerveSubsystem m_swerve;
@@ -13,6 +14,7 @@ public class AutonArmInterpolateAngle extends GamePieceCommand {
 
   public AutonArmInterpolateAngle(CalculateAngle p_angleCalculate) {
     m_angleCalculate = p_angleCalculate;
+    m_swerve = SubsystemContainer.swerveSubsystem;
   }
 
   // Called when the command is initially scheduled.

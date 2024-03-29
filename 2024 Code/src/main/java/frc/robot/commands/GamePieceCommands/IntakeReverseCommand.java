@@ -1,7 +1,5 @@
 package frc.robot.commands.GamePieceCommands;
 
-;;
-
 public class IntakeReverseCommand extends GamePieceCommand {
   public IntakeReverseCommand() {
   }

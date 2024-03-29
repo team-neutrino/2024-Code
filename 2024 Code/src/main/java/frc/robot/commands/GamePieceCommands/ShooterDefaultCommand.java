@@ -1,6 +1,6 @@
 package frc.robot.commands.GamePieceCommands;
 
-import frc.robot.Constants.ShooterSpeeds;;;
+import frc.robot.Constants.ShooterSpeeds;
 
 public class ShooterDefaultCommand extends GamePieceCommand {
     double initialSpeed = 0;

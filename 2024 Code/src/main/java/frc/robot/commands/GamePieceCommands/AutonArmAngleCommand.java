@@ -4,8 +4,6 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-;;
-
 public class AutonArmAngleCommand extends GamePieceCommand {
     private double m_angle;
 

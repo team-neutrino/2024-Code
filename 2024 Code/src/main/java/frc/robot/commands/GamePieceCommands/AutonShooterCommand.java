@@ -4,8 +4,6 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-;;
-
 public class AutonShooterCommand extends GamePieceCommand {
 
   private double m_rpm;
