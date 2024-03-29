@@ -4,6 +4,8 @@
 
 package frc.robot.commands.GamePieceCommands;
 
+import frc.robot.Constants;
+
 public class ArmClimbCommandUp extends GamePieceCommand {
   /** Creates a new ArmClimbCommandUp. */
   public ArmClimbCommandUp() {
@@ -17,7 +19,7 @@ public class ArmClimbCommandUp extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setArmReferenceAngle(90);
+    m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.ARM_CLIMB_UP_ANGLE);
   }
 
   // Called once the command ends or is interrupted.

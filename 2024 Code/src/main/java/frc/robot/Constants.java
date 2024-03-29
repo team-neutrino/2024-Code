@@ -142,6 +142,8 @@ public final class Constants {
     public static final double CLIMB_POSITION = 30;
     public static final double SHUTTLE_ANGLE = 0;
     public static final double SUBWOOFER_ANGLE = -10;
+
+    public static final double ARM_CLIMB_UP_ANGLE = 90;
   }
 
   public final class IntakeConstants {
