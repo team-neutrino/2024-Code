@@ -19,7 +19,7 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
 
     @Override
     public void initialize() {
-        if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
+        if (SubsystemContainer.alliance.isRedAlliance()) {
             SubsystemContainer.limelightSubsystem.setPriorityID(4);
         } else {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
@@ -32,7 +32,7 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
         currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
         offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
         pose = SubsystemContainer.limelightSubsystem.getBotPose();
-        if (!SubsystemContainer.swerveSubsystem.isRedAlliance()) {
+        if (!SubsystemContainer.alliance.isRedAlliance()) {
             if (pose[5] > 0) {
                 pose[5] -= 180;
             } else {
