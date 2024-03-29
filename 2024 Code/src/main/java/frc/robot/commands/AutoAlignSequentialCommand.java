@@ -29,8 +29,8 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
 
     @Override
     public void execute() {
-        currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-        offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+        m_currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
+        m_offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
         pose = SubsystemContainer.limelightSubsystem.getBotPose();
         if (!SubsystemContainer.swerveSubsystem.isRedAlliance()) {
             if (pose[5] > 0) {
@@ -41,13 +41,13 @@ public class AutoAlignSequentialCommand extends AutoAlignCommand {
 
         }
         SubsystemContainer.swerveSubsystem
-                .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, pose[5]));
+                .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle(m_currentYaw, m_offsetYaw, pose[5]));
     }
 
     @Override
     public boolean isFinished() {
-        if (Math.abs((SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, pose[5]))
-                - (currentYaw)) < 0.5) {
+        if (Math.abs((SwerveSubsystem.calculateLimelightOffsetAngle(m_currentYaw, m_offsetYaw, pose[5]))
+                - (m_currentYaw)) < 0.5) {
             SubsystemContainer.swerveSubsystem.stopSwerve();
             timer.stop();
             timer.reset();

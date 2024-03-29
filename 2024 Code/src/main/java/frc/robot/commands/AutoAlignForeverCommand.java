@@ -29,8 +29,8 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
 
     @Override
     public void execute() {
-        currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-        offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+        m_currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
+        m_offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
         pose = SubsystemContainer.limelightSubsystem.getBotPose();
         if (!SubsystemContainer.swerveSubsystem.isRedAlliance()) {
             if (pose[5] > 0) {
@@ -41,7 +41,7 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
 
         }
         SubsystemContainer.swerveSubsystem
-                .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, pose[5]));
+                .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle(m_currentYaw, m_offsetYaw, pose[5]));
     }
 
     @Override

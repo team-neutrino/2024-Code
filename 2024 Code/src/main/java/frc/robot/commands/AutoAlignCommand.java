@@ -17,8 +17,8 @@ public class AutoAlignCommand extends Command {
     /**
      * Gives the current yaw (test)
      */
-    public double currentYaw;
-    public double offsetYaw;
+    protected double m_currentYaw;
+    protected double m_offsetYaw;
 
     private Translation2d m_speakerPose;
 
@@ -42,8 +42,8 @@ public class AutoAlignCommand extends Command {
     @Override
     public void execute() {
         if (SubsystemContainer.limelightSubsystem.getTv()) {
-            currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-            offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+            m_currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
+            m_offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
             double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
             if (!SubsystemContainer.swerveSubsystem.isRedAlliance()) {
                 if (pose[5] > 0) {
@@ -53,7 +53,7 @@ public class AutoAlignCommand extends Command {
                 }
             }
             SubsystemContainer.swerveSubsystem
-                    .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, pose[5]));
+                    .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle(m_currentYaw, m_offsetYaw, pose[5]));
 
         } else {
             // SUPER auto align!!
