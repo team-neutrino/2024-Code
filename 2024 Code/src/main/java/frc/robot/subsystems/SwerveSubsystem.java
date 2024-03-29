@@ -33,6 +33,7 @@ import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
 import frc.robot.util.PolarCoord;
+import frc.robot.util.SubsystemContainer;
 
 public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
@@ -129,7 +130,7 @@ public class SwerveSubsystem extends SubsystemBase {
         },
         this);
 
-    if (isRedAlliance()) {
+    if (SubsystemContainer.alliance.isRedAlliance()) {
       m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d(-90)),
           Constants.SwerveConstants.PATH_CONSTRAINTS);
     } else {
@@ -258,7 +259,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_navX.reset();
     m_referenceAngle = 0;
 
-    if (isRedAlliance()) {
+    if (SubsystemContainer.alliance.isRedAlliance()) {
       m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
           modulePositions,
           new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
@@ -296,21 +297,12 @@ public class SwerveSubsystem extends SubsystemBase {
    * @return boolean representing the current alliance as retrieved from the
    *         Driver Station.
    */
-  public boolean isRedAlliance() {
-    boolean isRed = false;
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent()) {
-      isRed = alliance.get() == DriverStation.Alliance.Red;
-    }
-
-    return isRed;
-  }
 
   public Command getPathfindCommand() {
 
     Pose2d closestPose;
 
-    if (isRedAlliance()) {
+    if (SubsystemContainer.alliance.isRedAlliance()) {
       closestPose = SwerveConstants.RED_TARGET_POSE1;
 
       double d2 = distanceFormula(SwerveConstants.RED_TARGET_POSE2);
@@ -465,7 +457,7 @@ public class SwerveSubsystem extends SubsystemBase {
     double yComp = 0;
     double radius = 0.0;
     double theta = 0.0;
-    if (isRedAlliance()) {
+    if (SubsystemContainer.alliance.isRedAlliance()) {
       xComp = Math.abs(pose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX());
       yComp = Math.abs(pose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY());
       radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));

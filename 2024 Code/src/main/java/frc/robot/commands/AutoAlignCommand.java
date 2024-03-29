@@ -28,7 +28,7 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void initialize() {
-        if (SubsystemContainer.swerveSubsystem.isRedAlliance()) {
+        if (SubsystemContainer.alliance.isRedAlliance()) {
             SubsystemContainer.limelightSubsystem.setPriorityID(4);
             m_speakerPose = SwerveConstants.SPEAKER_RED_SIDE;
         } else {
@@ -45,7 +45,7 @@ public class AutoAlignCommand extends Command {
             m_currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
             m_offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
             double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
-            if (!SubsystemContainer.swerveSubsystem.isRedAlliance()) {
+            if (!SubsystemContainer.alliance.isRedAlliance()) {
                 if (pose[5] > 0) {
                     pose[5] -= 180;
                 } else {
