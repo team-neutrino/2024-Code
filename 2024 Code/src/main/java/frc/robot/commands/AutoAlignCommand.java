@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.LEDConstants.States;
@@ -16,12 +17,10 @@ public class AutoAlignCommand extends Command {
     /**
      * Gives the current yaw (test)
      */
-    protected double currentYaw;
+    protected double m_currentYaw;
+    protected double m_offsetYaw;
 
-    protected double offsetYaw;
-
-    double y = 0;
-    double x = 0;
+    private Translation2d m_speakerPose;
 
     public AutoAlignCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
@@ -31,8 +30,10 @@ public class AutoAlignCommand extends Command {
     public void initialize() {
         if (SubsystemContainer.alliance.isRedAlliance()) {
             SubsystemContainer.limelightSubsystem.setPriorityID(4);
+            m_speakerPose = SwerveConstants.SPEAKER_RED_SIDE;
         } else {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
+            m_speakerPose = SwerveConstants.SPEAKER_BLUE_SIDE;
         }
 
         SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
@@ -41,8 +42,8 @@ public class AutoAlignCommand extends Command {
     @Override
     public void execute() {
         if (SubsystemContainer.limelightSubsystem.getTv()) {
-            currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-            offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+            m_currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
+            m_offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
             double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
             if (!SubsystemContainer.alliance.isRedAlliance()) {
                 if (pose[5] > 0) {
@@ -52,19 +53,14 @@ public class AutoAlignCommand extends Command {
                 }
             }
             SubsystemContainer.swerveSubsystem
-                    .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw, pose[5]));
+                    .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle(m_currentYaw, m_offsetYaw, pose[5]));
 
         } else {
             // SUPER auto align!!
-            if (SubsystemContainer.alliance.isRedAlliance()) {
-                y = SubsystemContainer.swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY();
-                x = SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX();
-            } else {
-                y = SubsystemContainer.swerveSubsystem.currentPoseL.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY();
-                x = SubsystemContainer.swerveSubsystem.currentPoseL.getX() - SwerveConstants.SPEAKER_BLUE_SIDE.getX();
-            }
 
-            SubsystemContainer.swerveSubsystem.setRobotYaw(Math.toDegrees(Math.atan(y / x)));
+            SubsystemContainer.swerveSubsystem.setRobotYaw(Math
+                    .toDegrees(Math.atan2(m_speakerPose.getY() - SubsystemContainer.swerveSubsystem.currentPoseL.getY(),
+                            m_speakerPose.getX() - SubsystemContainer.swerveSubsystem.currentPoseL.getX())));
         }
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
