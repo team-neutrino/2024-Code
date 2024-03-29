@@ -6,6 +6,7 @@ package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.CalculateAngle;
+import frc.robot.util.SubsystemContainer;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -17,6 +18,7 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
   public MagicSpeakerChargeCommand(CalculateAngle p_calculateAngle, CommandXboxController p_controller) {
     m_calculateAngle = p_calculateAngle;
     m_controller = p_controller;
+    m_swerve = SubsystemContainer.swerveSubsystem;
   }
 
   // Called when the command is initially scheduled.
