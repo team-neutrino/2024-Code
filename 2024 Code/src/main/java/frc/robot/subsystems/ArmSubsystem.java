@@ -13,10 +13,14 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.util.CalculateP;
+import frc.robot.util.SubsystemContainer;
 
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkFlex m_armMotor = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
@@ -24,14 +28,18 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_targetAngle = 0.0;
   private boolean m_inPosition;
   private Debouncer m_armDebouncer;
+  private CalculateP m_calculateP;
   private SparkPIDController m_pidController;
   private int m_PIDslot;
   private double m_error;
+  double m_feedforward;
+  private double m_currentAngle;
+  private double m_oldAngle;
 
   public ArmSubsystem() {
     initializeMotorControllers();
-
     m_armDebouncer = new Debouncer(ArmConstants.DEBOUNCE_TIME, DebounceType.kRising);
+    m_targetAngle = Constants.ArmConstants.INTAKE_POSE;
   }
 
   public void defaultArm() {
@@ -114,7 +122,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_pidController.setD(ArmConstants.ClimbArm_kd, 1);
     m_pidController.setIZone(ArmConstants.ClimbIZone, 1);
 
-    m_pidController.setP(0, 2);
+    m_pidController.setP(0.04, 2);
     m_pidController.setI(0, 2);
     m_pidController.setD(0, 2);
     m_pidController.setIZone(0, 2);
@@ -124,11 +132,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setArmReferenceAngle(double targetAngle) {
     m_targetAngle = targetAngle;
-    if (m_error > 10) {
-      m_PIDslot = 2;
-    } else {
-      m_PIDslot = 0;
-    }
+    m_PIDslot = 0;
   }
 
   public void setClimbReferenceAngle() {
@@ -140,24 +144,31 @@ public class ArmSubsystem extends SubsystemBase {
   private void updateArmAngle(double targetAngle, int PIDslot) {
 
     targetAngle = limitArmAngle(targetAngle);
+    double currentAngle = getArmAngleRadians();
+    double filtAngle = 0.98 * currentAngle + 0.02 * m_oldAngle;
+    m_oldAngle = filtAngle;
 
-    double feedforward = ArmConstants.FF_kg
-        * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
+    m_feedforward = ArmConstants.FF_kg
+        * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(filtAngle)));
 
     targetAngle = adjustAngleIn(targetAngle);
-
-    m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, feedforward);
+    m_pidController.setP(SubsystemContainer.calculateP.InterpolateP(), 0);
+    m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, m_feedforward);
   }
 
-  private double getError() {
+  public double getError() {
     return m_error;
+  }
+
+  public double getFeedForward() {
+    return m_feedforward;
   }
 
   @Override
   public void periodic() {
     m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);
     updateArmAngle(m_targetAngle, m_PIDslot);
-
+    System.out.println(m_pidController.getP());
     m_inPosition = m_armDebouncer
         .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
   }

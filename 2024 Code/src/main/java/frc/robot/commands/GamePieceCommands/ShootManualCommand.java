@@ -1,6 +1,7 @@
 package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants;
 
 public class ShootManualCommand extends GamePieceCommand {
     private double m_angle;
@@ -31,6 +32,8 @@ public class ShootManualCommand extends GamePieceCommand {
     @Override
     public boolean isFinished() {
         return m_Controller.getHID().getLeftBumper()
-                && m_shooterSubsystem.aboveRPM(2800) && m_intakeSubsystem.isNoteReady();
+                && m_shooterSubsystem.aboveRPM(Constants.ShooterSpeeds.SPEED_THRESHOLD_SUBWOOFER)
+                && m_intakeSubsystem.isNoteReady()
+                && m_armSubsystem.getInPosition();
     }
 }

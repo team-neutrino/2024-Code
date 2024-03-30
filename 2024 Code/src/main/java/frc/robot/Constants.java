@@ -160,10 +160,11 @@ public final class Constants {
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
     public static final double AMP_SPEED = 3000;
     public static final double INITIAL_SHOOTER_SPEED = 3000;
+    public static final double SPEED_THRESHOLD_SUBWOOFER = 2800;
   }
 
   public final class ShooterConstants {
-    public static final int SHOOTER_CURRENT_LIMIT = 40;
+    public static final int SHOOTER_CURRENT_LIMIT = 100;
     public static final double WHEEL_P = 0.00075;
     public static final double WHEEL_I = 0.000001;
     public static final double WHEEL_D = 0;

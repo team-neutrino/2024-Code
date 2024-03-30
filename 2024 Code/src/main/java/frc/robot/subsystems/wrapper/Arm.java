@@ -24,6 +24,7 @@ public class Arm extends ArmSubsystem {
     DoubleTopic Arm_Voltage = nt.getDoubleTopic("arm/motor_set_voltage");
     DoubleTopic theta_topic = nt.getDoubleTopic("arm/ theta");
     DoubleTopic radius_topic = nt.getDoubleTopic("arm/radius");
+    DoubleTopic feedforward_topic = nt.getDoubleTopic("arm/FeedForward");
     final DoublePublisher simAnglePub;
     final DoublePublisher encoderAnglePub;
     final DoublePublisher targetAnglePub;
@@ -31,6 +32,7 @@ public class Arm extends ArmSubsystem {
     final DoublePublisher eAnglePub;
     final DoublePublisher radiPublisher;
     final DoublePublisher thetaPublisher;
+    final DoublePublisher feedforwardPublisher;
 
     public Arm(CalculateAngle calculateAngle) {
         m_calculateAngle = calculateAngle;
@@ -56,6 +58,9 @@ public class Arm extends ArmSubsystem {
         radiPublisher = radius_topic.publish();
         radiPublisher.setDefault(0.0);
 
+        feedforwardPublisher = feedforward_topic.publish();
+        feedforwardPublisher.setDefault(0.0);
+
     }
 
     @Override
@@ -68,6 +73,7 @@ public class Arm extends ArmSubsystem {
         eAnglePub.set(getArmAngleDegrees(), now);
         radiPublisher.set(m_calculateAngle.getRadius(), now);
         thetaPublisher.set(m_calculateAngle.getTheta(), now);
+        feedforwardPublisher.set(getFeedForward(), now);
     }
 }
 // 688.78 is CG inertia Distance bwetwwn cg and axis is 15.17247438
