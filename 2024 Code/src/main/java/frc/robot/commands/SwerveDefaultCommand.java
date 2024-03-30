@@ -28,11 +28,9 @@ public class SwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // REAL CODE vv
-    m_swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1,
+    m_swerveSubsystem.SwerveWithDeadzone(m_xboxController.getLeftY() * -1,
         m_xboxController.getLeftX() * -1,
         m_xboxController.getRightX() * -1);
-    // REAL CODE ^^
 
     // D-pad control
     m_swerveSubsystem.POV(m_xboxController.getPOV());
