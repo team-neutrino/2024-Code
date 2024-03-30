@@ -23,10 +23,6 @@ public class AmpAutoAlign extends GamePieceCommand {
   public AmpAutoAlign(CommandXboxController p_xboxController) {
     m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
     m_controller = p_xboxController;
-    // added for (maybe) special case to the usual don't-require-swerve convention:
-    // we want both omega and left-right movement to be locked, so by overriding the
-    // swerve default control I can force the only valid input to be the y-axis of
-    // the left stick (up-down control)
     addRequirements(m_swerveSubsystem);
   }
 
@@ -41,13 +37,13 @@ public class AmpAutoAlign extends GamePieceCommand {
       speakerTagID = RED_ALLIANCE_IDS.SPEAKER_ID;
     } else {
       SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.AMP_ID);
-      
+
       m_ampYaw = SwerveConstants.AMP_ORIENTATION_BLUE_ALLIANCE;
       m_commandMod = -1;
       speakerTagID = BLUE_ALLIANCE_IDS.SPEAKER_ID;
     }
   }
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
@@ -57,10 +53,10 @@ public class AmpAutoAlign extends GamePieceCommand {
 
     m_swerveSubsystem.setRobotYaw(m_ampYaw);
 
-    double command = SwerveConstants.AMP_ALIGN_KP * m_swerveSubsystem.getAmpDx();
+    double command = SwerveConstants.AMP_ALIGN_KP * m_swerveSubsystem.getAmpDx() * m_commandMod;
     command = Math.min(Math.max(command, -SwerveConstants.AMP_DX_LIMIT_VALUE), SwerveConstants.AMP_DX_LIMIT_VALUE);
 
-    m_swerveSubsystem.SwerveWithoutDeadzone(command * m_commandMod, m_controller.getLeftX() * -1, 0);
+    m_swerveSubsystem.SwerveWithoutDeadzone(command, m_controller.getLeftX() * -1, 0);
 
   }
 
