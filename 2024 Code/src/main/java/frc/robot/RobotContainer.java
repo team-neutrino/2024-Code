@@ -14,7 +14,6 @@ import frc.robot.commands.GamePieceCommands.ArmManualCommand;
 import frc.robot.commands.GamePieceCommands.AutonIntakeCommand;
 import frc.robot.commands.GamePieceCommands.AutonShooterCommand;
 import frc.robot.commands.GamePieceCommands.AutonSingleShotCommand;
-import frc.robot.commands.GamePieceCommands.IndexJitterCommand;
 import frc.robot.commands.GamePieceCommands.IntakeCommand;
 import frc.robot.commands.GamePieceCommands.IntakeReverseCommand;
 import frc.robot.commands.GamePieceCommands.MagicAmpChargeCommand;
@@ -79,8 +78,7 @@ public class RobotContainer {
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
     m_driverController.rightTrigger().whileTrue(new ShuttleCloseCommand());
-    m_driverController.leftTrigger().whileTrue(new SequentialCommandGroup(
-        new IntakeCommand(), new IndexJitterCommand()));
+    m_driverController.leftTrigger().whileTrue(new IntakeCommand());
 
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
