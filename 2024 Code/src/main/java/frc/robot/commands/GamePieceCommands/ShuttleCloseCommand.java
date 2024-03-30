@@ -4,7 +4,6 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ShooterSpeeds;
 
 public class ShuttleCloseCommand extends GamePieceCommand {
