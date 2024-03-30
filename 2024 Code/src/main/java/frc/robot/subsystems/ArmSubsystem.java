@@ -156,10 +156,6 @@ public class ArmSubsystem extends SubsystemBase {
     return m_error;
   }
 
-  public double getFeedForward() {
-    return m_feedforward;
-  }
-
   @Override
   public void periodic() {
     m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);
