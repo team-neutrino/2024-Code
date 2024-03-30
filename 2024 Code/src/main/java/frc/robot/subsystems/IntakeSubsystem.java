@@ -35,7 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
     private DigitalInput m_indexBeamBreak = new DigitalInput(DigitalConstants.INDEX_MOTOR_BEAMBREAK);
 
-    SlewRateLimiter intakeLimiter = new SlewRateLimiter(IntakeConstants.INTAKE_SLEW_RATE);
+    private SlewRateLimiter intakeLimiter = new SlewRateLimiter(IntakeConstants.INTAKE_SLEW_RATE);
 
     private Debouncer m_intakeDebouncer;
 
@@ -90,14 +90,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public boolean hasNote() {
         return m_indexBeam || m_intakeBeam;
-    }
-
-    public void indexJitter() {
-        if (isBeamBrokenIndex()) {
-            indexVoltage = IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE;
-        } else {
-            indexVoltage = IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE;
-        }
     }
 
     public boolean isBeamBrokenIntake() {

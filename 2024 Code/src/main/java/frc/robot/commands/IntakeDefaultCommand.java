@@ -18,9 +18,11 @@ public class IntakeDefaultCommand extends Command {
 
     @Override
     public void execute() {
-        // motor should run while the beam break is NOT tripped
-        m_intakeSubsystem.stopIntake();
-        m_intakeSubsystem.stopIndex();
+        if (m_intakeSubsystem.hasNote() && !m_intakeSubsystem.isNoteReady()) {
+            m_intakeSubsystem.smartIntake();
+        } else {
+            m_intakeSubsystem.defaultIntake();
+        }
     }
 
     @Override
