@@ -67,6 +67,11 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeDebouncer = new Debouncer(IntakeConstants.INTAKE_ERROR_THRESHOLD, DebounceType.kRising);
     }
 
+    public void defaultIntake() {
+        stopIntake();
+        stopIndex();
+    }
+
     public double getIndexVelocity() {
         return m_indexEncoder.getVelocity();
     }

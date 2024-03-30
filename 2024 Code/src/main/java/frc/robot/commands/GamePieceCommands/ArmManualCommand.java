@@ -2,33 +2,33 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
+
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.util.SubsystemContainer;
+import frc.robot.Constants.ShooterSpeeds;
 
-public class ArmManualCommand extends Command {
-  private ArmSubsystem m_armSubsystem;
+public class ArmManualCommand extends GamePieceCommand {
+
   private double m_shiftAngle;
   private XboxController m_controller;
 
   public ArmManualCommand(CommandXboxController p_controller) {
-    m_armSubsystem = SubsystemContainer.armSubsystem;
+
     m_controller = p_controller.getHID();
-    addRequirements(SubsystemContainer.armSubsystem);
+
   }
 
   @Override
   public void initialize() {
-    m_shiftAngle = SubsystemContainer.armSubsystem.getArmAngleDegrees();
+    m_shiftAngle = m_armSubsystem.getArmAngleDegrees();
   }
 
   @Override
   public void execute() {
+    m_shooterSubsystem.defaultShooter();
     if (Math.abs(m_controller.getLeftX()) > ArmConstants.ARM_ADJUST_DEADZONE) {
       m_shiftAngle -= m_controller.getLeftX();
     }

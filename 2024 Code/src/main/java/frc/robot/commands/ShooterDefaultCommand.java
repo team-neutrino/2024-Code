@@ -6,8 +6,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class ShooterDefaultCommand extends Command {
-    private ShooterSubsystem m_shooterSubsystem;
     double initialSpeed = 0;
+    ShooterSubsystem m_shooterSubsystem;
 
     public ShooterDefaultCommand() {
         m_shooterSubsystem = SubsystemContainer.shooterSubsystem;

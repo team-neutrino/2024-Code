@@ -2,21 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.util.SubsystemContainer;
-
-public class ArmClimbCommandDown extends Command {
-
-  ArmSubsystem m_armSubsystem;
+public class ArmClimbCommandDown extends GamePieceCommand {
 
   /** Creates a new ArmClimbCommand. */
   public ArmClimbCommandDown() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_armSubsystem = SubsystemContainer.armSubsystem;
-    addRequirements(m_armSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -29,6 +20,8 @@ public class ArmClimbCommandDown extends Command {
   @Override
   public void execute() {
     m_armSubsystem.setClimbReferenceAngle();
+    m_shooterSubsystem.setTargetRPM(0);
+    m_intakeSubsystem.defaultIntake();
   }
 
   // Called once the command ends or is interrupted.

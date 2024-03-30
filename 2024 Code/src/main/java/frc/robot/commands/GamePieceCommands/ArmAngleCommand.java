@@ -2,45 +2,36 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.util.SubsystemContainer;
+public class ArmAngleCommand extends GamePieceCommand {
 
-public class IndexJitterCommand extends Command {
-  private IntakeSubsystem m_intake;
-  private Timer m_timer;
+  private double m_angle;
 
-  public IndexJitterCommand() {
-    m_intake = SubsystemContainer.intakeSubsystem;
-    m_timer = new Timer();
-    addRequirements(m_intake);
+  public ArmAngleCommand(double p_angle) {
+    m_angle = p_angle;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.indexJitter();
+    m_armSubsystem.setArmReferenceAngle(m_angle);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_timer.stop();
-    m_timer.reset();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_timer.get() > 2 && m_intake.isBeamBrokenIndex());
+    return false;
   }
+
 }

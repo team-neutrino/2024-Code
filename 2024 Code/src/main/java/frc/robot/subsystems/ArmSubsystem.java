@@ -33,6 +33,10 @@ public class ArmSubsystem extends SubsystemBase {
     m_armDebouncer = new Debouncer(ArmConstants.DEBOUNCE_TIME, DebounceType.kRising);
   }
 
+  public void defaultArm() {
+    setArmReferenceAngle(ArmConstants.INTAKE_POSE);
+  }
+
   // converts to (0, 360)
   private double adjustAngleIn(double angle) {
     if (angle < 0) {

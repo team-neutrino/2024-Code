@@ -5,19 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.util.SubsystemContainer;
 
-public class MagicShootCommand extends Command {
-
-  private int i = 0;
-  private IntakeSubsystem m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
-
-  /** Creates a new MagicAmpCommand. */
-  public MagicShootCommand() {
-
-    addRequirements(SubsystemContainer.armSubsystem, SubsystemContainer.shooterSubsystem,
-        m_intakeSubsystem);
+public class ArmDefaultCommand extends Command {
+  /** Creates a new ArmDefaultCommand. */
+  public ArmDefaultCommand() {
+    addRequirements(SubsystemContainer.armSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -28,7 +22,7 @@ public class MagicShootCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSubsystem.runIndexShoot();
+    SubsystemContainer.armSubsystem.setArmReferenceAngle(ArmConstants.INTAKE_POSE);
   }
 
   // Called once the command ends or is interrupted.
@@ -39,15 +33,6 @@ public class MagicShootCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (!m_intakeSubsystem.isBeamBrokenIntake()) {
-      i++;
-    } else {
-      i = 0;
-    }
-    if (i >= 20) {
-      return true;
-    }
-
     return false;
   }
 }
