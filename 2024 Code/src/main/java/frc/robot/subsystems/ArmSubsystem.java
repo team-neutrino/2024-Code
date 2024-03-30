@@ -118,11 +118,6 @@ public class ArmSubsystem extends SubsystemBase {
     m_pidController.setD(ArmConstants.ClimbArm_kd, 1);
     m_pidController.setIZone(ArmConstants.ClimbIZone, 1);
 
-    m_pidController.setP(0.04, 2);
-    m_pidController.setI(0, 2);
-    m_pidController.setD(0, 2);
-    m_pidController.setIZone(0, 2);
-
     m_armMotor.burnFlash();
   }
 
