@@ -13,13 +13,11 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.util.CalculateP;
 import frc.robot.util.SubsystemContainer;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -28,12 +26,10 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_targetAngle = 0.0;
   private boolean m_inPosition;
   private Debouncer m_armDebouncer;
-  private CalculateP m_calculateP;
   private SparkPIDController m_pidController;
   private int m_PIDslot;
   private double m_error;
   double m_feedforward;
-  private double m_currentAngle;
   private double m_oldAngle;
 
   public ArmSubsystem() {
@@ -168,7 +164,6 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);
     updateArmAngle(m_targetAngle, m_PIDslot);
-    System.out.println(m_pidController.getP());
     m_inPosition = m_armDebouncer
         .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
   }

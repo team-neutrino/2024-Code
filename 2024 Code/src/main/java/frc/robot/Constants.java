@@ -121,7 +121,7 @@ public final class Constants {
     public static final double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static final double ARM_RADIUS = 0.6555;
     public static final double ARM_CM = 0.37084; // INCHES 14.6
-    public static final int ARM_CURRENT_LIMIT = 100;
+    public static final int ARM_CURRENT_LIMIT = 80;
 
     // TODO: FeedForward Constants are PLACEHOLDERS
     public static final double FF_ks = 0.0;
