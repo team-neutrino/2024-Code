@@ -21,9 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.util.CalculateAngle;
 import frc.robot.util.CalculateP;
-import frc.robot.util.SubsystemContainer;
 
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkFlex m_armMotor = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);

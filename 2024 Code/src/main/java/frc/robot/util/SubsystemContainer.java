@@ -16,8 +16,6 @@ public class SubsystemContainer {
     public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     public static final Intake intakeSubsystem = new Intake();
     public static final Shooter shooterSubsystem = new Shooter();
-    public static CalculateP calculateP;
     public static final Arm armSubsystem = new Arm(m_angleCalculate);
     public static final LEDSubsystem LEDSubsystem = new LEDSubsystem();
-
 }
