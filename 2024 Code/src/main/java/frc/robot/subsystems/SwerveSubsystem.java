@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.SwerveModule;
-import frc.robot.Constants.LEDConstants.States;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Limiter;
@@ -79,7 +78,6 @@ public class SwerveSubsystem extends SubsystemBase {
   SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
   boolean omegaZero = false;
-  States commandState;
 
   public SwerveModule[] swerveModules = { m_frontRight, m_frontLeft, m_backRight, m_backLeft };
 
@@ -346,14 +344,6 @@ public class SwerveSubsystem extends SubsystemBase {
         + Math.pow(targetPose.getY() - current.getY(), 2));
   }
 
-  public States getCommandState() {
-    return commandState;
-  }
-
-  public void setCommandState(States state) {
-    commandState = state;
-  }
-
   /**
    * D-pad addition: pressing any of the 4 main buttons on the D-pad
    * serve as hotkeys for rotation to forward, backward, left, and right
@@ -416,40 +406,6 @@ public class SwerveSubsystem extends SubsystemBase {
     m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
-  }
-
-  public void stopSwerve() {
-    ChassisSpeeds fieldSpeeds = new ChassisSpeeds(0, 0, 0);
-    ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
-
-    moduleStates = m_kinematics.toSwerveModuleStates(robotSpeeds);
-
-    moduleStates[0] = SwerveModuleState.optimize(moduleStates[0],
-        m_frontRight.getOptimizationAngle());
-    moduleStates[1] = SwerveModuleState.optimize(moduleStates[1],
-        m_frontLeft.getOptimizationAngle());
-    moduleStates[2] = SwerveModuleState.optimize(moduleStates[2],
-        m_backRight.getOptimizationAngle());
-    moduleStates[3] = SwerveModuleState.optimize(moduleStates[3],
-        m_backLeft.getOptimizationAngle());
-
-    for (int i = 0; i < 4; i++) {
-      if (moduleStates[i].angle.getDegrees() <= 0) {
-        moduleStates[i].angle = Rotation2d.fromDegrees(moduleStates[i].angle.getDegrees() * -1);
-      } else {
-        moduleStates[i].angle = Rotation2d.fromDegrees(360 - moduleStates[i].angle.getDegrees());
-      }
-    }
-
-    m_frontRight.setAnglePID(moduleStates[0].angle.getDegrees());
-    m_frontLeft.setAnglePID(moduleStates[1].angle.getDegrees());
-    m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
-    m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
-
-    m_frontRight.setSpeedPID(0, 0);
-    m_frontLeft.setSpeedPID(0, 0);
-    m_backRight.setSpeedPID(0, 0);
-    m_backLeft.setSpeedPID(0, 0);
   }
 
   private void UpdateSpeakerToRobot(Pose2d pose) {
