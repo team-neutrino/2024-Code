@@ -19,7 +19,7 @@ public class ArmClimbCommandUp extends GamePieceCommand {
   public void execute() {
     m_armSubsystem.setArmReferenceAngle(90);
     m_intakeSubsystem.defaultIntake();
-    m_shooterSubsystem.defaultShooter();
+    m_shooterSubsystem.setTargetRPM(0);
   }
 
   // Called once the command ends or is interrupted.

@@ -20,7 +20,7 @@ public class ArmClimbCommandDown extends GamePieceCommand {
   @Override
   public void execute() {
     m_armSubsystem.setClimbReferenceAngle();
-    m_shooterSubsystem.defaultShooter();
+    m_shooterSubsystem.setTargetRPM(0);
     m_intakeSubsystem.defaultIntake();
   }
 
