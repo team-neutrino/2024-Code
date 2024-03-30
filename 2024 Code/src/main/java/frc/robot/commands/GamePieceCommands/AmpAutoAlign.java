@@ -2,21 +2,24 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.util.SubsystemContainer;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.util.SubsystemContainer;
 
-public class SwerveDefaultCommand extends Command {
+public class AmpAutoAlign extends GamePieceCommand {
   private SwerveSubsystem m_swerveSubsystem;
-  private XboxController m_xboxController;
+  private CommandXboxController m_controller;
 
-  public SwerveDefaultCommand(CommandXboxController p_controller) {
+  /** Creates a new AmpAutoAlign. */
+  public AmpAutoAlign(CommandXboxController p_xboxController) {
     m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
-    m_xboxController = p_controller.getHID();
+    m_controller = p_xboxController;
+    // added for (maybe) special case to the usual don't-require-swerve convention:
+    // we want both omega and left-right movement to be locked, so by overriding the
+    // swerve default control I can force the only valid input to be the y-axis of
+    // the left stick (up-down control)
     addRequirements(m_swerveSubsystem);
   }
 
@@ -28,13 +31,8 @@ public class SwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_swerveSubsystem.Swerve(m_xboxController.getLeftY() * -1,
-        m_xboxController.getLeftX() * -1,
-        m_xboxController.getRightX() * -1);
-
-    // D-pad control
-    m_swerveSubsystem.POV(m_xboxController.getPOV());
-
+    m_swerveSubsystem.setRobotYaw(90);
+    m_swerveSubsystem.Swerve(0, m_controller.getLeftX() * -1, 0);
   }
 
   // Called once the command ends or is interrupted.

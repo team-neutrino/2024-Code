@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDefaultCommand;
+import frc.robot.commands.GamePieceCommands.AmpAutoAlign;
 import frc.robot.commands.GamePieceCommands.ArmAngleCommand;
 import frc.robot.commands.GamePieceCommands.ArmClimbCommandDown;
 import frc.robot.commands.GamePieceCommands.ArmClimbCommandUp;
@@ -89,6 +90,8 @@ public class RobotContainer {
       }
       SubsystemContainer.armSubsystem.initializeMotorControllers();
     }));
+
+    m_driverController.x().whileTrue(new AmpAutoAlign(m_driverController));
 
     // shooter buttons
     m_buttonsController.a()
