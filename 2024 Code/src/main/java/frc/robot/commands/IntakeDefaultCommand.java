@@ -21,8 +21,7 @@ public class IntakeDefaultCommand extends Command {
         if (m_intakeSubsystem.hasNote() && !m_intakeSubsystem.isNoteReady()) {
             m_intakeSubsystem.runIndexFeed();
         } else {
-            m_intakeSubsystem.stopIntake();
-            m_intakeSubsystem.stopIndex();
+            m_intakeSubsystem.defaultIntake();
         }
     }
 
