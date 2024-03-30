@@ -5,6 +5,7 @@
 package frc.robot.commands.GamePieceCommands;
 
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterSpeeds;
 
 public class IntakeCommand extends GamePieceCommand {
   public IntakeCommand() {
@@ -17,8 +18,9 @@ public class IntakeCommand extends GamePieceCommand {
 
   @Override
   public void execute() {
-    if (m_armSubsystem.getTargetAngle() == Constants.ArmConstants.ARM_LOWER_LIMIT
-        && m_armSubsystem.getInPosition()) {
+    m_shooterSubsystem.defaultShooter();
+    m_armSubsystem.defaultArm();
+    if (m_armSubsystem.getInPosition()) {
       m_intakeSubsystem.smartIntake();
     }
   }

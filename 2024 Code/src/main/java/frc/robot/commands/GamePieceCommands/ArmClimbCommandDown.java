@@ -20,6 +20,8 @@ public class ArmClimbCommandDown extends GamePieceCommand {
   @Override
   public void execute() {
     m_armSubsystem.setClimbReferenceAngle();
+    m_shooterSubsystem.defaultShooter();
+    m_intakeSubsystem.defaultIntake();
   }
 
   // Called once the command ends or is interrupted.

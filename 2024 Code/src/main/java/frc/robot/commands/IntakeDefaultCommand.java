@@ -1,7 +1,15 @@
-package frc.robot.commands.GamePieceCommands;
+package frc.robot.commands;
 
-public class IntakeDefaultCommand extends GamePieceCommand {
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.util.SubsystemContainer;
+
+public class IntakeDefaultCommand extends Command {
+    IntakeSubsystem m_intakeSubsystem;
+
     public IntakeDefaultCommand() {
+        m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
+        addRequirements(m_intakeSubsystem);
     }
 
     @Override

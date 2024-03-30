@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ShooterSpeeds;
 
 public class ArmManualCommand extends GamePieceCommand {
 
@@ -27,6 +28,7 @@ public class ArmManualCommand extends GamePieceCommand {
 
   @Override
   public void execute() {
+    m_shooterSubsystem.defaultShooter();
     if (Math.abs(m_controller.getLeftX()) > ArmConstants.ARM_ADJUST_DEADZONE) {
       m_shiftAngle -= m_controller.getLeftX();
     }

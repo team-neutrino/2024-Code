@@ -2,20 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.GamePieceCommands;
+package frc.robot.commands;
 
-import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.util.CalculateAngle;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.util.SubsystemContainer;
 
-public class ArmInterpolateCommand extends GamePieceCommand {
-
-  private SwerveSubsystem m_swerve;
-  private CalculateAngle m_angleCalculate;
-
-  public ArmInterpolateCommand(CalculateAngle p_angleCalculate) {
-    m_angleCalculate = p_angleCalculate;
-    m_swerve = SubsystemContainer.swerveSubsystem;
+public class ArmDefaultCommand extends Command {
+  /** Creates a new ArmDefaultCommand. */
+  public ArmDefaultCommand() {
+    addRequirements(SubsystemContainer.armSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -26,7 +22,7 @@ public class ArmInterpolateCommand extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_armSubsystem.setArmReferenceAngle(m_angleCalculate.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
+    SubsystemContainer.armSubsystem.setArmReferenceAngle(ArmConstants.INTAKE_POSE);
   }
 
   // Called once the command ends or is interrupted.

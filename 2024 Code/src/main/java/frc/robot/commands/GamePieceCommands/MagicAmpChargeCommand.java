@@ -23,6 +23,7 @@ public class MagicAmpChargeCommand extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_intakeSubsystem.stopIntake();
     m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.AMP_SPEED);
     m_intakeSubsystem.runIndexFeed();

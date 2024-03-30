@@ -1,5 +1,7 @@
 package frc.robot.commands.GamePieceCommands;
 
+import frc.robot.Constants.ArmConstants;
+
 public class IntakeReverseCommand extends GamePieceCommand {
   public IntakeReverseCommand() {
   }
@@ -10,8 +12,12 @@ public class IntakeReverseCommand extends GamePieceCommand {
 
   @Override
   public void execute() {
-    m_intakeSubsystem.runIntakeReverse();
-    m_intakeSubsystem.runIndexReverse();
+    m_shooterSubsystem.setTargetRPM(700);
+    m_armSubsystem.defaultArm();
+    if (m_armSubsystem.getInPosition()) {
+      m_intakeSubsystem.runIntakeReverse();
+      m_intakeSubsystem.runIndexReverse();
+    }
   }
 
   @Override

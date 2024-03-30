@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ShooterSpeeds;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 
@@ -57,6 +58,10 @@ public class ShooterSubsystem extends SubsystemBase {
     m_followerMotor.burnFlash();
 
     m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME, DebounceType.kRising);
+  }
+
+  public void defaultShooter() {
+    setTargetRPM(ShooterSpeeds.INITIAL_SHOOTER_SPEED);
   }
 
   public boolean approveShoot() {
