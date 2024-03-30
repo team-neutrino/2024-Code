@@ -35,7 +35,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void defaultArm() {
     setArmReferenceAngle(ArmConstants.INTAKE_POSE);
-    // should PID slot be set to 0?
   }
 
   // converts to (0, 360)
