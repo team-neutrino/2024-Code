@@ -388,6 +388,19 @@ public class SwerveSubsystem extends SubsystemBase {
         Math.atan((m_currentPoseL.getY() - speakerPose.getY()) / (m_currentPoseL.getX() - speakerPose.getX()))));
   }
 
+  public void AlignToAmpUsingOdometry() {
+    Translation2d ampPose;
+    if (SubsystemContainer.alliance.isRedAlliance()) {
+      SubsystemContainer.limelightSubsystem.setPriorityID(5);
+      ampPose = SwerveConstants.AMP_TARGET_POSE_RED;
+    } else {
+      SubsystemContainer.limelightSubsystem.setPriorityID(7);
+      ampPose = SwerveConstants.AMP_TARGET_POSE_BLUE;
+    }
+
+    // setRobotYaw(Math.toDegrees(Math.atan((m_currentPose.))))
+  }
+
   public void ResetOdometryToPose(double x, double y) {
     resetPose(new Pose2d(x, y, m_currentPoseL.getRotation()));
   }
