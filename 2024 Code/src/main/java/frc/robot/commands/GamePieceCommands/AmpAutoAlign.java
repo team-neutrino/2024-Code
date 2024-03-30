@@ -34,10 +34,14 @@ public class AmpAutoAlign extends GamePieceCommand {
   @Override
   public void initialize() {
     if (SubsystemContainer.alliance.isRedAlliance()) {
+      SubsystemContainer.limelightSubsystem.setPriorityID(RED_ALLIANCE_IDS.AMP_ID);
+
       m_ampYaw = SwerveConstants.AMP_ORIENTATION_RED_ALLIANCE;
       m_commandMod = 1;
       speakerTagID = RED_ALLIANCE_IDS.SPEAKER_ID;
     } else {
+      SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.AMP_ID);
+      
       m_ampYaw = SwerveConstants.AMP_ORIENTATION_BLUE_ALLIANCE;
       m_commandMod = -1;
       speakerTagID = BLUE_ALLIANCE_IDS.SPEAKER_ID;

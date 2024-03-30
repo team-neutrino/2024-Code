@@ -337,10 +337,8 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public double getAmpDx() {
     if (SubsystemContainer.alliance.isRedAlliance()) {
-      SubsystemContainer.limelightSubsystem.setPriorityID(RED_ALLIANCE_IDS.AMP_ID);
       return m_currentPoseL.getX() - SwerveConstants.AMP_TARGET_POSE_RED.getX();
     } else {
-      SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.AMP_ID);
       return m_currentPoseL.getX() - SwerveConstants.AMP_TARGET_POSE_BLUE.getX();
     }
   }
