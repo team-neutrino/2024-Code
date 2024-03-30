@@ -8,7 +8,6 @@ import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.SwerveSubsystem;
 
 /** An example command that uses an example subsystem. */
@@ -62,7 +61,6 @@ public class AutoAlignCommand extends Command {
                     Math.atan((SubsystemContainer.swerveSubsystem.currentPoseL.getY() - m_speakerPose.getY()) /
                             (SubsystemContainer.swerveSubsystem.currentPoseL.getX() - m_speakerPose.getX()))));
         }
-        SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
 
     @Override

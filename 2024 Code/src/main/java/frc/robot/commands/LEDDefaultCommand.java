@@ -6,7 +6,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.Constants.LEDConstants.States;
 
 public class LEDDefaultCommand extends Command {
 
@@ -32,12 +31,6 @@ public class LEDDefaultCommand extends Command {
       m_LEDSubsystem.setToGreen();
     } else if (SubsystemContainer.intakeSubsystem.isNoteReady()) {
       m_LEDSubsystem.setToCyan();
-    } else if (m_swerveSubsystem
-        .getCommandState() == States.PATHFINDING) {
-      m_LEDSubsystem.setToYellow();
-    } else if (m_swerveSubsystem
-        .getCommandState() == (States.AUTOALIGN)) {
-      m_LEDSubsystem.setToBlue();
     } else if (SubsystemContainer.intakeSubsystem.isNoteTooFar()) {
       m_LEDSubsystem.setToPurple();
     } else {
