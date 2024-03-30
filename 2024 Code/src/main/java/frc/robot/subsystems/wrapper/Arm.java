@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.util.CalculateAngle;
+import frc.robot.util.CalculateP;
 
 public class Arm extends ArmSubsystem {
     CalculateAngle m_calculateAngle;

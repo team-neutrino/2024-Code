@@ -7,6 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
+
+import java.util.TreeMap;
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkFlex;
@@ -18,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.util.CalculateAngle;
+import frc.robot.util.CalculateP;
 import frc.robot.util.SubsystemContainer;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -27,14 +32,20 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean m_inPosition;
   private Debouncer m_armDebouncer;
   private SparkPIDController m_pidController;
+  private CalculateP m_calculateP;
   private int m_PIDslot;
   private double m_error;
   private double m_feedforward;
   private double m_oldAngle;
+  TreeMap<Double, Double> m_mapOfP;
 
   public ArmSubsystem() {
+    m_mapOfP = new TreeMap<Double, Double>();
+    m_mapOfP.put(2.0, 0.022);
+    m_mapOfP.put(7.0, 0.04);
     initializeMotorControllers();
     m_armDebouncer = new Debouncer(ArmConstants.DEBOUNCE_TIME, DebounceType.kRising);
+    m_calculateP = new CalculateP(m_mapOfP);
     m_targetAngle = Constants.ArmConstants.INTAKE_POSE;
   }
 
@@ -143,12 +154,8 @@ public class ArmSubsystem extends SubsystemBase {
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(filtAngle)));
 
     targetAngle = adjustAngleIn(targetAngle);
-    m_pidController.setP(SubsystemContainer.calculateP.InterpolateP(), 0);
+    m_pidController.setP(m_calculateP.InterpolateP(m_error), 0);
     m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, m_feedforward);
-  }
-
-  public double getError() {
-    return m_error;
   }
 
   @Override
