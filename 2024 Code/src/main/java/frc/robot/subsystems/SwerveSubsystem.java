@@ -31,6 +31,8 @@ import frc.robot.Constants;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
+import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
 import frc.robot.util.Limiter;
 import frc.robot.util.PolarCoord;
 import frc.robot.util.SubsystemContainer;
@@ -317,10 +319,10 @@ public class SwerveSubsystem extends SubsystemBase {
   public void AlignToSpeakerUsingOdometry() {
     Translation2d speakerPose;
     if (SubsystemContainer.alliance.isRedAlliance()) {
-      SubsystemContainer.limelightSubsystem.setPriorityID(4);
+      SubsystemContainer.limelightSubsystem.setPriorityID(RED_ALLIANCE_IDS.SPEAKER_ID);
       speakerPose = SwerveConstants.SPEAKER_RED_SIDE;
     } else {
-      SubsystemContainer.limelightSubsystem.setPriorityID(7);
+      SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.SPEAKER_ID);
       speakerPose = SwerveConstants.SPEAKER_BLUE_SIDE;
     }
 
@@ -335,10 +337,10 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public double getAmpDx() {
     if (SubsystemContainer.alliance.isRedAlliance()) {
-      SubsystemContainer.limelightSubsystem.setPriorityID(5);
+      SubsystemContainer.limelightSubsystem.setPriorityID(RED_ALLIANCE_IDS.AMP_ID);
       return m_currentPoseL.getX() - SwerveConstants.AMP_TARGET_POSE_RED.getX();
     } else {
-      SubsystemContainer.limelightSubsystem.setPriorityID(6);
+      SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.AMP_ID);
       return m_currentPoseL.getX() - SwerveConstants.AMP_TARGET_POSE_BLUE.getX();
     }
   }

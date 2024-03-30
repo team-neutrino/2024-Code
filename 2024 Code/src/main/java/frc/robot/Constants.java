@@ -65,7 +65,8 @@ public final class Constants {
     public static final int ANGLE_MOTOR_CURRENT_LIMIT = 25;
     public static final int SPEED_MOTOR_CURRENT_LIMIT = 40;
 
-    public static final int AMP_ORIENTATION = 90;
+    public static final int AMP_ORIENTATION_RED_ALLIANCE = 90;
+    public static final int AMP_ORIENTATION_BLUE_ALLIANCE = -90;
     public static final double AMP_ALIGN_KP = .85;
     public static final double AMP_DX_LIMIT_VALUE = .5;
   }
@@ -175,5 +176,17 @@ public final class Constants {
     public static final double WHEEL_IZONE = 250;
     public static final double DEBOUNCE_TIME = 0.1;
     public static final double RPM_ERROR_THRESHOLD = 200;
+  }
+
+  public final class AprilTagConstants {
+    public final class RED_ALLIANCE_IDS {
+      public static final int SPEAKER_ID = 4;
+      public static final int AMP_ID = 5;
+    }
+
+    public final class BLUE_ALLIANCE_IDS {
+      public static final int SPEAKER_ID = 7;
+      public static final int AMP_ID = 6;
+    }
   }
 }
