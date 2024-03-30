@@ -180,7 +180,24 @@ public class SwerveSubsystem extends SubsystemBase {
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(vx, vy, omega);
     ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
 
-    m_moduleStates = m_kinematics.toSwerveModuleStates(robotSpeeds);
+    robotRelativeSwerve(robotSpeeds);
+  }
+
+  public boolean m_omegaZero() {
+    return m_omegaZero;
+  }
+
+  public void autonRotateSwerve(double reference) {
+    double omega = m_angleController.calculate(getYaw(), reference);
+
+    ChassisSpeeds fieldSpeeds = new ChassisSpeeds(0, 0, omega);
+    ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
+
+    robotRelativeSwerve(robotSpeeds);
+  }
+
+  private void robotRelativeSwerve(ChassisSpeeds referenceSpeeds) {
+    m_moduleStates = m_kinematics.toSwerveModuleStates(referenceSpeeds);
 
     m_moduleStates[0] = SwerveModuleState.optimize(m_moduleStates[0],
         m_frontRight.getOptimizationAngle());
@@ -190,37 +207,6 @@ public class SwerveSubsystem extends SubsystemBase {
         m_backRight.getOptimizationAngle());
     m_moduleStates[3] = SwerveModuleState.optimize(m_moduleStates[3],
         m_backLeft.getOptimizationAngle());
-
-    double feedForwardFR = m_feedForward.calculate(m_moduleStates[0].speedMetersPerSecond);
-    double feedForwardFL = m_feedForward.calculate(m_moduleStates[1].speedMetersPerSecond);
-    double feedForwardBR = m_feedForward.calculate(m_moduleStates[2].speedMetersPerSecond);
-    double feedForwardBL = m_feedForward.calculate(m_moduleStates[3].speedMetersPerSecond);
-
-    for (int i = 0; i < 4; i++) {
-      if (m_moduleStates[i].angle.getDegrees() <= 0) {
-        m_moduleStates[i].angle = Rotation2d.fromDegrees(m_moduleStates[i].angle.getDegrees() * -1);
-      } else {
-        m_moduleStates[i].angle = Rotation2d.fromDegrees(360 - m_moduleStates[i].angle.getDegrees());
-      }
-    }
-
-    m_frontRight.setAnglePID(m_moduleStates[0].angle.getDegrees());
-    m_frontLeft.setAnglePID(m_moduleStates[1].angle.getDegrees());
-    m_backRight.setAnglePID(m_moduleStates[2].angle.getDegrees());
-    m_backLeft.setAnglePID(m_moduleStates[3].angle.getDegrees());
-
-    m_frontRight.setSpeedPID(m_moduleStates[0].speedMetersPerSecond, feedForwardFR);
-    m_frontLeft.setSpeedPID(m_moduleStates[1].speedMetersPerSecond, feedForwardFL);
-    m_backRight.setSpeedPID(m_moduleStates[2].speedMetersPerSecond, feedForwardBR);
-    m_backLeft.setSpeedPID(m_moduleStates[3].speedMetersPerSecond, feedForwardBL);
-  }
-
-  public boolean m_omegaZero() {
-    return m_omegaZero;
-  }
-
-  public void robotRelativeSwerve(ChassisSpeeds referenceSpeeds) {
-    m_moduleStates = m_kinematics.toSwerveModuleStates(referenceSpeeds);
 
     double feedForwardFR = m_feedForward.calculate(m_moduleStates[0].speedMetersPerSecond);
     double feedForwardFL = m_feedForward.calculate(m_moduleStates[1].speedMetersPerSecond);
@@ -311,47 +297,6 @@ public class SwerveSubsystem extends SubsystemBase {
     } else if (integerPOV >= 0) {
       setRobotYaw(integerPOV);
     }
-  }
-
-  public void autonRotateSwerve(double reference) {
-    double omega = m_angleController.calculate(getYaw(), reference);
-
-    ChassisSpeeds fieldSpeeds = new ChassisSpeeds(0, 0, omega);
-    ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
-
-    m_moduleStates = m_kinematics.toSwerveModuleStates(robotSpeeds);
-
-    m_moduleStates[0] = SwerveModuleState.optimize(m_moduleStates[0],
-        m_frontRight.getOptimizationAngle());
-    m_moduleStates[1] = SwerveModuleState.optimize(m_moduleStates[1],
-        m_frontLeft.getOptimizationAngle());
-    m_moduleStates[2] = SwerveModuleState.optimize(m_moduleStates[2],
-        m_backRight.getOptimizationAngle());
-    m_moduleStates[3] = SwerveModuleState.optimize(m_moduleStates[3],
-        m_backLeft.getOptimizationAngle());
-
-    double feedForwardFR = m_feedForward.calculate(m_moduleStates[0].speedMetersPerSecond);
-    double feedForwardFL = m_feedForward.calculate(m_moduleStates[1].speedMetersPerSecond);
-    double feedForwardBR = m_feedForward.calculate(m_moduleStates[2].speedMetersPerSecond);
-    double feedForwardBL = m_feedForward.calculate(m_moduleStates[3].speedMetersPerSecond);
-
-    for (int i = 0; i < 4; i++) {
-      if (m_moduleStates[i].angle.getDegrees() <= 0) {
-        m_moduleStates[i].angle = Rotation2d.fromDegrees(m_moduleStates[i].angle.getDegrees() * -1);
-      } else {
-        m_moduleStates[i].angle = Rotation2d.fromDegrees(360 - m_moduleStates[i].angle.getDegrees());
-      }
-    }
-
-    m_frontRight.setAnglePID(m_moduleStates[0].angle.getDegrees());
-    m_frontLeft.setAnglePID(m_moduleStates[1].angle.getDegrees());
-    m_backRight.setAnglePID(m_moduleStates[2].angle.getDegrees());
-    m_backLeft.setAnglePID(m_moduleStates[3].angle.getDegrees());
-
-    m_frontRight.setSpeedPID(m_moduleStates[0].speedMetersPerSecond, feedForwardFR);
-    m_frontLeft.setSpeedPID(m_moduleStates[1].speedMetersPerSecond, feedForwardFL);
-    m_backRight.setSpeedPID(m_moduleStates[2].speedMetersPerSecond, feedForwardBR);
-    m_backLeft.setSpeedPID(m_moduleStates[3].speedMetersPerSecond, feedForwardBL);
   }
 
   private void UpdateSpeakerToRobot(Pose2d pose) {
