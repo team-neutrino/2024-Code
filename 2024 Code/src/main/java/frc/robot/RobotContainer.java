@@ -7,7 +7,6 @@ package frc.robot;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.GamePieceCommands.ArmAngleCommand;
 import frc.robot.commands.GamePieceCommands.ArmClimbCommandDown;
 import frc.robot.commands.GamePieceCommands.ArmClimbCommandUp;
 import frc.robot.commands.GamePieceCommands.ArmManualCommand;
@@ -84,9 +83,7 @@ public class RobotContainer {
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
-      for (int i = 0; i < 4; i++) {
-        SubsystemContainer.swerveSubsystem.swerveModules[i].resetEverything();
-      }
+      SubsystemContainer.swerveSubsystem.ResetModules();
       SubsystemContainer.armSubsystem.initializeMotorControllers();
     }));
 

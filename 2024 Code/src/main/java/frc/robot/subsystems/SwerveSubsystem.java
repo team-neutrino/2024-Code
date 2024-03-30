@@ -42,22 +42,22 @@ public class SwerveSubsystem extends SubsystemBase {
   private AHRS m_navX = new AHRS();
   private SwerveModuleState[] m_moduleStates;
 
-  private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(MotorIDs.FRS,
+  private final SwerveModule.MotorCfg m_frontRightSpeed = new SwerveModule.MotorCfg(MotorIDs.FRS,
       true);
-  private final SwerveModule.MotorCfg front_left_speed = new SwerveModule.MotorCfg(MotorIDs.FLS,
+  private final SwerveModule.MotorCfg m_frontLeftSpeed = new SwerveModule.MotorCfg(MotorIDs.FLS,
       true);
-  private final SwerveModule.MotorCfg back_right_speed = new SwerveModule.MotorCfg(MotorIDs.BRS,
+  private final SwerveModule.MotorCfg m_backRightSpeed = new SwerveModule.MotorCfg(MotorIDs.BRS,
       true);
-  private final SwerveModule.MotorCfg back_left_speed = new SwerveModule.MotorCfg(MotorIDs.BLS,
+  private final SwerveModule.MotorCfg m_backLeftSpeed = new SwerveModule.MotorCfg(MotorIDs.BLS,
       false);
 
-  private final SwerveModule.MotorCfg front_right_angle = new SwerveModule.MotorCfg(MotorIDs.FRA,
+  private final SwerveModule.MotorCfg m_frontRightAngle = new SwerveModule.MotorCfg(MotorIDs.FRA,
       false, SwerveConstants.FRA_OFFSET);
-  private final SwerveModule.MotorCfg front_left_angle = new SwerveModule.MotorCfg(MotorIDs.FLA,
+  private final SwerveModule.MotorCfg m_frontLeftAngle = new SwerveModule.MotorCfg(MotorIDs.FLA,
       false, SwerveConstants.FLA_OFFSET);
-  private final SwerveModule.MotorCfg back_right_angle = new SwerveModule.MotorCfg(MotorIDs.BRA,
+  private final SwerveModule.MotorCfg m_backRightAngle = new SwerveModule.MotorCfg(MotorIDs.BRA,
       false, SwerveConstants.BRA_OFFSET);
-  private final SwerveModule.MotorCfg back_left_angle = new SwerveModule.MotorCfg(MotorIDs.BLA,
+  private final SwerveModule.MotorCfg m_backLeftAngle = new SwerveModule.MotorCfg(MotorIDs.BLA,
       false, SwerveConstants.BLA_OFFSET);
 
   private SwerveModulePosition[] m_modulePositions = new SwerveModulePosition[4];
@@ -71,16 +71,12 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
 
-  private SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
-  private SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
-  private SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
-  private SwerveModule m_backLeft = new SwerveModule(back_left_speed, back_left_angle);
+  private SwerveModule m_frontRight = new SwerveModule(m_frontRightSpeed, m_frontRightAngle);
+  private SwerveModule m_frontLeft = new SwerveModule(m_frontLeftSpeed, m_frontLeftAngle);
+  private SwerveModule m_backRight = new SwerveModule(m_backRightSpeed, m_backRightAngle);
+  private SwerveModule m_backLeft = new SwerveModule(m_backLeftSpeed, m_backLeftAngle);
 
   private SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
-
-  private boolean m_omegaZero = false;
-
-  public SwerveModule[] swerveModules = { m_frontRight, m_frontLeft, m_backRight, m_backLeft };
 
   private Field2d m_field = new Field2d();
   private Pose2d m_currentPose = new Pose2d();
@@ -157,12 +153,6 @@ public class SwerveSubsystem extends SubsystemBase {
     omega = Limiter.scale(Limiter.deadzone(omega, 0.1), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
 
-    if (omega == 0) {
-      m_omegaZero = true;
-    } else {
-      m_omegaZero = false;
-    }
-
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
     } else if (m_timer.get() >= 0.2 && !m_referenceSet) {
@@ -181,10 +171,6 @@ public class SwerveSubsystem extends SubsystemBase {
     ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
 
     robotRelativeSwerve(robotSpeeds);
-  }
-
-  public boolean m_omegaZero() {
-    return m_omegaZero;
   }
 
   public void autonRotateSwerve(double reference) {
@@ -259,6 +245,13 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, new Pose2d());
     m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, new Pose2d());
+  }
+
+  public void ResetModules() {
+    m_frontRight.resetEverything();
+    m_frontLeft.resetEverything();
+    m_backRight.resetEverything();
+    m_backLeft.resetEverything();
   }
 
   public Pose2d getPose() {

@@ -1,7 +1,5 @@
 package frc.robot.commands.GamePieceCommands;
 
-import frc.robot.Constants.ArmConstants;
-
 public class IntakeReverseCommand extends GamePieceCommand {
   public IntakeReverseCommand() {
   }
