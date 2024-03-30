@@ -26,6 +26,7 @@ public class ArmSubsystem extends SubsystemBase {
   private Debouncer m_armDebouncer;
   private SparkPIDController m_pidController;
   private int m_PIDslot;
+  private double m_error;
 
   public ArmSubsystem() {
     initializeMotorControllers();
@@ -89,8 +90,13 @@ public class ArmSubsystem extends SubsystemBase {
     m_armEncoder = m_armMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     m_armEncoder.setPositionConversionFactor(360);
     m_armEncoder.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
-
-    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 100);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 100);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 500);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 500);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 500);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 10);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, 500);
     m_armMotor.setSmartCurrentLimit(ArmConstants.ARM_CURRENT_LIMIT);
 
     m_pidController = m_armMotor.getPIDController();
@@ -108,12 +114,21 @@ public class ArmSubsystem extends SubsystemBase {
     m_pidController.setD(ArmConstants.ClimbArm_kd, 1);
     m_pidController.setIZone(ArmConstants.ClimbIZone, 1);
 
+    m_pidController.setP(0, 2);
+    m_pidController.setI(0, 2);
+    m_pidController.setD(0, 2);
+    m_pidController.setIZone(0, 2);
+
     m_armMotor.burnFlash();
   }
 
   public void setArmReferenceAngle(double targetAngle) {
     m_targetAngle = targetAngle;
-    m_PIDslot = 0;
+    if (m_error > 10) {
+      m_PIDslot = 2;
+    } else {
+      m_PIDslot = 0;
+    }
   }
 
   public void setClimbReferenceAngle() {
@@ -134,8 +149,13 @@ public class ArmSubsystem extends SubsystemBase {
     m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, feedforward);
   }
 
+  private double getError() {
+    return m_error;
+  }
+
   @Override
   public void periodic() {
+    m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);
     updateArmAngle(m_targetAngle, m_PIDslot);
 
     m_inPosition = m_armDebouncer

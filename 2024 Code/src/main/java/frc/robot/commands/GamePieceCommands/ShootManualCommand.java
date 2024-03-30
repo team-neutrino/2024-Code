@@ -30,7 +30,7 @@ public class ShootManualCommand extends GamePieceCommand {
 
     @Override
     public boolean isFinished() {
-        return m_Controller.getHID().getLeftBumper() && m_armSubsystem.getInPosition()
-                && m_shooterSubsystem.approveShoot() && m_intakeSubsystem.isNoteReady();
+        return m_Controller.getHID().getLeftBumper()
+                && m_shooterSubsystem.aboveRPM(2800) && m_intakeSubsystem.isNoteReady();
     }
 }

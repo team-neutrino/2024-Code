@@ -68,6 +68,10 @@ public class ShooterSubsystem extends SubsystemBase {
     return m_atSpeed;
   }
 
+  public boolean aboveRPM(double p_rpm) {
+    return (getShooterRPM() > p_rpm);
+  }
+
   public double getFollowerRPM() {
     return m_followerEncoder.getVelocity();
   }

@@ -121,7 +121,7 @@ public final class Constants {
     public static final double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static final double ARM_RADIUS = 0.6555;
     public static final double ARM_CM = 0.37084; // INCHES 14.6
-    public static final int ARM_CURRENT_LIMIT = 60;
+    public static final int ARM_CURRENT_LIMIT = 100;
 
     // TODO: FeedForward Constants are PLACEHOLDERS
     public static final double FF_ks = 0.0;
@@ -158,8 +158,8 @@ public final class Constants {
     public static final double SHOOTING_SPEED = 4000;
     public static final double SHUTTLE_SPEED = 3200;
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
-    public static final double AMP_SPEED = 1500;
-    public static final double INITIAL_SHOOTER_SPEED = 700;
+    public static final double AMP_SPEED = 3000;
+    public static final double INITIAL_SHOOTER_SPEED = 3000;
   }
 
   public final class ShooterConstants {

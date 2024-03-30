@@ -18,7 +18,7 @@ public class ShooterDefaultCommand extends Command {
         initialSpeed = m_shooterSubsystem.getShooterRPM();
 
         if (initialSpeed == 0) {
-            initialSpeed = 700;
+            initialSpeed = 3000;
         }
     }
 
