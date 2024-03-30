@@ -15,6 +15,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -38,8 +39,8 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
       SwerveConstants.FRONT_LEFT_COORD,
       SwerveConstants.BACK_RIGHT_COORD, SwerveConstants.BACK_LEFT_COORD);
-  AHRS m_navX = new AHRS();
-  SwerveModuleState[] moduleStates;
+  private AHRS m_navX = new AHRS();
+  private SwerveModuleState[] m_moduleStates;
 
   private SwerveModule.MotorCfg front_right_speed = new SwerveModule.MotorCfg(MotorIDs.FRS,
       true);
@@ -59,7 +60,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final SwerveModule.MotorCfg back_left_angle = new SwerveModule.MotorCfg(MotorIDs.BLA,
       false, SwerveConstants.BLA_OFFSET);
 
-  private SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
+  private SwerveModulePosition[] m_modulePositions = new SwerveModulePosition[4];
 
   private SwerveDriveOdometry m_swerveOdometry;
 
@@ -70,43 +71,43 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
 
-  SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
-  SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
-  SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
-  SwerveModule m_backLeft = new SwerveModule(back_left_speed, back_left_angle);
+  private SwerveModule m_frontRight = new SwerveModule(front_right_speed, front_right_angle);
+  private SwerveModule m_frontLeft = new SwerveModule(front_left_speed, front_left_angle);
+  private SwerveModule m_backRight = new SwerveModule(back_right_speed, back_right_angle);
+  private SwerveModule m_backLeft = new SwerveModule(back_left_speed, back_left_angle);
 
-  SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
+  private SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
-  boolean omegaZero = false;
+  private boolean m_omegaZero = false;
 
   public SwerveModule[] swerveModules = { m_frontRight, m_frontLeft, m_backRight, m_backLeft };
 
-  Field2d field = new Field2d();
-  Pose2d currentPose = new Pose2d();
-  public Pose2d currentPoseL = new Pose2d();
-  public PolarCoord speaker_to_robot = new PolarCoord();
-  public Command m_pathfindAmp;
+  private Field2d m_field = new Field2d();
+  private Pose2d m_currentPose = new Pose2d();
+  private Pose2d m_currentPoseL = new Pose2d();
+  private PolarCoord m_speakerToRobot = new PolarCoord();
+  private Command m_pathfindAmp;
 
-  SlewRateLimiter filterX = new SlewRateLimiter(2);
-  SlewRateLimiter filterY = new SlewRateLimiter(2);
-  SlewRateLimiter filterOmega = new SlewRateLimiter(10.0);
+  private SlewRateLimiter m_filterX = new SlewRateLimiter(2);
+  private SlewRateLimiter m_filterY = new SlewRateLimiter(2);
+  private SlewRateLimiter m_filterOmega = new SlewRateLimiter(10.0);
 
   public SwerveSubsystem() {
-    modulePositions[0] = new SwerveModulePosition();
-    modulePositions[1] = new SwerveModulePosition();
-    modulePositions[2] = new SwerveModulePosition();
-    modulePositions[3] = new SwerveModulePosition();
+    m_modulePositions[0] = new SwerveModulePosition();
+    m_modulePositions[1] = new SwerveModulePosition();
+    m_modulePositions[2] = new SwerveModulePosition();
+    m_modulePositions[3] = new SwerveModulePosition();
 
     m_swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
-        modulePositions);
+        m_modulePositions);
 
     m_swervePoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(getYaw()),
-        modulePositions, new Pose2d());
+        m_modulePositions, new Pose2d());
 
     m_angleController.enableContinuousInput(-180, 180);
 
-    SmartDashboard.putData("Field", field);
-    field.getRobotObject().close();
+    SmartDashboard.putData("Field", m_field);
+    m_field.getRobotObject().close();
 
     AutoBuilder.configureHolonomic(
         this::getPose,
@@ -144,9 +145,9 @@ public class SwerveSubsystem extends SubsystemBase {
     omega = Limiter.deadzone(omega, 0.1);
 
     if (vx != 0 && vy != 0) {
-      vx = filterX.calculate(vx);
-      vy = filterY.calculate(vy);
-      omega = filterOmega.calculate(omega);
+      vx = m_filterX.calculate(vx);
+      vy = m_filterY.calculate(vy);
+      omega = m_filterOmega.calculate(omega);
     }
 
     vx = Limiter.scale(Limiter.deadzone(vx, 0.1), -SwerveConstants.MAX_CHASSIS_LINEAR_SPEED,
@@ -157,9 +158,9 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
 
     if (omega == 0) {
-      omegaZero = true;
+      m_omegaZero = true;
     } else {
-      omegaZero = false;
+      m_omegaZero = false;
     }
 
     if (omega == 0 && m_timer.get() == 0) {
@@ -179,70 +180,70 @@ public class SwerveSubsystem extends SubsystemBase {
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(vx, vy, omega);
     ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
 
-    moduleStates = m_kinematics.toSwerveModuleStates(robotSpeeds);
+    m_moduleStates = m_kinematics.toSwerveModuleStates(robotSpeeds);
 
-    moduleStates[0] = SwerveModuleState.optimize(moduleStates[0],
+    m_moduleStates[0] = SwerveModuleState.optimize(m_moduleStates[0],
         m_frontRight.getOptimizationAngle());
-    moduleStates[1] = SwerveModuleState.optimize(moduleStates[1],
+    m_moduleStates[1] = SwerveModuleState.optimize(m_moduleStates[1],
         m_frontLeft.getOptimizationAngle());
-    moduleStates[2] = SwerveModuleState.optimize(moduleStates[2],
+    m_moduleStates[2] = SwerveModuleState.optimize(m_moduleStates[2],
         m_backRight.getOptimizationAngle());
-    moduleStates[3] = SwerveModuleState.optimize(moduleStates[3],
+    m_moduleStates[3] = SwerveModuleState.optimize(m_moduleStates[3],
         m_backLeft.getOptimizationAngle());
 
-    double feedForwardFR = m_feedForward.calculate(moduleStates[0].speedMetersPerSecond);
-    double feedForwardFL = m_feedForward.calculate(moduleStates[1].speedMetersPerSecond);
-    double feedForwardBR = m_feedForward.calculate(moduleStates[2].speedMetersPerSecond);
-    double feedForwardBL = m_feedForward.calculate(moduleStates[3].speedMetersPerSecond);
+    double feedForwardFR = m_feedForward.calculate(m_moduleStates[0].speedMetersPerSecond);
+    double feedForwardFL = m_feedForward.calculate(m_moduleStates[1].speedMetersPerSecond);
+    double feedForwardBR = m_feedForward.calculate(m_moduleStates[2].speedMetersPerSecond);
+    double feedForwardBL = m_feedForward.calculate(m_moduleStates[3].speedMetersPerSecond);
 
     for (int i = 0; i < 4; i++) {
-      if (moduleStates[i].angle.getDegrees() <= 0) {
-        moduleStates[i].angle = Rotation2d.fromDegrees(moduleStates[i].angle.getDegrees() * -1);
+      if (m_moduleStates[i].angle.getDegrees() <= 0) {
+        m_moduleStates[i].angle = Rotation2d.fromDegrees(m_moduleStates[i].angle.getDegrees() * -1);
       } else {
-        moduleStates[i].angle = Rotation2d.fromDegrees(360 - moduleStates[i].angle.getDegrees());
+        m_moduleStates[i].angle = Rotation2d.fromDegrees(360 - m_moduleStates[i].angle.getDegrees());
       }
     }
 
-    m_frontRight.setAnglePID(moduleStates[0].angle.getDegrees());
-    m_frontLeft.setAnglePID(moduleStates[1].angle.getDegrees());
-    m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
-    m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
+    m_frontRight.setAnglePID(m_moduleStates[0].angle.getDegrees());
+    m_frontLeft.setAnglePID(m_moduleStates[1].angle.getDegrees());
+    m_backRight.setAnglePID(m_moduleStates[2].angle.getDegrees());
+    m_backLeft.setAnglePID(m_moduleStates[3].angle.getDegrees());
 
-    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond, feedForwardFR);
-    m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
-    m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
-    m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+    m_frontRight.setSpeedPID(m_moduleStates[0].speedMetersPerSecond, feedForwardFR);
+    m_frontLeft.setSpeedPID(m_moduleStates[1].speedMetersPerSecond, feedForwardFL);
+    m_backRight.setSpeedPID(m_moduleStates[2].speedMetersPerSecond, feedForwardBR);
+    m_backLeft.setSpeedPID(m_moduleStates[3].speedMetersPerSecond, feedForwardBL);
   }
 
-  public boolean omegaZero() {
-    return omegaZero;
+  public boolean m_omegaZero() {
+    return m_omegaZero;
   }
 
   public void robotRelativeSwerve(ChassisSpeeds referenceSpeeds) {
-    moduleStates = m_kinematics.toSwerveModuleStates(referenceSpeeds);
+    m_moduleStates = m_kinematics.toSwerveModuleStates(referenceSpeeds);
 
-    double feedForwardFR = m_feedForward.calculate(moduleStates[0].speedMetersPerSecond);
-    double feedForwardFL = m_feedForward.calculate(moduleStates[1].speedMetersPerSecond);
-    double feedForwardBR = m_feedForward.calculate(moduleStates[2].speedMetersPerSecond);
-    double feedForwardBL = m_feedForward.calculate(moduleStates[3].speedMetersPerSecond);
+    double feedForwardFR = m_feedForward.calculate(m_moduleStates[0].speedMetersPerSecond);
+    double feedForwardFL = m_feedForward.calculate(m_moduleStates[1].speedMetersPerSecond);
+    double feedForwardBR = m_feedForward.calculate(m_moduleStates[2].speedMetersPerSecond);
+    double feedForwardBL = m_feedForward.calculate(m_moduleStates[3].speedMetersPerSecond);
 
     for (int i = 0; i < 4; i++) {
-      if (moduleStates[i].angle.getDegrees() <= 0) {
-        moduleStates[i].angle = Rotation2d.fromDegrees(moduleStates[i].angle.getDegrees() * -1);
+      if (m_moduleStates[i].angle.getDegrees() <= 0) {
+        m_moduleStates[i].angle = Rotation2d.fromDegrees(m_moduleStates[i].angle.getDegrees() * -1);
       } else {
-        moduleStates[i].angle = Rotation2d.fromDegrees(360 - moduleStates[i].angle.getDegrees());
+        m_moduleStates[i].angle = Rotation2d.fromDegrees(360 - m_moduleStates[i].angle.getDegrees());
       }
     }
 
-    m_frontRight.setAnglePID(moduleStates[0].angle.getDegrees());
-    m_frontLeft.setAnglePID(moduleStates[1].angle.getDegrees());
-    m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
-    m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
+    m_frontRight.setAnglePID(m_moduleStates[0].angle.getDegrees());
+    m_frontLeft.setAnglePID(m_moduleStates[1].angle.getDegrees());
+    m_backRight.setAnglePID(m_moduleStates[2].angle.getDegrees());
+    m_backLeft.setAnglePID(m_moduleStates[3].angle.getDegrees());
 
-    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond, feedForwardFR);
-    m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
-    m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
-    m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+    m_frontRight.setSpeedPID(m_moduleStates[0].speedMetersPerSecond, feedForwardFR);
+    m_frontLeft.setSpeedPID(m_moduleStates[1].speedMetersPerSecond, feedForwardFL);
+    m_backRight.setSpeedPID(m_moduleStates[2].speedMetersPerSecond, feedForwardBR);
+    m_backLeft.setSpeedPID(m_moduleStates[3].speedMetersPerSecond, feedForwardBL);
   }
 
   public void setRobotYaw(double angle) {
@@ -259,19 +260,19 @@ public class SwerveSubsystem extends SubsystemBase {
 
     if (SubsystemContainer.alliance.isRedAlliance()) {
       m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          modulePositions,
+          m_modulePositions,
           new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
       m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          modulePositions,
+          m_modulePositions,
           new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
     } else {
       m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          modulePositions, new Pose2d());
+          m_modulePositions, new Pose2d());
       m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          modulePositions, new Pose2d());
+          m_modulePositions, new Pose2d());
     }
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
-    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, new Pose2d());
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, new Pose2d());
+    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, new Pose2d());
   }
 
   public Pose2d getPose() {
@@ -279,8 +280,8 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void resetPose(Pose2d pose) {
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
-    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), modulePositions, pose);
+    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, pose);
+    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, pose);
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
@@ -290,64 +291,9 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   /**
-   * Returns true if the current alliance is red, false otherwise.
-   * 
-   * @return boolean representing the current alliance as retrieved from the
-   *         Driver Station.
-   */
-
-  public Command getPathfindCommand() {
-
-    Pose2d closestPose;
-
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      closestPose = SwerveConstants.RED_TARGET_POSE1;
-
-      double d2 = distanceFormula(SwerveConstants.RED_TARGET_POSE2);
-      double d3 = distanceFormula(SwerveConstants.RED_TARGET_POSE3);
-      double d4 = distanceFormula(SwerveConstants.RED_TARGET_POSE4);
-
-      if (d2 < distanceFormula(closestPose)) {
-        closestPose = SwerveConstants.RED_TARGET_POSE2;
-      }
-      if (d3 < distanceFormula(closestPose)) {
-        closestPose = SwerveConstants.RED_TARGET_POSE3;
-      }
-      if (d4 < distanceFormula(closestPose)) {
-        closestPose = SwerveConstants.RED_TARGET_POSE4;
-      }
-    } else {
-      closestPose = SwerveConstants.BLUE_TARGET_POSE1;
-
-      double d2 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE2);
-      double d3 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE3);
-      double d4 = distanceFormula(SwerveConstants.BLUE_TARGET_POSE4);
-
-      if (d2 < distanceFormula(closestPose)) {
-        closestPose = SwerveConstants.BLUE_TARGET_POSE2;
-      }
-      if (d3 < distanceFormula(closestPose)) {
-        closestPose = SwerveConstants.BLUE_TARGET_POSE3;
-      }
-      if (d4 < distanceFormula(closestPose)) {
-        closestPose = SwerveConstants.BLUE_TARGET_POSE4;
-      }
-
-    }
-
-    return AutoBuilder.pathfindToPose(closestPose, SwerveConstants.PATH_CONSTRAINTS);
-  }
-
-  public double distanceFormula(Pose2d targetPose) {
-    Pose2d current = currentPose;
-    return Math.sqrt(Math.pow(targetPose.getX() - current.getX(), 2)
-        + Math.pow(targetPose.getY() - current.getY(), 2));
-  }
-
-  /**
    * D-pad addition: pressing any of the 4 main buttons on the D-pad
    * serve as hotkeys for rotation to forward, backward, left, and right
-   * relative to field orientation.
+   * relative to m_field orientation.
    * 
    * @param pov The current angle of the xbox controller POV buttons, -1
    *            if not pressed and otherwise increases clockwise from 0-359.
@@ -373,39 +319,39 @@ public class SwerveSubsystem extends SubsystemBase {
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(0, 0, omega);
     ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
 
-    moduleStates = m_kinematics.toSwerveModuleStates(robotSpeeds);
+    m_moduleStates = m_kinematics.toSwerveModuleStates(robotSpeeds);
 
-    moduleStates[0] = SwerveModuleState.optimize(moduleStates[0],
+    m_moduleStates[0] = SwerveModuleState.optimize(m_moduleStates[0],
         m_frontRight.getOptimizationAngle());
-    moduleStates[1] = SwerveModuleState.optimize(moduleStates[1],
+    m_moduleStates[1] = SwerveModuleState.optimize(m_moduleStates[1],
         m_frontLeft.getOptimizationAngle());
-    moduleStates[2] = SwerveModuleState.optimize(moduleStates[2],
+    m_moduleStates[2] = SwerveModuleState.optimize(m_moduleStates[2],
         m_backRight.getOptimizationAngle());
-    moduleStates[3] = SwerveModuleState.optimize(moduleStates[3],
+    m_moduleStates[3] = SwerveModuleState.optimize(m_moduleStates[3],
         m_backLeft.getOptimizationAngle());
 
-    double feedForwardFR = m_feedForward.calculate(moduleStates[0].speedMetersPerSecond);
-    double feedForwardFL = m_feedForward.calculate(moduleStates[1].speedMetersPerSecond);
-    double feedForwardBR = m_feedForward.calculate(moduleStates[2].speedMetersPerSecond);
-    double feedForwardBL = m_feedForward.calculate(moduleStates[3].speedMetersPerSecond);
+    double feedForwardFR = m_feedForward.calculate(m_moduleStates[0].speedMetersPerSecond);
+    double feedForwardFL = m_feedForward.calculate(m_moduleStates[1].speedMetersPerSecond);
+    double feedForwardBR = m_feedForward.calculate(m_moduleStates[2].speedMetersPerSecond);
+    double feedForwardBL = m_feedForward.calculate(m_moduleStates[3].speedMetersPerSecond);
 
     for (int i = 0; i < 4; i++) {
-      if (moduleStates[i].angle.getDegrees() <= 0) {
-        moduleStates[i].angle = Rotation2d.fromDegrees(moduleStates[i].angle.getDegrees() * -1);
+      if (m_moduleStates[i].angle.getDegrees() <= 0) {
+        m_moduleStates[i].angle = Rotation2d.fromDegrees(m_moduleStates[i].angle.getDegrees() * -1);
       } else {
-        moduleStates[i].angle = Rotation2d.fromDegrees(360 - moduleStates[i].angle.getDegrees());
+        m_moduleStates[i].angle = Rotation2d.fromDegrees(360 - m_moduleStates[i].angle.getDegrees());
       }
     }
 
-    m_frontRight.setAnglePID(moduleStates[0].angle.getDegrees());
-    m_frontLeft.setAnglePID(moduleStates[1].angle.getDegrees());
-    m_backRight.setAnglePID(moduleStates[2].angle.getDegrees());
-    m_backLeft.setAnglePID(moduleStates[3].angle.getDegrees());
+    m_frontRight.setAnglePID(m_moduleStates[0].angle.getDegrees());
+    m_frontLeft.setAnglePID(m_moduleStates[1].angle.getDegrees());
+    m_backRight.setAnglePID(m_moduleStates[2].angle.getDegrees());
+    m_backLeft.setAnglePID(m_moduleStates[3].angle.getDegrees());
 
-    m_frontRight.setSpeedPID(moduleStates[0].speedMetersPerSecond, feedForwardFR);
-    m_frontLeft.setSpeedPID(moduleStates[1].speedMetersPerSecond, feedForwardFL);
-    m_backRight.setSpeedPID(moduleStates[2].speedMetersPerSecond, feedForwardBR);
-    m_backLeft.setSpeedPID(moduleStates[3].speedMetersPerSecond, feedForwardBL);
+    m_frontRight.setSpeedPID(m_moduleStates[0].speedMetersPerSecond, feedForwardFR);
+    m_frontLeft.setSpeedPID(m_moduleStates[1].speedMetersPerSecond, feedForwardFL);
+    m_backRight.setSpeedPID(m_moduleStates[2].speedMetersPerSecond, feedForwardBR);
+    m_backLeft.setSpeedPID(m_moduleStates[3].speedMetersPerSecond, feedForwardBL);
   }
 
   private void UpdateSpeakerToRobot(Pose2d pose) {
@@ -425,11 +371,29 @@ public class SwerveSubsystem extends SubsystemBase {
       theta = Math.atan(yComp / xComp);
     }
 
-    speaker_to_robot.setLocation(radius, theta);
+    m_speakerToRobot.setLocation(radius, theta);
+  }
+
+  public void AlignToSpeakerUsingOdometry() {
+    Translation2d speakerPose;
+    if (SubsystemContainer.alliance.isRedAlliance()) {
+      SubsystemContainer.limelightSubsystem.setPriorityID(4);
+      speakerPose = SwerveConstants.SPEAKER_RED_SIDE;
+    } else {
+      SubsystemContainer.limelightSubsystem.setPriorityID(7);
+      speakerPose = SwerveConstants.SPEAKER_BLUE_SIDE;
+    }
+
+    setRobotYaw(Math.toDegrees(
+        Math.atan((m_currentPoseL.getY() - speakerPose.getY()) / (m_currentPoseL.getX() - speakerPose.getX()))));
+  }
+
+  public void ResetOdometryToPose(double x, double y) {
+    resetPose(new Pose2d(x, y, m_currentPoseL.getRotation()));
   }
 
   public PolarCoord GetSpeakerToRobot() {
-    return speaker_to_robot;
+    return m_speakerToRobot;
   }
 
   public static double calculateLimelightOffsetAngle(double currentYaw, double offsetYaw, double robotTheta) {
@@ -438,17 +402,17 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    modulePositions[0] = m_frontRight.getModulePosition();
-    modulePositions[1] = m_frontLeft.getModulePosition();
-    modulePositions[2] = m_backRight.getModulePosition();
-    modulePositions[3] = m_backLeft.getModulePosition();
+    m_modulePositions[0] = m_frontRight.getModulePosition();
+    m_modulePositions[1] = m_frontLeft.getModulePosition();
+    m_modulePositions[2] = m_backRight.getModulePosition();
+    m_modulePositions[3] = m_backLeft.getModulePosition();
 
-    currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
+    m_currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), m_modulePositions);
 
-    currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), modulePositions);
-    UpdateSpeakerToRobot(currentPoseL);
+    m_currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), m_modulePositions);
+    UpdateSpeakerToRobot(m_currentPoseL);
 
-    field.getObject("odometry w/o limelight").setPose(currentPose);
-    field.getObject("with limelight").setPose(currentPoseL);
+    m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
+    m_field.getObject("with limelight").setPose(m_currentPoseL);
   }
 }

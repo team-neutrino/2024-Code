@@ -5,9 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
 /** An example command that uses an example subsystem. */
@@ -19,22 +17,12 @@ public class AutoAlignCommand extends Command {
     protected double m_currentYaw;
     protected double m_offsetYaw;
 
-    private Translation2d m_speakerPose;
-
     public AutoAlignCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
     @Override
     public void initialize() {
-        if (SubsystemContainer.alliance.isRedAlliance()) {
-            SubsystemContainer.limelightSubsystem.setPriorityID(4);
-            m_speakerPose = SwerveConstants.SPEAKER_RED_SIDE;
-        } else {
-            SubsystemContainer.limelightSubsystem.setPriorityID(7);
-            m_speakerPose = SwerveConstants.SPEAKER_BLUE_SIDE;
-        }
-
         SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
     }
 
@@ -56,10 +44,7 @@ public class AutoAlignCommand extends Command {
 
         } else {
             // SUPER auto align!!
-
-            SubsystemContainer.swerveSubsystem.setRobotYaw(Math.toDegrees(
-                    Math.atan((SubsystemContainer.swerveSubsystem.currentPoseL.getY() - m_speakerPose.getY()) /
-                            (SubsystemContainer.swerveSubsystem.currentPoseL.getX() - m_speakerPose.getX()))));
+            SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
         }
     }
 
