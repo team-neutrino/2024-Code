@@ -343,7 +343,8 @@ public class SwerveSubsystem extends SubsystemBase {
       ampPose = SwerveConstants.AMP_TARGET_POSE_BLUE;
     }
 
-    // setRobotYaw(Math.toDegrees(Math.atan((m_currentPose.))))
+    setRobotYaw(Math
+        .toDegrees(Math.atan(((m_currentPoseL.getY() - ampPose.getY()) / (m_currentPoseL.getX() - ampPose.getX())))));
   }
 
   public void ResetOdometryToPose(double x, double y) {
