@@ -1,5 +1,7 @@
 package frc.robot.commands.GamePieceCommands;
 
+import frc.robot.Constants;
+
 public class AutonSingleShotCommand extends GamePieceCommand {
     private double m_angle;
     private double m_rpm;
@@ -17,7 +19,7 @@ public class AutonSingleShotCommand extends GamePieceCommand {
     public void execute() {
         m_armSubsystem.setArmReferenceAngle(m_angle);
         m_shooterSubsystem.setTargetRPM(m_rpm);
-        if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
+        if (m_shooterSubsystem.aboveRPM(Constants.ShooterSpeeds.SPEED_THRESHOLD_SUBWOOFER)) {
             m_intakeSubsystem.runIndexShoot();
         } else {
             m_intakeSubsystem.stopIndex();

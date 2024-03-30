@@ -61,11 +61,15 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void defaultShooter() {
-    setTargetRPM(ShooterSpeeds.INITIAL_SHOOTER_SPEED);
+    m_targetVoltage = ShooterSpeeds.INITIAL_SHOOTER_SPEED;
   }
 
   public boolean approveShoot() {
     return m_atSpeed;
+  }
+
+  public boolean aboveRPM(double p_rpm) {
+    return (getShooterRPM() > p_rpm);
   }
 
   public double getFollowerRPM() {

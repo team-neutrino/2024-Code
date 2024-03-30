@@ -1,12 +1,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ShooterSpeeds;
+import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class ShooterDefaultCommand extends Command {
-    double initialSpeed = 0;
     ShooterSubsystem m_shooterSubsystem;
 
     public ShooterDefaultCommand() {
@@ -15,20 +14,11 @@ public class ShooterDefaultCommand extends Command {
     }
 
     public void initialize() {
-        initialSpeed = m_shooterSubsystem.getShooterRPM();
-
-        if (initialSpeed == 0) {
-            initialSpeed = 700;
-        }
     }
 
     @Override
     public void execute() {
-        if (initialSpeed > ShooterSpeeds.INITIAL_SHOOTER_SPEED) {
-            initialSpeed -= 10;
-        }
-
-        m_shooterSubsystem.setTargetRPM(initialSpeed);
+        m_shooterSubsystem.defaultShooter();
     }
 
     @Override

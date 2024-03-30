@@ -7,6 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
+
+import java.util.TreeMap;
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkFlex;
@@ -15,8 +18,10 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.util.CalculateP;
 
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkFlex m_armMotor = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
@@ -25,12 +30,21 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean m_inPosition;
   private Debouncer m_armDebouncer;
   private SparkPIDController m_pidController;
+  private CalculateP m_calculateP;
   private int m_PIDslot;
+  private double m_error;
+  private double m_feedforward;
+  private double m_oldAngle;
+  TreeMap<Double, Double> m_mapOfP;
 
   public ArmSubsystem() {
+    m_mapOfP = new TreeMap<Double, Double>();
+    m_mapOfP.put(2.0, 0.022);
+    m_mapOfP.put(7.0, 0.04);
     initializeMotorControllers();
-
     m_armDebouncer = new Debouncer(ArmConstants.DEBOUNCE_TIME, DebounceType.kRising);
+    m_calculateP = new CalculateP(m_mapOfP);
+    m_targetAngle = Constants.ArmConstants.INTAKE_POSE;
   }
 
   public void defaultArm() {
@@ -89,8 +103,13 @@ public class ArmSubsystem extends SubsystemBase {
     m_armEncoder = m_armMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     m_armEncoder.setPositionConversionFactor(360);
     m_armEncoder.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
-
-    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 15);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 100);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 100);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 500);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 500);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 500);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 10);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, 500);
     m_armMotor.setSmartCurrentLimit(ArmConstants.ARM_CURRENT_LIMIT);
 
     m_pidController = m_armMotor.getPIDController();
@@ -125,19 +144,22 @@ public class ArmSubsystem extends SubsystemBase {
   private void updateArmAngle(double targetAngle, int PIDslot) {
 
     targetAngle = limitArmAngle(targetAngle);
+    double currentAngle = getArmAngleRadians();
+    double filtAngle = 0.98 * currentAngle + 0.02 * m_oldAngle;
+    m_oldAngle = filtAngle;
 
-    double feedforward = ArmConstants.FF_kg
-        * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(getArmAngleRadians())));
+    m_feedforward = ArmConstants.FF_kg
+        * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(filtAngle)));
 
     targetAngle = adjustAngleIn(targetAngle);
-
-    m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, feedforward);
+    m_pidController.setP(m_calculateP.InterpolateP(m_error), 0);
+    m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, m_feedforward);
   }
 
   @Override
   public void periodic() {
+    m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);
     updateArmAngle(m_targetAngle, m_PIDslot);
-
     m_inPosition = m_armDebouncer
         .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
   }
