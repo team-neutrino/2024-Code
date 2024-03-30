@@ -141,8 +141,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public void resetOdometryToLimelightPose() {
     if (getTv()) {
-      SubsystemContainer.swerveSubsystem.resetPose(new Pose2d(pose[0], pose[1],
-          SubsystemContainer.swerveSubsystem.currentPoseL.getRotation()));
+      SubsystemContainer.swerveSubsystem.ResetOdometryToPose(pose[0], pose[1]);
     }
   }
 }
