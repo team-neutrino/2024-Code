@@ -6,12 +6,14 @@ import frc.robot.Constants;
 public class ShootManualCommand extends GamePieceCommand {
     private double m_angle;
     private double m_rpm;
+    private double m_thresholdrpm;
     private CommandXboxController m_Controller;
     double i = 0;
 
-    public ShootManualCommand(double p_angle, double p_rpm, CommandXboxController p_Controller) {
+    public ShootManualCommand(double p_angle, double p_rpm, double p_thresholdrpm, CommandXboxController p_Controller) {
         m_angle = p_angle;
         m_rpm = p_rpm;
+        m_thresholdrpm = p_thresholdrpm;
         m_Controller = p_Controller;
     }
 
@@ -32,7 +34,7 @@ public class ShootManualCommand extends GamePieceCommand {
     @Override
     public boolean isFinished() {
         return m_Controller.getHID().getLeftBumper()
-                && m_shooterSubsystem.aboveRPM(Constants.ShooterSpeeds.SPEED_THRESHOLD_SUBWOOFER)
+                && m_shooterSubsystem.aboveRPM(m_thresholdrpm)
                 && m_intakeSubsystem.isNoteReady()
                 && m_armSubsystem.getInPosition();
     }

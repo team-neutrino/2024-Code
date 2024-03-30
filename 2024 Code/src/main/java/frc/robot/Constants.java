@@ -159,8 +159,9 @@ public final class Constants {
     public static final double SHUTTLE_SPEED = 3200;
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
     public static final double AMP_SPEED = 3000;
-    public static final double INITIAL_SHOOTER_SPEED = 3000;
+    public static final double INITIAL_SHOOTER_SPEED = 0.6 * 12;
     public static final double SPEED_THRESHOLD_SUBWOOFER = 2800;
+    public static final double SPEED_THRESHOLD_SHUTTLE = 3000;
   }
 
   public final class ShooterConstants {

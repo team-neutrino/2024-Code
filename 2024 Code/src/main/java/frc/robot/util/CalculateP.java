@@ -11,7 +11,6 @@ public class CalculateP {
 
     public CalculateP() {
         m_armSubsystem = SubsystemContainer.armSubsystem;
-        // placeholder values
         m_calculateP.put(2.0, 0.022);
         m_calculateP.put(7.0, 0.04);
     }

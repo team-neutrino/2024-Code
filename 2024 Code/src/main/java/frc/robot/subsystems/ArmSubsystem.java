@@ -29,7 +29,7 @@ public class ArmSubsystem extends SubsystemBase {
   private SparkPIDController m_pidController;
   private int m_PIDslot;
   private double m_error;
-  double m_feedforward;
+  private double m_feedforward;
   private double m_oldAngle;
 
   public ArmSubsystem() {

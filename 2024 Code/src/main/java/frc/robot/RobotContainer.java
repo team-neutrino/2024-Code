@@ -104,12 +104,13 @@ public class RobotContainer {
 
     m_buttonsController.x().whileTrue(new SequentialCommandGroup(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED,
-            m_buttonsController),
+            Constants.ShooterSpeeds.SPEED_THRESHOLD_SUBWOOFER, m_buttonsController),
         new MagicShootCommand()));
 
     m_buttonsController.b()
         .whileTrue(new SequentialCommandGroup(new ShootManualCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
-            Constants.ShooterSpeeds.SHUTTLE_SPEED, m_buttonsController), new MagicShootCommand()));
+            Constants.ShooterSpeeds.SHUTTLE_SPEED, Constants.ShooterSpeeds.SPEED_THRESHOLD_SHUTTLE,
+            m_buttonsController), new MagicShootCommand()));
 
     m_buttonsController.povDown()
         .onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
