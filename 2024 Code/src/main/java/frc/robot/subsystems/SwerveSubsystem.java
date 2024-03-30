@@ -134,12 +134,14 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
-  public void Swerve(double vx, double vy, double omega) {
-
+  public void SwerveWithDeadzone(double vx, double vy, double omega) {
     vx = Limiter.deadzone(vx, 0.1);
     vy = Limiter.deadzone(vy, 0.1);
     omega = Limiter.deadzone(omega, 0.1);
+    SwerveWithoutDeadzone(vx, vy, omega);
+  }
 
+  public void SwerveWithoutDeadzone(double vx, double vy, double omega) {
     if (vx != 0 && vy != 0) {
       vx = m_filterX.calculate(vx);
       vy = m_filterY.calculate(vy);
@@ -326,18 +328,19 @@ public class SwerveSubsystem extends SubsystemBase {
         Math.atan((m_currentPoseL.getY() - speakerPose.getY()) / (m_currentPoseL.getX() - speakerPose.getX()))));
   }
 
-  public void AlignToAmpUsingOdometry() {
-    Translation2d ampPose;
+  /**
+   * Get x distance from amp, used in amp auto align
+   * 
+   * @return The robot's current x distance from the amp
+   */
+  public double getAmpDx() {
     if (SubsystemContainer.alliance.isRedAlliance()) {
       SubsystemContainer.limelightSubsystem.setPriorityID(5);
-      ampPose = SwerveConstants.AMP_TARGET_POSE_RED;
+      return m_currentPoseL.getX() - SwerveConstants.AMP_TARGET_POSE_RED.getX();
     } else {
-      SubsystemContainer.limelightSubsystem.setPriorityID(7);
-      ampPose = SwerveConstants.AMP_TARGET_POSE_BLUE;
+      SubsystemContainer.limelightSubsystem.setPriorityID(6);
+      return m_currentPoseL.getX() - SwerveConstants.AMP_TARGET_POSE_BLUE.getX();
     }
-
-    setRobotYaw(Math
-        .toDegrees(Math.atan(((m_currentPoseL.getY() - ampPose.getY()) / (m_currentPoseL.getX() - ampPose.getX())))));
   }
 
   public void ResetOdometryToPose(double x, double y) {

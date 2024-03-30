@@ -5,6 +5,7 @@
 package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 
@@ -31,13 +32,26 @@ public class AmpAutoAlign extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_swerveSubsystem.setRobotYaw(90);
-    m_swerveSubsystem.Swerve(0, m_controller.getLeftX() * -1, 0);
+    if (SubsystemContainer.limelightSubsystem.getTv()) {
+      SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
+    }
+
+    m_swerveSubsystem.setRobotYaw(SwerveConstants.AMP_ORIENTATION);
+
+    double command = SwerveConstants.AMP_ALIGN_KP * m_swerveSubsystem.getAmpDx();
+    command = Math.min(Math.max(command, -SwerveConstants.AMP_DX_LIMIT_VALUE), SwerveConstants.AMP_DX_LIMIT_VALUE);
+
+    m_swerveSubsystem.SwerveWithoutDeadzone(command, m_controller.getLeftX() * -1, 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if (SubsystemContainer.alliance.isRedAlliance()) {
+      SubsystemContainer.limelightSubsystem.setPriorityID(4);
+    } else {
+      SubsystemContainer.limelightSubsystem.setPriorityID(7);
+    }
   }
 
   // Returns true when the command should end.

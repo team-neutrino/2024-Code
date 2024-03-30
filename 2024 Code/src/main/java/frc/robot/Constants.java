@@ -48,8 +48,8 @@ public final class Constants {
     public static final Translation2d SPEAKER_BLUE_SIDE = new Translation2d(0, 5.35);
     public static final Translation2d SPEAKER_RED_SIDE = new Translation2d(16.5, 5.35);
 
-    public static final Translation2d AMP_TARGET_POSE_RED = new Translation2d(12.7254, 7.75);
     public static final Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(1.84, 7.75);
+    public static final Translation2d AMP_TARGET_POSE_RED = new Translation2d(14.701, 7.75);
 
     public static final Pose2d BLUE_TARGET_POSE1 = new Pose2d(2, 4, new Rotation2d());
     public static final Pose2d BLUE_TARGET_POSE2 = new Pose2d(0.1, 4.8, new Rotation2d());
@@ -64,6 +64,10 @@ public final class Constants {
 
     public static final int ANGLE_MOTOR_CURRENT_LIMIT = 25;
     public static final int SPEED_MOTOR_CURRENT_LIMIT = 40;
+
+    public static final int AMP_ORIENTATION = 90;
+    public static final double AMP_ALIGN_KP = .85;
+    public static final double AMP_DX_LIMIT_VALUE = .5;
   }
 
   public final class DigitalConstants {
