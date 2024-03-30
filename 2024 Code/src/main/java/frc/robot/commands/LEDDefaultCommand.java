@@ -5,6 +5,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.LEDConstants.States;
 
 public class LEDDefaultCommand extends Command {
@@ -14,6 +15,8 @@ public class LEDDefaultCommand extends Command {
 
   public LEDDefaultCommand() {
     m_LEDSubsystem = SubsystemContainer.LEDSubsystem;
+    m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
+
     addRequirements(m_LEDSubsystem);
   }
 
@@ -24,9 +27,6 @@ public class LEDDefaultCommand extends Command {
 
   @Override
   public void execute() {
-    if (m_swerveSubsystem == null) {
-      return;
-    }
     if (SubsystemContainer.shooterSubsystem.approveShoot() && SubsystemContainer.armSubsystem.getInPosition()
         && SubsystemContainer.intakeSubsystem.isNoteReady()) {
       m_LEDSubsystem.setToGreen();
