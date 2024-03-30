@@ -12,7 +12,7 @@ public class IntakeReverseCommand extends GamePieceCommand {
 
   @Override
   public void execute() {
-    m_shooterSubsystem.setTargetRPM(700);
+    m_shooterSubsystem.defaultShooter();
     m_armSubsystem.defaultArm();
     if (m_armSubsystem.getInPosition()) {
       m_intakeSubsystem.runIntakeReverse();
