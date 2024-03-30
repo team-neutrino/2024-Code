@@ -4,9 +4,6 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-import frc.robot.Constants;
-import frc.robot.Constants.ShooterSpeeds;
-
 public class IntakeCommand extends GamePieceCommand {
   public IntakeCommand() {
   }
