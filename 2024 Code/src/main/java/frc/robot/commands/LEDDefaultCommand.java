@@ -35,10 +35,10 @@ public class LEDDefaultCommand extends Command {
 
   @Override
   public void execute() {
-    if (AutoAlignedToAmp()) {
-      m_LEDSubsystem.setToRed();
-    } else if (m_shooterSubsystem.approveShoot() && m_armSubsystem.getInPosition() && m_intakeSubsystem.isNoteReady()) {
+    if (m_shooterSubsystem.approveShoot() && m_armSubsystem.getInPosition() && m_intakeSubsystem.isNoteReady()) {
       m_LEDSubsystem.setToGreen();
+    } else if (AutoAlignedToAmp()) {
+      m_LEDSubsystem.setToRed();
     } else if (m_intakeSubsystem.isNoteReady()) {
       m_LEDSubsystem.setToCyan();
     } else if (m_intakeSubsystem.isNoteTooFar()) {
