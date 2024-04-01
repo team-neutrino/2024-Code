@@ -296,7 +296,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
-  private void UpdateSpeakerToRobot(Pose2d pose) {
+  private PolarCoord UpdateSpeakerToRobot(Pose2d pose) {
     double xComp = 0;
     double yComp = 0;
     double radius = 0.0;
@@ -313,7 +313,21 @@ public class SwerveSubsystem extends SubsystemBase {
       theta = Math.atan(yComp / xComp);
     }
 
-    m_speakerToRobot.setLocation(radius, theta);
+    return new PolarCoord(radius, theta);
+  }
+
+  /**
+   * Returns a PolarCoord intended to be used in the ShootWhileSwerving command
+   * that is a horizontally (relative to the speaker) translated version of
+   * what m_speakerToRobot would normally be.
+   * 
+   * @param pose The robot's current position.
+   * @return A PolarCoord consisting of the angle to the speaker and a translated
+   *         distance determined by the difference between the given pose2d and
+   *         the robot's current pose2d
+   */
+  public PolarCoord getShiftedSpeakerToRobot(Pose2d pose) {
+    return UpdateSpeakerToRobot(pose);
   }
 
   public void AlignToSpeakerUsingOdometry() {
@@ -365,7 +379,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), m_modulePositions);
 
     m_currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), m_modulePositions);
-    UpdateSpeakerToRobot(m_currentPoseL);
+    m_speakerToRobot = UpdateSpeakerToRobot(m_currentPoseL);
 
     m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
     m_field.getObject("with limelight").setPose(m_currentPoseL);
