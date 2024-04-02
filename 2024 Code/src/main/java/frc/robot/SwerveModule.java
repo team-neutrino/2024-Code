@@ -82,6 +82,24 @@ public class SwerveModule {
         anglePID.setP(Constants.SwerveConstants.ANGLE_P, 0);
         speedPID.setP(Constants.SwerveConstants.SPEED_P, 0);
 
+        // angle motor CAN messages rates
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 20);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 20);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 500);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 10);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 500);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 500);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, 500);
+
+        // speed motor CAN messages rates
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 20);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 10);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 10);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 500);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 500);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 500);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, 500);
+
         speedMotor.burnFlash();
         angleMotor.burnFlash();
     }
@@ -151,8 +169,7 @@ public class SwerveModule {
         return new SwerveModuleState(speedEncoder.getVelocity(), getOptimizationAngle());
     }
 
-    public void resetEverything()
-    {
+    public void resetEverything() {
         angleMotor.restoreFactoryDefaults();
         speedMotor.restoreFactoryDefaults();
 
