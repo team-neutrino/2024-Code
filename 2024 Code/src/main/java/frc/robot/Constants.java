@@ -178,6 +178,9 @@ public final class Constants {
     public static final double WHEEL_IZONE = 250;
     public static final double DEBOUNCE_TIME = 0.1;
     public static final double RPM_ERROR_THRESHOLD = 200;
+
+    // approximated note speed in m/s, need to guess-and-check. In ft/s: 70
+    public static final double NOTE_SPEED = 18.288;
   }
 
   public final class AprilTagConstants {

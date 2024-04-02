@@ -136,6 +136,17 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
+  /**
+   * Returns the speed of the drivetrain in m/s. This method has not been tested
+   * for accuracy when robot weight and friction is taken into account.
+   * 
+   * @return The current speed of the drivetrain in m/s.
+   */
+  public double getDriveMotorSpeed() {
+    return (m_frontRight.getModuleState().speedMetersPerSecond + m_frontLeft.getModuleState().speedMetersPerSecond
+        + m_backRight.getModuleState().speedMetersPerSecond + m_backLeft.getModuleState().speedMetersPerSecond) / 4;
+  }
+
   public void SwerveWithDeadzone(double vx, double vy, double omega) {
     vx = Limiter.deadzone(vx, 0.1);
     vy = Limiter.deadzone(vy, 0.1);

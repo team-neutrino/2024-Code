@@ -6,9 +6,11 @@ package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.CalculateAngle;
+import frc.robot.util.PolarCoord;
 import frc.robot.util.SubsystemContainer;
 
 /**
@@ -21,7 +23,7 @@ import frc.robot.util.SubsystemContainer;
  * linear, left and right curved path (U path [while spinning??]),
  * omnidirectional quadratic.
  */
-public class ShootWhileSwerving extends GamePieceCommand {
+public class ShootWhilstSwerving extends GamePieceCommand {
 
   private SwerveSubsystem m_swerveSubsystem;
   private ShooterSubsystem m_shooterSubsystem;
@@ -29,7 +31,7 @@ public class ShootWhileSwerving extends GamePieceCommand {
   private CommandXboxController m_controller;
 
   /** Creates a new ShootWhileSwerving. */
-  public ShootWhileSwerving(CommandXboxController p_controller) {
+  public ShootWhilstSwerving(CommandXboxController p_controller) {
     m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_calculateAngle = SubsystemContainer.m_angleCalculate;
@@ -47,9 +49,28 @@ public class ShootWhileSwerving extends GamePieceCommand {
   @Override
   public void execute() {
     m_swerveSubsystem.SwerveWithoutDeadzone(0, m_controller.getLeftX() * -1, 0);
-    m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_swerveSubsystem.GetSpeakerToRobot()));
+    PolarCoord adjustedSpeakerToRobot = calculateAdjustedPos();
+    m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(adjustedSpeakerToRobot));
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
+  }
+
+  private PolarCoord calculateAdjustedPos() {
+    return new PolarCoord(calculateAdjustedRadius(), calculateAdjustedTheta());
+  }
+
+  private double calculateAdjustedRadius() {
+    double r = m_swerveSubsystem.GetSpeakerToRobot().getRadius();
+    double theta = m_swerveSubsystem.GetSpeakerToRobot().getTheta();
+    double robotSpeed = m_swerveSubsystem.getDriveMotorSpeed();
+
+    double deltaX = (r / ShooterConstants.NOTE_SPEED) * robotSpeed;
+
+    return Math.sqrt(Math.pow(r, 2) + Math.pow(deltaX, 2) - (2 * r * deltaX * Math.cos(theta)));
+  }
+
+  private double calculateAdjustedTheta() {
+    return 0;
   }
 
   // Called once the command ends or is interrupted.
