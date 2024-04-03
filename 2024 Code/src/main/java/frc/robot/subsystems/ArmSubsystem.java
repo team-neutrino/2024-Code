@@ -35,6 +35,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_error;
   private double m_feedforward;
   private double m_oldAngle;
+  private double m_lastP;
   TreeMap<Double, Double> m_mapOfP;
 
   public ArmSubsystem() {
@@ -162,5 +163,6 @@ public class ArmSubsystem extends SubsystemBase {
     updateArmAngle(m_targetAngle, m_PIDslot);
     m_inPosition = m_armDebouncer
         .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
+
   }
 }
