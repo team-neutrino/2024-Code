@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
-
+import edu.wpi.first.wpilibj.Timer;
 import java.util.TreeMap;
 
 import com.revrobotics.AbsoluteEncoder;
@@ -35,6 +35,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_error;
   private double m_feedforward;
   private double m_oldAngle;
+  private Timer m_timer;
   TreeMap<Double, Double> m_mapOfP;
 
   public ArmSubsystem() {
@@ -45,6 +46,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_armDebouncer = new Debouncer(ArmConstants.DEBOUNCE_TIME, DebounceType.kRising);
     m_calculateP = new CalculateP(m_mapOfP);
     m_targetAngle = Constants.ArmConstants.INTAKE_POSE;
+    m_timer = new Timer();
   }
 
   public void defaultArm() {
@@ -144,16 +146,26 @@ public class ArmSubsystem extends SubsystemBase {
   private void updateArmAngle(double targetAngle, int PIDslot) {
 
     targetAngle = limitArmAngle(targetAngle);
+    feedForwardCalculation();
+    targetAngle = adjustAngleIn(targetAngle);
+    m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, m_feedforward);
+  }
+
+  private double feedForwardCalculation() {
     double currentAngle = getArmAngleRadians();
     double filtAngle = 0.98 * currentAngle + 0.02 * m_oldAngle;
     m_oldAngle = filtAngle;
 
     m_feedforward = ArmConstants.FF_kg
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(filtAngle)));
+    if (m_timer.get() < Constants.ArmConstants.FF_threshold) {
+      m_feedforward *= Constants.ArmConstants.FF_kadjust;
+    }
+    return m_feedforward;
+  }
 
-    targetAngle = adjustAngleIn(targetAngle);
-    m_pidController.setP(m_calculateP.InterpolateP(m_error), 0);
-    m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, m_feedforward);
+  public void commandStart() {
+    m_timer.restart();
   }
 
   @Override

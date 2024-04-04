@@ -122,6 +122,8 @@ public final class Constants {
     public static final double ClimbIZone = 30;
 
     public static final double FF_kg = 0.007;
+    public static final double FF_kadjust = 1.2;
+    public static final double FF_threshold = 0.5;
     public static final double ARM_MASS_KG = 8.3733; // LBS 18.46
     public static final double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static final double ARM_RADIUS = 0.6555;

@@ -18,6 +18,7 @@ public class ShootManualCommand extends GamePieceCommand {
     }
 
     public void initialize() {
+        m_armSubsystem.commandStart();
     }
 
     @Override

@@ -17,6 +17,7 @@ public class ArmDefaultCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    SubsystemContainer.armSubsystem.commandStart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
