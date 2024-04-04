@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.util.CalculateP;
 
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkFlex m_armMotor = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
@@ -30,7 +29,6 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean m_inPosition;
   private Debouncer m_armDebouncer;
   private SparkPIDController m_pidController;
-  private CalculateP m_calculateP;
   private int m_PIDslot;
   private double m_error;
   private double m_feedforward;
@@ -45,7 +43,6 @@ public class ArmSubsystem extends SubsystemBase {
     m_mapOfP.put(7.0, 0.04);
     initializeMotorControllers();
     m_armDebouncer = new Debouncer(ArmConstants.DEBOUNCE_TIME, DebounceType.kRising);
-    m_calculateP = new CalculateP(m_mapOfP);
     m_targetAngle = Constants.ArmConstants.INTAKE_POSE;
     m_timer = new Timer();
   }

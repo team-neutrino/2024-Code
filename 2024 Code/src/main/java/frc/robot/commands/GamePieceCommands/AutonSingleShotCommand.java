@@ -13,6 +13,7 @@ public class AutonSingleShotCommand extends GamePieceCommand {
     }
 
     public void initialize() {
+        m_armSubsystem.commandStart();
     }
 
     @Override
