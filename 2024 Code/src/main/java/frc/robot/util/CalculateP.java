@@ -11,8 +11,8 @@ public class CalculateP {
     }
 
     public double InterpolateP(double p_error) {
-        double smallerError = 0;
-        double largerError = 0;
+        double smallerError = m_map.firstKey();
+        double largerError = m_map.firstKey();
         double resultP = 0;
         double error = p_error;
 
