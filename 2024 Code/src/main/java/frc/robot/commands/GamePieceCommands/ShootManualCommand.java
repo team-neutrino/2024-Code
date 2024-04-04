@@ -1,7 +1,6 @@
 package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants;
 
 public class ShootManualCommand extends GamePieceCommand {
     private double m_angle;

@@ -130,7 +130,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_pidController.setD(ArmConstants.ClimbArm_kd, 1);
     m_pidController.setIZone(ArmConstants.ClimbIZone, 1);
 
-    m_pidController.setP(0.05, 2);
+    m_pidController.setP(ArmConstants.FastArm_kp, 2);
     m_pidController.setI(ArmConstants.Arm_ki, 2);
     m_pidController.setD(ArmConstants.Arm_kd, 2);
 
@@ -171,7 +171,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   private int pidChanger() {
-    if (m_timer.get() < 0.3) {
+    if (m_timer.get() < Constants.ArmConstants.timeBeforeSwitchPID) {
       m_pidStorer = 2;
     } else {
       m_pidStorer = 0;
