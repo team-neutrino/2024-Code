@@ -36,6 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_feedforward;
   private double m_oldAngle;
   private Timer m_timer;
+  private int m_pidStorer;
   TreeMap<Double, Double> m_mapOfP;
 
   public ArmSubsystem() {
@@ -129,12 +130,16 @@ public class ArmSubsystem extends SubsystemBase {
     m_pidController.setD(ArmConstants.ClimbArm_kd, 1);
     m_pidController.setIZone(ArmConstants.ClimbIZone, 1);
 
+    m_pidController.setP(0.05, 2);
+    m_pidController.setI(ArmConstants.Arm_ki, 2);
+    m_pidController.setD(ArmConstants.Arm_kd, 2);
+
     m_armMotor.burnFlash();
   }
 
   public void setArmReferenceAngle(double targetAngle) {
     m_targetAngle = targetAngle;
-    m_PIDslot = 0;
+    m_PIDslot = pidChanger();
   }
 
   public void setClimbReferenceAngle() {
@@ -158,14 +163,20 @@ public class ArmSubsystem extends SubsystemBase {
 
     m_feedforward = ArmConstants.FF_kg
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(filtAngle)));
-    if (m_timer.get() < Constants.ArmConstants.FF_threshold) {
-      m_feedforward *= Constants.ArmConstants.FF_kadjust;
-    }
     return m_feedforward;
   }
 
   public void commandStart() {
     m_timer.restart();
+  }
+
+  private int pidChanger() {
+    if (m_timer.get() < 0.3) {
+      m_pidStorer = 2;
+    } else {
+      m_pidStorer = 0;
+    }
+    return m_pidStorer;
   }
 
   @Override
