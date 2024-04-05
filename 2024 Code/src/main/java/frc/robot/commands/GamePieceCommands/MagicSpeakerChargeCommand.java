@@ -48,6 +48,7 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
         m_armSubsystem.getInPosition() &&
         m_shooterSubsystem.approveShoot() &&
         m_intakeSubsystem.isNoteReady()) {
+
       m_intakeSubsystem.runIndexShoot();
     }
   }
