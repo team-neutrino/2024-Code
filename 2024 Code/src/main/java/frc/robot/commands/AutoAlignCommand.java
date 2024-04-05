@@ -37,18 +37,13 @@ public class AutoAlignCommand extends Command {
     @Override
     public void execute() {
         if (SubsystemContainer.limelightSubsystem.getTv()) {
-            if (SubsystemContainer.alliance.isRedAlliance()) {
-                if (SubsystemContainer.limelightSubsystem.getID().equals(4.0)) {
-                    priorityTag = true;
-                } else {
-                    priorityTag = false;
-                }
+            if ((SubsystemContainer.alliance.isRedAlliance()
+                    && SubsystemContainer.limelightSubsystem.getID().equals(4.0))
+                    || (!SubsystemContainer.alliance.isRedAlliance()
+                            && SubsystemContainer.limelightSubsystem.getID().equals(7.0))) {
+                priorityTag = true;
             } else {
-                if (SubsystemContainer.limelightSubsystem.getID().equals(4.0)) {
-                    priorityTag = true;
-                } else {
-                    priorityTag = false;
-                }
+                priorityTag = false;
             }
 
             m_currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
@@ -65,7 +60,6 @@ public class AutoAlignCommand extends Command {
             if (priorityTag) {
                 SubsystemContainer.swerveSubsystem
                         .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle(m_currentYaw, m_offsetYaw, pose[5]));
-
             }
         } else {
             // SUPER auto align!!
