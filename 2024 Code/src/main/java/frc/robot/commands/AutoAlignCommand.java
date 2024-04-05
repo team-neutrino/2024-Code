@@ -17,19 +17,40 @@ public class AutoAlignCommand extends Command {
      */
     protected double m_currentYaw;
     protected double m_offsetYaw;
+    private boolean priorityTag;
 
     public AutoAlignCommand() {
         addRequirements(SubsystemContainer.limelightSubsystem);
+        priorityTag = false;
     }
 
     @Override
     public void initialize() {
         SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
+        if (SubsystemContainer.alliance.isRedAlliance()) {
+            SubsystemContainer.limelightSubsystem.setPriorityID(4);
+        } else {
+            SubsystemContainer.limelightSubsystem.setPriorityID(7);
+        }
     }
 
     @Override
     public void execute() {
         if (SubsystemContainer.limelightSubsystem.getTv()) {
+            if (SubsystemContainer.alliance.isRedAlliance()) {
+                if (SubsystemContainer.limelightSubsystem.getID().equals(4.0)) {
+                    priorityTag = true;
+                } else {
+                    priorityTag = false;
+                }
+            } else {
+                if (SubsystemContainer.limelightSubsystem.getID().equals(4.0)) {
+                    priorityTag = true;
+                } else {
+                    priorityTag = false;
+                }
+            }
+
             m_currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
             m_offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
             double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
@@ -40,9 +61,12 @@ public class AutoAlignCommand extends Command {
                     pose[5] += 180;
                 }
             }
-            SubsystemContainer.swerveSubsystem
-                    .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle(m_currentYaw, m_offsetYaw, pose[5]));
 
+            if (priorityTag) {
+                SubsystemContainer.swerveSubsystem
+                        .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle(m_currentYaw, m_offsetYaw, pose[5]));
+
+            }
         } else {
             // SUPER auto align!!
             SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();

@@ -136,6 +136,13 @@ public class LimelightSubsystem extends SubsystemBase {
       poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, 0.0));
 
       poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
+
+      limelight.getEntry("robot_orientation_set").setNumberArray(
+          new Double[] { poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0 });
+      if (Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720) {
+        poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 9999999));
+        poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
+      }
     }
   }
 
