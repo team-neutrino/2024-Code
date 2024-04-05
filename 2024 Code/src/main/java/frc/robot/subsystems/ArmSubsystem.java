@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.util.CalculateP;
+import frc.robot.Constants.LEDConstants.States;
 
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkFlex m_armMotor = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
@@ -34,6 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_oldAngle;
   private Timer m_timer;
   TreeMap<Double, Double> m_mapOfP;
+  States commandState;
 
   public ArmSubsystem() {
     m_mapOfP = new TreeMap<Double, Double>();
@@ -161,6 +164,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void commandStart() {
     m_timer.restart();
+  }
+
+  public States getCommandState() {
+    return commandState;
+  }
+
+  public void setCommandState(States state) {
+    commandState = state;
   }
 
   private void pidChanger() {

@@ -78,11 +78,18 @@ public final class Constants {
   }
 
   public final class PWMConstants {
-    public static final int LED = 0;
+    public static final int LED1 = 0;
   }
 
   public final class LEDConstants {
     public static final int LEDBufferLen = 60;
+
+    public enum States {
+      DEFAULT,
+      PATHFINDING,
+      AUTOALIGN,
+      CLIMBING
+    }
   }
 
   public final class MotorIDs {
