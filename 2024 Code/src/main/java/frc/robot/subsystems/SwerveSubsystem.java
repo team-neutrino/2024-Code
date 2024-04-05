@@ -33,6 +33,7 @@ import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
 import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
+import frc.robot.Constants.LEDConstants.States;
 import frc.robot.util.Limiter;
 import frc.robot.util.PolarCoord;
 import frc.robot.util.SubsystemContainer;
@@ -89,6 +90,8 @@ public class SwerveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_filterX = new SlewRateLimiter(2);
   private SlewRateLimiter m_filterY = new SlewRateLimiter(2);
   private SlewRateLimiter m_filterOmega = new SlewRateLimiter(10.0);
+
+  private States m_state;
 
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
@@ -378,6 +381,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public static double calculateLimelightOffsetAngle(double currentYaw, double offsetYaw, double robotTheta) {
     return currentYaw - offsetYaw + (robotTheta * 0.06);
+  }
+
+  public States getCommandState() {
+    return m_state;
+  }
+
+  public void setCommandState(States p_state) {
+    m_state = p_state;
   }
 
   @Override

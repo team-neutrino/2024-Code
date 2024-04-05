@@ -14,7 +14,6 @@ import frc.robot.util.CalculateAngle;
 public class Arm extends ArmSubsystem {
     CalculateAngle m_calculateAngle;
     public static double currentSimAngle;
-    double motor_volts;
 
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
     DoubleTopic Sim_Angle = nt.getDoubleTopic("arm/sim_angle");
@@ -64,7 +63,6 @@ public class Arm extends ArmSubsystem {
         final long now = NetworkTablesJNI.now();
         targetAnglePub.set(getTargetAngle(), now);
         encoderAnglePub.set(getArmAngleDegrees(), now);
-        motorVoltagePub.set(motor_volts, now);
         eAnglePub.set(getArmAngleDegrees(), now);
         radiPublisher.set(m_calculateAngle.getRadius(), now);
         thetaPublisher.set(m_calculateAngle.getTheta(), now);
