@@ -23,11 +23,10 @@ public class DynamicDebouncer {
         debouncer = new Debouncer(debounceTime, Debouncer.DebounceType.kRising);
     }
 
-    public boolean calculate()
-    {
+    public boolean calculate(double inputError) {
         double r = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
 
-        return debouncer.calculate((maxErrorMargin - minErrorMargin) )
+        return debouncer.calculate(inputError < (maxErrorMargin - minErrorMargin) * (r / 6));
     }
 
 }
