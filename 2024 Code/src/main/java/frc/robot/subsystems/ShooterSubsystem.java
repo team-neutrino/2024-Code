@@ -13,6 +13,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.ShooterSpeeds;
+import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 
@@ -80,7 +81,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void defaultShooter() {
-    m_targetVoltage = ShooterSpeeds.INITIAL_SHOOTER_SPEED;
+    setVoltage(SubsystemContainer.intakeSubsystem.hasNote() ? ShooterSpeeds.INITIAL_SHOOTER_SPEED : 0.0);
   }
 
   public boolean approveShoot() {
