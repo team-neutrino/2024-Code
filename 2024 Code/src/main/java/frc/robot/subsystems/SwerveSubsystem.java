@@ -90,6 +90,9 @@ public class SwerveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_filterY = new SlewRateLimiter(2);
   private SlewRateLimiter m_filterOmega = new SlewRateLimiter(10.0);
 
+  private double currentVx = 0;
+  private double currentVy = 0;
+
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
     m_modulePositions[1] = new SwerveModulePosition();
@@ -156,6 +159,9 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
     omega = Limiter.scale(Limiter.deadzone(omega, 0.1), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
+
+    currentVx = vx;
+    currentVy = vy;
 
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
@@ -224,6 +230,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void setRobotYaw(double angle) {
     m_referenceAngle = angle;
+  }
+
+  public double getRobotSetYaw() {
+    return m_referenceAngle;
   }
 
   public double getYaw() {
@@ -353,6 +363,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public static double calculateLimelightOffsetAngle(double currentYaw, double offsetYaw, double robotTheta) {
     return currentYaw - offsetYaw + (robotTheta * 0.06);
+  }
+
+  public double getCurrentVx() {
+    return currentVx;
+  }
+
+  public double getCurrentVy() {
+    return currentVy;
   }
 
   @Override

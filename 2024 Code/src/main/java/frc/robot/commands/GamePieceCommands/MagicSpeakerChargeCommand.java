@@ -9,17 +9,19 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.CalculateAngle;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.Constants;
-
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class MagicSpeakerChargeCommand extends GamePieceCommand {
   private CalculateAngle m_calculateAngle;
   private SwerveSubsystem m_swerve;
   private CommandXboxController m_controller;
+  private LimelightSubsystem m_limelight;
 
   public MagicSpeakerChargeCommand(CalculateAngle p_calculateAngle, CommandXboxController p_controller) {
     m_calculateAngle = p_calculateAngle;
     m_swerve = SubsystemContainer.swerveSubsystem;
+    m_limelight = SubsystemContainer.limelightSubsystem;
     m_controller = p_controller;
   }
 
@@ -33,9 +35,21 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
   public void execute() {
     // for testing polynomial surface
     // m_armSubsystem.setArmReferenceAngle(m_calculateAngle.quarticFitCalculateAngle(m_swerve.GetSpeakerToRobot()));
+
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
+
+    if (Math.abs(m_swerve.getRobotSetYaw() - m_swerve.getYaw()) < 2 &&
+        m_limelight.getTv() &&
+        m_swerve.GetSpeakerToRobot().getRadius() < 5 &&
+        (m_swerve.getCurrentVx() < 0.5 && m_swerve.getCurrentVy() < 0.5) &&
+        // only previous conditions below
+        m_armSubsystem.getInPosition() &&
+        m_shooterSubsystem.approveShoot() &&
+        m_intakeSubsystem.isNoteReady()) {
+      m_intakeSubsystem.runIndexShoot();
+    }
   }
 
   // Called once the command ends or is interrupted.
