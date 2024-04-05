@@ -31,10 +31,8 @@ public class ArmSubsystem extends SubsystemBase {
   private SparkPIDController m_pidController;
   private int m_PIDslot;
   private double m_error;
-  private double m_feedforward;
   private double m_oldAngle;
   private Timer m_timer;
-  private int m_pidStorer;
   TreeMap<Double, Double> m_mapOfP;
 
   public ArmSubsystem() {
@@ -136,7 +134,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setArmReferenceAngle(double targetAngle) {
     m_targetAngle = targetAngle;
-    m_PIDslot = pidChanger();
+    pidChanger();
   }
 
   public void setClimbReferenceAngle() {
@@ -148,9 +146,8 @@ public class ArmSubsystem extends SubsystemBase {
   private void updateArmAngle(double targetAngle, int PIDslot) {
 
     targetAngle = limitArmAngle(targetAngle);
-    feedForwardCalculation();
     targetAngle = adjustAngleIn(targetAngle);
-    m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, m_feedforward);
+    m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, feedForwardCalculation());
   }
 
   private double feedForwardCalculation() {
@@ -158,22 +155,20 @@ public class ArmSubsystem extends SubsystemBase {
     double filtAngle = 0.98 * currentAngle + 0.02 * m_oldAngle;
     m_oldAngle = filtAngle;
 
-    m_feedforward = ArmConstants.FF_kg
+    return ArmConstants.FF_kg
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(filtAngle)));
-    return m_feedforward;
   }
 
   public void commandStart() {
     m_timer.restart();
   }
 
-  private int pidChanger() {
+  private void pidChanger() {
     if (m_timer.get() < Constants.ArmConstants.timeBeforeSwitchPID) {
-      m_pidStorer = 2;
+      m_PIDslot = 2;
     } else {
-      m_pidStorer = 0;
+      m_PIDslot = 0;
     }
-    return m_pidStorer;
   }
 
   @Override
