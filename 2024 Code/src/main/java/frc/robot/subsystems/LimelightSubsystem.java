@@ -108,39 +108,10 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     if (getTv()) {
-      double xyStds = 1.0;
-
-      // multiple targets detected
-      if (pose[7] >= 2 && distanceToSpeaker < 2.8) {
-        xyStds = 0.5;
-      }
-      // multiple targets but we don't want to trust it as much because the robot is
-      // far away
-      else if (pose[7] >= 2 && distanceToSpeaker < 4 && poseDifference < 0.2) {
-        xyStds = 3.0;
-      }
-      // 1 target with large area and close to estimated pose (find constant for area
-      // (percent))
-      else if (pose[10] > 0.7 && poseDifference < 1) {
-        xyStds = 1.0;
-      }
-      // 1 target farther away and estimated pose is close
-      else if (pose[10] > 0.2 && poseDifference < 0.2) {
-        xyStds = 3.0;
-      }
-      // conditions don't match to add a vision measurement
-      else {
-        return;
-      }
-
-      poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, 0.0));
-
-      poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
-
       limelight.getEntry("robot_orientation_set").setNumberArray(
           new Double[] { poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0 });
-      if (Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720) {
-        poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 9999999));
+      if (!(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720)) {
+        poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 0));
         poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
       }
     }
