@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import frc.robot.Constants;
 import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -45,14 +44,13 @@ public class LEDDefaultCommand extends Command {
       m_xboxController.setRumble(RumbleType.kBothRumble, 1);
     } else if (m_intakeSubsystem.isNoteReady()) {
       m_LEDSubsystem.setToCyan();
-    } else if (m_swerveSubsystem.getCommandState() == (States.AUTOALIGN)) {
+    } else if (m_swerveSubsystem.getCommandState() == States.AUTOALIGN) {
       m_LEDSubsystem.setToBlue();
       m_xboxController.setRumble(RumbleType.kBothRumble, 0);
     } else if (m_intakeSubsystem.isNoteTooFar()) {
       m_LEDSubsystem.setToPurple();
       m_xboxController.setRumble(RumbleType.kBothRumble, 0);
-    } else if (m_armSubsystem
-        .getCommandState() == (States.CLIMBING)) {
+    } else if (m_armSubsystem.getCommandState() == States.CLIMBING) {
     } else {
       m_LEDSubsystem.setToOrange();
       m_xboxController.setRumble(RumbleType.kBothRumble, 0);

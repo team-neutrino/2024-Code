@@ -23,7 +23,6 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.util.CalculateP;
 import frc.robot.Constants.LEDConstants.States;
-import frc.robot.util.ArmEncoderContainer;
 
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkFlex m_armMotor = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);

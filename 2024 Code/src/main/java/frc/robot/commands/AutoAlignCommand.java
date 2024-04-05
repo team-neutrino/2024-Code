@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.SwerveSubsystem;
 
 /** An example command that uses an example subsystem. */
@@ -46,6 +47,8 @@ public class AutoAlignCommand extends Command {
             // SUPER auto align!!
             SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
         }
+
+        SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
 
     @Override
