@@ -5,7 +5,9 @@
 package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -18,9 +20,11 @@ public class AutoAlignCommand extends Command {
     protected double m_currentYaw;
     protected double m_offsetYaw;
     private boolean priorityTag;
+    private XboxController m_xboxController;
 
-    public AutoAlignCommand() {
-        addRequirements(SubsystemContainer.limelightSubsystem);
+    public AutoAlignCommand(CommandXboxController p_controller) {
+        m_xboxController = p_controller.getHID();
+        addRequirements(SubsystemContainer.swerveSubsystem);
         priorityTag = false;
     }
 
@@ -65,6 +69,13 @@ public class AutoAlignCommand extends Command {
             // SUPER auto align!!
             SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
         }
+
+        SubsystemContainer.swerveSubsystem.SwerveWithDeadzone(m_xboxController.getLeftY() * -1,
+                m_xboxController.getLeftX() * -1,
+                m_xboxController.getRightX() * -1);
+
+        // D-pad control
+        SubsystemContainer.swerveSubsystem.POV(m_xboxController.getPOV());
 
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }

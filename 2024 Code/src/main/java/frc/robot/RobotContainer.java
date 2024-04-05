@@ -71,7 +71,7 @@ public class RobotContainer {
         new AutonIntakeCommand(Constants.ArmConstants.INTAKE_POSE, Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
     NamedCommands.registerCommand("AutonShoot",
         new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED, SubsystemContainer.m_angleCalculate));
-    NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand());
+    NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand(m_driverController));
     NamedCommands.registerCommand("SingleSubwooferShot",
         new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
 
@@ -118,7 +118,7 @@ public class RobotContainer {
     m_buttonsController.povDown()
         .onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
 
-    m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
+    m_driverController.rightBumper().whileTrue(new AutoAlignCommand(m_driverController));
 
     // arm buttons
     m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));
