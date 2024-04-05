@@ -5,24 +5,20 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
-import frc.robot.Constants.PWMConstants;
 
 public class LEDSubsystem extends SubsystemBase {
-    private AddressableLED m_addressableLED1;
-    private AddressableLED m_addressableLED2;
+    private AddressableLED m_addressableLED;
     private AddressableLEDBuffer m_LEDBuffer;
     private Timer timer = new Timer();
+    private int m_port;
 
-    public LEDSubsystem() {
-        m_addressableLED1 = new AddressableLED(PWMConstants.LED1);
-        m_addressableLED2 = new AddressableLED(PWMConstants.LED2);
+    public LEDSubsystem(int p_port) {
+        m_port = p_port;
+        m_addressableLED = new AddressableLED(m_port);
         m_LEDBuffer = new AddressableLEDBuffer(LEDConstants.LEDBufferLen);
-        m_addressableLED1.setLength(m_LEDBuffer.getLength());
-        m_addressableLED2.setLength(m_LEDBuffer.getLength());
-        m_addressableLED1.setData(m_LEDBuffer);
-        m_addressableLED2.setData(m_LEDBuffer);
-        m_addressableLED1.start();
-        m_addressableLED2.start();
+        m_addressableLED.setLength(m_LEDBuffer.getLength());
+        m_addressableLED.setData(m_LEDBuffer);
+        m_addressableLED.start();
         setToOrange();
         timer.start();
     }
@@ -72,8 +68,7 @@ public class LEDSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        m_addressableLED1.setData(m_LEDBuffer);
-        m_addressableLED2.setData(m_LEDBuffer);
+        m_addressableLED.setData(m_LEDBuffer);
     }
 
 }

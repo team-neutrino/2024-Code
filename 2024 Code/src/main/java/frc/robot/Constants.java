@@ -79,7 +79,6 @@ public final class Constants {
 
   public final class PWMConstants {
     public static final int LED1 = 0;
-    public static final int LED2 = 2;
   }
 
   public final class LEDConstants {

@@ -51,6 +51,8 @@ public class LEDDefaultCommand extends Command {
       m_LEDSubsystem.setToPurple();
       m_xboxController.setRumble(RumbleType.kBothRumble, 0);
     } else if (m_armSubsystem.getCommandState() == States.CLIMBING) {
+      m_LEDSubsystem.setToRed();
+      m_xboxController.setRumble(RumbleType.kBothRumble, 0);
     } else {
       m_LEDSubsystem.setToOrange();
       m_xboxController.setRumble(RumbleType.kBothRumble, 0);

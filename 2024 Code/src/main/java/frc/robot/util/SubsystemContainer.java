@@ -1,5 +1,6 @@
 package frc.robot.util;
 
+import frc.robot.Constants.PWMConstants;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -17,5 +18,5 @@ public class SubsystemContainer {
     public static final Intake intakeSubsystem = new Intake();
     public static final Shooter shooterSubsystem = new Shooter();
     public static final Arm armSubsystem = new Arm(m_angleCalculate);
-    public static final LEDSubsystem LEDSubsystem = new LEDSubsystem();
+    public static final LEDSubsystem LEDSubsystem = new LEDSubsystem(PWMConstants.LED1);
 }
