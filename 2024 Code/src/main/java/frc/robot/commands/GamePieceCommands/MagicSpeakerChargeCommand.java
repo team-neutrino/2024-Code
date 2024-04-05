@@ -17,6 +17,7 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
   private SwerveSubsystem m_swerve;
   private CommandXboxController m_controller;
   private LimelightSubsystem m_limelight;
+  boolean noteCentered;
 
   public MagicSpeakerChargeCommand(CalculateAngle p_calculateAngle, CommandXboxController p_controller) {
     m_calculateAngle = p_calculateAngle;
@@ -41,6 +42,10 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
 
+    if (m_intakeSubsystem.isNoteReady()) {
+      noteCentered = true;
+    }
+
     if (Math.abs(m_swerve.getRobotSetYaw() - m_swerve.getYaw()) < 2 &&
         m_limelight.getTv() &&
         m_swerve.GetSpeakerToRobot().getRadius() < 5 &&
@@ -48,7 +53,7 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
         // only previous conditions below
         m_armSubsystem.getInPosition() &&
         m_shooterSubsystem.approveShoot() &&
-        m_intakeSubsystem.isNoteReady()) {
+        noteCentered) {
 
       m_intakeSubsystem.runIndexShoot();
     }
