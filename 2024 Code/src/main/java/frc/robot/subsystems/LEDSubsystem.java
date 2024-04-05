@@ -5,15 +5,16 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LEDConstants;
-import frc.robot.Constants.PWMConstants;
 
 public class LEDSubsystem extends SubsystemBase {
     private AddressableLED m_addressableLED;
     private AddressableLEDBuffer m_LEDBuffer;
     private Timer timer = new Timer();
+    private int m_port;
 
-    public LEDSubsystem() {
-        m_addressableLED = new AddressableLED(PWMConstants.LED);
+    public LEDSubsystem(int p_port) {
+        m_port = p_port;
+        m_addressableLED = new AddressableLED(m_port);
         m_LEDBuffer = new AddressableLEDBuffer(LEDConstants.LEDBufferLen);
         m_addressableLED.setLength(m_LEDBuffer.getLength());
         m_addressableLED.setData(m_LEDBuffer);

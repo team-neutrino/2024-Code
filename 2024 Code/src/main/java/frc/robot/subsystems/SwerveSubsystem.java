@@ -33,6 +33,7 @@ import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
 import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
+import frc.robot.Constants.LEDConstants.States;
 import frc.robot.util.Limiter;
 import frc.robot.util.PolarCoord;
 import frc.robot.util.SubsystemContainer;
@@ -92,6 +93,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private double currentVx = 0;
   private double currentVy = 0;
+  private States m_state;
 
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
@@ -371,6 +373,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public double getCurrentVy() {
     return currentVy;
+  }
+
+  public States getCommandState() {
+    return m_state;
+  }
+
+  public void setCommandState(States p_state) {
+    m_state = p_state;
   }
 
   @Override
