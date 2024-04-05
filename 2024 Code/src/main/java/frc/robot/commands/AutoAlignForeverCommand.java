@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 
@@ -42,6 +43,8 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
         }
         SubsystemContainer.swerveSubsystem
                 .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle(m_currentYaw, m_offsetYaw, pose[5]));
+
+        SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
 
     @Override

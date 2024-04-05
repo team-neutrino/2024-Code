@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.SubsystemContainer;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class SwerveDefaultCommand extends Command {
@@ -35,6 +37,7 @@ public class SwerveDefaultCommand extends Command {
     // D-pad control
     m_swerveSubsystem.POV(m_xboxController.getPOV());
 
+    m_swerveSubsystem.setCommandState(States.DEFAULT);
   }
 
   // Called once the command ends or is interrupted.
