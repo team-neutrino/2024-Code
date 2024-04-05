@@ -17,7 +17,7 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
   private SwerveSubsystem m_swerve;
   private CommandXboxController m_controller;
   private LimelightSubsystem m_limelight;
-  boolean noteCentered;
+  boolean noteCentered = false;
 
   public MagicSpeakerChargeCommand(CalculateAngle p_calculateAngle, CommandXboxController p_controller) {
     m_calculateAngle = p_calculateAngle;
