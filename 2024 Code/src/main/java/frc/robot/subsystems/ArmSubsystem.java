@@ -22,6 +22,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.util.CalculateP;
+import frc.robot.Constants.LEDConstants.States;
 
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkFlex m_armMotor = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
@@ -36,6 +37,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_feedforward;
   private double m_oldAngle;
   TreeMap<Double, Double> m_mapOfP;
+  States commandState;
 
   public ArmSubsystem() {
     m_mapOfP = new TreeMap<Double, Double>();
@@ -154,6 +156,14 @@ public class ArmSubsystem extends SubsystemBase {
     targetAngle = adjustAngleIn(targetAngle);
     m_pidController.setP(m_calculateP.InterpolateP(m_error), 0);
     m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, m_feedforward);
+  }
+
+  public States getCommandState() {
+    return commandState;
+  }
+
+  public void setCommandState(States state) {
+    commandState = state;
   }
 
   @Override
