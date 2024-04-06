@@ -411,7 +411,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println("Drivetrain speed: " + getDriveMotorSpeed());
+    // System.out.println("Drivetrain speed: " + getDriveMotorSpeed());
 
     m_modulePositions[0] = m_frontRight.getModulePosition();
     m_modulePositions[1] = m_frontLeft.getModulePosition();
