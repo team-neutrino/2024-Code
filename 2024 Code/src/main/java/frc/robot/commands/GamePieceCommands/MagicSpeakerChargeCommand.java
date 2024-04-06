@@ -47,7 +47,7 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
     }
 
     if (Math.abs(m_swerve.getRobotSetYaw() - m_swerve.getYaw()) < 2 &&
-        m_limelight.getTv() &&
+        (m_limelight.getID() == 4 || m_limelight.getID() == 7) &&
         m_swerve.GetSpeakerToRobot().getRadius() < 5 &&
         (m_swerve.getCurrentVx() < 0.5 && m_swerve.getCurrentVy() < 0.5) &&
         // only previous conditions below
