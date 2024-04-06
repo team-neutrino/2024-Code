@@ -107,7 +107,7 @@ public class RobotContainer {
 
     m_buttonsController.x().whileTrue(new SequentialCommandGroup(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED,
-            Constants.ShooterSpeeds.SPEED_THRESHOLD_SUBWOOFER, m_buttonsController),
+            Constants.ShooterSpeeds.LOW_SPEED_THRESHOLD, m_buttonsController),
         new MagicShootCommand()));
 
     m_buttonsController.b()
