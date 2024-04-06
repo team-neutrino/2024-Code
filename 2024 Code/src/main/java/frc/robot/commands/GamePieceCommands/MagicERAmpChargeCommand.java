@@ -24,16 +24,12 @@ public class MagicERAmpChargeCommand extends GamePieceCommand {
   @Override
   public void execute() {
     System.out.println(SubsystemContainer.swerveSubsystem.getAmpDy());
-    if (SubsystemContainer.swerveSubsystem.getAmpDy() < -.05) {
-      throw new IllegalStateException("fix the amp Y constant lol");
-    }
-    if (SubsystemContainer.swerveSubsystem.getAmpDy() < .1) {
-      m_intakeSubsystem.stopIntake();
+    if (SubsystemContainer.swerveSubsystem.getAmpDy() < .5) {
       m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
       m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.AMP_SPEED);
-      m_intakeSubsystem.runIndexFeed();
     }
-
+    m_intakeSubsystem.stopIntake();
+    m_intakeSubsystem.runIndexFeed();
   }
 
   // Called once the command ends or is interrupted.
@@ -44,7 +40,7 @@ public class MagicERAmpChargeCommand extends GamePieceCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_armSubsystem.getTargetAngle() == Constants.ArmConstants.AMP_POSE && m_armSubsystem.getInPosition()
-        && m_shooterSubsystem.approveShoot();
+    return m_armSubsystem.aboveAngle(Constants.ArmConstants.AMP_THRESHOLD)
+        && m_shooterSubsystem.aboveRPM(Constants.ShooterSpeeds.LOW_SPEED_THRESHOLD);
   }
 }
