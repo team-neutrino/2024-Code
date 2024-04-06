@@ -5,12 +5,9 @@
 package frc.robot.util;
 
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.SwerveSubsystem;
 
 /** Add your docs here. */
 public class CalculateMovingShot {
-
-    private SwerveSubsystem m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
 
     /**
      * Uses the helper methods calculateAdjutedRadius and calculateAdjustedTheta to
@@ -21,9 +18,9 @@ public class CalculateMovingShot {
      *         parallel to the speaker.
      */
     public PolarCoord calculateAdjustedPos() {
-        double r = m_swerveSubsystem.GetSpeakerToRobot().getRadius();
-        double theta = m_swerveSubsystem.GetSpeakerToRobot().getTheta();
-        double robotSpeed = m_swerveSubsystem.getDriveMotorSpeed();
+        double r = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
+        double theta = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getTheta();
+        double robotSpeed = SubsystemContainer.swerveSubsystem.getDriveMotorSpeed();
 
         double deltaX = (r / ShooterConstants.NOTE_SPEED) * robotSpeed;
 
