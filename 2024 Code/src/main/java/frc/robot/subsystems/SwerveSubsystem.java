@@ -169,7 +169,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
     double vNorm = Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2));
 
-    m_angleController.setP(((0.1 - 0.035) / 3) * vNorm + 0.035);
+    m_angleController.setP(((SwerveConstants.MAX_ANGLE_CONTROLLER_P - SwerveConstants.MIN_ANGLE_CONTROLLER_P)
+        / SwerveConstants.MAX_CHASSIS_LINEAR_SPEED)
+        * vNorm + SwerveConstants.MIN_ANGLE_CONTROLLER_P);
 
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
