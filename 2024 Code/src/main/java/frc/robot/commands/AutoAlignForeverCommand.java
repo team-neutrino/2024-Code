@@ -15,7 +15,6 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
     double[] pose;
 
     public AutoAlignForeverCommand() {
-        super(null);
         addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
@@ -27,23 +26,25 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
         }
         timer.start();
+
+        SwerveSubsystem.autoAlign = true;
     }
 
     @Override
     public void execute() {
-        m_currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-        m_offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
-        pose = SubsystemContainer.limelightSubsystem.getBotPose();
-        if (!SubsystemContainer.alliance.isRedAlliance()) {
-            if (pose[5] > 0) {
-                pose[5] -= 180;
-            } else {
-                pose[5] += 180;
-            }
+        // m_currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
+        // m_offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+        // pose = SubsystemContainer.limelightSubsystem.getBotPose();
+        // if (!SubsystemContainer.alliance.isRedAlliance()) {
+        // if (pose[5] > 0) {
+        // pose[5] -= 180;
+        // } else {
+        // pose[5] += 180;
+        // }
 
-        }
+        // }
         SubsystemContainer.swerveSubsystem
-                .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle(m_currentYaw, m_offsetYaw, pose[5]));
+                .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle());
 
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }

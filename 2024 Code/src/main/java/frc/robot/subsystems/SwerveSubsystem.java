@@ -95,7 +95,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private double currentVy = 0;
   private States m_state;
 
-  public static boolean autoAlign = false;;
+  public static boolean autoAlign = false;
 
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
@@ -372,12 +372,28 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_speakerToRobot;
   }
 
-  public static double calculateLimelightOffsetAngle(double currentYaw, double offsetYaw, double robotTheta) {
-    return currentYaw - offsetYaw + (robotTheta * 0.06);
+  public double calculateLimelightOffsetAngle() {
+
+    double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
+    double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+    double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
+    if (!SubsystemContainer.alliance.isRedAlliance()) {
+      if (pose[5] > 0) {
+        pose[5] -= 180;
+      } else {
+        pose[5] += 180;
+      }
+    }
+
+    if (SubsystemContainer.limelightSubsystem.getID() != 4 && SubsystemContainer.limelightSubsystem.getID() != 7) {
+      return 1000;
+    }
+
+    return currentYaw - offsetYaw + (pose[5] * 0.06);
   }
 
-  public double getCurrentVx() {
-    return currentVx;
+  public boolean getCurrentVxWithinTolerance() {
+    return currentVx < 0.5;
   }
 
   public double getCurrentVy() {
