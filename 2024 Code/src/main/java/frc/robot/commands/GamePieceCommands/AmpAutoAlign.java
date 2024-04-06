@@ -4,7 +4,7 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
@@ -13,7 +13,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 
-public class AmpAutoAlign extends GamePieceCommand {
+public class AmpAutoAlign extends Command {
   private double m_ampYaw;
   private double m_commandMod;
   private int speakerTagID;
@@ -59,7 +59,7 @@ public class AmpAutoAlign extends GamePieceCommand {
 
     double modifiedKp = SwerveConstants.AMP_ALIGN_KP;
     if (m_limelightSubsystem.getDistanceFromPrimaryTarget() > 1) {
-      modifiedKp = (1 / m_limelightSubsystem.getDistanceFromPrimaryTarget()) * SwerveConstants.AMP_ALIGN_KP;
+      modifiedKp *= (1 / m_limelightSubsystem.getDistanceFromPrimaryTarget());
     }
 
     double command = modifiedKp * m_swerveSubsystem.getAmpDx() * m_commandMod;
