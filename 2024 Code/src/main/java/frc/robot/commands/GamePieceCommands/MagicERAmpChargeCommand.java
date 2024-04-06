@@ -27,6 +27,9 @@ public class MagicERAmpChargeCommand extends GamePieceCommand {
     if (SubsystemContainer.swerveSubsystem.getAmpDy() < .5) {
       m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
       m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.AMP_SPEED);
+    } else {
+      m_armSubsystem.defaultArm();
+      m_shooterSubsystem.defaultShooter();
     }
     m_intakeSubsystem.stopIntake();
     m_intakeSubsystem.runIndexFeed();
