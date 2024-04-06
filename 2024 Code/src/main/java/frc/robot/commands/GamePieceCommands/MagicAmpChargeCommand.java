@@ -38,6 +38,7 @@ public class MagicAmpChargeCommand extends GamePieceCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot() && m_controller.getHID().getLeftBumper();
+    return m_armSubsystem.aboveAngle(Constants.ArmConstants.AMP_THRESHOLD) && m_shooterSubsystem.aboveRPM(2800)
+        && m_controller.getHID().getLeftBumper();
   }
 }
