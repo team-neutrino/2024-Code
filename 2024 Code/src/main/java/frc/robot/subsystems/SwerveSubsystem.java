@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -93,6 +94,13 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private States m_state;
 
+  /**
+   * Internal variables for updating the robot's current (non-rotational)
+   * velocity.
+   */
+  private Pose2d lastPose = m_currentPoseL;
+  private double lastTime = NetworkTablesJNI.now();;
+
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
     m_modulePositions[1] = new SwerveModulePosition();
@@ -141,13 +149,23 @@ public class SwerveSubsystem extends SubsystemBase {
 
   /**
    * Returns the speed of the drivetrain in m/s. This method has not been tested
-   * for accuracy when robot weight and friction is taken into account.
+   * for accuracy with friction.
    * 
    * @return The current speed of the drivetrain in m/s.
    */
   public double getDriveMotorSpeed() {
-    return (m_frontRight.getModuleState().speedMetersPerSecond + m_frontLeft.getModuleState().speedMetersPerSecond
-        + m_backRight.getModuleState().speedMetersPerSecond + m_backLeft.getModuleState().speedMetersPerSecond) / 4;
+    double currentTime = NetworkTablesJNI.now();
+    double currentX = m_currentPoseL.getX();
+    double currentY = m_currentPoseL.getY();
+
+    double timeChange = currentTime - lastTime;
+    double xChange = currentX - lastPose.getX();
+    double yChange = currentY - lastPose.getY();
+
+    lastTime = currentTime;
+    lastPose = new Pose2d(currentX, currentY, m_currentPoseL.getRotation());
+
+    return Math.sqrt(Math.pow(xChange, 2) + Math.pow(yChange, 2)) / timeChange;
   }
 
   public void SwerveWithDeadzone(double vx, double vy, double omega) {
@@ -393,6 +411,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    System.out.println("Drivetrain speed: " + getDriveMotorSpeed());
+
     m_modulePositions[0] = m_frontRight.getModulePosition();
     m_modulePositions[1] = m_frontLeft.getModulePosition();
     m_modulePositions[2] = m_backRight.getModulePosition();
