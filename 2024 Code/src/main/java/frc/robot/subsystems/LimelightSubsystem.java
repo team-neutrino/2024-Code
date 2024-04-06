@@ -32,8 +32,7 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public int getID() {
-    int id = (int) (double) limelight.getEntry("tid").getDouble(0.0);
-    return id;
+    return (int) limelight.getEntry("tid").getDouble(0.0);
   }
 
   // gets the x offest between the center of vision and the detected object

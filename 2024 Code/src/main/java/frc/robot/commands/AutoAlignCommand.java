@@ -21,6 +21,7 @@ public class AutoAlignCommand extends Command {
     protected double m_currentYaw;
     protected double m_offsetYaw;
     private int priorityTag;
+    private int poseModifier;
     private XboxController m_xboxController;
 
     public AutoAlignCommand(CommandXboxController p_controller) {
@@ -33,8 +34,10 @@ public class AutoAlignCommand extends Command {
         SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
         if (SubsystemContainer.alliance.isRedAlliance()) {
             priorityTag = AprilTagConstants.RED_ALLIANCE_IDS.SPEAKER_ID;
+            poseModifier = 0;
         } else {
             priorityTag = AprilTagConstants.BLUE_ALLIANCE_IDS.SPEAKER_ID;
+            poseModifier = 180;
         }
         SubsystemContainer.limelightSubsystem.setPriorityID(priorityTag);
     }
@@ -46,12 +49,10 @@ public class AutoAlignCommand extends Command {
             m_currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
             m_offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
             double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
-            if (!SubsystemContainer.alliance.isRedAlliance()) {
-                if (pose[5] > 0) {
-                    pose[5] -= 180;
-                } else {
-                    pose[5] += 180;
-                }
+            if (pose[5] > 0) {
+                pose[5] -= poseModifier;
+            } else {
+                pose[5] += poseModifier;
             }
 
             if (SubsystemContainer.limelightSubsystem.getID() == (priorityTag)) {
