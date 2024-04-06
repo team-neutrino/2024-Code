@@ -9,9 +9,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.CalculateAngle;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.Constants;
-import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
-import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -20,7 +17,6 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
   private SwerveSubsystem m_swerve;
   private CommandXboxController m_controller;
   private LimelightSubsystem m_limelight;
-  boolean noteCentered = false;
 
   public MagicSpeakerChargeCommand(CalculateAngle p_calculateAngle, CommandXboxController p_controller) {
     m_calculateAngle = p_calculateAngle;
@@ -44,10 +40,6 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
-
-    if (m_intakeSubsystem.isNoteReady()) {
-      noteCentered = true;
-    }
   }
 
   // Called once the command ends or is interrupted.
@@ -58,13 +50,14 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_swerve.AutoAligned() &&
+    return m_controller.getHID().getLeftBumper() &&
+        m_swerve.AutoAligned() &&
         m_limelight.facingSpeakerID() &&
         m_swerve.withinShootingDistance() &&
         m_swerve.robotVelocityWithinTolerance() &&
         // only previous conditions below
         m_armSubsystem.getInPosition() &&
         m_shooterSubsystem.approveShoot() &&
-        noteCentered;
+        m_intakeSubsystem.isNoteReady();
   }
 }
