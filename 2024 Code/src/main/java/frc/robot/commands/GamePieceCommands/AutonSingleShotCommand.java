@@ -14,6 +14,7 @@ public class AutonSingleShotCommand extends GamePieceCommand {
 
     public void initialize() {
         m_armSubsystem.commandStart();
+        m_shooterSubsystem.useHighCurrentLimits(true);
     }
 
     @Override
@@ -29,6 +30,7 @@ public class AutonSingleShotCommand extends GamePieceCommand {
 
     @Override
     public void end(boolean interrupted) {
+        m_shooterSubsystem.useHighCurrentLimits(false);
     }
 
     @Override

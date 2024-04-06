@@ -180,7 +180,8 @@ public final class Constants {
   }
 
   public final class ShooterConstants {
-    public static final int SHOOTER_CURRENT_LIMIT = 100;
+    public static final int HIGH_SHOOTER_CURRENT_LIMIT = 100;
+    public static final int SHOOTER_CURRENT_LIMIT = 60;
     public static final double WHEEL_P = 0.00075;
     public static final double WHEEL_I = 0.000001;
     public static final double WHEEL_D = 0;

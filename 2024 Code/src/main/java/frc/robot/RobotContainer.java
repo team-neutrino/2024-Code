@@ -131,7 +131,7 @@ public class RobotContainer {
     m_buttonsController.povDown()
         .onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
 
-    m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
+    m_driverController.rightBumper().whileTrue(new AutoAlignCommand(m_driverController));
 
     // arm buttons
     m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));
@@ -142,7 +142,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("4 Note AMP");
+      auto = new PathPlannerAuto("1 Note ANYWHERE");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }

@@ -114,6 +114,16 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shootControlType = ControlType.kVoltage;
   }
 
+  public void useHighCurrentLimits(boolean isHighCurrent) {
+    if (isHighCurrent) {
+      m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.HIGH_SHOOTER_CURRENT_LIMIT);
+      m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.HIGH_SHOOTER_CURRENT_LIMIT);
+    } else {
+      m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+      m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+    }
+  }
+
   @Override
   public void periodic() {
     if (m_shootControlType == ControlType.kVelocity) {

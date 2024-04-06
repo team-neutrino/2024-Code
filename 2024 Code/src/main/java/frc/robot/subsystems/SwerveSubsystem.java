@@ -262,6 +262,10 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_navX.getYaw() * (-1);
   }
 
+  public double getAngularVelocity() {
+    return m_navX.getRate();
+  }
+
   public void resetNavX() {
     m_navX.reset();
     m_referenceAngle = 0;

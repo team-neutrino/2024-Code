@@ -4,6 +4,8 @@
 
 package frc.robot.commands.GamePieceCommands;
 
+import frc.robot.Constants.LEDConstants.States;
+
 public class ArmClimbCommandDown extends GamePieceCommand {
 
   /** Creates a new ArmClimbCommand. */
@@ -14,6 +16,7 @@ public class ArmClimbCommandDown extends GamePieceCommand {
   @Override
   public void initialize() {
     System.out.println("climb enabled------------------");
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -22,6 +25,8 @@ public class ArmClimbCommandDown extends GamePieceCommand {
     m_armSubsystem.setClimbReferenceAngle();
     m_shooterSubsystem.setTargetRPM(0);
     m_intakeSubsystem.defaultIntake();
+    m_armSubsystem.setCommandState(States.CLIMBING);
+
   }
 
   // Called once the command ends or is interrupted.
