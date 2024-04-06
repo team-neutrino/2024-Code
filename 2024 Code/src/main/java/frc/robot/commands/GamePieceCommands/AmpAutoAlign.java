@@ -57,7 +57,10 @@ public class AmpAutoAlign extends GamePieceCommand {
 
     m_swerveSubsystem.setRobotYaw(m_ampYaw);
 
-    double modifiedKp = (1 / m_limelightSubsystem.getDistanceFromPrimaryTarget()) * SwerveConstants.AMP_ALIGN_KP;
+    double modifiedKp = SwerveConstants.AMP_ALIGN_KP;
+    if (m_limelightSubsystem.getDistanceFromPrimaryTarget() > 1) {
+      modifiedKp = (1 / m_limelightSubsystem.getDistanceFromPrimaryTarget()) * SwerveConstants.AMP_ALIGN_KP;
+    }
 
     double command = modifiedKp * m_swerveSubsystem.getAmpDx() * m_commandMod;
     command = Math.min(Math.max(command, -SwerveConstants.AMP_DX_LIMIT_VALUE), SwerveConstants.AMP_DX_LIMIT_VALUE);
