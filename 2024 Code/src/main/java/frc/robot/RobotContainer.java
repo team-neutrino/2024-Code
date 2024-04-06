@@ -17,6 +17,7 @@ import frc.robot.commands.GamePieceCommands.AutonSingleShotCommand;
 import frc.robot.commands.GamePieceCommands.IntakeCommand;
 import frc.robot.commands.GamePieceCommands.IntakeReverseCommand;
 import frc.robot.commands.GamePieceCommands.MagicAmpChargeCommand;
+import frc.robot.commands.GamePieceCommands.MagicERAmpChargeCommand;
 import frc.robot.commands.GamePieceCommands.MagicShootCommand;
 import frc.robot.commands.GamePieceCommands.MagicSpeakerChargeCommand;
 import frc.robot.commands.GamePieceCommands.ShootManualCommand;
@@ -35,6 +36,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -88,7 +90,8 @@ public class RobotContainer {
       SubsystemContainer.armSubsystem.initializeMotorControllers();
     }));
 
-    m_driverController.x().whileTrue(new AmpAutoAlign(m_driverController));
+    m_driverController.x().whileTrue(new ParallelCommandGroup(new AmpAutoAlign(m_driverController),
+        new SequentialCommandGroup(new MagicERAmpChargeCommand(), new MagicShootCommand())));
 
     // shooter buttons
     m_buttonsController.a()

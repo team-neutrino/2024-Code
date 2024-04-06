@@ -361,6 +361,14 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
+  public double getAmpDy() {
+    if (SubsystemContainer.alliance.isRedAlliance()) {
+      return SwerveConstants.AMP_TARGET_POSE_RED.getY() - m_currentPoseL.getY();
+    } else {
+      return SwerveConstants.AMP_TARGET_POSE_BLUE.getY() - m_currentPoseL.getY();
+    }
+  }
+
   public void ResetOdometryToPose(double x, double y) {
     resetPose(new Pose2d(x, y, m_currentPoseL.getRotation()));
   }

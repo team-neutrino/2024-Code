@@ -59,7 +59,7 @@ public class AmpAutoAlign extends Command {
 
     double modifiedKp = SwerveConstants.AMP_ALIGN_KP;
     if (m_limelightSubsystem.getDistanceFromPrimaryTarget() > 1) {
-      modifiedKp = (1 / m_limelightSubsystem.getDistanceFromPrimaryTarget()) * SwerveConstants.AMP_ALIGN_KP;
+      modifiedKp *= (1 / m_limelightSubsystem.getDistanceFromPrimaryTarget());
     }
 
     double command = modifiedKp * m_swerveSubsystem.getAmpDx() * m_commandMod;
