@@ -8,6 +8,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
 import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
 import frc.robot.util.SubsystemContainer;
@@ -100,12 +101,105 @@ public class LimelightSubsystem extends SubsystemBase {
       return;
     }
 
+    double poseDifference = poseEstimator.getEstimatedPosition().getTranslation()
+        .getDistance(limelightPose.getTranslation());
+
+    double distanceToSpeaker;
+
+    if (SubsystemContainer.alliance.isRedAlliance()) {
+      distanceToSpeaker = poseEstimator.getEstimatedPosition().getTranslation()
+          .getDistance(SwerveConstants.SPEAKER_RED_SIDE);
+
+    } else {
+      distanceToSpeaker = poseEstimator.getEstimatedPosition().getTranslation()
+          .getDistance(SwerveConstants.SPEAKER_BLUE_SIDE);
+    }
+
     if (getTv()) {
+      double xyStds = 1.0;
+
       limelight.getEntry("robot_orientation_set").setNumberArray(
           new Double[] { poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0 });
+
+      /**
+       * here are my thoughts lol and the basic overview of the structure that I have
+       * in mind. Many of the numerical values
+       * are subject to change as appropiate I just thought these ones made sense
+       * based on past experience
+       * 
+       * key features
+       * 
+       * std needs to be a function of distance and take into account how many tags
+       * are in view
+       * the accepted "pose difference" also needs to be a function of distance, ie
+       * the margin for accepted error is smaller when the robot is farther away
+       * 
+       * (these are rough numbers the functions that I have put in have been modified
+       * slightly after looking at them in desmos)
+       * domain of std function is 0 - 5
+       * range of std function is 0 - 3
+       * 
+       * domain of accepted pose difference 0 - 5
+       * range of accepted pose difference 0.75 - 0.2
+       * 
+       * first layer - reject all measurements that are outside the field
+       * 1.5 layer - reject measurements when the robot is spinning
+       * second layer - reject all measurements that are greater than 0.75m off the
+       * current estimated position (maybe 0.5?) (this is done implicitly through the
+       * function and max poseDifference accepted)
+       * third layer - apply std function and accepted pose difference function. For
+       * single tags, multiply the distance by 1.75, apply the functions as normal
+       * fourth layer -
+       * 
+       * maybe more layers? This seemed sufficient to me but I could be forgetting
+       * something
+       */
+
+      if (limelightPose.getX() > 0 && limelightPose.getX() < 16.541 &&
+          limelightPose.getY() > 0 && limelightPose.getY() < 8.211) {
+        // only if rotation speed is less than pi radians per second
+        if ((Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720)) {
+          double distanceToPrimaryTag = pose[9];
+
+          // increases the effective viewing distance for single tags because they are
+          // less accurate.
+          // This change means that the std will go up for a single tag and the
+          // poseDifference threshold
+          // will be even lower for a single tag at the same distance as a double
+          if (pose[7] <= 1) {
+            distanceToPrimaryTag *= 1.75;
+          }
+
+          // apply std linear function. As the distance increases, the applied standard
+          // deviation goes up
+          xyStds = (3.0 / 5.0) * distanceToPrimaryTag + 0.1;
+
+          // apply the accepted pose difference function. Returns the maximum pose
+          // difference that is accepted
+          // for a given distance input
+          double maxPoseDifferenceAccepted = (-0.65 / 5.0) * distanceToPrimaryTag + 0.75;
+
+          // the pose difference falls in the accepted range, as described by the linear
+          // function above^^
+          if (maxPoseDifferenceAccepted > poseDifference) {
+            poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, 0.0));
+
+            poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
+          }
+
+        }
+      }
+    }
+
+    if (getTv()) {
+      // limelight.getEntry("robot_orientation_set").setNumberArray(
+      // new Double[] {
+      // poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0,
+      // 0.0, 0.0, 0.0 });
       if (!(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720)) {
-        poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 0));
-        poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
+        // poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 0));
+        // poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() -
+        // (pose[6] / 1000.0));
       }
     }
   }
