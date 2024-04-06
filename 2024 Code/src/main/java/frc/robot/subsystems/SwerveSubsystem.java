@@ -92,8 +92,8 @@ public class SwerveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_filterY = new SlewRateLimiter(2);
   private SlewRateLimiter m_filterOmega = new SlewRateLimiter(10.0);
 
-  private double currentVx = 0;
-  private double currentVy = 0;
+  private double m_currentVx = 0;
+  private double m_currentVy = 0;
   private States m_state;
 
   public SwerveSubsystem() {
@@ -164,8 +164,8 @@ public class SwerveSubsystem extends SubsystemBase {
     omega = Limiter.scale(Limiter.deadzone(omega, 0.1), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
 
-    currentVx = vx;
-    currentVy = vy;
+    m_currentVx = vx;
+    m_currentVy = vy;
 
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
@@ -386,7 +386,8 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public boolean robotVelocityWithinTolerance() {
-    return currentVx < SwerveConstants.MAX_SPEED_WHILE_SHOOTING && currentVy < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
+    return m_currentVx < SwerveConstants.MAX_SPEED_WHILE_SHOOTING
+        && m_currentVy < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
   }
 
   /**
