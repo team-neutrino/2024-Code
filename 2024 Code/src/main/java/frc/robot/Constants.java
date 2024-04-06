@@ -127,6 +127,9 @@ public final class Constants {
     public static final double ClimbArm_ki = .0001;
     public static final double ClimbArm_kd = 0.0;
     public static final double ClimbIZone = 30;
+    public static final double FastArm_kp = 0.05;
+
+    public static final double timeBeforeSwitchPID = 0.3;
 
     public static final double FF_kg = 0.007;
     public static final double ARM_MASS_KG = 8.3733; // LBS 18.46
