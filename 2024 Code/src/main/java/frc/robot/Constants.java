@@ -72,6 +72,9 @@ public final class Constants {
     public static final double AMP_SHOOTING_ZONE = .5;
 
     public static final double MAX_SPEED_WHILE_SHOOTING = 0.5;
+
+    public static final double MAX_ANGLE_CONTROLLER_P = 0.1;
+    public static final double MIN_ANGLE_CONTROLLER_P = 0.035;
   }
 
   public final class DigitalConstants {
@@ -193,7 +196,7 @@ public final class Constants {
     public static final double WHEEL_IZONE = 250;
     public static final double DEBOUNCE_TIME = 0.1;
     public static final double RPM_ERROR_THRESHOLD = 200;
-    public static final double AUTO_ALIGN_ERROR = 2;
+    public static final double AUTO_ALIGN_ERROR = 4;
     public static final double MAX_SHOOTING_DISTANCE = 5;
   }
 
