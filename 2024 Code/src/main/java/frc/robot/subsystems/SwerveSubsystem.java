@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
 import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
@@ -91,6 +92,8 @@ public class SwerveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_filterY = new SlewRateLimiter(2);
   private SlewRateLimiter m_filterOmega = new SlewRateLimiter(10.0);
 
+  private double m_currentVx = 0;
+  private double m_currentVy = 0;
   private States m_state;
 
   public SwerveSubsystem() {
@@ -143,6 +146,7 @@ public class SwerveSubsystem extends SubsystemBase {
     vx = Limiter.deadzone(vx, 0.1);
     vy = Limiter.deadzone(vy, 0.1);
     omega = Limiter.deadzone(omega, 0.1);
+
     SwerveWithoutDeadzone(vx, vy, omega);
   }
 
@@ -159,6 +163,9 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveConstants.MAX_CHASSIS_LINEAR_SPEED);
     omega = Limiter.scale(Limiter.deadzone(omega, 0.1), -SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED,
         SwerveConstants.MAX_CHASSIS_ROTATIONAL_SPEED);
+
+    m_currentVx = vx;
+    m_currentVy = vy;
 
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
@@ -229,8 +236,16 @@ public class SwerveSubsystem extends SubsystemBase {
     m_referenceAngle = angle;
   }
 
+  public double getRobotSetYaw() {
+    return m_referenceAngle;
+  }
+
   public double getYaw() {
     return m_navX.getYaw() * (-1);
+  }
+
+  public double getAngularVelocity() {
+    return m_navX.getRate();
   }
 
   public void resetNavX() {
@@ -354,8 +369,39 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_speakerToRobot;
   }
 
-  public static double calculateLimelightOffsetAngle(double currentYaw, double offsetYaw, double robotTheta) {
-    return currentYaw - offsetYaw + (robotTheta * 0.06);
+  public static double calculateLimelightOffsetAngle() {
+
+    double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
+    double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+    double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
+    if (!SubsystemContainer.alliance.isRedAlliance()) {
+      if (pose[5] > 0) {
+        pose[5] -= 180;
+      } else {
+        pose[5] += 180;
+      }
+    }
+
+    return currentYaw - offsetYaw + (pose[5] * 0.06);
+  }
+
+  public boolean robotVelocityWithinTolerance() {
+    return m_currentVx < SwerveConstants.MAX_SPEED_WHILE_SHOOTING
+        && m_currentVy < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
+  }
+
+  /**
+   * Returns true if the robot yaw is within tolerance of its target while facing
+   * a speaker tag
+   * 
+   * @return
+   */
+  public boolean AutoAligned() {
+    return Math.abs(SwerveSubsystem.calculateLimelightOffsetAngle() - getYaw()) < ShooterConstants.AUTO_ALIGN_ERROR;
+  }
+
+  public boolean withinShootingDistance() {
+    return GetSpeakerToRobot().getRadius() < ShooterConstants.MAX_SHOOTING_DISTANCE;
   }
 
   public States getCommandState() {

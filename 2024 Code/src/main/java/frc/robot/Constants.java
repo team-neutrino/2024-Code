@@ -69,6 +69,8 @@ public final class Constants {
     public static final int AMP_ORIENTATION_BLUE_ALLIANCE = -90;
     public static final double AMP_ALIGN_KP = .85;
     public static final double AMP_DX_LIMIT_VALUE = .5;
+
+    public static final double MAX_SPEED_WHILE_SHOOTING = 0.5;
   }
 
   public final class DigitalConstants {
@@ -127,6 +129,9 @@ public final class Constants {
     public static final double ClimbArm_ki = .0001;
     public static final double ClimbArm_kd = 0.0;
     public static final double ClimbIZone = 30;
+    public static final double FastArm_kp = 0.05;
+
+    public static final double timeBeforeSwitchPID = 0.3;
 
     public static final double FF_kg = 0.007;
     public static final double ARM_MASS_KG = 8.3733; // LBS 18.46
@@ -177,7 +182,8 @@ public final class Constants {
   }
 
   public final class ShooterConstants {
-    public static final int SHOOTER_CURRENT_LIMIT = 100;
+    public static final int HIGH_SHOOTER_CURRENT_LIMIT = 100;
+    public static final int SHOOTER_CURRENT_LIMIT = 60;
     public static final double WHEEL_P = 0.00075;
     public static final double WHEEL_I = 0.000001;
     public static final double WHEEL_D = 0;
@@ -185,6 +191,8 @@ public final class Constants {
     public static final double WHEEL_IZONE = 250;
     public static final double DEBOUNCE_TIME = 0.1;
     public static final double RPM_ERROR_THRESHOLD = 200;
+    public static final double AUTO_ALIGN_ERROR = 2;
+    public static final double MAX_SHOOTING_DISTANCE = 5;
   }
 
   public final class AprilTagConstants {

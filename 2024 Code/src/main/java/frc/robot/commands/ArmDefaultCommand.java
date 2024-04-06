@@ -24,13 +24,14 @@ public class ArmDefaultCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    SubsystemContainer.armSubsystem.commandStart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     SubsystemContainer.armSubsystem.setArmReferenceAngle(ArmConstants.INTAKE_POSE);
-    m_armSubsystem.setCommandState(States.CLIMBING);
+    m_armSubsystem.setCommandState(States.DEFAULT);
   }
 
   // Called once the command ends or is interrupted.

@@ -270,7 +270,9 @@ public class CalculateAngle {
         double y = robotPoint.getRadius() * Math.sin(robotPoint.getTheta());
 
         return 0.1590165304679383 - 29.69482794140633 * x + 45.19374530251578 * y + 30.083099935511076 * Math.pow(x, 2)
-                - 26.76490228955897 * x * y -
+                - 26.76490228955897 * x * y - 19.88973 * Math.pow(y, 2) - 8.83057607244 * Math.pow(x, 3)
+                + 5.910997777 * Math.pow(x, 2) * y
+                + 4.007635 * Math.pow(y, 2) * x + 7.5481769 * Math.pow(y, 3) + 0.8490822 * Math.pow(x, 4) -
                 0.574701463453621 * Math.pow(x, 3) * y + 0.6847081014154278 * Math.pow(x, 2) * Math.pow(y, 2)
                 - 2.2305911328185593 * x * Math.pow(y, 3) -
                 0.10198575174497826 * Math.pow(y, 4);

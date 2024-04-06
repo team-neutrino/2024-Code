@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
-
+import edu.wpi.first.wpilibj.Timer;
 import java.util.TreeMap;
 
 import com.revrobotics.AbsoluteEncoder;
@@ -31,11 +31,10 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean m_inPosition;
   private Debouncer m_armDebouncer;
   private SparkPIDController m_pidController;
-  private CalculateP m_calculateP;
   private int m_PIDslot;
   private double m_error;
-  private double m_feedforward;
   private double m_oldAngle;
+  private Timer m_timer;
   TreeMap<Double, Double> m_mapOfP;
   States commandState;
 
@@ -45,8 +44,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_mapOfP.put(7.0, 0.04);
     initializeMotorControllers();
     m_armDebouncer = new Debouncer(ArmConstants.DEBOUNCE_TIME, DebounceType.kRising);
-    m_calculateP = new CalculateP(m_mapOfP);
     m_targetAngle = Constants.ArmConstants.INTAKE_POSE;
+    m_timer = new Timer();
   }
 
   public void defaultArm() {
@@ -110,7 +109,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 500);
     m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 500);
     m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 500);
-    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 10);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 20);
     m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, 500);
     m_armMotor.setSmartCurrentLimit(ArmConstants.ARM_CURRENT_LIMIT);
 
@@ -129,12 +128,16 @@ public class ArmSubsystem extends SubsystemBase {
     m_pidController.setD(ArmConstants.ClimbArm_kd, 1);
     m_pidController.setIZone(ArmConstants.ClimbIZone, 1);
 
+    m_pidController.setP(ArmConstants.FastArm_kp, 2);
+    m_pidController.setI(ArmConstants.Arm_ki, 2);
+    m_pidController.setD(ArmConstants.Arm_kd, 2);
+
     m_armMotor.burnFlash();
   }
 
   public void setArmReferenceAngle(double targetAngle) {
     m_targetAngle = targetAngle;
-    m_PIDslot = 0;
+    pidChanger();
   }
 
   public void setClimbReferenceAngle() {
@@ -146,16 +149,21 @@ public class ArmSubsystem extends SubsystemBase {
   private void updateArmAngle(double targetAngle, int PIDslot) {
 
     targetAngle = limitArmAngle(targetAngle);
+    targetAngle = adjustAngleIn(targetAngle);
+    m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, feedForwardCalculation());
+  }
+
+  private double feedForwardCalculation() {
     double currentAngle = getArmAngleRadians();
     double filtAngle = 0.98 * currentAngle + 0.02 * m_oldAngle;
     m_oldAngle = filtAngle;
 
-    m_feedforward = ArmConstants.FF_kg
+    return ArmConstants.FF_kg
         * ((ArmConstants.ARM_CM) * (9.8 * ArmConstants.ARM_MASS_KG * Math.cos(filtAngle)));
+  }
 
-    targetAngle = adjustAngleIn(targetAngle);
-    m_pidController.setP(m_calculateP.InterpolateP(m_error), 0);
-    m_pidController.setReference(targetAngle, CANSparkBase.ControlType.kPosition, PIDslot, m_feedforward);
+  public void commandStart() {
+    m_timer.restart();
   }
 
   public States getCommandState() {
@@ -164,6 +172,14 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void setCommandState(States state) {
     commandState = state;
+  }
+
+  private void pidChanger() {
+    if (m_timer.get() < Constants.ArmConstants.timeBeforeSwitchPID) {
+      m_PIDslot = 2;
+    } else {
+      m_PIDslot = 0;
+    }
   }
 
   @Override
