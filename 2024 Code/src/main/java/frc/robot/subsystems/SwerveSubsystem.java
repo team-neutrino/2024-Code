@@ -381,11 +381,6 @@ public class SwerveSubsystem extends SubsystemBase {
       }
     }
 
-    // if (SubsystemContainer.limelightSubsystem.getID() != 4 &&
-    // SubsystemContainer.limelightSubsystem.getID() != 7) {
-    // return 1000;
-    // }
-
     return currentYaw - offsetYaw + (pose[5] * 0.06);
   }
 
