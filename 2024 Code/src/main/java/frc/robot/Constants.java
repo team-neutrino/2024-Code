@@ -69,6 +69,7 @@ public final class Constants {
     public static final int AMP_ORIENTATION_BLUE_ALLIANCE = -90;
     public static final double AMP_ALIGN_KP = .85;
     public static final double AMP_DX_LIMIT_VALUE = .5;
+    public static final double AMP_SHOOTING_ZONE = .5;
 
     public static final double MAX_SPEED_WHILE_SHOOTING = 0.5;
   }
