@@ -15,6 +15,7 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
     double[] pose;
 
     public AutoAlignForeverCommand() {
+        super(null);
         addRequirements(SubsystemContainer.limelightSubsystem);
     }
 

@@ -118,7 +118,7 @@ public class RobotContainer {
     m_buttonsController.povDown()
         .onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
 
-    m_driverController.rightBumper().whileTrue(new AutoAlignCommand());
+    m_driverController.rightBumper().whileTrue(new AutoAlignCommand(m_driverController));
 
     // arm buttons
     m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));
