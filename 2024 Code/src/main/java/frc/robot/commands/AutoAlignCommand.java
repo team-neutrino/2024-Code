@@ -18,10 +18,7 @@ public class AutoAlignCommand extends Command {
     /**
      * Gives the current yaw (test)
      */
-    protected double m_currentYaw;
-    protected double m_offsetYaw;
     private int priorityTag;
-    private double poseModifier;
     private XboxController m_xboxController;
 
     public AutoAlignCommand(CommandXboxController p_controller) {
@@ -36,10 +33,8 @@ public class AutoAlignCommand extends Command {
         SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
         if (SubsystemContainer.alliance.isRedAlliance()) {
             priorityTag = AprilTagConstants.RED_ALLIANCE_IDS.SPEAKER_ID;
-            poseModifier = 0;
         } else {
             priorityTag = AprilTagConstants.BLUE_ALLIANCE_IDS.SPEAKER_ID;
-            poseModifier = 180;
         }
         SubsystemContainer.limelightSubsystem.setPriorityID(priorityTag);
     }
@@ -48,18 +43,9 @@ public class AutoAlignCommand extends Command {
     public void execute() {
         if (SubsystemContainer.limelightSubsystem.getTv()) {
 
-            m_currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-            m_offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
-            double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
-            if (pose[5] > 0) {
-                pose[5] -= poseModifier;
-            } else {
-                pose[5] += poseModifier;
-            }
-
             if (SubsystemContainer.limelightSubsystem.getID() == (priorityTag)) {
                 SubsystemContainer.swerveSubsystem
-                        .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle(m_currentYaw, m_offsetYaw, pose[5]));
+                        .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle());
             }
         } else {
             // SUPER auto align!!
