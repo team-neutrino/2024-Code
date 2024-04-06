@@ -372,7 +372,7 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_speakerToRobot;
   }
 
-  public double calculateLimelightOffsetAngle() {
+  public static double calculateLimelightOffsetAngle() {
 
     double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
     double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
