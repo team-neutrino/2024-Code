@@ -182,6 +182,10 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 
+  public boolean aboveAngle(double angleThreshold) {
+    return (getArmAngleDegrees() > angleThreshold);
+  }
+
   @Override
   public void periodic() {
     m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);

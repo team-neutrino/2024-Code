@@ -154,6 +154,7 @@ public final class Constants {
     public static final double SHUTTLE_ANGLE = 0;
     public static final double SUBWOOFER_ANGLE = -10;
     public static final double CLIMB_ANGLE = -20;
+    public static final double AMP_THRESHOLD = 75;
 
     public static final double DEBOUNCE_TIME = 0.2;
     public static final double POSITION_ERROR_THRESHOLD = 1.5;
@@ -177,7 +178,7 @@ public final class Constants {
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
     public static final double AMP_SPEED = 3000;
     public static final double INITIAL_SHOOTER_SPEED = 0.6 * 12;
-    public static final double SPEED_THRESHOLD_SUBWOOFER = 2800;
+    public static final double LOW_SPEED_THRESHOLD = 2800;
     public static final double SPEED_THRESHOLD_SHUTTLE = 3000;
   }
 
