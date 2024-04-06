@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.SubsystemContainer;
 
 public class LimelightSubsystem extends SubsystemBase {
@@ -32,8 +31,8 @@ public class LimelightSubsystem extends SubsystemBase {
     return validTarget == 1;
   }
 
-  public Double getID() {
-    Double id = limelight.getEntry("tid").getDouble(0.0);
+  public int getID() {
+    int id = (int) (double) limelight.getEntry("tid").getDouble(0.0);
     return id;
   }
 
@@ -90,21 +89,6 @@ public class LimelightSubsystem extends SubsystemBase {
     // invalid limelight data
     if (limelightPose.getX() == 0.0) {
       return;
-    }
-
-    // distance from current pose to vision estimated pose
-    double poseDifference = poseEstimator.getEstimatedPosition().getTranslation()
-        .getDistance(limelightPose.getTranslation());
-
-    double distanceToSpeaker;
-
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      distanceToSpeaker = poseEstimator.getEstimatedPosition().getTranslation()
-          .getDistance(SwerveConstants.SPEAKER_RED_SIDE);
-
-    } else {
-      distanceToSpeaker = poseEstimator.getEstimatedPosition().getTranslation()
-          .getDistance(SwerveConstants.SPEAKER_BLUE_SIDE);
     }
 
     if (getTv()) {

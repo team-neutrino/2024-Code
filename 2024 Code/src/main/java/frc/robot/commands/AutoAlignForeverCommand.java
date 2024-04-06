@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
@@ -15,8 +14,8 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
     Timer timer = new Timer();
     double[] pose;
 
-    public AutoAlignForeverCommand(CommandXboxController p_xboxController) {
-        super(p_xboxController);
+    public AutoAlignForeverCommand() {
+        super(null);
         addRequirements(SubsystemContainer.limelightSubsystem);
     }
 

@@ -71,7 +71,7 @@ public class RobotContainer {
         new AutonIntakeCommand(Constants.ArmConstants.INTAKE_POSE, Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
     NamedCommands.registerCommand("AutonShoot",
         new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED, SubsystemContainer.m_angleCalculate));
-    NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand(m_driverController));
+    NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand());
     NamedCommands.registerCommand("SingleSubwooferShot",
         new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
 
