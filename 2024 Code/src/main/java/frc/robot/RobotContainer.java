@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDefaultCommand;
+import frc.robot.commands.TranslatedAutoAlignCommand;
 import frc.robot.commands.GamePieceCommands.AmpAutoAlign;
 import frc.robot.commands.GamePieceCommands.ArmClimbCommandDown;
 import frc.robot.commands.GamePieceCommands.ArmClimbCommandUp;
@@ -28,6 +29,7 @@ import frc.robot.commands.AutoAlignForeverCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
+import frc.robot.commands.LockSwerveYCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -92,12 +94,16 @@ public class RobotContainer {
 
     m_driverController.x().whileTrue(new AmpAutoAlign(m_driverController));
     m_driverController.y()
-        .whileTrue(new SequentialCommandGroup(
-            new ParallelCommandGroup(new ShootWhilstSwerving(m_driverController, m_buttonsController),
-                new AutoAlignCommand()),
-            new MagicShootCommand()));
+        .whileTrue(
+            new ParallelCommandGroup(new TranslatedAutoAlignCommand(SubsystemContainer.m_calculateMovingShot),
+                new LockSwerveYCommand(m_driverController)));
 
     // shooter buttons
+    m_buttonsController.leftBumper()
+        .whileTrue(new SequentialCommandGroup(
+            new ShootWhilstSwerving(m_buttonsController, SubsystemContainer.m_calculateMovingShot),
+            new MagicShootCommand()));
+
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
 

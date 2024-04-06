@@ -10,6 +10,7 @@ import frc.robot.subsystems.wrapper.NetworkTables;
 import frc.robot.subsystems.wrapper.Shooter;
 
 public class SubsystemContainer {
+    public static final CalculateMovingShot m_calculateMovingShot = new CalculateMovingShot();
     public static final CalculateAngle m_angleCalculate = new CalculateAngle();
     public static final Alliance alliance = new Alliance();
     public static final NetworkTables sendables = new NetworkTables();

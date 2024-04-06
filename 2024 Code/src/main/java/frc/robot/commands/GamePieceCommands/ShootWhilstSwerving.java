@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.CalculateAngle;
+import frc.robot.util.CalculateMovingShot;
 import frc.robot.util.PolarCoord;
 import frc.robot.util.SubsystemContainer;
 
@@ -25,21 +25,18 @@ import frc.robot.util.SubsystemContainer;
  */
 public class ShootWhilstSwerving extends GamePieceCommand {
 
-  private SwerveSubsystem m_swerveSubsystem;
   private ShooterSubsystem m_shooterSubsystem;
   private CalculateAngle m_calculateAngle;
-  private CommandXboxController m_driverController;
-  private CommandXboxController m_buttonsController;
+  private CommandXboxController m_controller;
+  private PolarCoord adjustedSpeakerToRobot;
+  private CalculateMovingShot m_calculateMovingShot;
 
   /** Creates a new ShootWhileSwerving. */
-  public ShootWhilstSwerving(CommandXboxController p_driverController, CommandXboxController p_buttonsController) {
-    m_swerveSubsystem = SubsystemContainer.swerveSubsystem;
+  public ShootWhilstSwerving(CommandXboxController p_controller, CalculateMovingShot p_calculateMovingShot) {
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_calculateAngle = SubsystemContainer.m_angleCalculate;
-    m_driverController = p_driverController;
-    m_buttonsController = p_buttonsController;
-
-    addRequirements(m_swerveSubsystem);
+    m_controller = p_controller;
+    m_calculateMovingShot = p_calculateMovingShot;
   }
 
   // Called when the command is initially scheduled.
@@ -50,33 +47,11 @@ public class ShootWhilstSwerving extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_swerveSubsystem.SwerveWithoutDeadzone(0, m_driverController.getLeftX() * -1, 0);
-
-    PolarCoord adjustedSpeakerToRobot = calculateAdjustedPos();
+    adjustedSpeakerToRobot = m_calculateMovingShot.calculateAdjustedPos();
 
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(adjustedSpeakerToRobot));
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
-  }
-
-  private PolarCoord calculateAdjustedPos() {
-    double r = m_swerveSubsystem.GetSpeakerToRobot().getRadius();
-    double theta = m_swerveSubsystem.GetSpeakerToRobot().getTheta();
-    double robotSpeed = m_swerveSubsystem.getDriveMotorSpeed();
-
-    double deltaX = (r / ShooterConstants.NOTE_SPEED) * robotSpeed;
-
-    return new PolarCoord(r, calculateAdjustedTheta(r, theta, deltaX));
-  }
-
-  private double calculateAdjustedTheta(double r, double theta, double deltaX) {
-    double adjustedRadius = calculateAdjustedRadius(r, theta, deltaX);
-
-    return Math.asin((deltaX * Math.sin(theta)) / adjustedRadius);
-  }
-
-  private double calculateAdjustedRadius(double r, double theta, double deltaX) {
-    return Math.sqrt((Math.pow(r, 2) + Math.pow(deltaX, 2)) - (2 * r * deltaX * Math.cos(theta)));
   }
 
   // Called once the command ends or is interrupted.
@@ -87,7 +62,7 @@ public class ShootWhilstSwerving extends GamePieceCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_buttonsController.getHID().getLeftBumper() && m_armSubsystem.getInPosition()
+    return m_controller.getHID().getLeftBumper() && m_armSubsystem.getInPosition()
         && m_shooterSubsystem.approveShoot() && m_intakeSubsystem.isNoteReady();
   }
 }
