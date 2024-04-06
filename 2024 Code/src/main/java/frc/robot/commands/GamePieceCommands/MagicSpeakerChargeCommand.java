@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.CalculateAngle;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
+import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -55,10 +58,10 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(SwerveSubsystem.calculateLimelightOffsetAngle() - m_swerve.getYaw()) < 2 &&
-        (m_limelight.getID() == 4 || m_limelight.getID() == 7) &&
-        m_swerve.GetSpeakerToRobot().getRadius() < 5 &&
-        (m_swerve.getCurrentVxWithinTolerance() && m_swerve.getCurrentVy() < 0.5) &&
+    return m_swerve.AutoAligned() &&
+        m_limelight.facingSpeakerID() &&
+        m_swerve.withinShootingDistance() &&
+        m_swerve.robotVelocityWithinTolerance() &&
         // only previous conditions below
         m_armSubsystem.getInPosition() &&
         m_shooterSubsystem.approveShoot() &&

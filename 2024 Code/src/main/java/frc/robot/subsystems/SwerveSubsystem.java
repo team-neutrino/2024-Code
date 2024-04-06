@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
 import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
@@ -384,12 +385,30 @@ public class SwerveSubsystem extends SubsystemBase {
     return currentYaw - offsetYaw + (pose[5] * 0.06);
   }
 
-  public boolean getCurrentVxWithinTolerance() {
-    return currentVx < 0.5;
+  public boolean robotVelocityWithinTolerance() {
+    return currentVx < SwerveConstants.MAX_SPEED_WHILE_SHOOTING && currentVy < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
   }
 
-  public double getCurrentVy() {
-    return currentVy;
+  // public boolean getCurrentVxWithinTolerance() {
+  // return currentVx < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
+  // }
+
+  // public boolean getCurrentVyWithinTolerance() {
+  // return currentVy < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
+  // }
+
+  /**
+   * Returns true if the robot yaw is within tolerance of its target while facing
+   * a speaker tag
+   * 
+   * @return
+   */
+  public boolean AutoAligned() {
+    return Math.abs(SwerveSubsystem.calculateLimelightOffsetAngle() - getYaw()) < ShooterConstants.AUTO_ALIGN_ERROR;
+  }
+
+  public boolean withinShootingDistance() {
+    return GetSpeakerToRobot().getRadius() < ShooterConstants.MAX_SHOOTING_DISTANCE;
   }
 
   public States getCommandState() {

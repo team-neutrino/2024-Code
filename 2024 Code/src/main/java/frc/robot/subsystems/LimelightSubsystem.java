@@ -8,6 +8,8 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
+import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
 import frc.robot.util.SubsystemContainer;
 
 public class LimelightSubsystem extends SubsystemBase {
@@ -71,6 +73,10 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public void setPriorityID(int id) {
     limelight.getEntry("priorityid").setNumber(id);
+  }
+
+  public boolean facingSpeakerID() {
+    return getID() == RED_ALLIANCE_IDS.SPEAKER_ID || getID() == BLUE_ALLIANCE_IDS.SPEAKER_ID;
   }
 
   /**
