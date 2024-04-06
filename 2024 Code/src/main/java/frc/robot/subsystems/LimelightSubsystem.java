@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
 import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
 import frc.robot.util.SubsystemContainer;
