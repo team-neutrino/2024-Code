@@ -67,7 +67,13 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_controller.getHID().getLeftBumper() && m_armSubsystem.getInPosition()
-        && m_shooterSubsystem.approveShoot() && m_intakeSubsystem.isNoteReady();
+    return Math.abs(SwerveSubsystem.calculateLimelightOffsetAngle() - m_swerve.getYaw()) < 2 &&
+        (m_limelight.getID() == 4 || m_limelight.getID() == 7) &&
+        m_swerve.GetSpeakerToRobot().getRadius() < 5 &&
+        (m_swerve.getCurrentVxWithinTolerance() && m_swerve.getCurrentVy() < 0.5) &&
+        // only previous conditions below
+        m_armSubsystem.getInPosition() &&
+        m_shooterSubsystem.approveShoot() &&
+        noteCentered;
   }
 }
