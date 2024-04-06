@@ -21,7 +21,7 @@ public class AutoAlignCommand extends Command {
     protected double m_currentYaw;
     protected double m_offsetYaw;
     private int priorityTag;
-    private int poseModifier;
+    private double poseModifier;
     private XboxController m_xboxController;
 
     public AutoAlignCommand(CommandXboxController p_controller) {
