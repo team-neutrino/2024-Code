@@ -389,14 +389,6 @@ public class SwerveSubsystem extends SubsystemBase {
     return currentVx < SwerveConstants.MAX_SPEED_WHILE_SHOOTING && currentVy < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
   }
 
-  // public boolean getCurrentVxWithinTolerance() {
-  // return currentVx < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
-  // }
-
-  // public boolean getCurrentVyWithinTolerance() {
-  // return currentVy < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
-  // }
-
   /**
    * Returns true if the robot yaw is within tolerance of its target while facing
    * a speaker tag
