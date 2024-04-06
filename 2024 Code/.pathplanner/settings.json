@@ -7,7 +7,8 @@
     "1 Note",
     "2 Note",
     "3 Note",
-    "4 Note"
+    "4 Note",
+    "0 Note"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
