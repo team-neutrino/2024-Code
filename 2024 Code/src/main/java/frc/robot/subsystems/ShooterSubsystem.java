@@ -134,6 +134,5 @@ public class ShooterSubsystem extends SubsystemBase {
 
     m_atSpeed = m_shootDebouncer
         .calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= ShooterConstants.RPM_ERROR_THRESHOLD);
-    System.out.println(m_shooterMotor.getOutputCurrent());
   }
 }
