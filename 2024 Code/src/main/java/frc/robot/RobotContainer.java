@@ -129,7 +129,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("4 Note AMP");
+      auto = new PathPlannerAuto("1 Note ANYWHERE");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }
