@@ -23,7 +23,6 @@ public class MagicERAmpChargeCommand extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(SubsystemContainer.swerveSubsystem.getAmpDy());
     if (SubsystemContainer.swerveSubsystem.getAmpDy() < SwerveConstants.AMP_SHOOTING_ZONE) {
       m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
       m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.AMP_SPEED);
