@@ -159,6 +159,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
     }
 
+    public void runIndexJitter() {
+        if (hasNoNote()) {
+            indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
+        } else if (isNoteTooFar()) {
+            indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
+        }
+    }
+
     public void runIndexReverse() {
         indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
 
