@@ -95,8 +95,6 @@ public class SwerveSubsystem extends SubsystemBase {
   private double currentVy = 0;
   private States m_state;
 
-  public static boolean autoAlign = false;
-
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
     m_modulePositions[1] = new SwerveModulePosition();
@@ -147,8 +145,6 @@ public class SwerveSubsystem extends SubsystemBase {
     vx = Limiter.deadzone(vx, 0.1);
     vy = Limiter.deadzone(vy, 0.1);
     omega = Limiter.deadzone(omega, 0.1);
-
-    autoAlign = false;
 
     SwerveWithoutDeadzone(vx, vy, omega);
   }
@@ -385,9 +381,10 @@ public class SwerveSubsystem extends SubsystemBase {
       }
     }
 
-    if (SubsystemContainer.limelightSubsystem.getID() != 4 && SubsystemContainer.limelightSubsystem.getID() != 7) {
-      return 1000;
-    }
+    // if (SubsystemContainer.limelightSubsystem.getID() != 4 &&
+    // SubsystemContainer.limelightSubsystem.getID() != 7) {
+    // return 1000;
+    // }
 
     return currentYaw - offsetYaw + (pose[5] * 0.06);
   }
