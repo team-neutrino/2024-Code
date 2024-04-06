@@ -45,18 +45,6 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
     if (m_intakeSubsystem.isNoteReady()) {
       noteCentered = true;
     }
-
-    if (Math.abs(SwerveSubsystem.calculateLimelightOffsetAngle() - m_swerve.getYaw()) < 2 &&
-        (m_limelight.getID() == 4 || m_limelight.getID() == 7) &&
-        m_swerve.GetSpeakerToRobot().getRadius() < 5 &&
-        (m_swerve.getCurrentVxWithinTolerance() && m_swerve.getCurrentVy() < 0.5) &&
-        // only previous conditions below
-        m_armSubsystem.getInPosition() &&
-        m_shooterSubsystem.approveShoot() &&
-        noteCentered) {
-
-      m_intakeSubsystem.runIndexShoot();
-    }
   }
 
   // Called once the command ends or is interrupted.
