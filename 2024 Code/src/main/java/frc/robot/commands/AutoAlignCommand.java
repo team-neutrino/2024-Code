@@ -25,7 +25,9 @@ public class AutoAlignCommand extends Command {
     private XboxController m_xboxController;
 
     public AutoAlignCommand(CommandXboxController p_controller) {
-        m_xboxController = p_controller.getHID();
+        if (p_controller != null) {
+            m_xboxController = p_controller.getHID();
+        }
         addRequirements(SubsystemContainer.swerveSubsystem);
     }
 
