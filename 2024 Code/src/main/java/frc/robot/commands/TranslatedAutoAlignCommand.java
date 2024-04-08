@@ -26,17 +26,19 @@ public class TranslatedAutoAlignCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     if (SubsystemContainer.limelightSubsystem.getTv()) {
+      SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
+
       double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
       double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
       double movementOffset = m_calculateMovingShot.calculateAdjustedPos().getTheta();
+
+      System.out.println("adjustment angle: " + movementOffset);
 
       double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
       if (!SubsystemContainer.alliance.isRedAlliance()) {
