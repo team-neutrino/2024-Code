@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -41,9 +42,12 @@ public class LEDDefaultCommand extends Command {
   public void execute() {
     if (m_shooterSubsystem.approveShoot() && m_armSubsystem.getInPosition() && m_intakeSubsystem.isNoteReady()) {
       m_LEDSubsystem.setToGreen();
-      m_xboxController.setRumble(RumbleType.kBothRumble, 1);
+      if (m_armSubsystem.aboveAngle(Constants.ArmConstants.RUMBLE_THRESHOLD)) {
+        m_xboxController.setRumble(RumbleType.kBothRumble, Constants.OperatorConstants.RUMBLE_SPEED);
+      }
     } else if (m_intakeSubsystem.isNoteReady()) {
       m_LEDSubsystem.setToCyan();
+      m_xboxController.setRumble(RumbleType.kBothRumble, 0);
     } else if (m_swerveSubsystem.getCommandState() == States.AUTOALIGN) {
       m_LEDSubsystem.setToBlue();
       m_xboxController.setRumble(RumbleType.kBothRumble, 0);
