@@ -18,6 +18,7 @@ import frc.robot.commands.GamePieceCommands.AutonSingleShotCommand;
 import frc.robot.commands.GamePieceCommands.IntakeCommand;
 import frc.robot.commands.GamePieceCommands.IntakeReverseCommand;
 import frc.robot.commands.GamePieceCommands.MagicAmpChargeCommand;
+import frc.robot.commands.GamePieceCommands.MagicERAmpChargeCommand;
 import frc.robot.commands.GamePieceCommands.MagicShootCommand;
 import frc.robot.commands.GamePieceCommands.MagicSpeakerChargeCommand;
 import frc.robot.commands.GamePieceCommands.ShootManualCommand;
@@ -92,11 +93,12 @@ public class RobotContainer {
       SubsystemContainer.armSubsystem.initializeMotorControllers();
     }));
 
-    m_driverController.x().whileTrue(new AmpAutoAlign(m_driverController));
     m_driverController.y()
         .whileTrue(
             new ParallelCommandGroup(new TranslatedAutoAlignCommand(SubsystemContainer.m_calculateMovingShot),
                 new LockSwerveYCommand(m_driverController)));
+    m_driverController.x().whileTrue(new ParallelCommandGroup(new AmpAutoAlign(m_driverController),
+        new SequentialCommandGroup(new MagicERAmpChargeCommand(), new MagicShootCommand())));
 
     // shooter buttons
     m_buttonsController.leftBumper()
@@ -120,7 +122,7 @@ public class RobotContainer {
 
     m_buttonsController.x().whileTrue(new SequentialCommandGroup(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED,
-            Constants.ShooterSpeeds.SPEED_THRESHOLD_SUBWOOFER, m_buttonsController),
+            Constants.ShooterSpeeds.LOW_SPEED_THRESHOLD, m_buttonsController),
         new MagicShootCommand()));
 
     m_buttonsController.b()
