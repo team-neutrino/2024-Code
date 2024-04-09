@@ -9,6 +9,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int XBOX_CONTROLLER = 0;
     public static final int DRIVER_CONTROLLER = 1;
+    public static final double RUMBLE_SPEED = 0.5;
   }
 
   public static class DimensionConstants {
@@ -159,6 +160,7 @@ public final class Constants {
     public static final double SUBWOOFER_ANGLE = -10;
     public static final double CLIMB_ANGLE = -20;
     public static final double AMP_THRESHOLD = 75;
+    public static final double RUMBLE_THRESHOLD = -15;
 
     public static final double DEBOUNCE_TIME = 0.2;
     public static final double POSITION_ERROR_THRESHOLD = 1.5;

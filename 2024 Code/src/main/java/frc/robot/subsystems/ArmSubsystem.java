@@ -123,8 +123,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_pidController.setPositionPIDWrappingEnabled(true);
 
     // climb settings
-    m_pidController.setP(ArmConstants.ClimbArm_ki, 1);
-    m_pidController.setI(ArmConstants.ClimbArm_kp, 1);
+    m_pidController.setP(ArmConstants.ClimbArm_kp, 1);
+    m_pidController.setI(ArmConstants.ClimbArm_ki, 1);
     m_pidController.setD(ArmConstants.ClimbArm_kd, 1);
     m_pidController.setIZone(ArmConstants.ClimbIZone, 1);
 
