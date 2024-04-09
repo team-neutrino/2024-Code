@@ -169,7 +169,7 @@ public final class Constants {
     public static final double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2;
     public static final double INDEX_MOTOR_VOLTAGE_POSITION = 0.05;
     public static final double INDEX_MOTOR_VOLTAGE_SHOOT = 1;
-    public static final double INDEX_JITTER_MOTOR_VOLTAGE = 0.125;
+    public static final double INDEX_JITTER_MOTOR_VOLTAGE = 0.15;
     public static final int INTAKE_CURRENT_LIMIT = 35;
     public static final int INDEX_CURRENT_LIMIT = 20;
     public static final double INTAKE_ERROR_THRESHOLD = 0.4;

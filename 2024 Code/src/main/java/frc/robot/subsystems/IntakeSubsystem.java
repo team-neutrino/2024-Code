@@ -37,6 +37,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private SlewRateLimiter intakeLimiter = new SlewRateLimiter(IntakeConstants.INTAKE_SLEW_RATE);
 
+    boolean jitterComplete = false;
+
     private Debouncer m_intakeDebouncer;
 
     public IntakeSubsystem() {
@@ -140,7 +142,7 @@ public class IntakeSubsystem extends SubsystemBase {
         return m_noteReady;
     }
 
-    private boolean isNoteCentered() {
+    private boolean betweenBeamBreaks() {
         return m_intakeBeam && !m_indexBeam;
     }
 
@@ -149,21 +151,22 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void runIndexFeed() {
-        if (hasNoNote()) {
+        if (jitterComplete && betweenBeamBreaks()) {
+            defaultIntake();
+        } else if (!jitterComplete && (hasNoNote() || betweenBeamBreaks())) {
             indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
-        } else if (isNoteTooFar()) {
+        } else {
             indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_POSITION;
-        } else if (isNoteReady()) {
-            stopIndex();
         }
-
     }
 
     public void runIndexJitter() {
         if (hasNoNote()) {
-            indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
+            indexVoltage = 0;
+        } else if (betweenBeamBreaks()) {
+            indexVoltage = IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE;
         } else if (isNoteTooFar()) {
-            indexVoltage = -IntakeConstants.INDEX_MOTOR_VOLTAGE_INTAKE;
+            indexVoltage = -IntakeConstants.INDEX_JITTER_MOTOR_VOLTAGE;
         }
     }
 
@@ -174,6 +177,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void runIndexShoot() {
         indexVoltage = IntakeConstants.INDEX_MOTOR_VOLTAGE_SHOOT;
+    }
+
+    public boolean jitterComplete() {
+        return jitterComplete;
     }
 
     private void runIntake() {
@@ -209,7 +216,17 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexBeam = !m_indexBeamBreak.get();
         m_intakeBeam = !m_intakeBeamBreak.get();
 
-        m_noteReady = m_intakeDebouncer.calculate(isNoteCentered());
+        if (jitterComplete) {
+            jitterComplete = isBeamBrokenIntake();
+        } else {
+            jitterComplete = isBeamBrokenIndex() && isBeamBrokenIntake();
+        }
+
+        if (m_noteReady) {
+            m_noteReady = isBeamBrokenIntake();
+        } else {
+            m_noteReady = m_intakeDebouncer.calculate(betweenBeamBreaks()) && jitterComplete;
+        }
     }
 
 }

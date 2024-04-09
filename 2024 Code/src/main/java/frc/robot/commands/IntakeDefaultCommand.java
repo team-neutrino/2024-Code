@@ -17,7 +17,9 @@ public class IntakeDefaultCommand extends Command {
 
     @Override
     public void initialize() {
-        timer.start();
+        if (!m_intakeSubsystem.jitterComplete()) {
+            timer.restart();
+        }
     }
 
     @Override
@@ -27,17 +29,32 @@ public class IntakeDefaultCommand extends Command {
         } else {
             timer.stop();
 
-            if (m_intakeSubsystem.hasNote() && !m_intakeSubsystem.isNoteReady()) {
-                m_intakeSubsystem.smartIntake();
+            if (!m_intakeSubsystem.isNoteReady()) {
+                m_intakeSubsystem.runIndexFeed();
             } else {
                 m_intakeSubsystem.defaultIntake();
             }
         }
     }
 
+    /**
+     * if (!timer.hasElapsed(2)) {
+     * m_intakeSubsystem.runIndexJitter();
+     * } else {
+     * timer.stop();
+     * 
+     * if (!m_intakeSubsystem.isBeamBrokenIndex()) {
+     * m_intakeSubsystem.runIndexFeed();
+     * } else if (m_intakeSubsystem.hasNote() && !m_intakeSubsystem.isNoteReady()) {
+     * m_intakeSubsystem.smartIntake();
+     * } else {
+     * m_intakeSubsystem.defaultIntake();
+     * }
+     * }
+     */
     @Override
     public void end(boolean interrupted) {
-        timer.reset();
+
     }
 
     @Override
