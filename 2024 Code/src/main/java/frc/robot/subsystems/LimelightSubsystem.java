@@ -100,12 +100,48 @@ public class LimelightSubsystem extends SubsystemBase {
       return;
     }
 
-    if (getTv()) {
+    if (getTv() && !(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720)) {
       limelight.getEntry("robot_orientation_set").setNumberArray(
           new Double[] { poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0 });
-      if (!(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720)) {
-        poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 0));
+
+      // distance from current pose to vision estimated pose
+      double poseDifference = poseEstimator.getEstimatedPosition().getTranslation()
+          .getDistance(limelightPose.getTranslation());
+
+      double distanceToSpeaker = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
+
+      double distanceToPrimaryTag = pose[9];
+
+      // increases the effective viewing distance for single tags because they are
+      // less accurate.
+      // This change means that the std will go up for a single tag and the
+      // poseDifference threshold
+      // will be even lower for a single tag at the same distance as a double
+      if (pose[7] <= 1) {
+        distanceToPrimaryTag *= 1.75;
+      }
+
+      // apply std linear function. As the distance increases, the applied standard
+      // deviation goes up
+      double xyStds = (3.0 / 5.0) * distanceToPrimaryTag + 0.1;
+
+      // apply the accepted pose difference function. Returns the maximum pose
+      // difference that is accepted
+      // for a given distance input
+      double maxPoseDifferenceAccepted = (-0.65 / 5.0) * distanceToPrimaryTag + 0.75;
+
+      // the pose difference falls in the accepted range, as described by the linear
+      // function above^^
+      if (maxPoseDifferenceAccepted > poseDifference) {
+        poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, 0.0));
+
         poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
+
+        if (!(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720)) {
+          // poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 0));
+          // poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() -
+          // (pose[6] / 1000.0));
+        }
       }
     }
   }
