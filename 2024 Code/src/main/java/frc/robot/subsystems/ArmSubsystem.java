@@ -23,6 +23,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.util.CalculateP;
 import frc.robot.Constants.LEDConstants.States;
+import frc.robot.subsystems.wrapper.Arm;
 
 public class ArmSubsystem extends SubsystemBase {
   private CANSparkFlex m_armMotor = new CANSparkFlex(MotorIDs.Arm, MotorType.kBrushless);
@@ -189,6 +190,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);
+    m_targetAngle = Arm.targetAngle;
     updateArmAngle(m_targetAngle, m_PIDslot);
     m_inPosition = m_armDebouncer
         .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
