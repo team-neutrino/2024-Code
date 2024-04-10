@@ -100,6 +100,40 @@ public class LimelightSubsystem extends SubsystemBase {
       return;
     }
 
+    /**
+     * here are my thoughts lol and the basic overview of the structure that I have
+     * in mind. Many of the numerical values
+     * are subject to change as appropiate I just thought these ones made sense
+     * based on past experience
+     * 
+     * key features
+     * 
+     * std needs to be a function of distance and take into account how many tags
+     * are in view
+     * the accepted "pose difference" also needs to be a function of distance, ie
+     * the margin for accepted error is smaller when the robot is farther away
+     * 
+     * (these are rough numbers the functions that I have put in have been modified
+     * slightly after looking at them in desmos)
+     * domain of std function is 0 - 5
+     * range of std function is 0 - 3
+     * 
+     * domain of accepted pose difference 0 - 5
+     * range of accepted pose difference 0.75 - 0.2
+     * 
+     * first layer - reject all measurements that are outside the field
+     * 1.5 layer - reject measurements when the robot is spinning
+     * second layer - reject all measurements that are greater than 0.75m off the
+     * current estimated position (maybe 0.5?) (this is done implicitly through the
+     * function and max poseDifference accepted)
+     * third layer - apply std function and accepted pose difference function. For
+     * single tags, multiply the distance by 1.75, apply the functions as normal
+     * fourth layer -
+     * 
+     * maybe more layers? This seemed sufficient to me but I could be forgetting
+     * something
+     */
+
     if (getTv() && !(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720)) {
       limelight.getEntry("robot_orientation_set").setNumberArray(
           new Double[] { poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0 });
