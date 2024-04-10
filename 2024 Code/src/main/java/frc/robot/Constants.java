@@ -75,7 +75,7 @@ public final class Constants {
     public static final double MAX_SPEED_WHILE_SHOOTING = 0.5;
 
     public static final double MAX_ANGLE_CONTROLLER_P = 0.1;
-    public static final double MIN_ANGLE_CONTROLLER_P = 0.035;
+    public static final double MIN_ANGLE_CONTROLLER_P = 0.025;
   }
 
   public final class DigitalConstants {
