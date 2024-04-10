@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class Intake extends IntakeSubsystem {
@@ -54,5 +55,6 @@ public class Intake extends IntakeSubsystem {
         indexWheelEncSpeed_pub.set(getIndexVelocity(), NetworkTablesJNI.now());
         beambreakStatus_pub.set(isBeamBrokenIntake());
         indexSpeed_pub.set(getIndexVoltage());
+        SmartDashboard.putBoolean("GOT NOTE?", isBeamBrokenIntake());
     }
 }
