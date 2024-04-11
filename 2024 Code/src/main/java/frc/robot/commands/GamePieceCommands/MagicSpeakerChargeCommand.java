@@ -57,7 +57,7 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
         m_swerve.robotVelocityWithinTolerance() &&
         // only previous conditions below
         m_armSubsystem.getInPosition() &&
-        m_shooterSubsystem.approveShoot() &&
+        m_shooterSubsystem.aboveRPM(3800) &&
         m_intakeSubsystem.isNoteReady();
   }
 }

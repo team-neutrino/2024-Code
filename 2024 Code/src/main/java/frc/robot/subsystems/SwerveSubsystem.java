@@ -96,6 +96,8 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_currentVy = 0;
   private States m_state;
 
+  double cycle = 0;
+
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
     m_modulePositions[1] = new SwerveModulePosition();
@@ -437,6 +439,12 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), m_modulePositions);
     UpdateSpeakerToRobot(m_currentPoseL);
+
+    cycle++;
+    if (cycle % 40 == 0) {
+      System.out
+          .println("robot radius " + m_speakerToRobot.getRadius() + " robot theta " + m_speakerToRobot.getTheta());
+    }
 
     m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
     m_field.getObject("with limelight").setPose(m_currentPoseL);

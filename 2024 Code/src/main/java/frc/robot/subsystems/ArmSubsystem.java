@@ -190,7 +190,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);
-    m_targetAngle = Arm.targetAngle;
+    // m_targetAngle = Arm.targetAngle;
     updateArmAngle(m_targetAngle, m_PIDslot);
     m_inPosition = m_armDebouncer
         .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
