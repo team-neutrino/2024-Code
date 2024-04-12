@@ -9,6 +9,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int XBOX_CONTROLLER = 0;
     public static final int DRIVER_CONTROLLER = 1;
+    public static final double RUMBLE_SPEED = 0.5;
   }
 
   public static class DimensionConstants {
@@ -69,8 +70,12 @@ public final class Constants {
     public static final int AMP_ORIENTATION_BLUE_ALLIANCE = -90;
     public static final double AMP_ALIGN_KP = .85;
     public static final double AMP_DX_LIMIT_VALUE = .5;
+    public static final double AMP_SHOOTING_ZONE = .5;
 
     public static final double MAX_SPEED_WHILE_SHOOTING = 0.5;
+
+    public static final double MAX_ANGLE_CONTROLLER_P = 0.1;
+    public static final double MIN_ANGLE_CONTROLLER_P = 0.035;
   }
 
   public final class DigitalConstants {
@@ -154,6 +159,8 @@ public final class Constants {
     public static final double SHUTTLE_ANGLE = 0;
     public static final double SUBWOOFER_ANGLE = -10;
     public static final double CLIMB_ANGLE = -20;
+    public static final double AMP_THRESHOLD = 75;
+    public static final double RUMBLE_THRESHOLD = -15;
 
     public static final double DEBOUNCE_TIME = 0.2;
     public static final double POSITION_ERROR_THRESHOLD = 1.5;
@@ -177,7 +184,7 @@ public final class Constants {
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
     public static final double AMP_SPEED = 3000;
     public static final double INITIAL_SHOOTER_SPEED = 0.6 * 12;
-    public static final double SPEED_THRESHOLD_SUBWOOFER = 2800;
+    public static final double LOW_SPEED_THRESHOLD = 2800;
     public static final double SPEED_THRESHOLD_SHUTTLE = 3000;
   }
 
@@ -191,7 +198,7 @@ public final class Constants {
     public static final double WHEEL_IZONE = 250;
     public static final double DEBOUNCE_TIME = 0.1;
     public static final double RPM_ERROR_THRESHOLD = 200;
-    public static final double AUTO_ALIGN_ERROR = 2;
+    public static final double AUTO_ALIGN_ERROR = 4;
     public static final double MAX_SHOOTING_DISTANCE = 5;
   }
 

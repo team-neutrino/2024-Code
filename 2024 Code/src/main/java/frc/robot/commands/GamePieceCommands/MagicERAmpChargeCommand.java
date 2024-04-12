@@ -4,29 +4,33 @@
 
 package frc.robot.commands.GamePieceCommands;
 
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.util.SubsystemContainer;
 
-public class MagicAmpChargeCommand extends GamePieceCommand {
-  private CommandXboxController m_controller;
+public class MagicERAmpChargeCommand extends GamePieceCommand {
 
   /** Creates a new MagicAmpChargeCommand. */
-  public MagicAmpChargeCommand(CommandXboxController p_xboxcontroller) {
-    m_controller = p_xboxcontroller;
+  public MagicERAmpChargeCommand() {
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_armSubsystem.commandStart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (SubsystemContainer.swerveSubsystem.getAmpDy() < SwerveConstants.AMP_SHOOTING_ZONE) {
+      m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
+      m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.AMP_SPEED);
+    } else {
+      m_armSubsystem.defaultArm();
+      m_shooterSubsystem.defaultShooter();
+    }
     m_intakeSubsystem.stopIntake();
-    m_armSubsystem.setArmReferenceAngle(Constants.ArmConstants.AMP_POSE);
-    m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.AMP_SPEED);
     m_intakeSubsystem.runIndexFeed();
   }
 
@@ -39,7 +43,6 @@ public class MagicAmpChargeCommand extends GamePieceCommand {
   @Override
   public boolean isFinished() {
     return m_armSubsystem.aboveAngle(Constants.ArmConstants.AMP_THRESHOLD)
-        && m_shooterSubsystem.aboveRPM(Constants.ShooterSpeeds.LOW_SPEED_THRESHOLD)
-        && m_controller.getHID().getLeftBumper();
+        && m_shooterSubsystem.aboveRPM(Constants.ShooterSpeeds.LOW_SPEED_THRESHOLD);
   }
 }

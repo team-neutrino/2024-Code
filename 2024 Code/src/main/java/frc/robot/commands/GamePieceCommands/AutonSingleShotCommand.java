@@ -21,7 +21,7 @@ public class AutonSingleShotCommand extends GamePieceCommand {
     public void execute() {
         m_armSubsystem.setArmReferenceAngle(m_angle);
         m_shooterSubsystem.setTargetRPM(m_rpm);
-        if (m_shooterSubsystem.aboveRPM(Constants.ShooterSpeeds.SPEED_THRESHOLD_SUBWOOFER)) {
+        if (m_shooterSubsystem.aboveRPM(Constants.ShooterSpeeds.LOW_SPEED_THRESHOLD)) {
             m_intakeSubsystem.runIndexShoot();
         } else {
             m_intakeSubsystem.stopIndex();

@@ -33,6 +33,10 @@ public class LimelightSubsystem extends SubsystemBase {
     return validTarget == 1;
   }
 
+  public double getDistanceFromPrimaryTarget() {
+    return getBotPose()[9];
+  }
+
   public int getID() {
     return (int) limelight.getEntry("tid").getDouble(0.0);
   }
