@@ -56,7 +56,7 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public double[] getBotPose() {
-    pose = limelight.getEntry("botpose_wpiblue").getDoubleArray(pastPose);
+    pose = limelight.getEntry("botpose_orb_wpiblue").getDoubleArray(pastPose);
     if (getTv()) {
       pastPose = pose;
     }
@@ -134,28 +134,10 @@ public class LimelightSubsystem extends SubsystemBase {
      * something
      */
 
-    // System.out.println("this ran");
-
-    // System.out.println("robot theta " +
-    // poseEstimator.getEstimatedPosition().getRotation().getDegrees());
-
-    if (getTv() && !(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720)) {
-
-      // double setAngle = 0;
-
-      // if (poseEstimator.getEstimatedPosition().getRotation().getDegrees() > 0) {
-      // setAngle = poseEstimator.getEstimatedPosition().getRotation().getDegrees() -
-      // 180;
-      // } else {
-      // setAngle = poseEstimator.getEstimatedPosition().getRotation().getDegrees() +
-      // 180;
-      // }
-
-      // System.out.println("estimated angle " + )
-
+    if (getTv() && !(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720) &&
+        Math.abs(targetPose[4]) < 45) {
       limelight.getEntry("robot_orientation_set").setNumberArray(
-          new Double[] { poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0,
-              0.0 });
+          new Double[] { poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0 });
 
       // distance from current pose to vision estimated pose
       double poseDifference = poseEstimator.getEstimatedPosition().getTranslation()
@@ -164,9 +146,6 @@ public class LimelightSubsystem extends SubsystemBase {
       double distanceToSpeaker = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
 
       double distanceToPrimaryTag = pose[9];
-
-      // System.out.println("pose difference " + poseDifference);
-      // System.out.println("distance to primary tag " + distanceToPrimaryTag);
 
       // increases the effective viewing distance for single tags because they are
       // less accurate.
@@ -182,15 +161,10 @@ public class LimelightSubsystem extends SubsystemBase {
       // 2/5 worked for 4 note amp!!
       double xyStds = (2.0 / 5.0) * distanceToPrimaryTag + 0.1;
 
-      double xyStdPlus = SubsystemContainer.swerveSubsystem.m_vNorm * 1.8;
-
-      // xyStds += xyStdPlus;
-
       // apply the accepted pose difference function. Returns the maximum pose
       // difference that is accepted
       // for a given distance input
       double maxPoseDifferenceAccepted = (-0.65 / 5.0) * distanceToPrimaryTag + 0.75;
-      // maxPoseDifferenceAccepted = 1;
 
       // the pose difference falls in the accepted range, as described by the linear
       // function above^^
@@ -198,7 +172,6 @@ public class LimelightSubsystem extends SubsystemBase {
         poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, 0.0));
 
         poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
-        System.out.println("adding vision measurement");
 
         if (!(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720)) {
           // poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 0));
