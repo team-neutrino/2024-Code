@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.CalculateAngle;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterSpeeds;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -57,7 +58,7 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
         m_swerve.robotVelocityWithinTolerance() &&
         // only previous conditions below
         m_armSubsystem.getInPosition() &&
-        m_shooterSubsystem.aboveRPM(3800) &&
+        m_shooterSubsystem.aboveRPM(ShooterSpeeds.SHOOTING_SPEED) &&
         m_intakeSubsystem.isNoteReady();
   }
 }
