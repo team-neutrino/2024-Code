@@ -185,10 +185,18 @@ public class ArmSubsystem extends SubsystemBase {
     return (getArmAngleDegrees() > angleThreshold);
   }
 
+  public void keepArmWrapped() {
+    if (!m_pidController.getPositionPIDWrappingEnabled()) {
+      m_pidController.setPositionPIDWrappingEnabled(true);
+    } else {
+    }
+  }
+
   @Override
   public void periodic() {
     m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);
     updateArmAngle(m_targetAngle, m_PIDslot);
+    keepArmWrapped();
     m_inPosition = m_armDebouncer
         .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
   }
