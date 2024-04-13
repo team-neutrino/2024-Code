@@ -2,13 +2,10 @@ package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
-import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class ShootShuttleCommand extends GamePieceCommand {
     private double m_angle;
-    private double m_rpm;
-    private double m_thresholdrpm;
     private CommandXboxController m_Controller;
     double i = 0;
     double speedCalc;
@@ -43,6 +40,6 @@ public class ShootShuttleCommand extends GamePieceCommand {
         return m_Controller.getHID().getLeftBumper()
                 && m_shooterSubsystem.aboveRPM(speedCalc - Constants.ShooterSpeeds.SHUTTLE_THRESHOLD_SUBTRACTOR)
                 && m_intakeSubsystem.isNoteReady()
-                && m_armSubsystem.getInPosition();
+                && m_armSubsystem.aboveAngle(Constants.ArmConstants.SHUTTLE_THRESHOLD);
     }
 }
