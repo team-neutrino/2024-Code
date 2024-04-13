@@ -202,6 +202,8 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeBeam = !m_intakeBeamBreak.get();
 
         m_noteReady = m_intakeDebouncer.calculate(isNoteCentered());
+
+        System.out.println(m_indexBeam);
     }
 
 }

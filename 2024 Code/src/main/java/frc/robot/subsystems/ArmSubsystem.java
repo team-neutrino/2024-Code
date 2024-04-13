@@ -38,6 +38,8 @@ public class ArmSubsystem extends SubsystemBase {
   TreeMap<Double, Double> m_mapOfP;
   States commandState;
 
+  double cycle = 0;
+
   public ArmSubsystem() {
     m_mapOfP = new TreeMap<Double, Double>();
     m_mapOfP.put(2.0, 0.022);
@@ -192,5 +194,13 @@ public class ArmSubsystem extends SubsystemBase {
     updateArmAngle(m_targetAngle, m_PIDslot);
     m_inPosition = m_armDebouncer
         .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
+
+    cycle++;
+
+    if (cycle % 50 == 0) {
+      if (!m_pidController.getPositionPIDWrappingEnabled()) {
+        m_pidController.setPositionPIDWrappingEnabled(true);
+      }
+    }
   }
 }
