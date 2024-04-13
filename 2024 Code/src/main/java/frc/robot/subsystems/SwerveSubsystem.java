@@ -388,7 +388,7 @@ public class SwerveSubsystem extends SubsystemBase {
     double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
     double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
     double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
-    if (!SubsystemContainer.alliance.isRedAlliance()) {
+    if (SubsystemContainer.alliance.isRedAlliance()) {
       if (pose[5] > 0) {
         pose[5] -= 180;
       } else {
