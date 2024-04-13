@@ -7,8 +7,7 @@ import frc.robot.util.SubsystemContainer;
 public class ShootShuttleCommand extends GamePieceCommand {
     private double m_angle;
     private CommandXboxController m_Controller;
-    double i = 0;
-    double speedCalc;
+    private double speedCalc;
 
     public ShootShuttleCommand(double p_angle, CommandXboxController p_Controller) {
         m_angle = p_angle;
@@ -26,7 +25,6 @@ public class ShootShuttleCommand extends GamePieceCommand {
                 * SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
         speedCalc = Math.min(Constants.ShooterSpeeds.MAX_SHUTTLE_SPEED, speedCalc);
         speedCalc = Math.max(Constants.ShooterSpeeds.MIN_SHUTTLE_SPEED, speedCalc);
-        System.out.println(speedCalc);
         m_shooterSubsystem.setTargetRPM(speedCalc);
         m_intakeSubsystem.runIndexFeed();
     }
@@ -38,8 +36,8 @@ public class ShootShuttleCommand extends GamePieceCommand {
     @Override
     public boolean isFinished() {
         return m_Controller.getHID().getLeftBumper()
-                && m_shooterSubsystem.aboveRPM(speedCalc - Constants.ShooterSpeeds.SHUTTLE_THRESHOLD_SUBTRACTOR)
+                && m_shooterSubsystem.aboveRPM(speedCalc - Constants.ShooterSpeeds.SHUTTLE_THRESHOLD_ERROR)
                 && m_intakeSubsystem.isNoteReady()
-                && m_armSubsystem.aboveAngle(Constants.ArmConstants.SHUTTLE_THRESHOLD);
+                && m_armSubsystem.aboveAngle(Constants.ArmConstants.SHUTTLE_ANGLE_THRESHOLD);
     }
 }
