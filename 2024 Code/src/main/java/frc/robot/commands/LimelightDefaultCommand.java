@@ -38,8 +38,8 @@ public class LimelightDefaultCommand extends Command {
                         Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem.getYaw()));
             }
 
-            // SubsystemContainer.limelightSubsystem.updatePoseEstimatorWithVisionBotPose(
-            // SubsystemContainer.swerveSubsystem.m_swervePoseEstimator, botPose);
+            SubsystemContainer.limelightSubsystem.updatePoseEstimatorWithVisionBotPose(
+                    SubsystemContainer.swerveSubsystem.m_swervePoseEstimator, botPose);
 
         }
     }

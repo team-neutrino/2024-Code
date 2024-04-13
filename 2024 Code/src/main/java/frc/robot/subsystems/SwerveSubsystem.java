@@ -401,16 +401,26 @@ public class SwerveSubsystem extends SubsystemBase {
 
     double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
     double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
-    double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
-    if (!SubsystemContainer.alliance.isRedAlliance()) {
-      if (pose[5] > 0) {
-        pose[5] -= 180;
-      } else {
-        pose[5] += 180;
-      }
-    }
+    double[] pose = SubsystemContainer.limelightSubsystem.getTargetPose();
+    // System.out.println("limelight theta " + pose[4]);
+    // if (!SubsystemContainer.alliance.isRedAlliance()) {
+    // if (pose[5] > 0) {
+    // pose[5] -= 180;
+    // } else {
+    // pose[5] += 180;
+    // }
+    // }
+    // if (SubsystemContainer.alliance.isRedAlliance()) {
+    // if (pose[5] < 0) {
+    // pose[5] += 180;
+    // } else {
+    // pose[5] -= 180;
+    // }
+    // }
 
-    return currentYaw - offsetYaw + (pose[5] * 0.06);
+    // System.out.println("post process limelight theta " + pose[4]);
+
+    return currentYaw - offsetYaw + (pose[4] * 0.06);
   }
 
   public boolean robotVelocityWithinTolerance() {
