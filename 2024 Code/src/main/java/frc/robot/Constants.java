@@ -157,6 +157,7 @@ public final class Constants {
     public static final double AMP_POSE = 90;
     public static final double ARM_ADJUST_DEADZONE = 0.2;
     public static final double SHUTTLE_ANGLE = 0;
+    public static final double SHUTTLE_ANGLE_THRESHOLD = -5;
     public static final double SUBWOOFER_ANGLE = -10;
     public static final double CLIMB_ANGLE = -20;
     public static final double AMP_THRESHOLD = 75;
@@ -180,13 +181,16 @@ public final class Constants {
 
   public final class ShooterSpeeds {
     public static final double SHOOTING_SPEED = 4000;
+    public static final double SHUTTLE_SPEED = 350;
     public static final double THRESHOLD_SHOOTING_SPEED = 3800;
-    public static final double SHUTTLE_SPEED = 3200;
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
     public static final double AMP_SPEED = 3000;
     public static final double INITIAL_SHOOTER_SPEED = 0.6 * 12;
     public static final double LOW_SPEED_THRESHOLD = 2800;
     public static final double SPEED_THRESHOLD_SHUTTLE = 3000;
+    public static final double MAX_SHUTTLE_SPEED = 4000;
+    public static final double MIN_SHUTTLE_SPEED = 2000;
+    public static final double SHUTTLE_THRESHOLD_ERROR = 200;
   }
 
   public final class ShooterConstants {
