@@ -120,7 +120,7 @@ public class SwerveSubsystem extends SubsystemBase {
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
             new PIDConstants(5, 0.0, 0.0),
-            new PIDConstants(5.0, 0.0, 0.0), // 0.6 before
+            new PIDConstants(3.0, 0.0, 0.0), // 0.6 before
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -352,6 +352,20 @@ public class SwerveSubsystem extends SubsystemBase {
 
     setRobotYaw(Math.toDegrees(
         Math.atan((m_currentPoseL.getY() - speakerPose.getY()) / (m_currentPoseL.getX() - speakerPose.getX()))));
+  }
+
+  public double AlignToSpeakerUsingOdometryAuton() {
+    Translation2d speakerPose;
+    if (SubsystemContainer.alliance.isRedAlliance()) {
+      SubsystemContainer.limelightSubsystem.setPriorityID(RED_ALLIANCE_IDS.SPEAKER_ID);
+      speakerPose = SwerveConstants.SPEAKER_RED_SIDE;
+    } else {
+      SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.SPEAKER_ID);
+      speakerPose = SwerveConstants.SPEAKER_BLUE_SIDE;
+    }
+
+    return Math.toDegrees(
+        Math.atan((m_currentPoseL.getY() - speakerPose.getY()) / (m_currentPoseL.getX() - speakerPose.getX())));
   }
 
   /**

@@ -16,7 +16,6 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
 
     public AutoAlignForeverCommand() {
         super(null);
-        addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
     @Override
@@ -31,8 +30,16 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
 
     @Override
     public void execute() {
-        SubsystemContainer.swerveSubsystem
-                .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle());
+        if (SubsystemContainer.limelightSubsystem.getTv()) {
+            SubsystemContainer.swerveSubsystem
+                    .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle());
+
+        } else {
+            // SUPER auto align!!
+
+            SubsystemContainer.swerveSubsystem
+                    .autonRotateSwerve(SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometryAuton());
+        }
 
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }

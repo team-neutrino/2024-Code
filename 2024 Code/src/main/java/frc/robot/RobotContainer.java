@@ -70,7 +70,7 @@ public class RobotContainer {
 
     // set named commands
     NamedCommands.registerCommand("AutonIntakeCommand",
-        new AutonIntakeCommand(Constants.ArmConstants.INTAKE_POSE, Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
+        new AutonIntakeCommand(Constants.ArmConstants.INTAKE_POSE, Constants.ShooterSpeeds.SHOOTING_SPEED));
     NamedCommands.registerCommand("AutonShoot",
         new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED, SubsystemContainer.m_angleCalculate));
     NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand());
@@ -132,7 +132,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("3 Note AMP-MID TOP");
+      auto = new PathPlannerAuto("4 Note SOURCE");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }
