@@ -276,10 +276,10 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void ResetModules() {
-    m_frontRight.resetEverything();
-    m_frontLeft.resetEverything();
-    m_backRight.resetEverything();
-    m_backLeft.resetEverything();
+    m_frontRight.initializeMotors();
+    m_frontLeft.initializeMotors();
+    m_backRight.initializeMotors();
+    m_backLeft.initializeMotors();
   }
 
   public Pose2d getPose() {

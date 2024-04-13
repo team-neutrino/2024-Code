@@ -100,7 +100,6 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void initializeMotorControllers() {
-    m_armMotor.restoreFactoryDefaults();
     m_armMotor.setIdleMode(IdleMode.kBrake);
 
     m_armEncoder = m_armMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
