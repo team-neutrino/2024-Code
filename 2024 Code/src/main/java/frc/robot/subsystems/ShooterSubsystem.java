@@ -35,14 +35,12 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterEncoder = m_shooterMotor.getEncoder();
     m_pidController = m_shooterMotor.getPIDController();
     m_pidController.setFeedbackDevice(m_shooterEncoder);
-    m_shooterMotor.restoreFactoryDefaults();
     m_shooterMotor.setIdleMode(IdleMode.kCoast);
     m_shooterMotor.setInverted(false);
     m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
     m_shooterMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
 
     m_followerEncoder = m_followerMotor.getEncoder();
-    m_followerMotor.restoreFactoryDefaults();
     m_followerMotor.setIdleMode(IdleMode.kCoast);
     m_followerMotor.setInverted(true);
     m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
