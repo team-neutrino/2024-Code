@@ -157,7 +157,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
       // apply std linear function. As the distance increases, the applied standard
       // deviation goes up
-      double xyStds = (3.0 / 5.0) * distanceToPrimaryTag + 0.1;
+      double xyStds = (2.0 / 5.0) * distanceToPrimaryTag + 0.1;
 
       // apply the accepted pose difference function. Returns the maximum pose
       // difference that is accepted
