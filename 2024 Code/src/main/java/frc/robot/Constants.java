@@ -89,7 +89,7 @@ public final class Constants {
   }
 
   public final class LEDConstants {
-    public static final int LEDBufferLen = 60;
+    public static final int LEDBufferLen = 140;
 
     public enum States {
       DEFAULT,
@@ -182,6 +182,7 @@ public final class Constants {
   public final class ShooterSpeeds {
     public static final double SHOOTING_SPEED = 4000;
     public static final double SHUTTLE_SPEED = 350;
+    public static final double THRESHOLD_SHOOTING_SPEED = 3800;
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
     public static final double AMP_SPEED = 3000;
     public static final double INITIAL_SHOOTER_SPEED = 0.6 * 12;
