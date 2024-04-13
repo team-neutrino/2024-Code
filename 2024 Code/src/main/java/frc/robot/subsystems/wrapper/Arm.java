@@ -54,7 +54,6 @@ public class Arm extends ArmSubsystem {
 
         radiPublisher = radius_topic.publish();
         radiPublisher.setDefault(0.0);
-
     }
 
     @Override
