@@ -25,10 +25,6 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
         } else {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
         }
-
-        // if (SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius() < 4) {
-        // SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
-        // }
         timer.start();
     }
 

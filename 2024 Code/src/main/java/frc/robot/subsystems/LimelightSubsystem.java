@@ -134,8 +134,7 @@ public class LimelightSubsystem extends SubsystemBase {
      * something
      */
 
-    if (getTv() && !(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720) &&
-        pose[5]) {
+    if (getTv() && !(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720)) {
       limelight.getEntry("robot_orientation_set").setNumberArray(
           new Double[] { poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0 });
 
@@ -158,8 +157,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
       // apply std linear function. As the distance increases, the applied standard
       // deviation goes up
-      // 2/5 worked for 4 note amp!!
-      double xyStds = (2.0 / 5.0) * distanceToPrimaryTag + 0.1;
+      double xyStds = (3.0 / 5.0) * distanceToPrimaryTag + 0.1;
 
       // apply the accepted pose difference function. Returns the maximum pose
       // difference that is accepted
