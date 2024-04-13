@@ -43,19 +43,15 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeEncoder = m_intakeMotor.getEncoder();
         m_indexEncoder = m_indexMotor.getEncoder();
 
-        m_intakeMotor.restoreFactoryDefaults();
-        m_intakeFollower.restoreFactoryDefaults();
         m_intakeMotor.setSmartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT);
         m_intakeFollower.setSmartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT);
         m_intakeFollower.follow(m_intakeMotor, false);
 
-        m_indexMotor.restoreFactoryDefaults();
         m_indexMotor.setSmartCurrentLimit(IntakeConstants.INDEX_CURRENT_LIMIT);
 
         m_intakeMotor.setIdleMode(IdleMode.kCoast);
         m_intakeFollower.setIdleMode(IdleMode.kCoast);
 
-        m_indexFollower.restoreFactoryDefaults();
         m_indexFollower.setSmartCurrentLimit(IntakeConstants.INDEX_CURRENT_LIMIT);
         m_indexFollower.follow(m_indexMotor, true);
 
