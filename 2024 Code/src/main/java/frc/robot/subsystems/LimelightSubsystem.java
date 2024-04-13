@@ -56,7 +56,7 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public double[] getBotPose() {
-    pose = limelight.getEntry("botpose_orb_wpiblue").getDoubleArray(pastPose);
+    pose = limelight.getEntry("botpose_wpiblue").getDoubleArray(pastPose);
     if (getTv()) {
       pastPose = pose;
     }
@@ -135,7 +135,7 @@ public class LimelightSubsystem extends SubsystemBase {
      */
 
     if (getTv() && !(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720) &&
-        Math.abs(targetPose[4]) < 45) {
+        pose[5]) {
       limelight.getEntry("robot_orientation_set").setNumberArray(
           new Double[] { poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0 });
 

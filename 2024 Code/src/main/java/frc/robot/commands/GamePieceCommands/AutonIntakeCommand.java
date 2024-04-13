@@ -40,6 +40,6 @@ public class AutonIntakeCommand extends GamePieceCommand {
 
   @Override
   public boolean isFinished() {
-    return ((m_intakeSubsystem.isNoteTooFar()) || m_timer.get() > 5);
+    return ((m_intakeSubsystem.isNoteTooFar()) || m_timer.get() > 3);
   }
 }
