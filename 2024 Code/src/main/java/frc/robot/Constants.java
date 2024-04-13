@@ -180,6 +180,7 @@ public final class Constants {
 
   public final class ShooterSpeeds {
     public static final double SHOOTING_SPEED = 4000;
+    public static final double THRESHOLD_SHOOTING_SPEED = 3800;
     public static final double SHUTTLE_SPEED = 3200;
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
     public static final double AMP_SPEED = 3000;
