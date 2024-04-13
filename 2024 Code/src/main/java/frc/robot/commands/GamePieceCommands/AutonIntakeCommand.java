@@ -33,12 +33,13 @@ public class AutonIntakeCommand extends GamePieceCommand {
 
   @Override
   public void end(boolean interrupted) {
+    m_intakeSubsystem.defaultIntake();
     m_timer.stop();
     m_timer.reset();
   }
 
   @Override
   public boolean isFinished() {
-    return ((m_intakeSubsystem.isNoteCentered()) || m_timer.get() > 3);
+    return ((m_intakeSubsystem.isNoteCentered()) || m_timer.get() > 10);
   }
 }

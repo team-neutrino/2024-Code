@@ -140,7 +140,7 @@ public class IntakeSubsystem extends SubsystemBase {
         return m_noteReady;
     }
 
-    private boolean isNoteCentered() {
+    public boolean isNoteCentered() {
         return m_intakeBeam && !m_indexBeam;
     }
 
