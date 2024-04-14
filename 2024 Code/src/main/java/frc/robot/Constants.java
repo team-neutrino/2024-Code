@@ -218,4 +218,14 @@ public final class Constants {
       public static final int AMP_ID = 6;
     }
   }
+
+  public final class MessageTimers {
+    public static final int Status0 = 31883;
+    public static final int Status1 = 32027;
+    public static final int Status2 = 32099;
+    public static final int Status3 = 32203;
+    public static final int Status4 = 32309;
+    public static final int Status5 = 32377;
+    public static final int Status6 = 32479;
+  }
 }

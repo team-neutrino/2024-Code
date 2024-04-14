@@ -5,6 +5,7 @@ import com.revrobotics.*;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.Constants.MessageTimers;
 
 public class SwerveModule {
 
@@ -102,18 +103,6 @@ public class SwerveModule {
         speedPID.setReference(reference, CANSparkBase.ControlType.kVelocity, 0, feedforward);
     }
 
-    public double getAbsoluteAngle() {
-        return adjustAngleOut();
-    }
-
-    public double getRawAbsoluteAngle() {
-        return absAngleEncoder.getPosition();
-    }
-
-    public double getVoltage() {
-        return absAngleEncoder.getVoltage();
-    }
-
     public SwerveModulePosition getModulePosition() {
         return new SwerveModulePosition(speedEncoder.getPosition(), getOptimizationAngle());
     }
@@ -125,7 +114,7 @@ public class SwerveModule {
     public void initializeMotors() {
         angleMotor.setSmartCurrentLimit(Constants.SwerveConstants.ANGLE_MOTOR_CURRENT_LIMIT);
         speedMotor.setSmartCurrentLimit(Constants.SwerveConstants.SPEED_MOTOR_CURRENT_LIMIT);
-        
+
         speedMotor.setInverted(speed_motor_cfg.IsInverted());
         angleMotor.setInverted(angle_motor_cfg.IsInverted());
 
@@ -149,22 +138,22 @@ public class SwerveModule {
         speedPID.setP(Constants.SwerveConstants.SPEED_P, 0);
 
         // angle motor CAN messages rates
-        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 20);
-        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 20);
-        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 500);
-        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 10);
-        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 500);
-        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 500);
-        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, 500);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 19);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
+        angleMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
 
         // speed motor CAN messages rates
-        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 20);
-        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 10);
-        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 10);
-        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 500);
-        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 500);
-        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 500);
-        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, 500);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 13);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 11);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
 
         speedMotor.burnFlash();
         angleMotor.burnFlash();
