@@ -39,6 +39,6 @@ public class AutonIntakeCommand extends GamePieceCommand {
 
   @Override
   public boolean isFinished() {
-    return ((m_intakeSubsystem.hasNote()) || m_timer.get() > 3);
+    return ((m_intakeSubsystem.hasNote()) || m_timer.get() > 5);
   }
 }
