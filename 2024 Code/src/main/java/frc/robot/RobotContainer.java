@@ -21,6 +21,7 @@ import frc.robot.commands.GamePieceCommands.MagicERAmpChargeCommand;
 import frc.robot.commands.GamePieceCommands.MagicShootCommand;
 import frc.robot.commands.GamePieceCommands.MagicSpeakerChargeCommand;
 import frc.robot.commands.GamePieceCommands.ShootManualCommand;
+import frc.robot.commands.GamePieceCommands.ShootShuttleCommand;
 import frc.robot.commands.GamePieceCommands.ShuttleCloseCommand;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.commands.AutoAlignCommand;
@@ -114,8 +115,7 @@ public class RobotContainer {
         new MagicShootCommand()));
 
     m_buttonsController.b()
-        .whileTrue(new SequentialCommandGroup(new ShootManualCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
-            Constants.ShooterSpeeds.SHUTTLE_SPEED, Constants.ShooterSpeeds.SPEED_THRESHOLD_SHUTTLE,
+        .whileTrue(new SequentialCommandGroup(new ShootShuttleCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
             m_buttonsController), new MagicShootCommand()));
 
     m_buttonsController.povDown()
