@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+
+import java.text.MessageFormat;
+
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -10,6 +13,7 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.MessageTimers;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.ShooterSpeeds;
@@ -57,20 +61,20 @@ public class ShooterSubsystem extends SubsystemBase {
     // shooter motor CAN messages rates
     m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 5);
     m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 10);
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 500);
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 500);
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 500);
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 500);
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, 500);
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
 
     // shooter follower CAN messages rates
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 100);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
     m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 10);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 500);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 500);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 500);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 500);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, 500);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
 
     m_shooterMotor.burnFlash();
     m_followerMotor.burnFlash();
