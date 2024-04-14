@@ -49,6 +49,8 @@ public final class Constants {
     public static final Translation2d SPEAKER_BLUE_SIDE = new Translation2d(0, 5.35);
     public static final Translation2d SPEAKER_RED_SIDE = new Translation2d(16.5, 5.35);
 
+    public static final Translation2d SUPERSPEAKER_RED_SIDE = new Translation2d(16.5, 6);
+
     public static final Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(1.84, 7.75);
     public static final Translation2d AMP_TARGET_POSE_RED = new Translation2d(14.701, 7.75);
 
@@ -189,7 +191,7 @@ public final class Constants {
     public static final double LOW_SPEED_THRESHOLD = 2800;
     public static final double SPEED_THRESHOLD_SHUTTLE = 3000;
     public static final double MAX_SHUTTLE_SPEED = 4000;
-    public static final double MIN_SHUTTLE_SPEED = 2000;
+    public static final double MIN_SHUTTLE_SPEED = 3000;
     public static final double SHUTTLE_THRESHOLD_ERROR = 200;
   }
 
