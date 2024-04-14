@@ -4,8 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import java.text.MessageFormat;
-
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -69,7 +67,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // shooter follower CAN messages rates
     m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 10);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
     m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
     m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
     m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
@@ -92,10 +90,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public boolean aboveRPM(double p_rpm) {
     return (getShooterRPM() > p_rpm);
-  }
-
-  public double getFollowerRPM() {
-    return m_followerEncoder.getVelocity();
   }
 
   public double getShooterRPM() {

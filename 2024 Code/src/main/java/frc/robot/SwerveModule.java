@@ -111,10 +111,6 @@ public class SwerveModule {
         return absAngleEncoder.getPosition();
     }
 
-    public double getVoltage() {
-        return absAngleEncoder.getVoltage();
-    }
-
     public SwerveModulePosition getModulePosition() {
         return new SwerveModulePosition(speedEncoder.getPosition(), getOptimizationAngle());
     }
@@ -160,7 +156,7 @@ public class SwerveModule {
 
         // speed motor CAN messages rates
         speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 13);
         speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 11);
         speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 19);
         speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);

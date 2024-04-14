@@ -58,7 +58,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
         // intake motor CAN messages rates
         m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 10);
-        m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 20);
+        m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
         m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
         m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
         m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
@@ -105,16 +105,8 @@ public class IntakeSubsystem extends SubsystemBase {
         stopIndex();
     }
 
-    public double getIndexVelocity() {
-        return m_indexEncoder.getVelocity();
-    }
-
     public double getIndexVoltage() {
         return indexVoltage;
-    }
-
-    public double getIntakeVelocity() {
-        return m_intakeEncoder.getVelocity();
     }
 
     public boolean hasNoNote() {
