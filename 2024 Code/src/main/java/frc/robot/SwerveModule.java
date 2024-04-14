@@ -158,7 +158,7 @@ public class SwerveModule {
         speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
         speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 13);
         speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 11);
-        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 19);
+        speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
         speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
         speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
         speedMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
