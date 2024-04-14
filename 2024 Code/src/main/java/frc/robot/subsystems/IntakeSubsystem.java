@@ -76,7 +76,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
         // index motor CAN messages rates
         m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 10);
-        m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 20);
+        m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
         m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
         m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
         m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
