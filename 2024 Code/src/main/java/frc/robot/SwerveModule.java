@@ -103,14 +103,6 @@ public class SwerveModule {
         speedPID.setReference(reference, CANSparkBase.ControlType.kVelocity, 0, feedforward);
     }
 
-    public double getAbsoluteAngle() {
-        return adjustAngleOut();
-    }
-
-    public double getRawAbsoluteAngle() {
-        return absAngleEncoder.getPosition();
-    }
-
     public SwerveModulePosition getModulePosition() {
         return new SwerveModulePosition(speedEncoder.getPosition(), getOptimizationAngle());
     }
