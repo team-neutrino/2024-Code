@@ -16,7 +16,6 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
 
     public AutoAlignForeverCommand() {
         super(null);
-        addRequirements();
     }
 
     @Override

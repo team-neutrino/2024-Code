@@ -151,10 +151,6 @@ public class SwerveSubsystem extends SubsystemBase {
     SwerveWithoutDeadzone(vx, vy, omega);
   }
 
-  public SwerveDriveKinematics getKinematics() {
-    return m_kinematics;
-  }
-
   public void SwerveWithoutDeadzone(double vx, double vy, double omega) {
     if (vx != 0 && vy != 0) {
       vx = m_filterX.calculate(vx);
