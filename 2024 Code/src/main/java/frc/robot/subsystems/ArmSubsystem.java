@@ -36,6 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_error;
   private double m_oldAngle;
   private Timer m_timer;
+  private int i;
   TreeMap<Double, Double> m_mapOfP;
   States commandState;
 
@@ -186,9 +187,13 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void keepArmWrapped() {
-    if (!m_pidController.getPositionPIDWrappingEnabled()) {
-      m_pidController.setPositionPIDWrappingEnabled(true);
-    } else {
+    i++;
+    if (i >= 50) {
+      if (!m_pidController.getPositionPIDWrappingEnabled()) {
+        m_pidController.setPositionPIDWrappingEnabled(true);
+      } else {
+        i = 0;
+      }
     }
   }
 
