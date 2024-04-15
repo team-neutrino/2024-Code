@@ -89,13 +89,13 @@ public class LimelightSubsystem extends SubsystemBase {
     targetPose = limelight.getEntry("targetpose_robotspace").getDoubleArray(pastTargetPose);
     if (getTv()) {
       pastTargetPose = targetPose;
-    } 
+    }
     return targetPose;
   }
 
   public void setPipeline(int pipeline) {
-    l
-    
+    limelight.getEntry("pipeline").setNumber(pipeline);
+  }    
 
   public void setPriorityID(int id) {
     limelight.getEntry("priorityid").setNumber(id);
