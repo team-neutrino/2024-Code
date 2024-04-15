@@ -95,7 +95,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
   public void setPipeline(int pipeline) {
     limelight.getEntry("pipeline").setNumber(pipeline);
-  }    
+  }
 
   public void setPriorityID(int id) {
     limelight.getEntry("priorityid").setNumber(id);
