@@ -62,14 +62,8 @@ public class LimelightSubsystem extends SubsystemBase {
             swerve.m_swervePoseEstimator.getEstimatedPosition().getRotation().getDegrees(),
             0.0, 0.0, 0.0, 0.0, 0.0 });
 
-    Pose2d botPose = new Pose2d();
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      botPose = new Pose2d(getBotPose()[0], getBotPose()[1],
-          Rotation2d.fromDegrees(swerve.getYaw() + 180));
-    } else {
-      botPose = new Pose2d(getBotPose()[0], getBotPose()[1],
-          Rotation2d.fromDegrees(swerve.getYaw()));
-    }
+    double yaw = swerve.getYaw() + (SubsystemContainer.alliance.isRedAlliance() ? 180 : 0);
+    Pose2d botPose = new Pose2d(getBotPose()[0], getBotPose()[1], Rotation2d.fromDegrees(yaw));
 
     if (!DriverStation.isAutonomousEnabled() || m_forceUpdate) {
       updatePoseEstimatorWithVisionBotPose(swerve.m_swervePoseEstimator, botPose);
