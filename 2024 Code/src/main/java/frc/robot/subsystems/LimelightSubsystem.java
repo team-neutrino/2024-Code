@@ -3,9 +3,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
@@ -18,6 +20,7 @@ public class LimelightSubsystem extends SubsystemBase {
   private double[] targetPose = new double[6];
   private double[] pastPose = new double[11];
   private double[] pastTargetPose = new double[6];
+  private boolean m_forceUpdate = false;
 
   public LimelightSubsystem() {
     // global instance of the network table and gets the limelight table
@@ -52,11 +55,25 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
+    SwerveSubsystem swerve = SubsystemContainer.swerveSubsystem;
     limelight.getEntry("ledMode").setNumber(1);
+    limelight.getEntry("robot_orientation_set").setNumberArray(
+        new Double[] {
+            swerve.m_swervePoseEstimator.getEstimatedPosition().getRotation().getDegrees(),
+            0.0, 0.0, 0.0, 0.0, 0.0 });
+    Pose2d botPose = new Pose2d(getBotPose()[0], getBotPose()[1],
+        Rotation2d.fromDegrees(swerve.getYaw()));
+    if (!DriverStation.isAutonomousEnabled() || m_forceUpdate) {
+      updatePoseEstimatorWithVisionBotPose(swerve.m_swervePoseEstimator, botPose);
+    }
   }
 
   public double[] getBotPose() {
-    pose = limelight.getEntry("botpose_wpiblue").getDoubleArray(pastPose);
+    if (SubsystemContainer.alliance.isRedAlliance()) {
+      pose = limelight.getEntry("botpose_orb_wpired").getDoubleArray(pastPose);
+    } else {
+      pose = limelight.getEntry("botpose_orb_wpiblue").getDoubleArray(pastPose);
+    }
     if (getTv()) {
       pastPose = pose;
     }
@@ -83,6 +100,10 @@ public class LimelightSubsystem extends SubsystemBase {
     return getID() == RED_ALLIANCE_IDS.SPEAKER_ID || getID() == BLUE_ALLIANCE_IDS.SPEAKER_ID;
   }
 
+  public void forceMegaTagUpdate(boolean force) {
+    m_forceUpdate = force;
+  }
+
   /**
    * This method is primarily taken from the limelight docs page under "Robot
    * Localization with MegaTag." It specifies the conditions for accepting
@@ -99,14 +120,9 @@ public class LimelightSubsystem extends SubsystemBase {
     if (limelightPose.getX() == 0.0) {
       return;
     }
-
-    if (getTv()) {
-      limelight.getEntry("robot_orientation_set").setNumberArray(
-          new Double[] { poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0 });
-      if (!(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720)) {
-        poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 0));
-        poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
-      }
+    if (!(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720) && getTv()) {
+      poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 0));
+      poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
     }
   }
 

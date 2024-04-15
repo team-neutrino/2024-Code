@@ -169,8 +169,8 @@ public final class Constants {
 
   public final class IntakeConstants {
     public static final double INTAKE_MOTOR_VOLTAGE = 1;
-    public static final double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2;
-    public static final double INDEX_MOTOR_VOLTAGE_POSITION = 0.05;
+    public static final double INDEX_MOTOR_VOLTAGE_INTAKE = 0.5;
+    public static final double INDEX_MOTOR_VOLTAGE_POSITION = 0.07;
     public static final double INDEX_MOTOR_VOLTAGE_SHOOT = 1;
     public static final double INDEX_JITTER_MOTOR_VOLTAGE = 0.125;
     public static final int INTAKE_CURRENT_LIMIT = 35;
@@ -217,5 +217,15 @@ public final class Constants {
       public static final int SPEAKER_ID = 7;
       public static final int AMP_ID = 6;
     }
+  }
+
+  public final class MessageTimers {
+    public static final int Status0 = 31883;
+    public static final int Status1 = 32027;
+    public static final int Status2 = 32099;
+    public static final int Status3 = 32203;
+    public static final int Status4 = 32309;
+    public static final int Status5 = 32377;
+    public static final int Status6 = 32479;
   }
 }

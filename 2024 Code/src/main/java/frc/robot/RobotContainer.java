@@ -98,8 +98,6 @@ public class RobotContainer {
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
 
-    m_driverController.a().whileTrue(new InstantCommand(() -> SubsystemContainer.m_angleCalculate.dumpData()));
-
     m_driverController.start()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose()));
 
@@ -132,7 +130,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("1 Note ANYWHERE");
+      auto = new PathPlannerAuto("4 Note SOURCE");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }

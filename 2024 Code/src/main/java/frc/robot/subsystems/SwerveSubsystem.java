@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.proto.Kinematics;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -388,7 +389,7 @@ public class SwerveSubsystem extends SubsystemBase {
     double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
     double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
     double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
-    if (!SubsystemContainer.alliance.isRedAlliance()) {
+    if (SubsystemContainer.alliance.isRedAlliance()) {
       if (pose[5] > 0) {
         pose[5] -= 180;
       } else {

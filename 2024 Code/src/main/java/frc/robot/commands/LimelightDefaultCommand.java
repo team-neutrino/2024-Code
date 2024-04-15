@@ -28,20 +28,6 @@ public class LimelightDefaultCommand extends Command {
 
     @Override
     public void execute() {
-        if (SubsystemContainer.limelightSubsystem.getTv()) {
-            botPoseArray = SubsystemContainer.limelightSubsystem.getBotPose();
-            if (SubsystemContainer.alliance.isRedAlliance()) {
-                botPose = new Pose2d(botPoseArray[0], botPoseArray[1],
-                        Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem.getYaw() + 180));
-            } else {
-                botPose = new Pose2d(botPoseArray[0], botPoseArray[1],
-                        Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem.getYaw()));
-            }
-
-            SubsystemContainer.limelightSubsystem.updatePoseEstimatorWithVisionBotPose(
-                    SubsystemContainer.swerveSubsystem.m_swervePoseEstimator, botPose);
-
-        }
     }
 
     @Override

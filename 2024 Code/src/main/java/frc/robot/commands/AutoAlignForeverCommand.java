@@ -16,7 +16,6 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
 
     public AutoAlignForeverCommand() {
         super(null);
-        addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
     @Override
@@ -27,6 +26,7 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
         }
         timer.start();
+        SubsystemContainer.limelightSubsystem.forceMegaTagUpdate(true);
     }
 
     @Override
@@ -35,6 +35,12 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
                 .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle());
 
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
+
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        SubsystemContainer.limelightSubsystem.forceMegaTagUpdate(false);
     }
 
     @Override
