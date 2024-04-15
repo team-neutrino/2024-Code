@@ -64,8 +64,16 @@ public class LimelightSubsystem extends SubsystemBase {
         new Double[] {
             swerve.m_swervePoseEstimator.getEstimatedPosition().getRotation().getDegrees(),
             0.0, 0.0, 0.0, 0.0, 0.0 });
-    Pose2d botPose = new Pose2d(getBotPose()[0], getBotPose()[1],
-        Rotation2d.fromDegrees(swerve.getYaw()));
+
+    Pose2d botPose = new Pose2d();
+    if (SubsystemContainer.alliance.isRedAlliance()) {
+      botPose = new Pose2d(getBotPose()[0], getBotPose()[1],
+          Rotation2d.fromDegrees(swerve.getYaw() + 180));
+    } else {
+      botPose = new Pose2d(getBotPose()[0], getBotPose()[1],
+          Rotation2d.fromDegrees(swerve.getYaw()));
+    }
+
     // ChassisSpeeds speeds = swerve.getRobotRelativeSpeeds();
     // if (Math.abs(speeds.vyMetersPerSecond) < 0.1 &&
     // Math.abs(speeds.vxMetersPerSecond) < 0.1) {
@@ -75,11 +83,12 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public double[] getBotPose() {
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      pose = limelight.getEntry("botpose_orb_wpired").getDoubleArray(pastPose);
-    } else {
-      pose = limelight.getEntry("botpose_orb_wpiblue").getDoubleArray(pastPose);
-    }
+    // if (SubsystemContainer.alliance.isRedAlliance()) {
+    // pose = limelight.getEntry("botpose_orb_wpired").getDoubleArray(pastPose);
+    // } else {
+    // pose = limelight.getEntry("botpose_orb_wpiblue").getDoubleArray(pastPose);
+    // }
+    pose = limelight.getEntry("botpose_orb_wpiblue").getDoubleArray(pastPose);
     if (getTv()) {
       pastPose = pose;
     }
