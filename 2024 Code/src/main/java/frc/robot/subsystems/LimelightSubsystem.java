@@ -74,25 +74,17 @@ public class LimelightSubsystem extends SubsystemBase {
           Rotation2d.fromDegrees(swerve.getYaw()));
     }
 
-    // ChassisSpeeds speeds = swerve.getRobotRelativeSpeeds();
-    // if (Math.abs(speeds.vyMetersPerSecond) < 0.1 &&
-    // Math.abs(speeds.vxMetersPerSecond) < 0.1) {
     if (!DriverStation.isAutonomousEnabled() || m_forceUpdate) {
       updatePoseEstimatorWithVisionBotPose(swerve.m_swervePoseEstimator, botPose);
     }
   }
 
   public double[] getBotPose() {
-    // if (SubsystemContainer.alliance.isRedAlliance()) {
-    // pose = limelight.getEntry("botpose_orb_wpired").getDoubleArray(pastPose);
-    // } else {
-    // pose = limelight.getEntry("botpose_orb_wpiblue").getDoubleArray(pastPose);
-    // }
     pose = limelight.getEntry("botpose_orb_wpiblue").getDoubleArray(pastPose);
     if (getTv()) {
       pastPose = pose;
     }
-    //System.out.println("x: " + pose[0] + "y: " + pose[1]);
+
     return pose;
   }
 
@@ -100,7 +92,7 @@ public class LimelightSubsystem extends SubsystemBase {
     targetPose = limelight.getEntry("targetpose_robotspace").getDoubleArray(pastTargetPose);
     if (getTv()) {
       pastTargetPose = targetPose;
-    }
+    } 
     return targetPose;
   }
 
