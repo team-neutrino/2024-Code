@@ -61,22 +61,21 @@ public class LimelightSubsystem extends SubsystemBase {
         new Double[] {
             swerve.m_swervePoseEstimator.getEstimatedPosition().getRotation().getDegrees(),
             0.0, 0.0, 0.0, 0.0, 0.0 });
-    Pose2d botPose = new Pose2d(getBotPose()[0], getBotPose()[1],
-        Rotation2d.fromDegrees(swerve.getYaw()));
+
+    double yaw = swerve.getYaw() + (SubsystemContainer.alliance.isRedAlliance() ? 180 : 0);
+    Pose2d botPose = new Pose2d(getBotPose()[0], getBotPose()[1], Rotation2d.fromDegrees(yaw));
+
     if (!DriverStation.isAutonomousEnabled() || m_forceUpdate) {
       updatePoseEstimatorWithVisionBotPose(swerve.m_swervePoseEstimator, botPose);
     }
   }
 
   public double[] getBotPose() {
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      pose = limelight.getEntry("botpose_orb_wpired").getDoubleArray(pastPose);
-    } else {
-      pose = limelight.getEntry("botpose_orb_wpiblue").getDoubleArray(pastPose);
-    }
+    pose = limelight.getEntry("botpose_orb_wpiblue").getDoubleArray(pastPose);
     if (getTv()) {
       pastPose = pose;
     }
+
     return pose;
   }
 
