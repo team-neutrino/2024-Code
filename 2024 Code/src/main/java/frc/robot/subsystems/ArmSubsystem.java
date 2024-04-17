@@ -36,6 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_error;
   private double m_oldAngle;
   private Timer m_timer;
+  private int m_armWrapCounter;
   TreeMap<Double, Double> m_mapOfP;
   States commandState;
 
@@ -185,10 +186,22 @@ public class ArmSubsystem extends SubsystemBase {
     return (getArmAngleDegrees() > angleThreshold);
   }
 
+  public void keepArmWrapped() {
+    m_armWrapCounter++;
+    if (m_armWrapCounter >= 50) {
+      if (!m_pidController.getPositionPIDWrappingEnabled()) {
+        m_pidController.setPositionPIDWrappingEnabled(true);
+      } else {
+        m_armWrapCounter = 0;
+      }
+    }
+  }
+
   @Override
   public void periodic() {
     m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);
     updateArmAngle(m_targetAngle, m_PIDslot);
+    keepArmWrapped();
     m_inPosition = m_armDebouncer
         .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
   }
