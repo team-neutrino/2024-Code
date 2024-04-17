@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 0.7,
-      "y": 4.45
+      "y": 6.65
     },
-    "rotation": -60.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -28,7 +28,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Midline First I"
+                        "pathName": "Mid Notes Amp I"
                       }
                     },
                     {
@@ -52,7 +52,64 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Midline First II"
+            "pathName": "Mid Notes Amp II"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutonShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignForever"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Mid Notes Amp III"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoAlignForever"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutonIntakeCommand"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mid Notes Amp IV"
           }
         },
         {
@@ -77,6 +134,6 @@
       ]
     }
   },
-  "folder": "2 Note",
+  "folder": "3 Note",
   "choreoAuto": false
 }

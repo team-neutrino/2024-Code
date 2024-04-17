@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
+      "x": 0.7,
       "y": 4.45
     },
     "rotation": -60.0
@@ -77,6 +77,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "2 Note",
   "choreoAuto": false
 }
