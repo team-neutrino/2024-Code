@@ -189,7 +189,7 @@ public final class Constants {
     public static final double LOW_SPEED_THRESHOLD = 2800;
     public static final double SPEED_THRESHOLD_SHUTTLE = 3000;
     public static final double MAX_SHUTTLE_SPEED = 4000;
-    public static final double MIN_SHUTTLE_SPEED = 2000;
+    public static final double MIN_SHUTTLE_SPEED = 2800;
     public static final double SHUTTLE_THRESHOLD_ERROR = 200;
   }
 
