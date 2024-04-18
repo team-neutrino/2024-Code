@@ -30,6 +30,7 @@ import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
+import frc.robot.commands.ShuttleAutoAlignCommand;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -122,6 +123,8 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
 
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand(m_driverController));
+
+    m_driverController.y().whileTrue(new ShuttleAutoAlignCommand(m_buttonsController));
 
     // arm buttons
     m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));

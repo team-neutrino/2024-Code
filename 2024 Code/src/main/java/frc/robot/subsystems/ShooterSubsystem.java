@@ -46,7 +46,8 @@ public class ShooterSubsystem extends SubsystemBase {
     m_followerMotor.setIdleMode(IdleMode.kCoast);
     m_followerMotor.setInverted(true);
     m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
-    m_followerMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
+    m_followerMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, false);
+    m_followerMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, false);
     m_followerMotor.follow(m_shooterMotor, true);
 
     m_pidController.setP(ShooterConstants.WHEEL_P);

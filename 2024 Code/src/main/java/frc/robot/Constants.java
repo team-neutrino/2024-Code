@@ -52,6 +52,9 @@ public final class Constants {
     public static final Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(1.84, 7.75);
     public static final Translation2d AMP_TARGET_POSE_RED = new Translation2d(14.701, 7.75);
 
+    public static final Translation2d CORNER_BLUE_SIDE = new Translation2d(0.0, 7.75);
+    public static final Translation2d CORNER_RED_SIDE = new Translation2d(16.5, 7.75);
+
     public static final Pose2d BLUE_TARGET_POSE1 = new Pose2d(2, 4, new Rotation2d());
     public static final Pose2d BLUE_TARGET_POSE2 = new Pose2d(0.1, 4.8, new Rotation2d());
     public static final Pose2d BLUE_TARGET_POSE3 = new Pose2d(2.1, 2.1, new Rotation2d());

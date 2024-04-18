@@ -26,7 +26,7 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
         }
         timer.start();
-        SubsystemContainer.limelightSubsystem.forceMegaTagUpdate(true);
+        // SubsystemContainer.limelightSubsystem.forceMegaTagUpdate(true);
     }
 
     @Override
