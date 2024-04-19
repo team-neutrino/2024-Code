@@ -49,11 +49,11 @@ public final class Constants {
     public static final Translation2d SPEAKER_BLUE_SIDE = new Translation2d(0, 5.35);
     public static final Translation2d SPEAKER_RED_SIDE = new Translation2d(16.5, 5.35);
 
-    public static final Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(1.84, 7.75);
-    public static final Translation2d AMP_TARGET_POSE_RED = new Translation2d(14.701, 7.75);
-
     public static final Translation2d CORNER_BLUE_SIDE = new Translation2d(0.0, 7.75);
     public static final Translation2d CORNER_RED_SIDE = new Translation2d(16.5, 7.75);
+
+    public static final Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(1.84, 7.75);
+    public static final Translation2d AMP_TARGET_POSE_RED = new Translation2d(14.701, 7.75);
 
     public static final Pose2d BLUE_TARGET_POSE1 = new Pose2d(2, 4, new Rotation2d());
     public static final Pose2d BLUE_TARGET_POSE2 = new Pose2d(0.1, 4.8, new Rotation2d());
@@ -172,7 +172,7 @@ public final class Constants {
 
   public final class IntakeConstants {
     public static final double INTAKE_MOTOR_VOLTAGE = 1;
-    public static final double INDEX_MOTOR_VOLTAGE_INTAKE = 0.5;
+    public static final double INDEX_MOTOR_VOLTAGE_INTAKE = .4;
     public static final double INDEX_MOTOR_VOLTAGE_POSITION = 0.07;
     public static final double INDEX_MOTOR_VOLTAGE_SHOOT = 1;
     public static final double INDEX_JITTER_MOTOR_VOLTAGE = 0.125;
@@ -187,22 +187,23 @@ public final class Constants {
     public static final double SHUTTLE_SPEED = 350;
     public static final double THRESHOLD_SHOOTING_SPEED = 3800;
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
-    public static final double AMP_SPEED = 3000;
+    public static final double AMP_SPEED = 2500;
     public static final double INITIAL_SHOOTER_SPEED = 0.6 * 12;
     public static final double LOW_SPEED_THRESHOLD = 2800;
     public static final double SPEED_THRESHOLD_SHUTTLE = 3000;
     public static final double MAX_SHUTTLE_SPEED = 4000;
-    public static final double MIN_SHUTTLE_SPEED = 2800;
+    public static final double MIN_SHUTTLE_SPEED = 2000;
     public static final double SHUTTLE_THRESHOLD_ERROR = 200;
+    public static final double AMP_SPEED_THRESHOLD = 2300;
   }
 
   public final class ShooterConstants {
     public static final int HIGH_SHOOTER_CURRENT_LIMIT = 100;
     public static final int SHOOTER_CURRENT_LIMIT = 60;
-    public static final double WHEEL_P = 0.00075;
+    public static final double WHEEL_P = 0.0005;
     public static final double WHEEL_I = 0.000001;
     public static final double WHEEL_D = 0;
-    public static final double WHEEL_FF = 0.00021;
+    public static final double WHEEL_FF = 0.00019;
     public static final double WHEEL_IZONE = 250;
     public static final double DEBOUNCE_TIME = 0.1;
     public static final double RPM_ERROR_THRESHOLD = 200;

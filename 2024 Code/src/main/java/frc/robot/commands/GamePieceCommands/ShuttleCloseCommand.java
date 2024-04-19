@@ -22,7 +22,7 @@ public class ShuttleCloseCommand extends GamePieceCommand {
     m_armSubsystem.defaultArm();
     m_shooterSubsystem.setTargetRPM(ShooterSpeeds.SHUTTLE_CLOSE_SPEED);
     if ((m_intakeSubsystem.isBeamBrokenIntake()
-        || m_intakeSubsystem.isBeamBrokenIndex()) && m_shooterSubsystem.approveShoot()) {
+        || m_intakeSubsystem.isBeamBrokenIndex())) {
       m_intakeSubsystem.runIndexShoot();
     } else {
       m_intakeSubsystem.smartIntake();

@@ -92,8 +92,7 @@ public class RobotContainer {
       SubsystemContainer.armSubsystem.initializeMotorControllers();
     }));
 
-    m_driverController.x().whileTrue(new ParallelCommandGroup(new AmpAutoAlign(m_driverController),
-        new SequentialCommandGroup(new MagicERAmpChargeCommand(), new MagicShootCommand())));
+    m_driverController.x().whileTrue(new AmpAutoAlign(m_driverController));
 
     // shooter buttons
     m_buttonsController.a()
@@ -135,7 +134,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("4 Note SOURCE");
+      auto = new PathPlannerAuto("2 Note SOURCE-MID BOTTOM");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }

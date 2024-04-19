@@ -42,6 +42,7 @@ public class Shooter extends ShooterSubsystem {
     public void periodic() {
         super.periodic();
         wheel_speed_pub.set(getShooterRPM(), NetworkTablesJNI.now());
+
         wheel_target_speed_pub.set(getTargetRPM(), NetworkTablesJNI.now());
         wheel_target_speed_pub2.set(getTargetRPM(), NetworkTablesJNI.now());
     }
