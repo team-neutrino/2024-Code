@@ -172,11 +172,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void smartIntake() {
-        if (!SubsystemContainer.armSubsystem.getInPosition()) {
-            stopIndex();
-            stopIntake();
-            return;
-        }
+        // if (!SubsystemContainer.armSubsystem.getInPosition()) {
+        // stopIndex();
+        // stopIntake();
+        // return;
+        // }
         runIndexFeed();
         runIntake();
     }

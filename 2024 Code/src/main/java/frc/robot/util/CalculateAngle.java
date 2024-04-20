@@ -38,13 +38,13 @@ public class CalculateAngle {
 
     public CalculateAngle() {
 
-        bilinearMap.put(new PolarCoord(2.15, 0), 9.1199);
-        bilinearMap.put(new PolarCoord(3.1, 0), 12.4586);
+        bilinearMap.put(new PolarCoord(2.15, 0), 9.866);
+        bilinearMap.put(new PolarCoord(3.1, 0), 15.354);
         bilinearMap.put(new PolarCoord(4.0, 0.0), 16.0);
         bilinearMap.put(new PolarCoord(4.9, 0.0), 16.9);
 
-        bilinearMap.put(new PolarCoord(2.15, pi / 8), 7.3405);
-        bilinearMap.put(new PolarCoord(3.1, pi / 8), 10.0);
+        bilinearMap.put(new PolarCoord(2.15, pi / 8), 7.471);
+        bilinearMap.put(new PolarCoord(3.1, pi / 8), 10.56);
         bilinearMap.put(new PolarCoord(4.0, pi / 8), 15.0);
         bilinearMap.put(new PolarCoord(4.9, pi / 8), 17.28);
 

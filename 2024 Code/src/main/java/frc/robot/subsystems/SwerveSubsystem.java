@@ -52,7 +52,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final SwerveModule.MotorCfg m_frontLeftSpeed = new SwerveModule.MotorCfg(MotorIDs.FLS,
       true);
   private final SwerveModule.MotorCfg m_backRightSpeed = new SwerveModule.MotorCfg(MotorIDs.BRS,
-      true);
+      false);
   private final SwerveModule.MotorCfg m_backLeftSpeed = new SwerveModule.MotorCfg(MotorIDs.BLS,
       false);
 
@@ -96,6 +96,9 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_currentVx = 0;
   private double m_currentVy = 0;
   private States m_state;
+
+  double periodicCount = 0;
+  double initCount = 0;
 
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
@@ -443,6 +446,24 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // periodicCount++;
+    // if (initCount < 10) {
+    // if (periodicCount % 10 == 2) {
+    // m_frontRight.initializeMotors();
+    // }
+    // if (periodicCount % 10 == 4) {
+    // m_frontLeft.initializeMotors();
+    // }
+    // if (periodicCount % 10 == 6) {
+    // m_backRight.initializeMotors();
+    // }
+    // if (periodicCount % 10 == 8) {
+    // m_backLeft.initializeMotors();
+    // initCount++;
+    // }
+    // return;
+    // }
+
     m_modulePositions[0] = m_frontRight.getModulePosition();
     m_modulePositions[1] = m_frontLeft.getModulePosition();
     m_modulePositions[2] = m_backRight.getModulePosition();
@@ -455,5 +476,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
     m_field.getObject("with limelight").setPose(m_currentPoseL);
+
   }
 }

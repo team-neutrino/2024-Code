@@ -37,7 +37,7 @@ public final class Constants {
     public static final double FLA_OFFSET = 285;
     public static final double FRA_OFFSET = 273;
     public static final double BLA_OFFSET = 1;
-    public static final double BRA_OFFSET = 311;
+    public static final double BRA_OFFSET = 127.12;// 311;
 
     public static final double ks = 0.15;
     public static final double kv = 2.6;
@@ -192,7 +192,7 @@ public final class Constants {
     public static final double LOW_SPEED_THRESHOLD = 2800;
     public static final double SPEED_THRESHOLD_SHUTTLE = 3000;
     public static final double MAX_SHUTTLE_SPEED = 4000;
-    public static final double MIN_SHUTTLE_SPEED = 2000;
+    public static final double MIN_SHUTTLE_SPEED = 2500;
     public static final double SHUTTLE_THRESHOLD_ERROR = 200;
     public static final double AMP_SPEED_THRESHOLD = 2300;
   }
