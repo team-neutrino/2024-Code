@@ -124,7 +124,7 @@ public class SwerveSubsystem extends SubsystemBase {
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
             new PIDConstants(5, 0.0, 0.0),
-            new PIDConstants(3.0, 0.0, 0.0), // 0.6 before
+            new PIDConstants(3.0, 0.0, 0.0),
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -446,24 +446,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // periodicCount++;
-    // if (initCount < 10) {
-    // if (periodicCount % 10 == 2) {
-    // m_frontRight.initializeMotors();
-    // }
-    // if (periodicCount % 10 == 4) {
-    // m_frontLeft.initializeMotors();
-    // }
-    // if (periodicCount % 10 == 6) {
-    // m_backRight.initializeMotors();
-    // }
-    // if (periodicCount % 10 == 8) {
-    // m_backLeft.initializeMotors();
-    // initCount++;
-    // }
-    // return;
-    // }
-
     m_modulePositions[0] = m_frontRight.getModulePosition();
     m_modulePositions[1] = m_frontLeft.getModulePosition();
     m_modulePositions[2] = m_backRight.getModulePosition();
