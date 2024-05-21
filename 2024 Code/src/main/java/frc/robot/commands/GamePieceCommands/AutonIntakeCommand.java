@@ -35,10 +35,12 @@ public class AutonIntakeCommand extends GamePieceCommand {
   public void end(boolean interrupted) {
     m_timer.stop();
     m_timer.reset();
+    m_intakeSubsystem.stopIndex();
+    m_intakeSubsystem.stopIntake();
   }
 
   @Override
   public boolean isFinished() {
-    return ((m_intakeSubsystem.hasNote()) || m_timer.get() > 5);
+    return ((m_intakeSubsystem.hasNote()) || m_timer.get() > 10);
   }
 }

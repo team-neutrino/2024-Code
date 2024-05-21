@@ -15,6 +15,7 @@ import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MessageTimers;
 import frc.robot.Constants.MotorIDs;
+import frc.robot.util.SubsystemContainer;
 
 public class IntakeSubsystem extends SubsystemBase {
 

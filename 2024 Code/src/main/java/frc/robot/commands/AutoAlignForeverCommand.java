@@ -25,14 +25,19 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
         } else {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
         }
-        timer.start();
-        SubsystemContainer.limelightSubsystem.forceMegaTagUpdate(true);
+        timer.start(); // why is this here?
+        // SubsystemContainer.limelightSubsystem.forceMegaTagUpdate(true);
     }
 
     @Override
     public void execute() {
-        SubsystemContainer.swerveSubsystem
-                .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle());
+
+        if (SubsystemContainer.limelightSubsystem.getTv()) {
+            SubsystemContainer.swerveSubsystem
+                    .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle());
+        } else {
+            SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
+        }
 
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
 

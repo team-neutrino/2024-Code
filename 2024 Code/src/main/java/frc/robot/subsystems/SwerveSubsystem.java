@@ -52,7 +52,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final SwerveModule.MotorCfg m_frontLeftSpeed = new SwerveModule.MotorCfg(MotorIDs.FLS,
       true);
   private final SwerveModule.MotorCfg m_backRightSpeed = new SwerveModule.MotorCfg(MotorIDs.BRS,
-      true);
+      false);
   private final SwerveModule.MotorCfg m_backLeftSpeed = new SwerveModule.MotorCfg(MotorIDs.BLS,
       false);
 
@@ -97,6 +97,9 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_currentVy = 0;
   private States m_state;
 
+  double periodicCount = 0;
+  double initCount = 0;
+
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
     m_modulePositions[1] = new SwerveModulePosition();
@@ -121,7 +124,7 @@ public class SwerveSubsystem extends SubsystemBase {
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
             new PIDConstants(5, 0.0, 0.0),
-            new PIDConstants(3.0, 0.0, 0.0), // 0.6 before
+            new PIDConstants(3.0, 0.0, 0.0),
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -355,6 +358,20 @@ public class SwerveSubsystem extends SubsystemBase {
         Math.atan((m_currentPoseL.getY() - speakerPose.getY()) / (m_currentPoseL.getX() - speakerPose.getX()))));
   }
 
+  public void AlignToCornerUsingOdometry() {
+    Translation2d cornerPose;
+    if (SubsystemContainer.alliance.isRedAlliance()) {
+      SubsystemContainer.limelightSubsystem.setPriorityID(RED_ALLIANCE_IDS.SPEAKER_ID);
+      cornerPose = SwerveConstants.CORNER_RED_SIDE;
+    } else {
+      SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.SPEAKER_ID);
+      cornerPose = SwerveConstants.CORNER_BLUE_SIDE;
+    }
+
+    setRobotYaw(Math.toDegrees(
+        Math.atan((m_currentPoseL.getY() - cornerPose.getY()) / (m_currentPoseL.getX() - cornerPose.getX()))));
+  }
+
   /**
    * Get x distance from amp, used in amp auto align
    * 
@@ -441,5 +458,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
     m_field.getObject("with limelight").setPose(m_currentPoseL);
+
   }
 }
