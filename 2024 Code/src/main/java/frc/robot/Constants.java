@@ -58,7 +58,6 @@ public final class Constants {
     public static final Pose2d BLUE_TARGET_POSE1 = new Pose2d(2, 4, new Rotation2d());
     public static final Pose2d BLUE_TARGET_POSE2 = new Pose2d(0.1, 4.8, new Rotation2d());
     public static final Pose2d BLUE_TARGET_POSE3 = new Pose2d(2.1, 2.1, new Rotation2d());
-    // TODO: add target poses
     public static final Pose2d BLUE_TARGET_POSE4 = new Pose2d();
 
     public static final Pose2d RED_TARGET_POSE1 = new Pose2d();
@@ -67,7 +66,7 @@ public final class Constants {
     public static final Pose2d RED_TARGET_POSE4 = new Pose2d();
 
     public static final int ANGLE_MOTOR_CURRENT_LIMIT = 25;
-    public static final int SPEED_MOTOR_CURRENT_LIMIT = 40;
+    public static final int SPEED_MOTOR_CURRENT_LIMIT = 40; // TODO: change?
 
     public static final int AMP_ORIENTATION_RED_ALLIANCE = 90;
     public static final int AMP_ORIENTATION_BLUE_ALLIANCE = -90;

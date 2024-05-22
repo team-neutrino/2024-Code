@@ -114,8 +114,8 @@ public class NetworkTables extends SubsystemBase {
     public void simulationPeriodic() {
     }
 
-    @Override
-    public void periodic() {
-        totalCurrent.set(m_Pdh.getTotalCurrent());
-    }
+    // @Override
+    // public void periodic() {
+    // totalCurrent.set(m_Pdh.getTotalCurrent());
+    // }
 }

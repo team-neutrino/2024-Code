@@ -17,7 +17,7 @@ public class PDH {
         return m_powerDistributionHub.getCurrent(channel);
     }
 
-    public double getTotalCurrent() {
-        return m_powerDistributionHub.getTotalCurrent();
-    }
+    // public double getTotalCurrent() {
+    // return m_powerDistributionHub.getTotalCurrent();
+    // }
 }
