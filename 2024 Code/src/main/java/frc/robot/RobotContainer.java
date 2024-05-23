@@ -80,7 +80,8 @@ public class RobotContainer {
     // separate button binding to left bumper contained within the magic speaker
     // charge command
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
-        new MagicSpeakerChargeCommand(SubsystemContainer.m_angleCalculate, m_buttonsController),
+        new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.HIGH_SHOOTING_SPEED,
+            Constants.ShooterSpeeds.HIGH_SPEED_THRESHOLD, m_buttonsController),
         new MagicShootCommand()));
 
     m_buttonsController.x().whileTrue(new SequentialCommandGroup(
@@ -90,7 +91,8 @@ public class RobotContainer {
 
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand(m_driverController));
 
-    m_driverController.y().whileTrue(new ShuttleAutoAlignCommand(m_buttonsController));
+    // m_driverController.y().whileTrue(new
+    // ShuttleAutoAlignCommand(m_buttonsController));
 
     // arm buttons
     m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));

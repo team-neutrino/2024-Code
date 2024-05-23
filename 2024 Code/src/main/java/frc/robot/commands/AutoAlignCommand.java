@@ -49,7 +49,7 @@ public class AutoAlignCommand extends Command {
             }
         } else {
             // SUPER auto align!!
-            SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
+            // SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
         }
 
         SubsystemContainer.swerveSubsystem.SwerveWithDeadzone(m_xboxController.getLeftY() * -1,
