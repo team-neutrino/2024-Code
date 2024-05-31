@@ -15,30 +15,23 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.proto.Kinematics;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.SwerveModule;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
-import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
 import frc.robot.Constants.LEDConstants.States;
 import frc.robot.util.Limiter;
 import frc.robot.util.PolarCoord;
-import frc.robot.util.SubsystemContainer;
 
 public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
@@ -136,14 +129,6 @@ public class SwerveSubsystem extends SubsystemBase {
           return false;
         },
         this);
-
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d(-90)),
-          Constants.SwerveConstants.PATH_CONSTRAINTS);
-    } else {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, new Rotation2d(-90)),
-          Constants.SwerveConstants.PATH_CONSTRAINTS);
-    }
   }
 
   public void SwerveWithDeadzone(double vx, double vy, double omega) {
@@ -192,15 +177,6 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(vx, vy, omega);
-    ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
-
-    robotRelativeSwerve(robotSpeeds);
-  }
-
-  public void autonRotateSwerve(double reference) {
-    double omega = m_angleController.calculate(getYaw(), reference);
-
-    ChassisSpeeds fieldSpeeds = new ChassisSpeeds(0, 0, omega);
     ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
 
     robotRelativeSwerve(robotSpeeds);
@@ -262,19 +238,6 @@ public class SwerveSubsystem extends SubsystemBase {
     m_navX.reset();
     m_referenceAngle = 0;
 
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          m_modulePositions,
-          new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          m_modulePositions,
-          new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-    } else {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          m_modulePositions, new Pose2d());
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          m_modulePositions, new Pose2d());
-    }
     m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, new Pose2d());
     m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, new Pose2d());
   }
@@ -324,75 +287,6 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
-  private void UpdateSpeakerToRobot(Pose2d pose) {
-    double xComp = 0;
-    double yComp = 0;
-    double radius = 0.0;
-    double theta = 0.0;
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      xComp = Math.abs(pose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX());
-      yComp = Math.abs(pose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY());
-      radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));
-      theta = Math.atan(yComp / xComp);
-    } else {
-      xComp = Math.abs(pose.getX());
-      yComp = Math.abs(pose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
-      radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));
-      theta = Math.atan(yComp / xComp);
-    }
-
-    m_speakerToRobot.setLocation(radius, theta);
-  }
-
-  public void AlignToSpeakerUsingOdometry() {
-    Translation2d speakerPose;
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      SubsystemContainer.limelightSubsystem.setPriorityID(RED_ALLIANCE_IDS.SPEAKER_ID);
-      speakerPose = SwerveConstants.SPEAKER_RED_SIDE;
-    } else {
-      SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.SPEAKER_ID);
-      speakerPose = SwerveConstants.SPEAKER_BLUE_SIDE;
-    }
-
-    setRobotYaw(Math.toDegrees(
-        Math.atan((m_currentPoseL.getY() - speakerPose.getY()) / (m_currentPoseL.getX() - speakerPose.getX()))));
-  }
-
-  public void AlignToCornerUsingOdometry() {
-    Translation2d cornerPose;
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      SubsystemContainer.limelightSubsystem.setPriorityID(RED_ALLIANCE_IDS.SPEAKER_ID);
-      cornerPose = SwerveConstants.CORNER_RED_SIDE;
-    } else {
-      SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.SPEAKER_ID);
-      cornerPose = SwerveConstants.CORNER_BLUE_SIDE;
-    }
-
-    setRobotYaw(Math.toDegrees(
-        Math.atan((m_currentPoseL.getY() - cornerPose.getY()) / (m_currentPoseL.getX() - cornerPose.getX()))));
-  }
-
-  /**
-   * Get x distance from amp, used in amp auto align
-   * 
-   * @return The robot's current x distance from the amp
-   */
-  public double getAmpDx() {
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      return m_currentPoseL.getX() - SwerveConstants.AMP_TARGET_POSE_RED.getX();
-    } else {
-      return m_currentPoseL.getX() - SwerveConstants.AMP_TARGET_POSE_BLUE.getX();
-    }
-  }
-
-  public double getAmpDy() {
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      return SwerveConstants.AMP_TARGET_POSE_RED.getY() - m_currentPoseL.getY();
-    } else {
-      return SwerveConstants.AMP_TARGET_POSE_BLUE.getY() - m_currentPoseL.getY();
-    }
-  }
-
   public void ResetOdometryToPose(double x, double y) {
     resetPose(new Pose2d(x, y, m_currentPoseL.getRotation()));
   }
@@ -401,39 +295,9 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_speakerToRobot;
   }
 
-  public static double calculateLimelightOffsetAngle() {
-
-    double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-    double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
-    double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      if (pose[5] > 0) {
-        pose[5] -= 180;
-      } else {
-        pose[5] += 180;
-      }
-    }
-
-    return currentYaw - offsetYaw + (pose[5] * 0.06);
-  }
-
   public boolean robotVelocityWithinTolerance() {
     return m_currentVx < SwerveConstants.MAX_SPEED_WHILE_SHOOTING
         && m_currentVy < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
-  }
-
-  /**
-   * Returns true if the robot yaw is within tolerance of its target while facing
-   * a speaker tag
-   * 
-   * @return
-   */
-  public boolean AutoAligned() {
-    return Math.abs(SwerveSubsystem.calculateLimelightOffsetAngle() - getYaw()) < ShooterConstants.AUTO_ALIGN_ERROR;
-  }
-
-  public boolean withinShootingDistance() {
-    return GetSpeakerToRobot().getRadius() < ShooterConstants.MAX_SHOOTING_DISTANCE;
   }
 
   public States getCommandState() {
@@ -454,10 +318,8 @@ public class SwerveSubsystem extends SubsystemBase {
     m_currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), m_modulePositions);
 
     m_currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), m_modulePositions);
-    UpdateSpeakerToRobot(m_currentPoseL);
 
     m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
     m_field.getObject("with limelight").setPose(m_currentPoseL);
-
   }
 }

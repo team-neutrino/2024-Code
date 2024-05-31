@@ -5,7 +5,6 @@ import frc.robot.subsystems.*;
 
 public class SubsystemContainer {
     public static final CalculateAngle m_angleCalculate = new CalculateAngle();
-    public static final Alliance alliance = new Alliance();
     public static final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
     public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     public static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
