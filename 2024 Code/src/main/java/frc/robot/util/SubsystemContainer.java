@@ -1,22 +1,15 @@
 package frc.robot.util;
 
 import frc.robot.Constants.PWMConstants;
-import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.wrapper.Arm;
-import frc.robot.subsystems.wrapper.Intake;
-import frc.robot.subsystems.wrapper.NetworkTables;
-import frc.robot.subsystems.wrapper.Shooter;
+import frc.robot.subsystems.*;
 
 public class SubsystemContainer {
     public static final CalculateAngle m_angleCalculate = new CalculateAngle();
     public static final Alliance alliance = new Alliance();
-    public static final NetworkTables sendables = new NetworkTables();
     public static final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
     public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-    public static final Intake intakeSubsystem = new Intake();
-    public static final Shooter shooterSubsystem = new Shooter();
-    public static final Arm armSubsystem = new Arm(m_angleCalculate);
+    public static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    public static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    public static final ArmSubsystem armSubsystem = new ArmSubsystem();
     public static final LEDSubsystem LEDSubsystem = new LEDSubsystem(PWMConstants.LED1);
 }

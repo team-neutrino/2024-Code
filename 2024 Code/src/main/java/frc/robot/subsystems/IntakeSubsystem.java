@@ -130,7 +130,7 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         m_indexMotor.set(indexVoltage);
-        m_intakeMotor.set(intakeLimiter.calculate(intakeVoltage));
+        m_intakeMotor.set(intakeVoltage);
         m_indexBeam = !m_indexBeamBreak.get();
         m_intakeBeam = !m_intakeBeamBreak.get();
 
