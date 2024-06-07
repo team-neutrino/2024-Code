@@ -35,7 +35,6 @@ public class ShootManualCommand extends GamePieceCommand {
     public boolean isFinished() {
         return m_Controller.getHID().getLeftBumper()
                 && m_shooterSubsystem.aboveRPM(m_thresholdrpm)
-                && m_intakeSubsystem.isNoteReady()
-                && m_armSubsystem.getInPosition();
+                && m_intakeSubsystem.isNoteReady();
     }
 }
