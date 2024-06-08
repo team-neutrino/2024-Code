@@ -14,14 +14,14 @@ import frc.robot.util.PolarCoord;
 import frc.robot.util.SubsystemContainer;
 
 /**
- * This (1st) iteration will only support movement to the left and right
- * completely parallel to the speaker.
+ * This (1st) iteration will only support movement backwards and forwards
+ * completely perpendicular to the speaker.
  * 
  * This command is to be run in parallel with the AutoAlignCommand.
  * 
- * Future incremental design plan: 4 directions, 8 directions, omnidirectional
- * linear, left and right curved path (U path [while spinning??]),
- * omnidirectional quadratic.
+ * Future incremental design plan: not perpendiular forward/backward,
+ * left/right fixed radius (semicircle), left/right non-fixed radius,
+ * cardinal directions, 8 directions, omnidirectional linear.
  */
 public class ShootWhilstSwerving extends GamePieceCommand {
 
@@ -47,11 +47,12 @@ public class ShootWhilstSwerving extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    adjustedSpeakerToRobot = m_calculateMovingShot.calculateAdjustedPos();
+    // future fixed-radius calculations below vvv
+    // adjustedSpeakerToRobot = m_calculateMovingShot.calculateAdjustedPos();
 
-    m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(adjustedSpeakerToRobot));
+    m_armSubsystem
+        .setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_calculateMovingShot.adjustBackwardMovement()));
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
-    m_intakeSubsystem.runIndexFeed();
   }
 
   // Called once the command ends or is interrupted.
@@ -63,6 +64,6 @@ public class ShootWhilstSwerving extends GamePieceCommand {
   @Override
   public boolean isFinished() {
     return m_controller.getHID().getLeftBumper() && m_armSubsystem.getInPosition()
-        && m_shooterSubsystem.approveShoot() && m_intakeSubsystem.isNoteReady();
+        && m_shooterSubsystem.approveShoot();
   }
 }

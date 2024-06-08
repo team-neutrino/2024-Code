@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.LEDConstants.States;
-import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.CalculateMovingShot;
 import frc.robot.util.SubsystemContainer;
@@ -14,13 +13,13 @@ import frc.robot.util.SubsystemContainer;
 public class TranslatedAutoAlignCommand extends Command {
   private CalculateMovingShot m_calculateMovingShot;
 
-  /** Creates a new TranslatedAutoAlignCommand. */
+  /**
+   * A command for left/right shoot while move calculations.
+   */
   public TranslatedAutoAlignCommand(CalculateMovingShot p_calculateMovingShot) {
     m_calculateMovingShot = p_calculateMovingShot;
 
     addRequirements(SubsystemContainer.limelightSubsystem);
-
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -32,30 +31,20 @@ public class TranslatedAutoAlignCommand extends Command {
   @Override
   public void execute() {
     if (SubsystemContainer.limelightSubsystem.getTv()) {
-      SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
 
-      double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-      double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+      SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
       double movementOffset = m_calculateMovingShot.calculateAdjustedPos().getTheta();
 
-      System.out.println("adjustment angle: " + movementOffset);
-
-      double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
-      if (!SubsystemContainer.alliance.isRedAlliance()) {
-        if (pose[5] > 0) {
-          pose[5] -= 180;
-        } else {
-          pose[5] += 180;
-        }
-      }
+      // System.out.println("adjustment angle: " + movementOffset);
+      System.out.println(
+          "\"true\" if autoaligned: " + SubsystemContainer.swerveSubsystem.AutoAligned());
 
       SubsystemContainer.swerveSubsystem
           .setRobotYaw(
-              SwerveSubsystem.calculateLimelightOffsetAngle(currentYaw, offsetYaw + movementOffset, pose[5]));
+              SwerveSubsystem.calculateLimelightOffsetAngle() + movementOffset); // TODO: CHANGE SIGN AS NEEDED
 
     } else {
-      // SUPER auto align!!
-      SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
+      System.out.println("Limelight can't see a tag...");
     }
 
     SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);

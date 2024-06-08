@@ -4,10 +4,25 @@
 
 package frc.robot.util;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
 /** Add your docs here. */
 public class CalculateMovingShot {
+
+    /**
+     * Create an adjusted PolarCoord for backward movement.
+     * 
+     * @return A PolarCoord of the current position modified for backwards movement.
+     */
+    public PolarCoord adjustBackwardMovement() {
+        double r = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
+        double robotSpeed = SubsystemContainer.swerveSubsystem.getChassisSpeed();
+
+        double deltaX = (r / ShooterConstants.NOTE_SPEED) * robotSpeed;
+
+        return new PolarCoord(r + deltaX, SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getTheta());
+    }
 
     /**
      * Uses the helper methods calculateAdjutedRadius and calculateAdjustedTheta to
@@ -20,7 +35,7 @@ public class CalculateMovingShot {
     public PolarCoord calculateAdjustedPos() {
         double r = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
         double theta = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getTheta();
-        double robotSpeed = SubsystemContainer.swerveSubsystem.getDriveMotorSpeed();
+        double robotSpeed = SubsystemContainer.swerveSubsystem.getChassisSpeed();
 
         double deltaX = (r / ShooterConstants.NOTE_SPEED) * robotSpeed;
 

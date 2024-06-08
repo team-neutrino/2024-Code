@@ -156,7 +156,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * 
    * @return The current speed of the drivetrain in m/s.
    */
-  public double getDriveMotorSpeed() {
+  public double getChassisSpeed() {
     double currentTime = NetworkTablesJNI.now();
     double currentX = m_currentPoseL.getX();
     double currentY = m_currentPoseL.getY();
