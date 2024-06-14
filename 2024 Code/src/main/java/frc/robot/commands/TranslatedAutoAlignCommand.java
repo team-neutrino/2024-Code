@@ -41,11 +41,7 @@ public class TranslatedAutoAlignCommand extends Command {
 
       SubsystemContainer.swerveSubsystem
           .setRobotYaw(
-<<<<<<< Updated upstream
               SwerveSubsystem.calculateLimelightOffsetAngle() + movementOffset); // TODO: CHANGE SIGN AS NEEDED
-=======
-              SwerveSubsystem.calculateLimelightOffsetAngle() + movementOffset);
->>>>>>> Stashed changes
 
     } else {
       System.out.println("Limelight can't see a tag...");
