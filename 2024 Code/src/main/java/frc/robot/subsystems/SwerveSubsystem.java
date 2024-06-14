@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.proto.Kinematics;
 import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -52,7 +53,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private final SwerveModule.MotorCfg m_frontLeftSpeed = new SwerveModule.MotorCfg(MotorIDs.FLS,
       true);
   private final SwerveModule.MotorCfg m_backRightSpeed = new SwerveModule.MotorCfg(MotorIDs.BRS,
-      true);
+      false);
   private final SwerveModule.MotorCfg m_backLeftSpeed = new SwerveModule.MotorCfg(MotorIDs.BLS,
       false);
 
@@ -128,7 +129,7 @@ public class SwerveSubsystem extends SubsystemBase {
         this::robotRelativeSwerve,
         new HolonomicPathFollowerConfig(
             new PIDConstants(5, 0.0, 0.0),
-            new PIDConstants(1.0, 0.0, 0.0), // 0.6 before
+            new PIDConstants(3.0, 0.0, 0.0),
             SwerveConstants.MAX_MODULE_LINEAR_SPEED,
             SwerveConstants.DRIVEBASE_RADIUS,
             new ReplanningConfig()),
@@ -305,10 +306,10 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void ResetModules() {
-    m_frontRight.resetEverything();
-    m_frontLeft.resetEverything();
-    m_backRight.resetEverything();
-    m_backLeft.resetEverything();
+    m_frontRight.initializeMotors();
+    m_frontLeft.initializeMotors();
+    m_backRight.initializeMotors();
+    m_backLeft.initializeMotors();
   }
 
   public Pose2d getPose() {
@@ -397,6 +398,20 @@ public class SwerveSubsystem extends SubsystemBase {
         Math.atan((m_currentPoseL.getY() - speakerPose.getY()) / (m_currentPoseL.getX() - speakerPose.getX()))));
   }
 
+  public void AlignToCornerUsingOdometry() {
+    Translation2d cornerPose;
+    if (SubsystemContainer.alliance.isRedAlliance()) {
+      SubsystemContainer.limelightSubsystem.setPriorityID(RED_ALLIANCE_IDS.SPEAKER_ID);
+      cornerPose = SwerveConstants.CORNER_RED_SIDE;
+    } else {
+      SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.SPEAKER_ID);
+      cornerPose = SwerveConstants.CORNER_BLUE_SIDE;
+    }
+
+    setRobotYaw(Math.toDegrees(
+        Math.atan((m_currentPoseL.getY() - cornerPose.getY()) / (m_currentPoseL.getX() - cornerPose.getX()))));
+  }
+
   /**
    * Get x distance from amp, used in amp auto align
    * 
@@ -431,7 +446,7 @@ public class SwerveSubsystem extends SubsystemBase {
     double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
     double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
     double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
-    if (!SubsystemContainer.alliance.isRedAlliance()) {
+    if (SubsystemContainer.alliance.isRedAlliance()) {
       if (pose[5] > 0) {
         pose[5] -= 180;
       } else {
@@ -485,5 +500,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
     m_field.getObject("with limelight").setPose(m_currentPoseL);
+
   }
 }

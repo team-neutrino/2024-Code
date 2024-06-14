@@ -16,7 +16,6 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
 
     public AutoAlignForeverCommand() {
         super(null);
-        addRequirements(SubsystemContainer.limelightSubsystem);
     }
 
     @Override
@@ -26,15 +25,27 @@ public class AutoAlignForeverCommand extends AutoAlignCommand {
         } else {
             SubsystemContainer.limelightSubsystem.setPriorityID(7);
         }
-        timer.start();
+        timer.start(); // why is this here?
+        // SubsystemContainer.limelightSubsystem.forceMegaTagUpdate(true);
     }
 
     @Override
     public void execute() {
-        SubsystemContainer.swerveSubsystem
-                .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle());
+
+        if (SubsystemContainer.limelightSubsystem.getTv()) {
+            SubsystemContainer.swerveSubsystem
+                    .autonRotateSwerve(SwerveSubsystem.calculateLimelightOffsetAngle());
+        } else {
+            SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
+        }
 
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
+
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        SubsystemContainer.limelightSubsystem.forceMegaTagUpdate(false);
     }
 
     @Override

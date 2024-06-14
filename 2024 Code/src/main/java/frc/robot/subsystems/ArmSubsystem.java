@@ -20,6 +20,7 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.MessageTimers;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.util.CalculateP;
 import frc.robot.Constants.LEDConstants.States;
@@ -35,6 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
   private double m_error;
   private double m_oldAngle;
   private Timer m_timer;
+  private int m_armWrapCounter;
   TreeMap<Double, Double> m_mapOfP;
   States commandState;
 
@@ -98,19 +100,17 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void initializeMotorControllers() {
-    m_armMotor.restoreFactoryDefaults();
     m_armMotor.setIdleMode(IdleMode.kBrake);
-
     m_armEncoder = m_armMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
     m_armEncoder.setPositionConversionFactor(360);
     m_armEncoder.setZeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
-    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 100);
-    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 100);
-    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 500);
-    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 500);
-    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, 500);
-    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 20);
-    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, 500);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, 17);
+    m_armMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
     m_armMotor.setSmartCurrentLimit(ArmConstants.ARM_CURRENT_LIMIT);
 
     m_pidController = m_armMotor.getPIDController();
@@ -123,8 +123,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_pidController.setPositionPIDWrappingEnabled(true);
 
     // climb settings
-    m_pidController.setP(ArmConstants.ClimbArm_ki, 1);
-    m_pidController.setI(ArmConstants.ClimbArm_kp, 1);
+    m_pidController.setP(ArmConstants.ClimbArm_kp, 1);
+    m_pidController.setI(ArmConstants.ClimbArm_ki, 1);
     m_pidController.setD(ArmConstants.ClimbArm_kd, 1);
     m_pidController.setIZone(ArmConstants.ClimbIZone, 1);
 
@@ -186,10 +186,22 @@ public class ArmSubsystem extends SubsystemBase {
     return (getArmAngleDegrees() > angleThreshold);
   }
 
+  public void keepArmWrapped() {
+    m_armWrapCounter++;
+    if (m_armWrapCounter >= 50) {
+      if (!m_pidController.getPositionPIDWrappingEnabled()) {
+        m_pidController.setPositionPIDWrappingEnabled(true);
+      } else {
+        m_armWrapCounter = 0;
+      }
+    }
+  }
+
   @Override
   public void periodic() {
     m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);
     updateArmAngle(m_targetAngle, m_PIDslot);
+    keepArmWrapped();
     m_inPosition = m_armDebouncer
         .calculate(Math.abs(getArmAngleDegrees() - m_targetAngle) <= ArmConstants.POSITION_ERROR_THRESHOLD);
   }

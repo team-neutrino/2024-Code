@@ -9,6 +9,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int XBOX_CONTROLLER = 0;
     public static final int DRIVER_CONTROLLER = 1;
+    public static final double RUMBLE_SPEED = 0.5;
   }
 
   public static class DimensionConstants {
@@ -36,7 +37,7 @@ public final class Constants {
     public static final double FLA_OFFSET = 285;
     public static final double FRA_OFFSET = 273;
     public static final double BLA_OFFSET = 1;
-    public static final double BRA_OFFSET = 311;
+    public static final double BRA_OFFSET = 127.12;// 311;
 
     public static final double ks = 0.15;
     public static final double kv = 2.6;
@@ -47,6 +48,9 @@ public final class Constants {
 
     public static final Translation2d SPEAKER_BLUE_SIDE = new Translation2d(0, 5.35);
     public static final Translation2d SPEAKER_RED_SIDE = new Translation2d(16.5, 5.35);
+
+    public static final Translation2d CORNER_BLUE_SIDE = new Translation2d(0.0, 7.75);
+    public static final Translation2d CORNER_RED_SIDE = new Translation2d(16.5, 7.75);
 
     public static final Translation2d AMP_TARGET_POSE_BLUE = new Translation2d(1.84, 7.75);
     public static final Translation2d AMP_TARGET_POSE_RED = new Translation2d(14.701, 7.75);
@@ -88,7 +92,7 @@ public final class Constants {
   }
 
   public final class LEDConstants {
-    public static final int LEDBufferLen = 60;
+    public static final int LEDBufferLen = 140;
 
     public enum States {
       DEFAULT,
@@ -156,9 +160,11 @@ public final class Constants {
     public static final double AMP_POSE = 90;
     public static final double ARM_ADJUST_DEADZONE = 0.2;
     public static final double SHUTTLE_ANGLE = 0;
+    public static final double SHUTTLE_ANGLE_THRESHOLD = -5;
     public static final double SUBWOOFER_ANGLE = -10;
     public static final double CLIMB_ANGLE = -20;
     public static final double AMP_THRESHOLD = 75;
+    public static final double RUMBLE_THRESHOLD = -15;
 
     public static final double DEBOUNCE_TIME = 0.2;
     public static final double POSITION_ERROR_THRESHOLD = 1.5;
@@ -166,8 +172,8 @@ public final class Constants {
 
   public final class IntakeConstants {
     public static final double INTAKE_MOTOR_VOLTAGE = 1;
-    public static final double INDEX_MOTOR_VOLTAGE_INTAKE = 0.2;
-    public static final double INDEX_MOTOR_VOLTAGE_POSITION = 0.05;
+    public static final double INDEX_MOTOR_VOLTAGE_INTAKE = .4;
+    public static final double INDEX_MOTOR_VOLTAGE_POSITION = 0.07;
     public static final double INDEX_MOTOR_VOLTAGE_SHOOT = 1;
     public static final double INDEX_JITTER_MOTOR_VOLTAGE = 0.125;
     public static final int INTAKE_CURRENT_LIMIT = 35;
@@ -178,21 +184,26 @@ public final class Constants {
 
   public final class ShooterSpeeds {
     public static final double SHOOTING_SPEED = 4000;
-    public static final double SHUTTLE_SPEED = 3200;
+    public static final double SHUTTLE_SPEED = 350;
+    public static final double THRESHOLD_SHOOTING_SPEED = 3800;
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
-    public static final double AMP_SPEED = 3000;
+    public static final double AMP_SPEED = 2500;
     public static final double INITIAL_SHOOTER_SPEED = 0.6 * 12;
     public static final double LOW_SPEED_THRESHOLD = 2800;
     public static final double SPEED_THRESHOLD_SHUTTLE = 3000;
+    public static final double MAX_SHUTTLE_SPEED = 4000;
+    public static final double MIN_SHUTTLE_SPEED = 2500;
+    public static final double SHUTTLE_THRESHOLD_ERROR = 200;
+    public static final double AMP_SPEED_THRESHOLD = 2300;
   }
 
   public final class ShooterConstants {
     public static final int HIGH_SHOOTER_CURRENT_LIMIT = 100;
     public static final int SHOOTER_CURRENT_LIMIT = 60;
-    public static final double WHEEL_P = 0.00075;
+    public static final double WHEEL_P = 0.0005;
     public static final double WHEEL_I = 0.000001;
     public static final double WHEEL_D = 0;
-    public static final double WHEEL_FF = 0.00021;
+    public static final double WHEEL_FF = 0.00019;
     public static final double WHEEL_IZONE = 250;
     public static final double DEBOUNCE_TIME = 0.1;
     public static final double RPM_ERROR_THRESHOLD = 200;
@@ -213,5 +224,15 @@ public final class Constants {
       public static final int SPEAKER_ID = 7;
       public static final int AMP_ID = 6;
     }
+  }
+
+  public final class MessageTimers {
+    public static final int Status0 = 31883;
+    public static final int Status1 = 32027;
+    public static final int Status2 = 32099;
+    public static final int Status3 = 32203;
+    public static final int Status4 = 32309;
+    public static final int Status5 = 32377;
+    public static final int Status6 = 32479;
   }
 }

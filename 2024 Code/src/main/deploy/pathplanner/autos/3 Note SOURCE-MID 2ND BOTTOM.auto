@@ -28,7 +28,64 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Midline First I"
+                        "pathName": "Midline Second I"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutoAlignForever"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutonIntakeCommand"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Midline Second II"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutonShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAlignForever"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Midline Second III"
                       }
                     },
                     {
@@ -77,6 +134,6 @@
       ]
     }
   },
-  "folder": "2 Note",
+  "folder": "3 Note",
   "choreoAuto": false
 }

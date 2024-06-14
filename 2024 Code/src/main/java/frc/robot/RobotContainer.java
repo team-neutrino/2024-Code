@@ -23,6 +23,7 @@ import frc.robot.commands.GamePieceCommands.MagicShootCommand;
 import frc.robot.commands.GamePieceCommands.MagicSpeakerChargeCommand;
 import frc.robot.commands.GamePieceCommands.ShootManualCommand;
 import frc.robot.commands.GamePieceCommands.ShootWhilstSwerving;
+import frc.robot.commands.GamePieceCommands.ShootShuttleCommand;
 import frc.robot.commands.GamePieceCommands.ShuttleCloseCommand;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.commands.AutoAlignCommand;
@@ -32,6 +33,7 @@ import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.LockSwerveYCommand;
 import frc.robot.commands.ShooterDefaultCommand;
+import frc.robot.commands.ShuttleAutoAlignCommand;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -109,10 +111,10 @@ public class RobotContainer {
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
 
-    m_driverController.a().whileTrue(new InstantCommand(() -> SubsystemContainer.m_angleCalculate.dumpData()));
-
     m_driverController.start()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose()));
+
+    m_driverController.a().whileTrue(new InstantCommand(() -> SubsystemContainer.m_angleCalculate.dumpData()));
 
     // separate button binding to left bumper contained within the magic speaker
     // charge command
@@ -126,14 +128,15 @@ public class RobotContainer {
         new MagicShootCommand()));
 
     m_buttonsController.b()
-        .whileTrue(new SequentialCommandGroup(new ShootManualCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
-            Constants.ShooterSpeeds.SHUTTLE_SPEED, Constants.ShooterSpeeds.SPEED_THRESHOLD_SHUTTLE,
+        .whileTrue(new SequentialCommandGroup(new ShootShuttleCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
             m_buttonsController), new MagicShootCommand()));
 
     m_buttonsController.povDown()
         .onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
 
     m_driverController.rightBumper().whileTrue(new AutoAlignCommand(m_driverController));
+
+    m_driverController.y().whileTrue(new ShuttleAutoAlignCommand(m_buttonsController));
 
     // arm buttons
     m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));
@@ -144,7 +147,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("1 Note ANYWHERE");
+      auto = new PathPlannerAuto("2 Note SOURCE-MID 2ND BOTTOM");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }

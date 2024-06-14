@@ -19,7 +19,6 @@ public class Shooter extends ShooterSubsystem {
     final DoublePublisher wheel_speed_pub;
     final DoublePublisher wheel_target_speed_pub;
     final DoublePublisher wheel_sim_speed_pub2;
-    final DoublePublisher wheel_speed_pub2;
     final DoublePublisher wheel_target_speed_pub2;
 
     public Shooter() {
@@ -36,9 +35,6 @@ public class Shooter extends ShooterSubsystem {
         wheel_sim_speed_pub2 = wheel_sim_speed_topic2.publish();
         wheel_sim_speed_pub2.setDefault(0.0);
 
-        wheel_speed_pub2 = wheel_enc_speed_topic2.publish();
-        wheel_speed_pub2.setDefault(0.0);
-
         wheel_target_speed_pub2 = wheel_target_speed_topic2.publish();
         wheel_target_speed_pub2.setDefault(0.0);
     }
@@ -46,8 +42,8 @@ public class Shooter extends ShooterSubsystem {
     public void periodic() {
         super.periodic();
         wheel_speed_pub.set(getShooterRPM(), NetworkTablesJNI.now());
+
         wheel_target_speed_pub.set(getTargetRPM(), NetworkTablesJNI.now());
-        wheel_speed_pub2.set(getFollowerRPM(), NetworkTablesJNI.now());
         wheel_target_speed_pub2.set(getTargetRPM(), NetworkTablesJNI.now());
     }
 }
