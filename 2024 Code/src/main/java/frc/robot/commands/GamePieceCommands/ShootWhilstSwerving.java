@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.CalculateAngle;
 import frc.robot.util.CalculateMovingShot;
 import frc.robot.util.PolarCoord;
@@ -47,12 +48,24 @@ public class ShootWhilstSwerving extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+<<<<<<< Updated upstream
     // future fixed-radius calculations below vvv
     // adjustedSpeakerToRobot = m_calculateMovingShot.calculateAdjustedPos();
 
     m_armSubsystem
         .setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_calculateMovingShot.adjustBackwardMovement()));
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
+=======
+    // adjustedSpeakerToRobot = m_calculateMovingShot.calculateAdjustedPos();
+
+    m_armSubsystem.setArmReferenceAngle(
+        m_calculateAngle.InterpolateAngle(SubsystemContainer.swerveSubsystem.GetSpeakerToRobot()));
+
+    double shootingSpeed = Math.max(5000, 4000 + (SubsystemContainer.swerveSubsystem.getDriveMotorSpeed() / 0.0508));
+    m_shooterSubsystem.setTargetRPM(shootingSpeed);
+
+    m_intakeSubsystem.runIndexFeed();
+>>>>>>> Stashed changes
   }
 
   // Called once the command ends or is interrupted.

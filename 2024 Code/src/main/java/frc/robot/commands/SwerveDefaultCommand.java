@@ -30,8 +30,8 @@ public class SwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_swerveSubsystem.SwerveWithDeadzone(m_xboxController.getLeftY() * -1,
-        m_xboxController.getLeftX() * -1,
+    m_swerveSubsystem.SwerveWithDeadzone(m_xboxController.getLeftY() * -5,
+        m_xboxController.getLeftX() * -5,
         m_xboxController.getRightX() * -1);
 
     // D-pad control

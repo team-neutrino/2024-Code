@@ -7,7 +7,11 @@ package frc.robot.util;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
-/** Add your docs here. */
+/**
+ * Utility class that does the geometry computations to finish the triangle
+ * between the robot, speaker, and where the robot will be at its current speed
+ * when the note hits the speaker.
+ */
 public class CalculateMovingShot {
 
     /**
