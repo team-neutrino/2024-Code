@@ -8,6 +8,7 @@ import frc.robot.subsystems.simulation.IntakeSimulation;
 import frc.robot.subsystems.simulation.ArmSimulation;
 import frc.robot.subsystems.simulation.Shooter;
 import frc.robot.subsystems.simulation.SimulationOverview;
+import frc.robot.subsystems.PhotonVision;
 
 public class SubsystemContainer {
 
@@ -19,4 +20,5 @@ public class SubsystemContainer {
     public static final Climb climbSubsystem = new Climb();
     public static final ArmSimulation armSubsystem = new ArmSimulation();
     public static final LEDSubsystem LEDSubsystem = new LEDSubsystem();
+    public static final PhotonVision PhotonVision = new PhotonVision();
 }
