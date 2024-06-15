@@ -97,13 +97,12 @@ public class RobotContainer {
 
     m_driverController.y()
         .whileTrue(
-            new ParallelCommandGroup(new TranslatedAutoAlignCommand(SubsystemContainer.m_calculateMovingShot),
-                new LockSwerveYCommand(m_driverController)));
+            new LockSwerveYCommand(m_driverController));
     m_driverController.x().whileTrue(new ParallelCommandGroup(new AmpAutoAlign(m_driverController),
         new SequentialCommandGroup(new MagicERAmpChargeCommand(), new MagicShootCommand())));
 
     // shooter buttons
-    m_buttonsController.leftBumper()
+    m_buttonsController.rightBumper()
         .whileTrue(new SequentialCommandGroup(
             new ShootWhilstSwerving(m_buttonsController, SubsystemContainer.m_calculateMovingShot),
             new MagicShootCommand()));

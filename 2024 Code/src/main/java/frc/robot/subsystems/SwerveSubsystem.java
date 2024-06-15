@@ -157,20 +157,20 @@ public class SwerveSubsystem extends SubsystemBase {
    * 
    * @return The current speed of the drivetrain in m/s.
    */
-  public double getChassisSpeed() {
-    double currentTime = NetworkTablesJNI.now();
-    double currentX = m_currentPoseL.getX();
-    double currentY = m_currentPoseL.getY();
+  // public double getChassisSpeed() {
+  // double currentTime = NetworkTablesJNI.now();
+  // double currentX = m_currentPoseL.getX();
+  // double currentY = m_currentPoseL.getY();
 
-    double timeChange = currentTime - lastTime;
-    double xChange = currentX - lastPose.getX();
-    double yChange = currentY - lastPose.getY();
+  // double timeChange = currentTime - lastTime;
+  // double xChange = currentX - lastPose.getX();
+  // double yChange = currentY - lastPose.getY();
 
-    lastTime = currentTime;
-    lastPose = new Pose2d(currentX, currentY, m_currentPoseL.getRotation());
+  // lastTime = currentTime;
+  // lastPose = new Pose2d(currentX, currentY, m_currentPoseL.getRotation());
 
-    return Math.sqrt(Math.pow(xChange, 2) + Math.pow(yChange, 2)) / timeChange;
-  }
+  // return Math.sqrt(Math.pow(xChange, 2) + Math.pow(yChange, 2)) / timeChange;
+  // }
 
   public void SwerveWithDeadzone(double vx, double vy, double omega) {
     vx = Limiter.deadzone(vx, 0.1);
@@ -486,7 +486,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // System.out.println("Drivetrain speed: " + getDriveMotorSpeed());
 
     m_modulePositions[0] = m_frontRight.getModulePosition();
     m_modulePositions[1] = m_frontLeft.getModulePosition();

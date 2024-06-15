@@ -53,7 +53,9 @@ public class ShootWhilstSwerving extends GamePieceCommand {
     m_armSubsystem.setArmReferenceAngle(
         m_calculateAngle.InterpolateAngle(SubsystemContainer.swerveSubsystem.GetSpeakerToRobot()));
 
-    double shootingSpeed = Math.max(5000, 4000 + (SubsystemContainer.swerveSubsystem.getChassisSpeed() / 0.0508));
+    double unitConversion = 60 / (2 * Math.PI);
+    double shootingSpeed = Math.min(5000,
+        4000 + ((unitConversion * SubsystemContainer.swerveSubsystem.getRobotRelativeSpeeds().vxMetersPerSecond) / 0.0508));
     m_shooterSubsystem.setTargetRPM(shootingSpeed);
 
     m_intakeSubsystem.runIndexFeed();

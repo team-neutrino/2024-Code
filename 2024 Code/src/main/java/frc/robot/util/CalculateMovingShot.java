@@ -21,7 +21,7 @@ public class CalculateMovingShot {
      */
     public PolarCoord adjustBackwardMovement() {
         double r = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
-        double robotSpeed = SubsystemContainer.swerveSubsystem.getChassisSpeed();
+        double robotSpeed = SubsystemContainer.swerveSubsystem.getRobotRelativeSpeeds().vxMetersPerSecond;
 
         double deltaX = (r / ShooterConstants.NOTE_SPEED) * robotSpeed;
 
@@ -39,7 +39,7 @@ public class CalculateMovingShot {
     public PolarCoord calculateAdjustedPos() {
         double r = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
         double theta = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getTheta();
-        double robotSpeed = SubsystemContainer.swerveSubsystem.getChassisSpeed();
+        double robotSpeed = SubsystemContainer.swerveSubsystem.getRobotRelativeSpeeds().vxMetersPerSecond;
 
         double deltaX = (r / ShooterConstants.NOTE_SPEED) * robotSpeed;
 
