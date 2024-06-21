@@ -9,6 +9,7 @@ import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.MagicAmpCommand;
 import frc.robot.commands.MagicSpeakerCommand;
+import frc.robot.commands.PhotonVisionDefaultCommand;
 import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.SwerveDefaultCommand;
@@ -46,6 +47,7 @@ public class RobotContainer {
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
   CalculateAngle m_angleCalculate = new CalculateAngle();
+  PhotonVisionDefaultCommand m_PhotonVisionDefaultCommand = new PhotonVisionDefaultCommand();
 
   public RobotContainer() {
     configureBindings();
@@ -60,6 +62,7 @@ public class RobotContainer {
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
+    SubsystemContainer.PhotonVision.setDefaultCommand(m_PhotonVisionDefaultCommand);
 
     // Intake buttons
     m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
