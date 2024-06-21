@@ -41,5 +41,7 @@ public class PhotonVision extends SubsystemBase {
   public void periodic() {
     target = result.getBestTarget();
     System.out.println(getYaw());
+    System.out.println(hasTarget());
+    System.out.println("hello world");
   }
 }
