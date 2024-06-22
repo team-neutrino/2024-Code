@@ -28,6 +28,7 @@ public class PhotonVision extends SubsystemBase {
     photonVision = NetworkTableInstance.getDefault().getTable("photonVision");
     // turns off LED
     photonVision.getEntry("ledMode").setNumber(1);
+    camera.setPipelineIndex(2);
   }
 
   public Transform3d getInfo() {
