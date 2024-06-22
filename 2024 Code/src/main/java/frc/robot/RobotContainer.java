@@ -47,7 +47,8 @@ public class RobotContainer {
   ClimbDefaultCommand m_climbDefaultCommand = new ClimbDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
   CalculateAngle m_angleCalculate = new CalculateAngle();
-  PhotonVisionDefaultCommand m_PhotonVisionDefaultCommand = new PhotonVisionDefaultCommand();
+  // PhotonVisionDefaultCommand m_PhotonVisionDefaultCommand = new
+  // PhotonVisionDefaultCommand();
 
   public RobotContainer() {
     configureBindings();
@@ -62,7 +63,7 @@ public class RobotContainer {
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmAngleCommand(Constants.ArmConstants.INTAKE_POSE));
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
-    SubsystemContainer.PhotonVision.setDefaultCommand(m_PhotonVisionDefaultCommand);
+    // SubsystemContainer.PhotonVision.setDefaultCommand(m_PhotonVisionDefaultCommand);
 
     // Intake buttons
     m_controller.leftBumper().whileTrue(new IntakeReverseCommand());
