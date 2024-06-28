@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.GamePieceCommands.ArmManualCommand;
@@ -16,14 +15,11 @@ import frc.robot.commands.GamePieceCommands.ShootManualCommand;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.LEDDefaultCommand;
-import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.util.SubsystemContainer;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -36,7 +32,6 @@ public class RobotContainer {
 
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand(m_buttonsController);
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
-  LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
 
   public RobotContainer() {
     configureBindings();
@@ -53,7 +48,6 @@ public class RobotContainer {
     SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmDefaultCommand());
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
-    SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
@@ -70,9 +64,6 @@ public class RobotContainer {
     // shooter buttons
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
-
-    m_driverController.start()
-        .whileTrue(new InstantCommand(() -> SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose()));
 
     m_buttonsController.x().whileTrue(new SequentialCommandGroup(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED,

@@ -336,34 +336,6 @@ public class SwerveSubsystem extends SubsystemBase {
     m_speakerToRobot.setLocation(radius, theta);
   }
 
-  public void AlignToSpeakerUsingOdometry() {
-    Translation2d speakerPose;
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      SubsystemContainer.limelightSubsystem.setPriorityID(RED_ALLIANCE_IDS.SPEAKER_ID);
-      speakerPose = SwerveConstants.SPEAKER_RED_SIDE;
-    } else {
-      SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.SPEAKER_ID);
-      speakerPose = SwerveConstants.SPEAKER_BLUE_SIDE;
-    }
-
-    setRobotYaw(Math.toDegrees(
-        Math.atan((m_currentPoseL.getY() - speakerPose.getY()) / (m_currentPoseL.getX() - speakerPose.getX()))));
-  }
-
-  public void AlignToCornerUsingOdometry() {
-    Translation2d cornerPose;
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      SubsystemContainer.limelightSubsystem.setPriorityID(RED_ALLIANCE_IDS.SPEAKER_ID);
-      cornerPose = SwerveConstants.CORNER_RED_SIDE;
-    } else {
-      SubsystemContainer.limelightSubsystem.setPriorityID(BLUE_ALLIANCE_IDS.SPEAKER_ID);
-      cornerPose = SwerveConstants.CORNER_BLUE_SIDE;
-    }
-
-    setRobotYaw(Math.toDegrees(
-        Math.atan((m_currentPoseL.getY() - cornerPose.getY()) / (m_currentPoseL.getX() - cornerPose.getX()))));
-  }
-
   /**
    * Get x distance from amp, used in amp auto align
    * 
@@ -393,35 +365,9 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_speakerToRobot;
   }
 
-  public static double calculateLimelightOffsetAngle() {
-
-    double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-    double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
-    double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      if (pose[5] > 0) {
-        pose[5] -= 180;
-      } else {
-        pose[5] += 180;
-      }
-    }
-
-    return currentYaw - offsetYaw + (pose[5] * 0.06);
-  }
-
   public boolean robotVelocityWithinTolerance() {
     return m_currentVx < SwerveConstants.MAX_SPEED_WHILE_SHOOTING
         && m_currentVy < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
-  }
-
-  /**
-   * Returns true if the robot yaw is within tolerance of its target while facing
-   * a speaker tag
-   * 
-   * @return
-   */
-  public boolean AutoAligned() {
-    return Math.abs(SwerveSubsystem.calculateLimelightOffsetAngle() - getYaw()) < ShooterConstants.AUTO_ALIGN_ERROR;
   }
 
   public boolean withinShootingDistance() {
