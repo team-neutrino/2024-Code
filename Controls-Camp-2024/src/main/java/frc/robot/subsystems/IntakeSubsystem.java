@@ -15,7 +15,6 @@ import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.MessageTimers;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.util.SubsystemContainer;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -24,9 +23,6 @@ public class IntakeSubsystem extends SubsystemBase {
     private boolean m_indexBeam = false;
     private boolean m_intakeBeam = false;
     private boolean m_noteReady = false;
-
-    private RelativeEncoder m_intakeEncoder;
-    private RelativeEncoder m_indexEncoder;
 
     private CANSparkMax m_intakeMotor = new CANSparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
     private CANSparkMax m_intakeFollower = new CANSparkMax(MotorIDs.INTAKE_MOTOR_TWO,
@@ -42,8 +38,6 @@ public class IntakeSubsystem extends SubsystemBase {
     private Debouncer m_intakeDebouncer;
 
     public IntakeSubsystem() {
-        m_intakeEncoder = m_intakeMotor.getEncoder();
-        m_indexEncoder = m_indexMotor.getEncoder();
 
         m_intakeMotor.setSmartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT);
         m_intakeFollower.setSmartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT);

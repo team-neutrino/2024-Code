@@ -22,7 +22,6 @@ import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MessageTimers;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.util.CalculateP;
 import frc.robot.Constants.LEDConstants.States;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -33,7 +32,6 @@ public class ArmSubsystem extends SubsystemBase {
   private Debouncer m_armDebouncer;
   private SparkPIDController m_pidController;
   private int m_PIDslot;
-  private double m_error;
   private double m_oldAngle;
   private Timer m_timer;
   private int m_armWrapCounter;
@@ -199,7 +197,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_error = Math.abs(getArmAngleDegrees() - m_targetAngle);
     updateArmAngle(m_targetAngle, m_PIDslot);
     keepArmWrapped();
     m_inPosition = m_armDebouncer

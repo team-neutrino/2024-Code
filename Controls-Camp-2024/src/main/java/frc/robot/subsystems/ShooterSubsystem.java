@@ -23,7 +23,6 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANSparkMax m_shooterMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
   private CANSparkMax m_followerMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR2, MotorType.kBrushless);
   private RelativeEncoder m_shooterEncoder;
-  private RelativeEncoder m_followerEncoder;
   private SparkPIDController m_pidController;
   private Debouncer m_shootDebouncer;
 
