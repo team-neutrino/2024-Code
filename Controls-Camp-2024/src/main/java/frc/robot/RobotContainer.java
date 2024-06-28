@@ -12,7 +12,6 @@ import frc.robot.commands.GamePieceCommands.IntakeCommand;
 import frc.robot.commands.GamePieceCommands.IntakeReverseCommand;
 import frc.robot.commands.GamePieceCommands.MagicAmpChargeCommand;
 import frc.robot.commands.GamePieceCommands.MagicShootCommand;
-import frc.robot.commands.GamePieceCommands.MagicSpeakerChargeCommand;
 import frc.robot.commands.GamePieceCommands.ShootManualCommand;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.commands.IntakeDefaultCommand;

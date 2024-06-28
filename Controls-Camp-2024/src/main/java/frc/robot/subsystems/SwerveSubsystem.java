@@ -136,14 +136,6 @@ public class SwerveSubsystem extends SubsystemBase {
           return false;
         },
         this);
-
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d(-90)),
-          Constants.SwerveConstants.PATH_CONSTRAINTS);
-    } else {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, new Rotation2d(-90)),
-          Constants.SwerveConstants.PATH_CONSTRAINTS);
-    }
   }
 
   public void SwerveWithDeadzone(double vx, double vy, double omega) {
