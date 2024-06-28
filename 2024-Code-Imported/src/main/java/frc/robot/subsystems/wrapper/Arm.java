@@ -9,10 +9,8 @@ import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.util.CalculateAngle;
 
 public class Arm extends ArmSubsystem {
-    CalculateAngle m_calculateAngle;
     public static double currentSimAngle;
 
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
@@ -31,8 +29,7 @@ public class Arm extends ArmSubsystem {
     final DoublePublisher radiPublisher;
     final DoublePublisher thetaPublisher;
 
-    public Arm(CalculateAngle calculateAngle) {
-        m_calculateAngle = calculateAngle;
+    public Arm() {
 
         simAnglePub = Sim_Angle.publish();
         simAnglePub.setDefault(0.0);
@@ -63,8 +60,6 @@ public class Arm extends ArmSubsystem {
         targetAnglePub.set(getTargetAngle(), now);
         encoderAnglePub.set(getArmAngleDegrees(), now);
         eAnglePub.set(getArmAngleDegrees(), now);
-        radiPublisher.set(m_calculateAngle.getRadius(), now);
-        thetaPublisher.set(m_calculateAngle.getTheta(), now);
     }
 }
 // 688.78 is CG inertia Distance bwetwwn cg and axis is 15.17247438

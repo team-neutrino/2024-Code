@@ -1,6 +1,5 @@
 package frc.robot;
 
-import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -41,8 +40,6 @@ public final class Constants {
 
     public static final double ks = 0.15;
     public static final double kv = 2.6;
-
-    public static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(1, 1, 1.5 * Math.PI, 4 * Math.PI);
 
     public static final Translation2d CENTER_OF_FIELD_M = new Translation2d(8.29564, 4.105656);
 

@@ -7,33 +7,19 @@ package frc.robot;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.GamePieceCommands.AmpAutoAlign;
-import frc.robot.commands.GamePieceCommands.ArmClimbCommandDown;
-import frc.robot.commands.GamePieceCommands.ArmClimbCommandUp;
 import frc.robot.commands.GamePieceCommands.ArmManualCommand;
-import frc.robot.commands.GamePieceCommands.AutonIntakeCommand;
-import frc.robot.commands.GamePieceCommands.AutonShooterCommand;
-import frc.robot.commands.GamePieceCommands.AutonSingleShotCommand;
 import frc.robot.commands.GamePieceCommands.IntakeCommand;
 import frc.robot.commands.GamePieceCommands.IntakeReverseCommand;
 import frc.robot.commands.GamePieceCommands.MagicAmpChargeCommand;
-import frc.robot.commands.GamePieceCommands.MagicERAmpChargeCommand;
 import frc.robot.commands.GamePieceCommands.MagicShootCommand;
 import frc.robot.commands.GamePieceCommands.MagicSpeakerChargeCommand;
 import frc.robot.commands.GamePieceCommands.ShootManualCommand;
-import frc.robot.commands.GamePieceCommands.ShootShuttleCommand;
-import frc.robot.commands.GamePieceCommands.ShuttleCloseCommand;
 import frc.robot.commands.ArmDefaultCommand;
-import frc.robot.commands.AutoAlignCommand;
-import frc.robot.commands.AutoAlignForeverCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
-import frc.robot.commands.ShuttleAutoAlignCommand;
 import frc.robot.util.SubsystemContainer;
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -70,18 +56,8 @@ public class RobotContainer {
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
 
-    // set named commands
-    NamedCommands.registerCommand("AutonIntakeCommand",
-        new AutonIntakeCommand(Constants.ArmConstants.INTAKE_POSE, Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
-    NamedCommands.registerCommand("AutonShoot",
-        new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED, SubsystemContainer.m_angleCalculate));
-    NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand());
-    NamedCommands.registerCommand("SingleSubwooferShot",
-        new AutonSingleShotCommand(ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED));
-
     // Intake buttons
     m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
-    m_driverController.rightTrigger().whileTrue(new ShuttleCloseCommand());
     m_driverController.leftTrigger().whileTrue(new IntakeCommand());
 
     // swerve buttons
@@ -92,8 +68,6 @@ public class RobotContainer {
       SubsystemContainer.armSubsystem.initializeMotorControllers();
     }));
 
-    m_driverController.x().whileTrue(new AmpAutoAlign(m_driverController));
-
     // shooter buttons
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
@@ -101,45 +75,16 @@ public class RobotContainer {
     m_driverController.start()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose()));
 
-    m_driverController.a().whileTrue(new InstantCommand(() -> SubsystemContainer.m_angleCalculate.dumpData()));
-
-    // separate button binding to left bumper contained within the magic speaker
-    // charge command
-    m_buttonsController.y().whileTrue(new SequentialCommandGroup(
-        new MagicSpeakerChargeCommand(SubsystemContainer.m_angleCalculate, m_buttonsController),
-        new MagicShootCommand()));
-
     m_buttonsController.x().whileTrue(new SequentialCommandGroup(
         new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE, Constants.ShooterSpeeds.SHOOTING_SPEED,
             Constants.ShooterSpeeds.LOW_SPEED_THRESHOLD, m_buttonsController),
         new MagicShootCommand()));
 
-    m_buttonsController.b()
-        .whileTrue(new SequentialCommandGroup(new ShootShuttleCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
-            m_buttonsController), new MagicShootCommand()));
-
     m_buttonsController.povDown()
         .onTrue(new InstantCommand(() -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
 
-    m_driverController.rightBumper().whileTrue(new AutoAlignCommand(m_driverController));
-
-    m_driverController.y().whileTrue(new ShuttleAutoAlignCommand(m_buttonsController));
-
     // arm buttons
     m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));
-    m_buttonsController.back().toggleOnTrue(new ArmClimbCommandDown());
-    m_buttonsController.start().toggleOnTrue(new ArmClimbCommandUp());
-  }
-
-  public Command getAutonomousCommand() {
-    Command auto;
-    try {
-      auto = new PathPlannerAuto("2 Note SOURCE-MID 2ND BOTTOM");
-    } catch (Exception e) {
-      auto = new PathPlannerAuto("Nothing");
-    }
-
-    return auto;
   }
 
   public void teleopperiodic() {
