@@ -56,10 +56,10 @@ public class RobotContainer {
     // swerve buttons
     m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
 
-    m_driverController.b().onTrue(new InstantCommand(() -> {
-      SubsystemContainer.swerveSubsystem.ResetModules();
-      SubsystemContainer.armSubsystem.initializeMotorControllers();
-    }));
+    // m_driverController.b().onTrue(new InstantCommand(() -> {
+    // SubsystemContainer.swerveSubsystem.ResetModules();
+    // SubsystemContainer.armSubsystem.initializeMotorControllers();
+    // }));
 
     // shooter buttons
     m_buttonsController.a()
