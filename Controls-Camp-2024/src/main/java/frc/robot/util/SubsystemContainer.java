@@ -9,7 +9,6 @@ import frc.robot.subsystems.wrapper.NetworkTables;
 import frc.robot.subsystems.wrapper.Shooter;
 
 public class SubsystemContainer {
-    public static final Alliance alliance = new Alliance();
     public static final NetworkTables sendables = new NetworkTables();
     public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     public static final Intake intakeSubsystem = new Intake();
