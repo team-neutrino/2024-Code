@@ -9,8 +9,8 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 public class PhotonVision extends SubsystemBase {
-  private NetworkTableInstance instance = NetworkTableInstance.getDefault();
-  private NetworkTable photonVision = instance.getTable("Microsoft_LifeCam_HD-3000");
+  private NetworkTableInstance instance;
+  private NetworkTable photonVision;
   static PhotonTrackedTarget target;
   PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
   PhotonPipelineResult result = camera.getLatestResult();
@@ -24,6 +24,8 @@ public class PhotonVision extends SubsystemBase {
   }
 
   public PhotonVision() {
+    instance = NetworkTableInstance.getDefault();
+    photonVision = instance.getTable("Microsoft_LifeCam_HD-3000")
     // global instance of the network table and gets the limelight table
     photonVision = NetworkTableInstance.getDefault().getTable("photonVision");
     // turns off LED
