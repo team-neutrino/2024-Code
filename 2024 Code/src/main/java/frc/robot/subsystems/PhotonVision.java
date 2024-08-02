@@ -47,7 +47,6 @@ public class PhotonVision extends SubsystemBase {
       if (i % 3 == 0) {
         System.out.println("Working ....");
       } else {
-        System.out.println("1.");
         System.out.println(result.hasTargets());
       }
     }
