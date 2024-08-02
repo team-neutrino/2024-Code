@@ -12,8 +12,8 @@ public class PhotonVision extends SubsystemBase {
   private NetworkTableInstance instance;
   private NetworkTable photonVision;
   static PhotonTrackedTarget target;
-  PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
-  PhotonPipelineResult result = camera.getLatestResult();
+  PhotonCamera camera;
+  PhotonPipelineResult result;
 
   public PhotonPipelineResult getLatestPipeline() {
     return camera.getLatestResult();
@@ -25,9 +25,10 @@ public class PhotonVision extends SubsystemBase {
 
   public PhotonVision() {
     instance = NetworkTableInstance.getDefault();
-    photonVision = instance.getTable("Microsoft_LifeCam_HD-3000")
+    photonVision = instance.getTable("Microsoft_LifeCam_HD-3000");
+    camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+    result = camera.getLatestResult();
     // global instance of the network table and gets the limelight table
-    photonVision = NetworkTableInstance.getDefault().getTable("photonVision");
     // turns off LED
     photonVision.getEntry("ledMode").setNumber(1);
     camera.setPipelineIndex(2);
