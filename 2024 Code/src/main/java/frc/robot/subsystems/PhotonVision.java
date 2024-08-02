@@ -44,14 +44,13 @@ public class PhotonVision extends SubsystemBase {
     // System.out.println(getYaw());
     // System.out.println(hasTarget());
     for (int i = 0; i < 3; i++) {
-      if(i%3 == 0){
+      if (i % 3 == 0) {
         System.out.println("Working ....");
-      }
-      else{
+      } else {
         System.out.println("1.");
-      }
+        System.out.println(result.hasTargets());
       }
     }
-
-    System.out.println(result.hasTargets());
   }
+
+}
