@@ -6,6 +6,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public final class Constants {
+
+  public static class ShootWhilstSwerveConstants {
+    public static final double UNIT_CONVERSION = 60 / (2 * Math.PI);
+    public static final double SHOOTER_WHEEL_DIAMETER = .0508;
+  }
+
   public static class OperatorConstants {
     public static final int XBOX_CONTROLLER = 0;
     public static final int DRIVER_CONTROLLER = 1;

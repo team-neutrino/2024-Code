@@ -5,7 +5,7 @@
 package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants;
+import frc.robot.Constants.ShootWhilstSwerveConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -48,14 +48,17 @@ public class ShootWhilstSwerving extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // commented code is to be continued after forward-backward support is complete
     // adjustedSpeakerToRobot = m_calculateMovingShot.calculateAdjustedPos();
 
     m_armSubsystem.setArmReferenceAngle(
         m_calculateAngle.InterpolateAngle(SubsystemContainer.swerveSubsystem.GetSpeakerToRobot()));
 
-    double unitConversion = 60 / (2 * Math.PI);
-    double shootingSpeed = Math.min(5000,
-        4000 + ((unitConversion * SubsystemContainer.swerveSubsystem.getRobotRelativeSpeeds().vxMetersPerSecond) / 0.0508));
+    // variables for readability
+    double robotSpeed = SubsystemContainer.swerveSubsystem.getRobotRelativeSpeeds().vxMetersPerSecond;
+    double shootingSpeed = Math.min(7000, 4000 + ((ShootWhilstSwerveConstants.UNIT_CONVERSION * robotSpeed)
+        / ShootWhilstSwerveConstants.SHOOTER_WHEEL_DIAMETER));
+
     m_shooterSubsystem.setTargetRPM(shootingSpeed);
 
     m_intakeSubsystem.runIndexFeed();

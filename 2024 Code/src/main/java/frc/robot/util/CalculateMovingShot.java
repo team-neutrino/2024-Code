@@ -8,24 +8,30 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
 /**
- * Utility class that does the geometry computations to finish the triangle
- * between the robot, speaker, and where the robot will be at its current speed
- * when the note hits the speaker.
+ * Utility class that does math for shooting whilst swerving.
  */
 public class CalculateMovingShot {
 
     /**
-     * Create an adjusted PolarCoord for backward movement.
+     * **THIS IS AN ITERATION 1 METHOD**
      * 
-     * @return A PolarCoord of the current position modified for backwards movement.
+     * Returns an adjusted version of the interpolated arm angle so that the
+     * adjusted shooter speed does not affect the peak of the note's arc.
+     * 
+     * This will cause the note to shoot faster than necessary in the
+     * horizontal, and may need to be changed for current draw purposes.
+     * 
+     * @param interpolatedAngle The shooting angle for no robot movement.
+     * @param robotSpeed        The current speed of the robot (Y DIRECTION ONLY!).
+     * @param shootingSpeed     The (modified) speed the note will be shot at in
+     *                          meters per second.
+     * 
+     * @return The interpolated arm angle adjusted for arc flattening with a given
+     *         increased shooting speed.
      */
-    public PolarCoord adjustBackwardMovement() {
-        double r = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
-        double robotSpeed = SubsystemContainer.swerveSubsystem.getRobotRelativeSpeeds().vxMetersPerSecond;
-
-        double deltaX = (r / ShooterConstants.NOTE_SPEED) * robotSpeed;
-
-        return new PolarCoord(r + deltaX, SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getTheta());
+    public double negateApageeIncrease(double interpolatedAngle, double robotSpeed, double shootingSpeed) {
+        double S_sub_r = Math.cos(interpolatedAngle) / robotSpeed;
+        return Math.asin((shootingSpeed * Math.sin(interpolatedAngle) / shootingSpeed + S_sub_r));
     }
 
     /**
