@@ -3,166 +3,133 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+
 import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DigitalConstants;
+import frc.robot.Constants;
+import frc.robot.Constants.MessageTimers;
 import frc.robot.Constants.MotorIDs;
-import frc.robot.subsystems.simulation.PIDChangerSimulationShooter;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ShooterSpeeds;
+import frc.robot.util.SubsystemContainer;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 
 public class ShooterSubsystem extends SubsystemBase {
-  protected CANSparkMax m_shooter1 = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
-  protected CANSparkMax m_shooter2 = new CANSparkMax(MotorIDs.SHOOTER_MOTOR2, MotorType.kBrushless);
-  protected RelativeEncoder m_shooterEncoder1;
-  protected RelativeEncoder m_shooterEncoder2;
-  private SparkPIDController m_pidController1;
-  private DigitalInput m_beamBreak = new DigitalInput(DigitalConstants.SHOOTER_BEAMBREAK);
-  protected double WHEEL_P = 0.0006;
-  protected double WHEEL_I = 0.000001;
-  protected double WHEEL_D = 0;
-  protected double WHEEL_FF = 0.00021;
-  protected double m_targetRPM;
-  protected double Izone = 100;
-  private int counter;
-  final private double APPROVE_ERROR_THRESHOLD = 200;
-  final private double APPROVE_COUNTER_THRESHOLD = 9;
-  final private double COUNTER_ERROR_THRESHOLD = 200;
-  private boolean approve = false;
-  // this is a change and a test
+  private CANSparkMax m_shooterMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
+  private CANSparkMax m_followerMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR2, MotorType.kBrushless);
+  private RelativeEncoder m_shooterEncoder;
+  private RelativeEncoder m_followerEncoder;
+  private SparkPIDController m_pidController;
+  private Debouncer m_shootDebouncer;
 
-  public final PIDChangerSimulationShooter PIDSimulationShooter = new PIDChangerSimulationShooter(WHEEL_P, WHEEL_I,
-      WHEEL_D, WHEEL_FF, approve);
+  private ControlType m_shootControlType;
+  private double m_targetVoltage;
+  private double m_targetRPM;
+
+  private boolean m_atSpeed;
 
   public ShooterSubsystem() {
-    m_shooterEncoder1 = m_shooter1.getEncoder();
-    m_pidController1 = m_shooter1.getPIDController();
-    m_pidController1.setFeedbackDevice(m_shooterEncoder1);
-    m_shooter1.restoreFactoryDefaults();
-    m_shooter1.setIdleMode(IdleMode.kCoast);
-    m_shooter1.setInverted(false);
-    m_shooter1.setSmartCurrentLimit(40);
-    m_shooter1.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
+    m_shooterEncoder = m_shooterMotor.getEncoder();
+    m_pidController = m_shooterMotor.getPIDController();
+    m_pidController.setFeedbackDevice(m_shooterEncoder);
+    m_shooterMotor.setIdleMode(IdleMode.kCoast);
+    m_shooterMotor.setInverted(false);
+    m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+    m_shooterMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
 
-    m_shooterEncoder2 = m_shooter2.getEncoder();
-    m_shooter2.restoreFactoryDefaults();
-    m_shooter2.setIdleMode(IdleMode.kCoast);
-    m_shooter2.setInverted(true);
-    m_shooter2.setSmartCurrentLimit(40);
-    m_shooter2.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, true);
-    m_shooter2.follow(m_shooter1, true);
+    m_followerEncoder = m_followerMotor.getEncoder();
+    m_followerMotor.setIdleMode(IdleMode.kCoast);
+    m_followerMotor.setInverted(true);
+    m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+    m_followerMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, false);
+    m_followerMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, false);
+    m_followerMotor.follow(m_shooterMotor, true);
 
-    m_pidController1.setP(WHEEL_P);
-    m_pidController1.setI(WHEEL_I);
-    m_pidController1.setD(WHEEL_D);
-    m_pidController1.setFF(WHEEL_FF);
-    m_pidController1.setIZone(Izone);
-    m_pidController1.setOutputRange(0, 1);
+    m_pidController.setP(ShooterConstants.WHEEL_P);
+    m_pidController.setI(ShooterConstants.WHEEL_I);
+    m_pidController.setD(ShooterConstants.WHEEL_D);
+    m_pidController.setFF(ShooterConstants.WHEEL_FF);
+    m_pidController.setIZone(ShooterConstants.WHEEL_IZONE);
+    m_pidController.setOutputRange(0, 1);
 
-    m_shooter1.burnFlash();
-    m_shooter2.burnFlash();
+    // shooter motor CAN messages rates
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 5);
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 10);
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
+    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+
+    // shooter follower CAN messages rates
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
+    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+
+    m_shooterMotor.burnFlash();
+    m_followerMotor.burnFlash();
+
+    m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME, DebounceType.kRising);
   }
 
-  public boolean detectedGamePiece() {
-    return !m_beamBreak.get();
+  public void defaultShooter() {
+    setVoltage(SubsystemContainer.intakeSubsystem.hasNote() ? ShooterSpeeds.INITIAL_SHOOTER_SPEED : 0.0);
   }
 
-  public double getShooterEncoder1() {
-    return m_shooterEncoder1.getPosition();
+  public boolean approveShoot() {
+    return m_atSpeed;
   }
 
-  public double getShooterRpm1() {
-    return m_shooterEncoder1.getVelocity();
+  public boolean aboveRPM(double p_rpm) {
+    return (getShooterRPM() > p_rpm);
   }
 
-  public void resetEncoders() {
-    m_shooterEncoder1.setPosition(0);
-    m_shooterEncoder2.setPosition(0);
-  }
-
-  public void setVoltage(double voltage) {
-    m_shooter1.setVoltage(voltage);
-  }
-
-  public double getP() {
-    return m_pidController1.getP() * 1000.0;
+  public double getShooterRPM() {
+    return m_shooterEncoder.getVelocity();
   }
 
   public double getTargetRPM() {
     return m_targetRPM;
   }
 
-  public void setTargetRPM(double p_targetRpm) {
-    m_targetRPM = p_targetRpm;
-    approvePIDChanges();
-    m_pidController1.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
+  public void setTargetRPM(double p_targetRPM) {
+    m_targetRPM = p_targetRPM;
+    m_shootControlType = ControlType.kVelocity;
   }
 
-  public void stopShooter() {
-    setVoltage(0);
-    m_targetRPM = 0;
+  public void setVoltage(double voltage) {
+    m_targetVoltage = voltage;
+    m_shootControlType = ControlType.kVoltage;
   }
 
-  public boolean approveShoot() {
-    countCounter();
-    return (Math.abs(getShooterRpm1() - getTargetRPM()) <= APPROVE_ERROR_THRESHOLD
-        && (counter > APPROVE_COUNTER_THRESHOLD));
-  }
-
-  public double getFF() {
-    return m_pidController1.getFF() * 1000.0;
-  }
-
-  public void setP(double P) {
-    m_pidController1.setP(P / 1000.0);
-  }
-
-  public double getI() {
-    return m_pidController1.getI() * 1000.0;
-  }
-
-  public void setI(double I) {
-    m_pidController1.setI(I / 1000.0);
-  }
-
-  public double getD() {
-    return m_pidController1.getD() * 1000.0;
-  }
-
-  public void setD(double D) {
-    m_pidController1.setD(D / 1000.0);
-  }
-
-  public void setFF(double FF) {
-    m_pidController1.setFF(FF / 1000.0);
-  }
-
-  private void countCounter() {
-    if (Math.abs(getTargetRPM() - getShooterRpm1()) < COUNTER_ERROR_THRESHOLD) {
-      counter++;
+  public void useHighCurrentLimits(boolean isHighCurrent) {
+    if (isHighCurrent) {
+      m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.HIGH_SHOOTER_CURRENT_LIMIT);
+      m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.HIGH_SHOOTER_CURRENT_LIMIT);
     } else {
-      counter = 0;
+      m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+      m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
     }
-  }
-
-  public void approvePIDChanges() {
-    if (PIDSimulationShooter.simPIDChangeApprove()) {
-      WHEEL_P = PIDSimulationShooter.GetP();
-      WHEEL_I = PIDSimulationShooter.GetI();
-      WHEEL_D = PIDSimulationShooter.GetD();
-      WHEEL_FF = PIDSimulationShooter.GetFF();
-      m_pidController1.setP(WHEEL_P);
-      m_pidController1.setI(WHEEL_I);
-      m_pidController1.setD(WHEEL_D);
-      m_pidController1.setFF(WHEEL_FF);
-      System.out.println("PID values updated");
-    }
-
   }
 
   @Override
   public void periodic() {
-    m_shooter1.getBusVoltage();
+    if (m_shootControlType == ControlType.kVelocity) {
+      m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
+    } else {
+      m_shooterMotor.setVoltage(m_targetVoltage);
+    }
+
+    m_atSpeed = m_shootDebouncer
+        .calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= ShooterConstants.RPM_ERROR_THRESHOLD);
   }
 }

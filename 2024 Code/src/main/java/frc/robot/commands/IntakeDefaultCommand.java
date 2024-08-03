@@ -5,8 +5,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.SubsystemContainer;
 
 public class IntakeDefaultCommand extends Command {
-
-    private IntakeSubsystem m_intakeSubsystem;
+    IntakeSubsystem m_intakeSubsystem;
 
     public IntakeDefaultCommand() {
         m_intakeSubsystem = SubsystemContainer.intakeSubsystem;
@@ -19,13 +18,10 @@ public class IntakeDefaultCommand extends Command {
 
     @Override
     public void execute() {
-        // motor should run while the beam break is NOT tripped
-        if (m_intakeSubsystem.getBeamBreak()) {
-            m_intakeSubsystem.runIntake();
-            m_intakeSubsystem.runIndex();
+        if (m_intakeSubsystem.hasNote() && !m_intakeSubsystem.isNoteReady()) {
+            m_intakeSubsystem.smartIntake();
         } else {
-            m_intakeSubsystem.stopIntake();
-            m_intakeSubsystem.stopIndex();
+            m_intakeSubsystem.defaultIntake();
         }
     }
 

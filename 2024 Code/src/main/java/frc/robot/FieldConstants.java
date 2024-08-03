@@ -66,5 +66,5 @@ public final class FieldConstants {
                         new Pose3d(Units.inchesToMeters(182.73), Units.inchesToMeters(146.19), Units.inchesToMeters(52),
                                         new Rotation3d(0, 0, (4 * Math.PI) / 3)));
 
-        public static final Double COMMUNITYBOUNDARY = 2.423414;
+        public static final Double COMMUNITYBOUNDARY = 5.0; // 2.423414;
 }
