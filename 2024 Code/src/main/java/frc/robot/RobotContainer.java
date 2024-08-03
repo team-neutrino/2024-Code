@@ -29,6 +29,7 @@ import frc.robot.commands.AutoAlignForeverCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
+import frc.robot.commands.PhotonVisionDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShuttleAutoAlignCommand;
 import frc.robot.util.SubsystemContainer;
@@ -52,6 +53,7 @@ public class RobotContainer {
   LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand(m_buttonsController);
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
+  PhotonVisionDefaultCommand m_PhotonVisionDefaultCommand = new PhotonVisionDefaultCommand();
 
   public RobotContainer() {
     configureBindings();
@@ -69,7 +71,7 @@ public class RobotContainer {
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmDefaultCommand());
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
-    // SubsystemContainer.PhotonVision.setDefaultCommand(m_PhotonVisionDefaultCommand);
+    SubsystemContainer.photonVision.setDefaultCommand(m_PhotonVisionDefaultCommand);
 
     // set named commands
     NamedCommands.registerCommand("AutonIntakeCommand",
