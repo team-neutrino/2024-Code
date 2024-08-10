@@ -85,7 +85,7 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(new IntakeCommand());
 
     // swerve buttons
-    m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetPigeon2()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       SubsystemContainer.swerveSubsystem.ResetModules();
