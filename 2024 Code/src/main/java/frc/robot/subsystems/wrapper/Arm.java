@@ -58,13 +58,13 @@ public class Arm extends ArmSubsystem {
 
     @Override
     public void periodic() {
-        super.periodic();
-        final long now = NetworkTablesJNI.now();
-        targetAnglePub.set(getTargetAngle(), now);
-        encoderAnglePub.set(getArmAngleDegrees(), now);
-        eAnglePub.set(getArmAngleDegrees(), now);
-        radiPublisher.set(m_calculateAngle.getRadius(), now);
-        thetaPublisher.set(m_calculateAngle.getTheta(), now);
+        // super.periodic();
+        // final long now = NetworkTablesJNI.now();
+        // targetAnglePub.set(getTargetAngle(), now);
+        // encoderAnglePub.set(getArmAngleDegrees(), now);
+        // eAnglePub.set(getArmAngleDegrees(), now);
+        // radiPublisher.set(m_calculateAngle.getRadius(), now);
+        // thetaPublisher.set(m_calculateAngle.getTheta(), now);
     }
 }
 // 688.78 is CG inertia Distance bwetwwn cg and axis is 15.17247438
