@@ -7,6 +7,7 @@ package frc.robot.commands.GamePieceCommands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ShootWhilstSwerveConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ShooterSpeeds;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.CalculateAngle;
@@ -50,17 +51,13 @@ public class ShootWhilstSwerving extends GamePieceCommand {
   public void execute() {
     // commented code is to be continued after forward-backward support is complete
     // adjustedSpeakerToRobot = m_calculateMovingShot.calculateAdjustedPos();
+    
+    double angle = m_calculateAngle.InterpolateAngle(SubsystemContainer.swerveSubsystem.GetSpeakerToRobot());
+    m_armSubsystem.setArmReferenceAngle(angle);
 
-    m_armSubsystem.setArmReferenceAngle(
-        m_calculateAngle.InterpolateAngle(SubsystemContainer.swerveSubsystem.GetSpeakerToRobot()));
-
-    // variables for readability
     double robotSpeed = SubsystemContainer.swerveSubsystem.getRobotRelativeSpeeds().vxMetersPerSecond;
-    double shootingSpeed = Math.min(7000, 4000 + ((ShootWhilstSwerveConstants.UNIT_CONVERSION * robotSpeed)
-        / ShootWhilstSwerveConstants.SHOOTER_WHEEL_DIAMETER));
 
-    m_shooterSubsystem.setTargetRPM(shootingSpeed);
-
+    m_shooterSubsystem.setTargetRPM(ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
   }
 

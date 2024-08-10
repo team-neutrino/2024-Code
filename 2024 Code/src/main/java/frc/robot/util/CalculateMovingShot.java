@@ -4,7 +4,6 @@
 
 package frc.robot.util;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
 /**
@@ -13,25 +12,35 @@ import frc.robot.Constants.ShooterConstants;
 public class CalculateMovingShot {
 
     /**
-     * **THIS IS AN ITERATION 1 METHOD**
+     * Quadratic anti-interpolation equation. Arm position is on the y-axis and is
+     * measured in degrees, distance is radial from the speaker, measured in meters,
+     * and on the x-axis.
      * 
-     * Returns an adjusted version of the interpolated arm angle so that the
-     * adjusted shooter speed does not affect the peak of the note's arc.
+     * The subwoofer position (x = 0, y = -10) will be the (0,0) of this equation,
+     * meaning: output must be translated +10 to achieve the correct arm angle,
+     * x = 0 represents the robot flushed against the subwoofer, and y = 0
+     * represents the subwoofer shooting position, which is -10 degrees.
      * 
-     * This will cause the note to shoot faster than necessary in the
-     * horizontal, and may need to be changed for current draw purposes.
+     * Equation should solve: given an immobile and speaker-facing discrete
+     * (varying) robot position within the firing range of a static 4000 rpm
+     * shooter, plug in the radial distance from the speaker and always make the
+     * shot.
      * 
-     * @param interpolatedAngle The shooting angle for no robot movement.
-     * @param robotSpeed        The current speed of the robot (Y DIRECTION ONLY!).
-     * @param shootingSpeed     The (modified) speed the note will be shot at in
-     *                          meters per second.
+     * With the above equation, "shoot whilst swerving" would be solved by simply
+     * scheduling the target arm angle further from the current radial distance
+     * depending on the robot speed (which is assumed to be constant). Since the
+     * problem is now being treated in a robot oriented fashion (auto-align is
+     * assumed to continually and perfectly update angle to speaker), side-to-side
+     * movement (VsubY) is insignificant.
      * 
-     * @return The interpolated arm angle adjusted for arc flattening with a given
-     *         increased shooting speed.
+     * In the future, a slight "flick" in robot orientation right before the shot
+     * may be necessary if the auto-align cannot keep up with robot movement.
      */
-    public double negateApageeIncrease(double interpolatedAngle, double robotSpeed, double shootingSpeed) {
-        double S_sub_r = Math.cos(interpolatedAngle) / robotSpeed;
-        return Math.asin((shootingSpeed * Math.sin(interpolatedAngle) / shootingSpeed + S_sub_r));
+    public void AntiInterpolationEquation() {
+        double intakePos = -27;
+        double subwooferPos = -10;
+        // x = 0, y = -10
+        //
     }
 
     /**

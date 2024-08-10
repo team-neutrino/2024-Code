@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 public final class Constants {
 
   public static class ShootWhilstSwerveConstants {
-    public static final double UNIT_CONVERSION = 60 / (2 * Math.PI);
     public static final double SHOOTER_WHEEL_DIAMETER = .0508;
   }
 
