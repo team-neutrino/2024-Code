@@ -370,20 +370,6 @@ public class SwerveSubsystem extends SubsystemBase {
     return new PolarCoord(radius, theta);
   }
 
-  /**
-   * Returns a PolarCoord intended to be used in the ShootWhileSwerving command
-   * that is a horizontally (relative to the speaker) translated version of
-   * what m_speakerToRobot would normally be.
-   * 
-   * @param pose The robot's current position.
-   * @return A PolarCoord consisting of the angle to the speaker and a translated
-   *         distance determined by the difference between the given pose2d and
-   *         the robot's current pose2d
-   */
-  public PolarCoord getShiftedSpeakerToRobot(Pose2d pose) {
-    return UpdateSpeakerToRobot(pose);
-  }
-
   public void AlignToSpeakerUsingOdometry() {
     Translation2d speakerPose;
     if (SubsystemContainer.alliance.isRedAlliance()) {
@@ -463,6 +449,22 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   /**
+   * Gets the robot's current speed approaching/retreating from the speaker.
+   * Ignores lateral movement.
+   * 
+   * @return The robot's speed component going towards/away from the speaker.
+   */
+  public double getRadialSpeed() {
+    // idk if I need this or not
+    double angle = m_speakerToRobot.getTheta();
+
+    double xSpeed = getRobotRelativeSpeeds().vxMetersPerSecond;
+    double ySpeed = getRobotRelativeSpeeds().vyMetersPerSecond;
+
+    return Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
+  }
+
+  /**
    * Returns true if the robot yaw is within tolerance of its target while facing
    * a speaker tag
    * 
@@ -474,6 +476,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public boolean withinShootingDistance() {
     return GetSpeakerToRobot().getRadius() < ShooterConstants.MAX_SHOOTING_DISTANCE;
+  }
+
+  public boolean withinMovingShootingDistance() {
+    return GetSpeakerToRobot().getRadius() <= 4;
   }
 
   public States getCommandState() {

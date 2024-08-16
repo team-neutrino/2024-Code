@@ -7,6 +7,7 @@ package frc.robot.commands.GamePieceCommands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.util.CalculateAngle;
+import frc.robot.util.CalculateMovingShot;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterSpeeds;
@@ -35,10 +36,10 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // for testing polynomial surface
-    // m_armSubsystem.setArmReferenceAngle(m_calculateAngle.quarticFitCalculateAngle(m_swerve.GetSpeakerToRobot()));
+    // m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
 
-    m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
+    m_armSubsystem
+        .setArmReferenceAngle(CalculateMovingShot.AntiInterpolationEquation(m_swerve.GetSpeakerToRobot().getRadius()));
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
   }

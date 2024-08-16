@@ -9,6 +9,10 @@ public final class Constants {
 
   public static class ShootWhilstSwerveConstants {
     public static final double SHOOTER_WHEEL_DIAMETER = .0508;
+    // PLACEHOLDER VALUE - anticipated time needed to adjust the arm to the correct
+    // angle while moving, in other words, how far "ahead" in the anti-interpolatoin
+    // equation to set the arm to
+    public static final double MOVEMENT_ADJUSTMENT_TIME = 1.25;
   }
 
   public static class OperatorConstants {

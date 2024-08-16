@@ -4,6 +4,7 @@
 
 package frc.robot.util;
 
+import frc.robot.Constants.ShootWhilstSwerveConstants;
 import frc.robot.Constants.ShooterConstants;
 
 /**
@@ -16,15 +17,13 @@ public class CalculateMovingShot {
      * measured in degrees, distance is radial from the speaker, measured in meters,
      * and on the x-axis.
      * 
-     * The subwoofer position (x = 0, y = -10) will be the (0,0) of this equation,
-     * meaning: output must be translated +10 to achieve the correct arm angle,
-     * x = 0 represents the robot flushed against the subwoofer, and y = 0
-     * represents the subwoofer shooting position, which is -10 degrees.
+     * The subwoofer position (x = 0, y = -10) hopefully will be the only
+     * predetermined point in this equation. Everything else should be math.
      * 
      * Equation should solve: given an immobile and speaker-facing discrete
      * (varying) robot position within the firing range of a static 4000 rpm
-     * shooter, plug in the radial distance from the speaker and always make the
-     * shot.
+     * shooter, plug in the radial distance from the speaker and get an arm
+     * angle that will score.
      * 
      * With the above equation, "shoot whilst swerving" would be solved by simply
      * scheduling the target arm angle further from the current radial distance
@@ -36,11 +35,41 @@ public class CalculateMovingShot {
      * In the future, a slight "flick" in robot orientation right before the shot
      * may be necessary if the auto-align cannot keep up with robot movement.
      */
-    public void AntiInterpolationEquation() {
-        double intakePos = -27;
-        double subwooferPos = -10;
-        // x = 0, y = -10
-        //
+    public static double AntiInterpolationEquation(double radialDist) {
+        // x = 0, y = -10 is subwoofer shot point
+
+        // max range: 19.433 degrees (NOT ARM ANGLE - 19.433 DEGREES
+        // ABOVE HORIZONTAL SHOOTING ANGLE) gives apagee of exactly 1.8097 meters
+        // (middle of speaker height) in .6212 sec, horizontal range of 10.712 m
+
+        // 20.44 degrees above horizontal currently used in calculations/graph - it's
+        // incorrect, based off of faulty 2.04 meter middle of speaker height, but good
+        // enough for now (5.47, *translated to arm* 20.44 degrees) (3193 sec)
+
+        // wing is 231.2" or 5.87 m
+
+        // max range point: (5.47,???) need to translate 20.44 degrees above horizontal
+        // to arm angle, then create equation based on those two points
+
+        // guestimation: (5.47, 10), y = .66829x^2 - 10
+        // exponential guestimation (very similar): (5.47, 10) 1.7447^x - 11
+
+        return (.66829 * Math.pow(radialDist, 2)) - 10;
+
+    }
+
+    /**
+     * Adjusts the given angle for robot speed. NOTE: speed must be RADIAL!! Meaning
+     * it is only the speed at which the robot is approaching or receding from the
+     * speaker, NO LATERAL SPEED should be included!
+     * 
+     * @param robotSpeed The robot's current RADIAL speed.
+     * @param radialDist The robot's current radial distance from the speaker.
+     * @return The adjusted angle that will only work for the given robot speed.
+     */
+    public static double adjustArmForMovement(double robotSpeed, double radialDist) {
+        double metersAhead = robotSpeed * ShootWhilstSwerveConstants.MOVEMENT_ADJUSTMENT_TIME;
+        return AntiInterpolationEquation(metersAhead + radialDist);
     }
 
     /**

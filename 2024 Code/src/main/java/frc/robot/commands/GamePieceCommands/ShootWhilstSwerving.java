@@ -5,40 +5,37 @@
 package frc.robot.commands.GamePieceCommands;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.ShootWhilstSwerveConstants;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.ShooterSpeeds;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.CalculateAngle;
 import frc.robot.util.CalculateMovingShot;
-import frc.robot.util.PolarCoord;
 import frc.robot.util.SubsystemContainer;
 
 /**
- * This (1st) iteration will only support movement backwards and forwards
- * completely perpendicular to the speaker.
+ * Change in thought process once again, but to reiterate: modifying the arm
+ * angle for movement would affect note apagee too much with a fixed speed and
+ * NEOs aren't powerful enough to modify hte note speed. So, this attempt will
+ * try to scrap the interpolation table and instead use a quadratic equation
+ * relating radial distance form the speaker to the robot to arm angle. See
+ * CalculateMovingShot "AntiInterpolationEquation" for more details.
  * 
- * This command is to be run in parallel with the AutoAlignCommand.
- * 
- * Future incremental design plan: not perpendiular forward/backward,
- * left/right fixed radius (semicircle), left/right non-fixed radius,
- * cardinal directions, 8 directions, omnidirectional linear.
+ * Must be run while auto-aligning to work.
  */
 public class ShootWhilstSwerving extends GamePieceCommand {
 
   private ShooterSubsystem m_shooterSubsystem;
   private CalculateAngle m_calculateAngle;
   private CommandXboxController m_controller;
-  private PolarCoord adjustedSpeakerToRobot;
-  private CalculateMovingShot m_calculateMovingShot;
+  private SwerveSubsystem m_swerve = SubsystemContainer.swerveSubsystem;
+  private LimelightSubsystem m_limelight = SubsystemContainer.limelightSubsystem;
 
   /** Creates a new ShootWhileSwerving. */
-  public ShootWhilstSwerving(CommandXboxController p_controller, CalculateMovingShot p_calculateMovingShot) {
+  public ShootWhilstSwerving(CommandXboxController p_controller) {
     m_shooterSubsystem = SubsystemContainer.shooterSubsystem;
     m_calculateAngle = SubsystemContainer.m_angleCalculate;
     m_controller = p_controller;
-    m_calculateMovingShot = p_calculateMovingShot;
   }
 
   // Called when the command is initially scheduled.
@@ -49,16 +46,23 @@ public class ShootWhilstSwerving extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // commented code is to be continued after forward-backward support is complete
-    // adjustedSpeakerToRobot = m_calculateMovingShot.calculateAdjustedPos();
-    
-    double angle = m_calculateAngle.InterpolateAngle(SubsystemContainer.swerveSubsystem.GetSpeakerToRobot());
-    m_armSubsystem.setArmReferenceAngle(angle);
-
-    double robotSpeed = SubsystemContainer.swerveSubsystem.getRobotRelativeSpeeds().vxMetersPerSecond;
+    if (!m_swerve.withinMovingShootingDistance()) {
+      System.out.println("OUTSIDE OF SHOOTING RANGE");
+      return;
+    }
 
     m_shooterSubsystem.setTargetRPM(ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
+
+    double robotSpeed = SubsystemContainer.swerveSubsystem.getRadialSpeed();
+    // double angle =
+    // m_calculateAngle.InterpolateAngle(SubsystemContainer.swerveSubsystem.GetSpeakerToRobot());
+    double angle = CalculateMovingShot
+        .adjustArmForMovement(robotSpeed, SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius());
+
+    System.out.println("Auto-aligned = " + SubsystemContainer.swerveSubsystem.AutoAligned());
+
+    m_armSubsystem.setArmReferenceAngle(angle);
   }
 
   // Called once the command ends or is interrupted.
@@ -69,7 +73,14 @@ public class ShootWhilstSwerving extends GamePieceCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_controller.getHID().getLeftBumper() && m_armSubsystem.getInPosition()
-        && m_shooterSubsystem.approveShoot();
+    return m_controller.getHID().getLeftBumper() &&
+        m_swerve.AutoAligned() &&
+        m_limelight.facingSpeakerID() &&
+        m_swerve.withinMovingShootingDistance() &&
+        m_swerve.robotVelocityWithinTolerance() &&
+        // only previous conditions below
+        m_armSubsystem.getInPosition() &&
+        m_shooterSubsystem.aboveRPM(ShooterSpeeds.THRESHOLD_SHOOTING_SPEED) &&
+        m_intakeSubsystem.isNoteReady();
   }
 }

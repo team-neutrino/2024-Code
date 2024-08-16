@@ -104,7 +104,7 @@ public class RobotContainer {
     // shooter buttons
     m_buttonsController.rightBumper()
         .whileTrue(new SequentialCommandGroup(
-            new ShootWhilstSwerving(m_buttonsController, SubsystemContainer.m_calculateMovingShot),
+            new ShootWhilstSwerving(m_buttonsController),
             new MagicShootCommand()));
 
     m_buttonsController.a()
