@@ -211,6 +211,14 @@ public final class Constants {
     public static final double MAX_SHOOTING_DISTANCE = 5;
   }
 
+  public final class PhotonVisionConstants {
+
+    public static final double CAMERA_HEIGHT_METERS = 0;
+    public static final double TARGET_HEIGHT_METERS = 0;
+    public static final double CAMERA_PITCH_RADIANS = 0;
+
+  }
+
   public final class AprilTagConstants {
     public final class RED_ALLIANCE_IDS {
       public static final int SPEAKER_ID = 4;
@@ -232,4 +240,3 @@ public final class Constants {
     public static final int Status5 = 32377;
     public static final int Status6 = 32479;
   }
-}

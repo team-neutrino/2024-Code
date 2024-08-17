@@ -13,7 +13,7 @@ public class PhotonVision extends SubsystemBase {
   private NetworkTable photonVision;
   static PhotonTrackedTarget target;
   PhotonCamera camera;
-  PhotonPipelineResult result;
+  static PhotonPipelineResult result;
 
   public PhotonPipelineResult getLatestPipeline() {
     return camera.getLatestResult();
@@ -26,8 +26,7 @@ public class PhotonVision extends SubsystemBase {
   public PhotonVision() {
     instance = NetworkTableInstance.getDefault();
     camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
-    photonVision = instance.getTable("Microsoft_LifeCam_HD-3000");
-    result = camera.getLatestResult();
+    photonVision = instance.getTable("/photonvision/Microsoft_LifeCam_HD-3000");
     // global instance of the network table and gets the limelight table
     // turns off LED
     photonVision.getEntry("ledMode").setNumber(1);
@@ -42,13 +41,16 @@ public class PhotonVision extends SubsystemBase {
     return target.getYaw();
   }
 
+  public PhotonPipelineResult getResult() {
+    return result;
+  }
+
   @Override
   public void periodic() {
-    System.out.println(hasTarget());
+    result = camera.getLatestResult();
     if (hasTarget()) {
       target = result.getBestTarget();
       System.out.println(getYaw());
-      System.out.println(hasTarget());
     }
   }
 

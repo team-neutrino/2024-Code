@@ -5,10 +5,15 @@
 package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
+
+import org.photonvision.PhotonUtils;
+
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.PhotonVision;
+import frc.robot.Constants;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommandNote extends Command {
@@ -31,6 +36,20 @@ public class AutoAlignCommandNote extends Command {
         targetYaw = PhotonVision.getYaw();
         SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
+        double yaw = SubsystemContainer.photonVision.getYaw();
+        double distanceFromTarget =
+
+                PhotonUtils.calculateDistanceToTargetMeters(
+
+                        Constants.PhotonVisionConstants.CAMERA_HEIGHT_METERS,
+
+                        Constants.PhotonVisionConstants.TARGET_HEIGHT_METERS,
+
+                        Constants.PhotonVisionConstants.CAMERA_PITCH_RADIANS,
+
+                        Units.degreesToRadians(SubsystemContainer.photonVision.getResult().getBestTarget().getPitch()));
+
+        // SubsystemContainer.swerveSubsystem.SwerveWithoutDeadzone(SubsystemContainer.swerveSubsystem.getY(),
     }
 
     @Override
