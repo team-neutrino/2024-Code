@@ -4,6 +4,7 @@
 
 package frc.robot.util;
 
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ShootWhilstSwerveConstants;
 import frc.robot.Constants.ShooterConstants;
 
@@ -17,8 +18,9 @@ public class CalculateMovingShot {
      * measured in degrees, distance is radial from the speaker, measured in meters,
      * and on the x-axis.
      * 
-     * The subwoofer position (x = 0, y = -10) hopefully will be the only
-     * predetermined point in this equation. Everything else should be math.
+     * The subwoofer position (x = 0, y = -10 [arm angle! needs to be converted to
+     * angle above horizontal!]) hopefully will be the only predetermined point in
+     * this equation. Everything else should be math.
      * 
      * Equation should solve: given an immobile and speaker-facing discrete
      * (varying) robot position within the firing range of a static 4000 rpm
@@ -34,9 +36,13 @@ public class CalculateMovingShot {
      * 
      * In the future, a slight "flick" in robot orientation right before the shot
      * may be necessary if the auto-align cannot keep up with robot movement.
+     * 
+     * @param radialDist The shortest distance between the robot and the speaker.
      */
-    public static double AntiInterpolationEquation(double radialDist) {
-        // x = 0, y = -10 is subwoofer shot point
+    private static double AntiInterpolationEquation(double radialDist) {
+        // x = 0, y = ??? is subwoofer shot point
+
+        // approximate note height when leaving shooter: 30 in or .762 meters
 
         // max range: 19.433 degrees (NOT ARM ANGLE - 19.433 DEGREES
         // ABOVE HORIZONTAL SHOOTING ANGLE) gives apagee of exactly 1.8097 meters
@@ -54,8 +60,29 @@ public class CalculateMovingShot {
         // guestimation: (5.47, 10), y = .66829x^2 - 10
         // exponential guestimation (very similar): (5.47, 10) 1.7447^x - 11
 
-        return (.66829 * Math.pow(radialDist, 2)) - 10;
+        // no dividing by zero here
+        if (Math.abs(radialDist) < .1) {
+            return ArmConstants.SUBWOOFER_ANGLE;
+        }
 
+        // "- 20" is conversion from degrees above horizontal to arm degrees (it's just
+        // my guess at the angle between the bar around which the arm pivots and the
+        // line which the note comes out at)
+        return Math.atan(1.2049 / radialDist) - 20;
+
+    }
+
+    /**
+     * Gets then modifies the output of the anti interpolation equation to be an arm
+     * angle instead of an angle above the horizontal. This is needed because the
+     * arm encoder only measures the angle of the bar that pivots the (angled)
+     * shooter.
+     * 
+     * @param radialDist The shortest distance between the robot and the speaker.
+     * @return The value to use as a reference for the arm.
+     */
+    public static double getArmAngle(double radialDist) {
+        return AntiInterpolationEquation(radialDist) - ShootWhilstSwerveConstants.ARM_ANGLE_CONVERSION;
     }
 
     /**

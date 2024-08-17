@@ -13,6 +13,10 @@ public final class Constants {
     // angle while moving, in other words, how far "ahead" in the anti-interpolatoin
     // equation to set the arm to
     public static final double MOVEMENT_ADJUSTMENT_TIME = 1.25;
+
+    // PLACEHOLDER VALUE - angle between the actual shot vector and the bar the
+    // shooter pivots on.
+    public static final double ARM_ANGLE_CONVERSION = 20;
   }
 
   public static class OperatorConstants {
