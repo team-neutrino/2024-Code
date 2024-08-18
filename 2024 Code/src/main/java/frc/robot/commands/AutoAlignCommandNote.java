@@ -38,18 +38,14 @@ public class AutoAlignCommandNote extends Command {
         SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
         double yaw = SubsystemContainer.photonVision.getYaw();
         double distanceFromTarget =
-
                 PhotonUtils.calculateDistanceToTargetMeters(
-
                         Constants.PhotonVisionConstants.CAMERA_HEIGHT_METERS,
-
                         Constants.PhotonVisionConstants.TARGET_HEIGHT_METERS,
-
                         Constants.PhotonVisionConstants.CAMERA_PITCH_RADIANS,
-
                         Units.degreesToRadians(SubsystemContainer.photonVision.getResult().getBestTarget().getPitch()));
-
-        // SubsystemContainer.swerveSubsystem.SwerveWithoutDeadzone(SubsystemContainer.swerveSubsystem.getY(),
+        double vy = Math.sin(yaw) * distanceFromTarget;
+        double vx = Math.cos(yaw) * distanceFromTarget;
+        SubsystemContainer.swerveSubsystem.SwerveWithoutDeadzone(vy,vx,yaw);
     }
 
     @Override
