@@ -11,6 +11,7 @@ import frc.robot.util.SubsystemContainer;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.SwerveSubsystem;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 public class SwerveDefaultCommand extends Command {
   private SwerveSubsystem m_swerveSubsystem;
@@ -38,6 +39,7 @@ public class SwerveDefaultCommand extends Command {
     m_swerveSubsystem.POV(m_xboxController.getPOV());
 
     m_swerveSubsystem.setCommandState(States.DEFAULT);
+    System.out.println(m_swerveSubsystem.m_pigeon2.getYaw());
   }
 
   // Called once the command ends or is interrupted.

@@ -45,8 +45,8 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
       SwerveConstants.FRONT_LEFT_COORD,
       SwerveConstants.BACK_RIGHT_COORD, SwerveConstants.BACK_LEFT_COORD);
-  //private AHRS m_navX = new AHRS();
-  private Pigeon2 m_pigeon2 = new Pigeon2(0, "3928Allen");
+  // private AHRS m_navX = new AHRS();
+  public Pigeon2 m_pigeon2 = new Pigeon2(0, "3928Allen");
   private SwerveModuleState[] m_moduleStates;
 
   private final SwerveModule.MotorCfg m_frontRightSpeed = new SwerveModule.MotorCfg(MotorIDs.FRS,
@@ -253,17 +253,17 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public double getYaw() {
-    //return m_navX.getYaw() * (-1);
-    return m_pigeon2.getYaw().getValue() * (-1);
+    // return m_navX.getYaw() * (-1);
+    return m_pigeon2.getYaw().getValue();
   }
 
   public double getAngularVelocity() {
-    //return m_navX.getRate();
+    // return m_navX.getRate();
     return m_pigeon2.getRate();
   }
 
   public void resetPigeon2() {
-    //m_navX.reset();
+    // m_navX.reset();
     m_pigeon2.reset();
     m_referenceAngle = 0;
 
