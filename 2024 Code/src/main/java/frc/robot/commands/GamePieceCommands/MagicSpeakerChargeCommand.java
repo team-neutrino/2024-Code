@@ -41,6 +41,14 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
     m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
+    System.out.println("autoaligned:" + m_swerve.AutoAligned());
+    System.out.println("facingSpeakerID:" + m_limelight.facingSpeakerID());
+    System.out.println("withinShootingDistance:" + m_swerve.withinShootingDistance());
+    System.out.println("robotVelocityWithinTolerance:" + m_swerve.robotVelocityWithinTolerance());
+    System.out.println("arm in position:" + m_armSubsystem.getInPosition());
+    System.out.println("shooter above RPM:" + m_shooterSubsystem.aboveRPM(ShooterSpeeds.THRESHOLD_SHOOTING_SPEED));
+    System.out.println("note ready:" + m_intakeSubsystem.isNoteReady());
+    System.out.println();
   }
 
   // Called once the command ends or is interrupted.
