@@ -16,7 +16,7 @@ public final class Constants {
 
     // PLACEHOLDER VALUE - angle between the actual shot vector and the bar the
     // shooter pivots on.
-    public static final double ARM_ANGLE_CONVERSION = 20;
+    public static final double ARM_ANGLE_CONVERSION = 35;
   }
 
   public static class OperatorConstants {

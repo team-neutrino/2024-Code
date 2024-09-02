@@ -60,15 +60,12 @@ public class CalculateMovingShot {
         // guestimation: (5.47, 10), y = .66829x^2 - 10
         // exponential guestimation (very similar): (5.47, 10) 1.7447^x - 11
 
-        // no dividing by zero here
+        // no dividing by zero here (+20 to negate the arm angle conversion)
         if (Math.abs(radialDist) < .1) {
-            return ArmConstants.SUBWOOFER_ANGLE;
+            return ArmConstants.SUBWOOFER_ANGLE - ShootWhilstSwerveConstants.ARM_ANGLE_CONVERSION;
         }
 
-        // "- 20" is conversion from degrees above horizontal to arm degrees (it's just
-        // my guess at the angle between the bar around which the arm pivots and the
-        // line which the note comes out at)
-        return Math.atan(1.2049 / radialDist) - 20;
+        return Math.atan(1.2049 / radialDist + 1.2);
 
     }
 
@@ -82,7 +79,7 @@ public class CalculateMovingShot {
      * @return The value to use as a reference for the arm.
      */
     public static double getArmAngle(double radialDist) {
-        return AntiInterpolationEquation(radialDist) - ShootWhilstSwerveConstants.ARM_ANGLE_CONVERSION;
+        return AntiInterpolationEquation(radialDist) + ShootWhilstSwerveConstants.ARM_ANGLE_CONVERSION;
     }
 
     /**
