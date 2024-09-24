@@ -4,9 +4,7 @@
 
 package frc.robot.util;
 
-import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ShootWhilstSwerveConstants;
-import frc.robot.Constants.ShooterConstants;
 
 /**
  * Utility class that does math for shooting whilst swerving.
@@ -43,10 +41,15 @@ public class CalculateMovingShot {
      */
     private static double AntiInterpolationEquation(double radialDist) {
         // wing is 231.2" or 5.87 m
-        // Suboofer point is (0, -10) [in degrees above horizontal: (0, 28.92)],
+
+        // Suboofer point is (0, -10) [in degrees above horizontal: (0, 48.92)],
         // preliminary check for equation.
 
-        return Math.atan(1.30827 / radialDist + 1.2);
+        // Function is negated becuase as arm angle decreases, angle above
+        // horizontal/actual shot angle INCREASES. This allows for a more intuitive
+        // conversion to arm angle.
+
+        return -Math.atan(1.30827 / radialDist + 1.2);
     }
 
     /**
