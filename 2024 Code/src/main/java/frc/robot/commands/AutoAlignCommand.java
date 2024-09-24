@@ -19,7 +19,7 @@ public class AutoAlignCommand extends Command {
      * Gives the current yaw (test)
      */
     private int priorityTag;
-    private XboxController m_xboxController;
+    protected XboxController m_xboxController;
 
     public AutoAlignCommand(CommandXboxController p_controller) {
         if (p_controller != null) {

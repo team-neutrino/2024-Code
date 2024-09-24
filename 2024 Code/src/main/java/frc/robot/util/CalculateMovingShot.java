@@ -14,25 +14,27 @@ import frc.robot.Constants.ShooterConstants;
 public class CalculateMovingShot {
 
     /**
-     * Quadratic anti-interpolation equation. Arm position is on the y-axis and is
+     * Anti-interpolation equation. Arm position is on the y-axis and is
      * measured in degrees, distance is radial from the speaker, measured in meters,
-     * and on the x-axis.
+     * and on the x-axis. This solution is "laser-pointer," meaning that it does not
+     * account for gravity.
      * 
-     * The subwoofer position (x = 0, y = -10 [arm angle! needs to be converted to
-     * angle above horizontal!]) hopefully will be the only predetermined point in
-     * this equation. Everything else should be math.
+     * Equation should solve: given an immobile and speaker-facing discrete robot
+     * position within the firing range of a 4000 rpm shooter, input a radial
+     * distance from the speaker and output an arm angle that will score.
      * 
-     * Equation should solve: given an immobile and speaker-facing discrete
-     * (varying) robot position within the firing range of a static 4000 rpm
-     * shooter, plug in the radial distance from the speaker and get an arm
-     * angle that will score.
-     * 
-     * With the above equation, "shoot whilst swerving" would be solved by simply
+     * With the above equation, shoot whilst swerving would be solved by simply
      * scheduling the target arm angle further from the current radial distance
-     * depending on the robot speed (which is assumed to be constant). Since the
-     * problem is now being treated in a robot oriented fashion (auto-align is
-     * assumed to continually and perfectly update angle to speaker), side-to-side
-     * movement (VsubY) is insignificant.
+     * depending on the robot velocity. Since the problem is now being treated in a
+     * robot oriented fashion (auto-align is assumed to continually and perfectly
+     * update angle to speaker), side-to-side movement (VsubY) is insignificant.
+     * 
+     * Robot velocity is assumed to be constant as the robot accelerates to its
+     * desired speed almost instantly. If acceleration becomes necessary to
+     * implement in the future, an alternate solution of directly reading the
+     * driver's stick inputs to see if movement in a direction will be requested to
+     * the swerve may be easier than actually including acceleration in the
+     * equation.
      * 
      * In the future, a slight "flick" in robot orientation right before the shot
      * may be necessary if the auto-align cannot keep up with robot movement.
@@ -40,33 +42,11 @@ public class CalculateMovingShot {
      * @param radialDist The shortest distance between the robot and the speaker.
      */
     private static double AntiInterpolationEquation(double radialDist) {
-        // x = 0, y = ??? is subwoofer shot point
-
-        // approximate note height when leaving shooter: 30 in or .762 meters
-
-        // max range: 19.433 degrees (NOT ARM ANGLE - 19.433 DEGREES
-        // ABOVE HORIZONTAL SHOOTING ANGLE) gives apagee of exactly 1.8097 meters
-        // (middle of speaker height) in .6212 sec, horizontal range of 10.712 m
-
-        // 20.44 degrees above horizontal currently used in calculations/graph - it's
-        // incorrect, based off of faulty 2.04 meter middle of speaker height, but good
-        // enough for now (5.47, *translated to arm* 20.44 degrees) (3193 sec)
-
         // wing is 231.2" or 5.87 m
+        // Suboofer point is (0, -10) [in degrees above horizontal: (0, 28.92)],
+        // preliminary check for equation.
 
-        // max range point: (5.47,???) need to translate 20.44 degrees above horizontal
-        // to arm angle, then create equation based on those two points
-
-        // guestimation: (5.47, 10), y = .66829x^2 - 10
-        // exponential guestimation (very similar): (5.47, 10) 1.7447^x - 11
-
-        // no dividing by zero here (+20 to negate the arm angle conversion)
-        if (Math.abs(radialDist) < .1) {
-            return ArmConstants.SUBWOOFER_ANGLE - ShootWhilstSwerveConstants.ARM_ANGLE_CONVERSION;
-        }
-
-        return Math.atan(1.2049 / radialDist + 1.2);
-
+        return Math.atan(1.30827 / radialDist + 1.2);
     }
 
     /**
@@ -94,52 +74,5 @@ public class CalculateMovingShot {
     public static double adjustArmForMovement(double robotSpeed, double radialDist) {
         double metersAhead = robotSpeed * ShootWhilstSwerveConstants.MOVEMENT_ADJUSTMENT_TIME;
         return AntiInterpolationEquation(metersAhead + radialDist);
-    }
-
-    /**
-     * Uses the helper methods calculateAdjutedRadius and calculateAdjustedTheta to
-     * create a PolarCoord representing the location to use when calculating an
-     * interpolation shot.
-     * 
-     * @return The robot's adjusted position, accounting for constant movement
-     *         parallel to the speaker.
-     */
-    public PolarCoord calculateAdjustedPos() {
-        double r = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
-        double theta = SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getTheta();
-        double robotSpeed = SubsystemContainer.swerveSubsystem.getRobotRelativeSpeeds().vxMetersPerSecond;
-
-        double deltaX = (r / ShooterConstants.NOTE_SPEED) * robotSpeed;
-
-        return new PolarCoord(r, calculateAdjustedTheta(r, theta, deltaX));
-    }
-
-    /**
-     * Calculates the adjusted "alpha" value for auto aligning.
-     * 
-     * @param r      The distance from the robot to the speaker.
-     * @param theta  The angle from the robot to the speaker.
-     * @param deltaX The distance the robot will move based on r and the ring shot
-     *               speed.
-     * @return The angle to auto align to based on the above parameters.
-     */
-    private double calculateAdjustedTheta(double r, double theta, double deltaX) {
-        double adjustedRadius = calculateAdjustedRadius(r, theta, deltaX);
-
-        return Math.asin((deltaX * Math.sin(theta)) / adjustedRadius);
-    }
-
-    /**
-     * Calculates the distance the robot WILL be from the speaker after a shot from
-     * the current position hits the speaker (assuming constant velocity)
-     * 
-     * @param r      The distance from the robot to the speaker.
-     * @param theta  The angle from the robot to the speaker.
-     * @param deltaX The distance the robot will move based on r and the ring shot
-     * @return The distance from the speaker when a shot from the current location
-     *         would hit the speaker.
-     */
-    private double calculateAdjustedRadius(double r, double theta, double deltaX) {
-        return Math.sqrt((Math.pow(r, 2) + Math.pow(deltaX, 2)) - (2 * r * deltaX * Math.cos(theta)));
     }
 }

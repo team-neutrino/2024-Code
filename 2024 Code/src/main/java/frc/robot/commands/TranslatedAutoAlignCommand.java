@@ -4,48 +4,40 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.ShootWhilstSwerveConstants;
 import frc.robot.Constants.LEDConstants.States;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.util.CalculateMovingShot;
 import frc.robot.util.SubsystemContainer;
 
-public class TranslatedAutoAlignCommand extends Command {
-  private CalculateMovingShot m_calculateMovingShot;
+public class TranslatedAutoAlignCommand extends AutoAlignCommand {
 
   /**
    * A command for left/right shoot while move calculations.
    */
-  public TranslatedAutoAlignCommand(CalculateMovingShot p_calculateMovingShot) {
-    m_calculateMovingShot = p_calculateMovingShot;
-
-    addRequirements(SubsystemContainer.limelightSubsystem);
+  public TranslatedAutoAlignCommand(CommandXboxController p_controller) {
+    super(p_controller);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
+  // superclass "initialize" is used.
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (SubsystemContainer.limelightSubsystem.getTv()) {
-
-      SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
-      double movementOffset = m_calculateMovingShot.calculateAdjustedPos().getTheta();
-
-      // System.out.println("adjustment angle: " + movementOffset);
-      System.out.println(
-          "\"true\" if autoaligned: " + SubsystemContainer.swerveSubsystem.AutoAligned());
-
-      SubsystemContainer.swerveSubsystem
-          .setRobotYaw(
-              SwerveSubsystem.calculateLimelightOffsetAngle() + movementOffset); // TODO: CHANGE SIGN AS NEEDED
-
-    } else {
-      System.out.println("Limelight can't see a tag...");
+    if (!SubsystemContainer.limelightSubsystem.getTv()) {
+      System.out.println("no target");
+      return;
     }
+
+    SubsystemContainer.swerveSubsystem
+        .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle() + ShootWhilstSwerveConstants.AUTO_ALIGN_FLICK);
+
+    // basic swerve driving from here to bottom
+    SubsystemContainer.swerveSubsystem.SwerveWithDeadzone(m_xboxController.getLeftY() * -1,
+        m_xboxController.getLeftX() * -1,
+        m_xboxController.getRightX() * -1);
+
+    SubsystemContainer.swerveSubsystem.POV(m_xboxController.getPOV());
 
     SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
   }

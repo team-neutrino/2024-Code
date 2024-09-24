@@ -8,15 +8,28 @@ import edu.wpi.first.math.geometry.Translation2d;
 public final class Constants {
 
   public static class ShootWhilstSwerveConstants {
-    public static final double SHOOTER_WHEEL_DIAMETER = .0508;
+    public static final double SHOOTER_WHEEL_DIAMETER = 0.1016;
+
+    // The height of a note when it is shot from the fully down position
+    public static final double NOTE_HEIGHT_WHEN_SHOT = .508;
+
+    // The length of the whole bar that pivots the shooter - this is probably not
+    // the value needed for calculation, what is needed is the distance from the
+    // pivot point to where the note is released.
+    public static final double PIVOT_ARM_LENGTH = .3937;
+
     // PLACEHOLDER VALUE - anticipated time needed to adjust the arm to the correct
     // angle while moving, in other words, how far "ahead" in the anti-interpolatoin
     // equation to set the arm to
-    public static final double MOVEMENT_ADJUSTMENT_TIME = 1.25;
+    public static final double MOVEMENT_ADJUSTMENT_TIME = .5;
 
-    // PLACEHOLDER VALUE - angle between the actual shot vector and the bar the
-    // shooter pivots on.
-    public static final double ARM_ANGLE_CONVERSION = 35;
+    // PLACEHOLDER VALUE - in the case that the autoalign cannot keep up with the
+    // robot's lateral movement, this value will used in TranslatedAutoAlignCommand
+    // to increase the offset to target by a given amount.
+    public static final double AUTO_ALIGN_FLICK = 10;
+
+    // Angle between the actual shot vector and the bar the shooter pivots on.
+    public static final double ARM_ANGLE_CONVERSION = 38.92;
   }
 
   public static class OperatorConstants {
