@@ -17,9 +17,9 @@ import frc.robot.util.SubsystemContainer;
  * Change in thought process once again, but to reiterate: modifying the arm
  * angle for movement would affect note apagee too much with a fixed speed and
  * NEOs aren't powerful enough to modify hte note speed. So, this attempt will
- * try to scrap the interpolation table and instead use a quadratic equation
- * relating radial distance form the speaker to the robot to arm angle. See
- * CalculateMovingShot "AntiInterpolationEquation" for more details.
+ * try to scrap the interpolation table and instead use an equation relating
+ * radial distance form the speaker to the robot to arm angle. See
+ * "AntiInterpolationEquation" in CalculateMovingShot for more details.
  * 
  * Must be run while auto-aligning to work.
  */

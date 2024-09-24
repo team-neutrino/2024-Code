@@ -15,13 +15,11 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class MagicSpeakerChargeCommand extends GamePieceCommand {
-  private CalculateAngle m_calculateAngle;
   private SwerveSubsystem m_swerve;
   private CommandXboxController m_controller;
   private LimelightSubsystem m_limelight;
 
-  public MagicSpeakerChargeCommand(CalculateAngle p_calculateAngle, CommandXboxController p_controller) {
-    m_calculateAngle = p_calculateAngle;
+  public MagicSpeakerChargeCommand(CommandXboxController p_controller) {
     m_swerve = SubsystemContainer.swerveSubsystem;
     m_limelight = SubsystemContainer.limelightSubsystem;
     m_controller = p_controller;

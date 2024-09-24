@@ -7,8 +7,7 @@ package frc.robot;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.TranslatedAutoAlignCommand;
-import frc.robot.commands.GamePieceCommands.AmpAutoAlign;
+import frc.robot.commands.AmpAutoAlign;
 import frc.robot.commands.GamePieceCommands.ArmClimbCommandDown;
 import frc.robot.commands.GamePieceCommands.ArmClimbCommandUp;
 import frc.robot.commands.GamePieceCommands.ArmManualCommand;
@@ -102,10 +101,14 @@ public class RobotContainer {
         new SequentialCommandGroup(new MagicERAmpChargeCommand(), new MagicShootCommand())));
 
     // shooter buttons
+
+    // shoot whilst swerve - currently implemented to force the user to autoalign
+    // while running, however this puts autoalign controls somewhat into the buttons
+    // operators' hands. May need to change.
     m_buttonsController.rightBumper()
-        .whileTrue(new SequentialCommandGroup(
+        .whileTrue(new ParallelCommandGroup(new SequentialCommandGroup(
             new ShootWhilstSwerving(m_buttonsController),
-            new MagicShootCommand()));
+            new MagicShootCommand()), new AutoAlignCommand(m_driverController)));
 
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
@@ -118,7 +121,7 @@ public class RobotContainer {
     // separate button binding to left bumper contained within the magic speaker
     // charge command
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
-        new MagicSpeakerChargeCommand(SubsystemContainer.m_angleCalculate, m_buttonsController),
+        new MagicSpeakerChargeCommand(m_buttonsController),
         new MagicShootCommand()));
 
     m_buttonsController.x().whileTrue(new SequentialCommandGroup(
