@@ -37,6 +37,10 @@ public class LEDSubsystem extends SubsystemBase {
         setToColor(0, 255, 0);
     }
 
+    public void setToWhite() {
+        setToColor(255, 255, 255);
+    }
+
     public void setToBlue() {
         setToColor(0, 0, 255);
     }

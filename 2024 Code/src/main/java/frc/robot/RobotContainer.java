@@ -49,7 +49,7 @@ public class RobotContainer {
   CommandXboxController m_buttonsController = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
   CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
 
-  LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand(m_buttonsController);
+  LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand(m_buttonsController, m_driverController);
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
 
@@ -135,7 +135,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("3 Note AMP");
+      auto = new PathPlannerAuto("4 Note AMP");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }
