@@ -25,9 +25,6 @@ public class ShootManualCommand extends GamePieceCommand {
         m_armSubsystem.setArmReferenceAngle(m_angle);
         m_shooterSubsystem.setTargetRPM(m_rpm);
         m_intakeSubsystem.runIndexFeed();
-        // System.out.println("above RPM: " + m_shooterSubsystem.aboveRPM(m_thresholdrpm));
-        // System.out.println("note ready: " + m_intakeSubsystem.isNoteReady());
-        // System.out.println("arm in position: " + m_armSubsystem.getInPosition());
     }
 
     @Override
