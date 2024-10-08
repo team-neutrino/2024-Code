@@ -25,8 +25,8 @@ public class PhotonVision extends SubsystemBase {
 
   public PhotonVision() {
     instance = NetworkTableInstance.getDefault();
-    camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
-    photonVision = instance.getTable("/photonvision/Microsoft_LifeCam_HD-3000");
+    camera = new PhotonCamera("Arducam_B0478_(USB3_48MP)");
+    photonVision = instance.getTable("/photonvision/Arducam_B0478_(USB3_48MP)");
     // global instance of the network table and gets the limelight table
     // turns off LED
     photonVision.getEntry("ledMode").setNumber(1);
@@ -50,7 +50,6 @@ public class PhotonVision extends SubsystemBase {
     result = camera.getLatestResult();
     if (hasTarget()) {
       target = result.getBestTarget();
-      System.out.println(getYaw());
     }
   }
 

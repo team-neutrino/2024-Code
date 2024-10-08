@@ -213,9 +213,9 @@ public final class Constants {
 
   public final class PhotonVisionConstants {
 
-    public static final double CAMERA_HEIGHT_METERS = 0;
+    public static final double CAMERA_HEIGHT_METERS = 0.2083;
     public static final double TARGET_HEIGHT_METERS = 0;
-    public static final double CAMERA_PITCH_RADIANS = 0;
+    public static final double CAMERA_PITCH_RADIANS = 3.1415;
 
   }
 

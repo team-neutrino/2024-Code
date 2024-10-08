@@ -26,6 +26,7 @@ import frc.robot.commands.GamePieceCommands.ShuttleCloseCommand;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.AutoAlignForeverCommand;
+import frc.robot.commands.AutoAlignCommandNote;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
@@ -132,6 +133,9 @@ public class RobotContainer {
     m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));
     m_buttonsController.back().toggleOnTrue(new ArmClimbCommandDown());
     m_buttonsController.start().toggleOnTrue(new ArmClimbCommandUp());
+
+    // photonvision stuff
+    m_buttonsController.rightTrigger().whileTrue(new AutoAlignCommandNote());
   }
 
   public Command getAutonomousCommand() {
