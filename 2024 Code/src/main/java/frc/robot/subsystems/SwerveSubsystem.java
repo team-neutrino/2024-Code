@@ -101,7 +101,7 @@ public class SwerveSubsystem extends SubsystemBase {
    * velocity.
    */
   private Pose2d lastPose = m_currentPoseL;
-  private double lastTime = NetworkTablesJNI.now();;
+  // private double lastTime = NetworkTablesJNI.now();;
 
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
