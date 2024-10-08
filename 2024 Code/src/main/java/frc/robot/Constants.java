@@ -93,7 +93,7 @@ public final class Constants {
     public static final Pose2d RED_TARGET_POSE4 = new Pose2d();
 
     public static final int ANGLE_MOTOR_CURRENT_LIMIT = 25;
-    public static final int SPEED_MOTOR_CURRENT_LIMIT = 40;
+    public static final int SPEED_MOTOR_CURRENT_LIMIT = 35;
 
     public static final int AMP_ORIENTATION_RED_ALLIANCE = 90;
     public static final int AMP_ORIENTATION_BLUE_ALLIANCE = -90;
