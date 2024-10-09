@@ -39,6 +39,10 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
 
     m_armSubsystem
         .setArmReferenceAngle(CalculateMovingShot.getArmAngle(m_swerve.GetSpeakerToRobot().getRadius()));
+
+    // System.out.println(m_swerve.GetSpeakerToRobot().getRadius()); // <-- to
+    // remove at some point
+
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
   }

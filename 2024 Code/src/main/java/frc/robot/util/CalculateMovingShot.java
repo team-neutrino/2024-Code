@@ -49,7 +49,7 @@ public class CalculateMovingShot {
         // horizontal/actual shot angle INCREASES. This allows for a more intuitive
         // conversion to arm angle.
 
-        return -Math.atan(1.30827 / radialDist + 1.2);
+        return -(Math.atan(1.30827 / (radialDist + 1.2)) * 57.2) - 9;
     }
 
     /**
@@ -62,6 +62,7 @@ public class CalculateMovingShot {
      * @return The value to use as a reference for the arm.
      */
     public static double getArmAngle(double radialDist) {
+        System.out.println(AntiInterpolationEquation(radialDist) + ShootWhilstSwerveConstants.ARM_ANGLE_CONVERSION);
         return AntiInterpolationEquation(radialDist) + ShootWhilstSwerveConstants.ARM_ANGLE_CONVERSION;
     }
 
