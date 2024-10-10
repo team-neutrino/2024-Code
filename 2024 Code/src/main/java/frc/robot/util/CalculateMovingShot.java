@@ -49,6 +49,9 @@ public class CalculateMovingShot {
         // horizontal/actual shot angle INCREASES. This allows for a more intuitive
         // conversion to arm angle.
 
+        double atan2Value = Math.atan2(1.30827, radialDist + 1.2);
+        // return atan2Value;
+
         return -(Math.atan(1.30827 / (radialDist + 1.2)) * 57.2) - 9;
     }
 
