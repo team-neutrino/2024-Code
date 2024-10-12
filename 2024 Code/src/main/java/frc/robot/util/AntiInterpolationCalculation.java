@@ -50,7 +50,11 @@ public class AntiInterpolationCalculation {
         // conversion to arm angle.
 
         // fudge factor of -9, decrease to increase angle
-        return -(Math.atan(1.30827 / (radialDist + 1.2)) * 57.2) - 8;
+        return -Math.atan(1.30827 / (radialDist + 1.2));
+    }
+
+    private static double adjustForInitialShotHeight(double armAngle) {
+        return (.343 * Math.sin(armAngle + ((3 * Math.PI) / 20))) + .508;
     }
 
     /**
@@ -63,6 +67,7 @@ public class AntiInterpolationCalculation {
      * @return The value to use as a reference for the arm.
      */
     public static double getArmAngle(double radialDist) {
-        return AntiInterpolationEquation(radialDist) + ShooterConstants.ARM_ANGLE_CONVERSION;
+        double initialValue = AntiInterpolationEquation(radialDist);
+        return adjustForInitialShotHeight(initialValue) + ShooterConstants.ARM_ANGLE_CONVERSION;
     }
 }
