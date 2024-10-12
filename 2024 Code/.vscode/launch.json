@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "AntiInterpolationCalculation",
+      "request": "launch",
+      "mainClass": "frc.robot.util.AntiInterpolationCalculation",
+      "projectName": "2024 Code"
+    },
+    {
+      "type": "java",
       "name": "ClimbRetractCommand",
       "request": "launch",
       "mainClass": "frc.robot.commands.ClimbRetractCommand",

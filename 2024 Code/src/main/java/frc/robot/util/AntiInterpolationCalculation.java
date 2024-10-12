@@ -11,17 +11,19 @@ import frc.robot.Constants.ShooterConstants;;
  */
 public class AntiInterpolationCalculation {
 
+    public static void main(String[] args) {
+        for (int radial = 0; radial < 5; radial++) {
+            System.out.println("For distance " + radial + " m, arm angle is: " + getArmAngle(radial));
+        }
+    }
+
     /**
      * Anti-interpolation equation. Arm position is on the y-axis and is
-     * measured in degrees, distance is radial from the speaker, measured in meters,
-     * and on the x-axis. This solution is "laser-pointer," meaning that it does not
-     * account for gravity.
+     * measured in degrees, distance is on the x-axis, radial from the speaker, and
+     * measured in meters, This solution is "laser-pointer," meaning that it does
+     * not account for gravity.
      * 
-     * Equation should solve: given an immobile and speaker-facing discrete robot
-     * position within the firing range of a 4000 rpm shooter, input a radial
-     * distance from the speaker and output an arm angle that will score.
-     * 
-     * With the above equation, shoot whilst swerving would be solved by simply
+     * With this equation, shoot whilst swerving would be solved by simply
      * scheduling the target arm angle further from the current radial distance
      * depending on the robot velocity. Since the problem is now being treated in a
      * robot oriented fashion (auto-align is assumed to continually and perfectly
@@ -38,6 +40,8 @@ public class AntiInterpolationCalculation {
      * may be necessary if the auto-align cannot keep up with robot movement.
      * 
      * @param radialDist The shortest distance between the robot and the speaker.
+     * @return An angle in radians above the horizontal which will score if the note
+     *         is shot from the ground level.
      */
     private static double AntiInterpolationEquation(double radialDist, double initialHeight) {
         // wing is 231.2" or 5.87 m
@@ -51,8 +55,9 @@ public class AntiInterpolationCalculation {
 
         // Ideal speaker impact point: 1.8907125 m
 
-        // fudge factor of -9, decrease to increase angle
-        return -Math.atan((1.8907 - initialHeight) / (radialDist + 1.2));
+        // fudge factor is currently 0 for testing purposs but median value from
+        // prevoius testing shows -7 degrees or .122173 radians to be most accurate.
+        return -Math.atan((1.8907 - initialHeight) / (radialDist + 1.2)) + 0;
     }
 
     /**
@@ -87,17 +92,17 @@ public class AntiInterpolationCalculation {
      * this is most likely good enough.
      * 
      * The second return of the antiInterpolationEquation is then modified to be an
-     * arm angle instead of an angle above the horizontal. This is needed because
-     * the arm encoder only measures the angle of the bar that pivots the (angled)
-     * shooter.
+     * arm angle in degrees instead of a radian angle above the horizontal. This is
+     * needed because the arm encoder only measures the angle of the bar that pivots
+     * the shooter, and the shooter is not angled parallel to that bar.
      * 
      * @param radialDist The shortest distance between the robot and the speaker.
-     * @return The value to use as a reference for the arm.
+     * @return The "arm angle" (in degrees) to use as a reference for the arm.
      */
     public static double getArmAngle(double radialDist) {
         double initialValue = AntiInterpolationEquation(radialDist, 0);
+        double radianFinalValue = AntiInterpolationEquation(radialDist, adjustForInitialShotHeight(initialValue));
 
-        return AntiInterpolationEquation(radialDist, adjustForInitialShotHeight(initialValue))
-                + ShooterConstants.ARM_ANGLE_CONVERSION;
+        return (radianFinalValue * (180 / Math.PI)) + ShooterConstants.ARM_ANGLE_CONVERSION;
     }
 }
