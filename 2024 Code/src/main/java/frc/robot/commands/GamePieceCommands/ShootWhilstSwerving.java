@@ -10,7 +10,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.CalculateAngle;
-import frc.robot.util.CalculateMovingShot;
+import frc.robot.util.AntiInterpolationCalculation;
 import frc.robot.util.SubsystemContainer;
 
 /**
@@ -57,7 +57,7 @@ public class ShootWhilstSwerving extends GamePieceCommand {
     double robotSpeed = SubsystemContainer.swerveSubsystem.getRadialSpeed();
     // double angle =
     // m_calculateAngle.InterpolateAngle(SubsystemContainer.swerveSubsystem.GetSpeakerToRobot());
-    double angle = CalculateMovingShot
+    double angle = AntiInterpolationCalculation
         .adjustArmForMovement(robotSpeed, SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius());
 
     System.out.println("Auto-aligned = " + SubsystemContainer.swerveSubsystem.AutoAligned());

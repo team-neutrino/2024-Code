@@ -9,7 +9,7 @@ import frc.robot.Constants.ShootWhilstSwerveConstants;
 /**
  * Utility class that does math for shooting whilst swerving.
  */
-public class CalculateMovingShot {
+public class AntiInterpolationCalculation {
 
     /**
      * Anti-interpolation equation. Arm position is on the y-axis and is
@@ -48,9 +48,6 @@ public class CalculateMovingShot {
         // Function is negated becuase as arm angle decreases, angle above
         // horizontal/actual shot angle INCREASES. This allows for a more intuitive
         // conversion to arm angle.
-
-        double atan2Value = Math.atan2(1.30827, radialDist + 1.2);
-        // return atan2Value;
 
         // fudge factor of -9, decrease to increase angle
         return -(Math.atan(1.30827 / (radialDist + 1.2)) * 57.2) - 7;

@@ -98,14 +98,6 @@ public class RobotContainer {
 
     // shooter buttons
 
-    // shoot whilst swerve - currently implemented to force the user to autoalign
-    // while running, however this puts autoalign controls somewhat into the buttons
-    // operators' hands. May need to change.
-    m_buttonsController.rightBumper()
-        .whileTrue(new ParallelCommandGroup(new SequentialCommandGroup(
-            new ShootWhilstSwerving(m_buttonsController),
-            new MagicShootCommand()), new AutoAlignCommand(m_driverController)));
-
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
 
