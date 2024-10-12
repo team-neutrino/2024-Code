@@ -96,13 +96,6 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_currentVy = 0;
   private States m_state;
 
-  /**
-   * Internal variables for updating the robot's current (non-rotational)
-   * velocity.
-   */
-  private Pose2d lastPose = m_currentPoseL;
-  // private double lastTime = NetworkTablesJNI.now();;
-
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
     m_modulePositions[1] = new SwerveModulePosition();
