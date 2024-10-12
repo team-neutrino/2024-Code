@@ -92,8 +92,7 @@ public class RobotContainer {
       SubsystemContainer.armSubsystem.initializeMotorControllers();
     }));
 
-    m_driverController.x().whileTrue(new ParallelCommandGroup(new AmpAutoAlign(m_driverController),
-        new SequentialCommandGroup(new MagicERAmpChargeCommand(), new MagicShootCommand())));
+    m_driverController.x().whileTrue(new AmpAutoAlign(m_driverController));
 
     // shooter buttons
 

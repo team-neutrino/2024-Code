@@ -149,27 +149,6 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
-  /**
-   * Returns the speed of the drivetrain in m/s. This method has not been tested
-   * for accuracy with friction.
-   * 
-   * @return The current speed of the drivetrain in m/s.
-   */
-  // public double getChassisSpeed() {
-  // double currentTime = NetworkTablesJNI.now();
-  // double currentX = m_currentPoseL.getX();
-  // double currentY = m_currentPoseL.getY();
-
-  // double timeChange = currentTime - lastTime;
-  // double xChange = currentX - lastPose.getX();
-  // double yChange = currentY - lastPose.getY();
-
-  // lastTime = currentTime;
-  // lastPose = new Pose2d(currentX, currentY, m_currentPoseL.getRotation());
-
-  // return Math.sqrt(Math.pow(xChange, 2) + Math.pow(yChange, 2)) / timeChange;
-  // }
-
   public void SwerveWithDeadzone(double vx, double vy, double omega) {
     vx = Limiter.deadzone(vx, 0.1);
     vy = Limiter.deadzone(vy, 0.1);
@@ -444,22 +423,6 @@ public class SwerveSubsystem extends SubsystemBase {
   public boolean robotVelocityWithinTolerance() {
     return m_currentVx < SwerveConstants.MAX_SPEED_WHILE_SHOOTING
         && m_currentVy < SwerveConstants.MAX_SPEED_WHILE_SHOOTING;
-  }
-
-  /**
-   * Gets the robot's current speed approaching/retreating from the speaker.
-   * Ignores lateral movement.
-   * 
-   * @return The robot's speed component going towards/away from the speaker.
-   */
-  public double getRadialSpeed() {
-    // idk if I need this or not
-    double angle = m_speakerToRobot.getTheta();
-
-    double xSpeed = getRobotRelativeSpeeds().vxMetersPerSecond;
-    double ySpeed = getRobotRelativeSpeeds().vyMetersPerSecond;
-
-    return Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
   }
 
   /**
