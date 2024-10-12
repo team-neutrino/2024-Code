@@ -65,18 +65,4 @@ public class AntiInterpolationCalculation {
     public static double getArmAngle(double radialDist) {
         return AntiInterpolationEquation(radialDist) + ShootWhilstSwerveConstants.ARM_ANGLE_CONVERSION;
     }
-
-    /**
-     * Adjusts the given angle for robot speed. NOTE: speed must be RADIAL!! Meaning
-     * it is only the speed at which the robot is approaching or receding from the
-     * speaker, NO LATERAL SPEED should be included!
-     * 
-     * @param robotSpeed The robot's current RADIAL speed.
-     * @param radialDist The robot's current radial distance from the speaker.
-     * @return The adjusted angle that will only work for the given robot speed.
-     */
-    public static double adjustArmForMovement(double robotSpeed, double radialDist) {
-        double metersAhead = robotSpeed * ShootWhilstSwerveConstants.MOVEMENT_ADJUSTMENT_TIME;
-        return AntiInterpolationEquation(metersAhead + radialDist);
-    }
 }

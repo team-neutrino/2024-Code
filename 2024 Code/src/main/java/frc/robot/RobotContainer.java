@@ -21,7 +21,6 @@ import frc.robot.commands.GamePieceCommands.MagicERAmpChargeCommand;
 import frc.robot.commands.GamePieceCommands.MagicShootCommand;
 import frc.robot.commands.GamePieceCommands.MagicSpeakerChargeCommand;
 import frc.robot.commands.GamePieceCommands.ShootManualCommand;
-import frc.robot.commands.GamePieceCommands.ShootWhilstSwerving;
 import frc.robot.commands.GamePieceCommands.ShootShuttleCommand;
 import frc.robot.commands.GamePieceCommands.ShuttleCloseCommand;
 import frc.robot.commands.ArmDefaultCommand;
