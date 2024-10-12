@@ -142,7 +142,7 @@ public final class Constants {
     public static final double timeBeforeSwitchPID = 0.3;
 
     public static final double FF_kg = 0.007;
-    public static final double ARM_MASS_KG = 8.3733; // LBS 18.46
+    public static final double ARM_MASS_KG = 8.0; // LBS 18.46 used to be 8.3733 kg
     public static final double ARM_ABS_ENCODER_ZERO_OFFSET = 279;
     public static final double ARM_RADIUS = 0.6555;
     public static final double ARM_CM = 0.37084; // INCHES 14.6
