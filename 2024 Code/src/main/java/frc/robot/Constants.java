@@ -6,12 +6,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public final class Constants {
-
-  public static class ShootWhilstSwerveConstants {
-    // Angle between the actual shot vector and the bar the shooter pivots on.
-    public static final double ARM_ANGLE_CONVERSION = 38.92;
-  }
-
   public static class OperatorConstants {
     public static final int XBOX_CONTROLLER = 0;
     public static final int DRIVER_CONTROLLER = 1;
@@ -216,6 +210,8 @@ public final class Constants {
 
     public static final double AUTO_ALIGN_ERROR = 4;
     public static final double MAX_SHOOTING_DISTANCE = 5;
+
+    public static final double ARM_ANGLE_CONVERSION = 38.92;
   }
 
   public final class AprilTagConstants {

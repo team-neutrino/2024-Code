@@ -4,7 +4,7 @@
 
 package frc.robot.util;
 
-import frc.robot.Constants.ShootWhilstSwerveConstants;
+import frc.robot.Constants.ShooterConstants;;
 
 /**
  * Utility class that does math for shooting whilst swerving.
@@ -63,6 +63,6 @@ public class AntiInterpolationCalculation {
      * @return The value to use as a reference for the arm.
      */
     public static double getArmAngle(double radialDist) {
-        return AntiInterpolationEquation(radialDist) + ShootWhilstSwerveConstants.ARM_ANGLE_CONVERSION;
+        return AntiInterpolationEquation(radialDist) + ShooterConstants.ARM_ANGLE_CONVERSION;
     }
 }
