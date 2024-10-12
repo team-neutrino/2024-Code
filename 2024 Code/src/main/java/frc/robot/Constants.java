@@ -159,7 +159,7 @@ public final class Constants {
     public static final double INTAKE_POSE = -27;
     public static final double AMP_POSE = 90;
     public static final double ARM_ADJUST_DEADZONE = 0.2;
-    public static final double SHUTTLE_ANGLE = 0;
+    public static final double SHUTTLE_ANGLE = -10;
     public static final double SHUTTLE_ANGLE_THRESHOLD = -5;
     public static final double SUBWOOFER_ANGLE = -10;
     public static final double CLIMB_ANGLE = -20;
