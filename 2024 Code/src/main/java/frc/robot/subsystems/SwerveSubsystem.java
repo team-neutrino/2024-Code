@@ -96,9 +96,6 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_currentVy = 0;
   private States m_state;
 
-  double periodicCount = 0;
-  double initCount = 0;
-
   public SwerveSubsystem() {
     m_modulePositions[0] = new SwerveModulePosition();
     m_modulePositions[1] = new SwerveModulePosition();
@@ -323,7 +320,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
-  private void UpdateSpeakerToRobot(Pose2d pose) {
+  private PolarCoord UpdateSpeakerToRobot(Pose2d pose) {
     double xComp = 0;
     double yComp = 0;
     double radius = 0.0;
@@ -340,7 +337,7 @@ public class SwerveSubsystem extends SubsystemBase {
       theta = Math.atan(yComp / xComp);
     }
 
-    m_speakerToRobot.setLocation(radius, theta);
+    return new PolarCoord(radius, theta);
   }
 
   public void AlignToSpeakerUsingOdometry() {
@@ -435,6 +432,10 @@ public class SwerveSubsystem extends SubsystemBase {
     return GetSpeakerToRobot().getRadius() < ShooterConstants.MAX_SHOOTING_DISTANCE;
   }
 
+  public boolean withinMovingShootingDistance() {
+    return GetSpeakerToRobot().getRadius() <= 4;
+  }
+
   public States getCommandState() {
     return m_state;
   }
@@ -445,6 +446,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
     m_modulePositions[0] = m_frontRight.getModulePosition();
     m_modulePositions[1] = m_frontLeft.getModulePosition();
     m_modulePositions[2] = m_backRight.getModulePosition();
@@ -453,7 +455,7 @@ public class SwerveSubsystem extends SubsystemBase {
     m_currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), m_modulePositions);
 
     m_currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), m_modulePositions);
-    UpdateSpeakerToRobot(m_currentPoseL);
+    m_speakerToRobot = UpdateSpeakerToRobot(m_currentPoseL);
 
     m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
     m_field.getObject("with limelight").setPose(m_currentPoseL);

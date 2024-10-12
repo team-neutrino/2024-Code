@@ -7,7 +7,7 @@ package frc.robot;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.GamePieceCommands.AmpAutoAlign;
+import frc.robot.commands.AmpAutoAlign;
 import frc.robot.commands.GamePieceCommands.ArmClimbCommandDown;
 import frc.robot.commands.GamePieceCommands.ArmClimbCommandUp;
 import frc.robot.commands.GamePieceCommands.ArmManualCommand;
@@ -95,6 +95,7 @@ public class RobotContainer {
     m_driverController.x().whileTrue(new AmpAutoAlign(m_driverController));
 
     // shooter buttons
+
     m_buttonsController.a()
         .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController), new MagicShootCommand()));
 
@@ -107,7 +108,7 @@ public class RobotContainer {
     // separate button binding to left bumper contained within the magic speaker
     // charge command
     m_buttonsController.y().whileTrue(new SequentialCommandGroup(
-        new MagicSpeakerChargeCommand(SubsystemContainer.m_angleCalculate, m_buttonsController),
+        new MagicSpeakerChargeCommand(m_buttonsController),
         new MagicShootCommand()));
 
     m_buttonsController.x().whileTrue(new SequentialCommandGroup(

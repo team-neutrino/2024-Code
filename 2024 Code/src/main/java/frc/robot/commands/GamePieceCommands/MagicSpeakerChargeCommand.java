@@ -7,6 +7,7 @@ package frc.robot.commands.GamePieceCommands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.util.CalculateAngle;
+import frc.robot.util.AntiInterpolationCalculation;
 import frc.robot.util.SubsystemContainer;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterSpeeds;
@@ -14,13 +15,11 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class MagicSpeakerChargeCommand extends GamePieceCommand {
-  private CalculateAngle m_calculateAngle;
   private SwerveSubsystem m_swerve;
   private CommandXboxController m_controller;
   private LimelightSubsystem m_limelight;
 
-  public MagicSpeakerChargeCommand(CalculateAngle p_calculateAngle, CommandXboxController p_controller) {
-    m_calculateAngle = p_calculateAngle;
+  public MagicSpeakerChargeCommand(CommandXboxController p_controller) {
     m_swerve = SubsystemContainer.swerveSubsystem;
     m_limelight = SubsystemContainer.limelightSubsystem;
     m_controller = p_controller;
@@ -35,10 +34,10 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // for testing polynomial surface
-    // m_armSubsystem.setArmReferenceAngle(m_calculateAngle.quarticFitCalculateAngle(m_swerve.GetSpeakerToRobot()));
 
-    m_armSubsystem.setArmReferenceAngle(m_calculateAngle.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
+    m_armSubsystem
+        .setArmReferenceAngle(AntiInterpolationCalculation.getArmAngle(m_swerve.GetSpeakerToRobot().getRadius()));
+
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
   }
