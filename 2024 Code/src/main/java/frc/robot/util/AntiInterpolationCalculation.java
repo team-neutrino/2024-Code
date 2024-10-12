@@ -39,7 +39,7 @@ public class AntiInterpolationCalculation {
      * 
      * @param radialDist The shortest distance between the robot and the speaker.
      */
-    private static double AntiInterpolationEquation(double radialDist) {
+    private static double AntiInterpolationEquation(double radialDist, double initialHeight) {
         // wing is 231.2" or 5.87 m
 
         // Suboofer point is (0, -10) [in degrees above horizontal: (0, 48.92)],
@@ -49,25 +49,55 @@ public class AntiInterpolationCalculation {
         // horizontal/actual shot angle INCREASES. This allows for a more intuitive
         // conversion to arm angle.
 
+        // Ideal speaker impact point: 1.8907125 m
+
         // fudge factor of -9, decrease to increase angle
-        return -Math.atan(1.30827 / (radialDist + 1.2));
+        return -Math.atan((1.8907 - initialHeight) / (radialDist + 1.2));
     }
 
+    /**
+     * The initial height of the note when leaving the robot changes depending on
+     * the angle of the arm. To acount for this, the following equation has been
+     * made.
+     * 
+     * Length of pivot: .343 m, initial height WHEN ARM IS FULLY DOWN (-27): .508 m
+     * 
+     * sin(antiInterpolation output) = (initial shot height + 27) / (.343)
+     * initial shot height = .343 * sin(antiInterpolation output + 27)
+     * add initial shot height at fully down position of .508 and convert 27 degrees
+     * to radians: 3pi/20 to get final equation:
+     * 
+     * initial shot height = .343 * sin((antiInterpolation output) + 3pi/20) + .508
+     * 
+     * @param armAngle The output of the anti-interpolation equation.
+     * @return The initial height of the note when it is shot.
+     */
     private static double adjustForInitialShotHeight(double armAngle) {
         return (.343 * Math.sin(armAngle + ((3 * Math.PI) / 20))) + .508;
     }
 
     /**
-     * Gets then modifies the output of the anti interpolation equation to be an arm
-     * angle instead of an angle above the horizontal. This is needed because the
-     * arm encoder only measures the angle of the bar that pivots the (angled)
+     * Gets then modifies the output of the anti interpolation equation so that it
+     * is usable as an input to the arm subsystem.
+     * 
+     * Calls antiInterpolationEquation twice, once to get the angle above horizontal
+     * without taking into account initial shot height, then a second time, this
+     * time subtracting the initial shot height from the ideal speaker impact point.
+     * This does NOT give a perfect answer, more iterations would be better, but
+     * this is most likely good enough.
+     * 
+     * The second return of the antiInterpolationEquation is then modified to be an
+     * arm angle instead of an angle above the horizontal. This is needed because
+     * the arm encoder only measures the angle of the bar that pivots the (angled)
      * shooter.
      * 
      * @param radialDist The shortest distance between the robot and the speaker.
      * @return The value to use as a reference for the arm.
      */
     public static double getArmAngle(double radialDist) {
-        double initialValue = AntiInterpolationEquation(radialDist);
-        return adjustForInitialShotHeight(initialValue) + ShooterConstants.ARM_ANGLE_CONVERSION;
+        double initialValue = AntiInterpolationEquation(radialDist, 0);
+
+        return AntiInterpolationEquation(radialDist, adjustForInitialShotHeight(initialValue))
+                + ShooterConstants.ARM_ANGLE_CONVERSION;
     }
 }
