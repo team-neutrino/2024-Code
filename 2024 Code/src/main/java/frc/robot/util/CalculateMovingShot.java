@@ -52,7 +52,8 @@ public class CalculateMovingShot {
         double atan2Value = Math.atan2(1.30827, radialDist + 1.2);
         // return atan2Value;
 
-        return -(Math.atan(1.30827 / (radialDist + 1.2)) * 57.2) - 9;
+        // fudge factor of -9, decrease to increase angle
+        return -(Math.atan(1.30827 / (radialDist + 1.2)) * 57.2) - 7;
     }
 
     /**
@@ -65,7 +66,6 @@ public class CalculateMovingShot {
      * @return The value to use as a reference for the arm.
      */
     public static double getArmAngle(double radialDist) {
-        System.out.println(AntiInterpolationEquation(radialDist) + ShootWhilstSwerveConstants.ARM_ANGLE_CONVERSION);
         return AntiInterpolationEquation(radialDist) + ShootWhilstSwerveConstants.ARM_ANGLE_CONVERSION;
     }
 
