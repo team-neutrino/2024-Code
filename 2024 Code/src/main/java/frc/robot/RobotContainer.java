@@ -30,7 +30,6 @@ import frc.robot.commands.AutoAlignForeverCommand;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
-import frc.robot.commands.LockSwerveYCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShuttleAutoAlignCommand;
 import frc.robot.util.SubsystemContainer;
@@ -94,9 +93,6 @@ public class RobotContainer {
       SubsystemContainer.armSubsystem.initializeMotorControllers();
     }));
 
-    m_driverController.y()
-        .whileTrue(
-            new LockSwerveYCommand(m_driverController));
     m_driverController.x().whileTrue(new ParallelCommandGroup(new AmpAutoAlign(m_driverController),
         new SequentialCommandGroup(new MagicERAmpChargeCommand(), new MagicShootCommand())));
 
