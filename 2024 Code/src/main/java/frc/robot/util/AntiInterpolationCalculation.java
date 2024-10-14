@@ -12,20 +12,22 @@ import frc.robot.Constants.ShooterConstants;
 public class AntiInterpolationCalculation {
 
     public static void main(String[] args) {
-        for (int radial = 0; radial < 5; radial++) {
+
+        for (double radial = .7727; radial < 5; radial++) {
             System.out.println("For distance " + radial + " m, arm angle is: " + mainComparison(radial));
             System.out.println("For distance " + radial + " m, ADJUSTED arm angle is: " + getArmAngle(radial));
+            if (radial == .7727) {
+                radial = 0;
+            }
         }
     }
 
     /**
      * Method that returns what main's version of getArmAngle() returns for
-     * comparison when testing. "-8" fudge factor at the end is 0 because the arm
-     * pivot adjustment was theorycrafted and written without the fudge factor, so
-     * for an accurate comparison this value must be 0.
+     * comparison when testing.
      */
     public static double mainComparison(double radialDist) {
-        return (-(Math.atan(1.3827 / (radialDist + 1.2)) * 57.2) - 0) + ShooterConstants.ARM_ANGLE_CONVERSION;
+        return (-(Math.atan(1.3827 / (radialDist + 1.2)) * 57.2) - 8) + ShooterConstants.ARM_ANGLE_CONVERSION;
     }
 
     /**
