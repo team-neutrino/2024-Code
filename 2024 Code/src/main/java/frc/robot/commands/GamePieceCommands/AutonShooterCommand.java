@@ -4,7 +4,9 @@
 
 package frc.robot.commands.GamePieceCommands;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.util.AntiInterpolationCalculation;
 import frc.robot.util.CalculateAngle;
 import frc.robot.util.SubsystemContainer;
 
@@ -28,8 +30,10 @@ public class AutonShooterCommand extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterSubsystem.setTargetRPM(m_rpm);
-    m_armSubsystem.setArmReferenceAngle(m_angleCalculate.InterpolateAngle(m_swerve.GetSpeakerToRobot()));
+    m_armSubsystem
+        .setArmReferenceAngle(AntiInterpolationCalculation.getArmAngle(m_swerve.GetSpeakerToRobot().getRadius()));
+    m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
+    m_intakeSubsystem.runIndexFeed();
     if (m_armSubsystem.getInPosition() && m_shooterSubsystem.approveShoot()) {
       m_intakeSubsystem.runIndexShoot();
     } else {
