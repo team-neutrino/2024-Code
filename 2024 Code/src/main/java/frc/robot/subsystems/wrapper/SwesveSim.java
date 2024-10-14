@@ -8,22 +8,20 @@ import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
 
-public class SwerveSim {
-    //test
-    
+public class SwesveSim {
+    // test
+
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
     DoubleTopic Motor_Voltage = nt.getDoubleTopic("swerve/motor_voltage");
     final DoublePublisher motorVoltage_pub;
 
-    public SwerveSim(){
+    public SwesveSim() {
         motorVoltage_pub = Motor_Voltage.publish();
         motorVoltage_pub.setDefault(0.0);
     }
 
     private TalonFX m_talonFX = new TalonFX(4);
-    
+
     TalonFXSimState m_talonFXSim = m_talonFX.getSimState();
     double fakeMotorVoltage = m_talonFXSim.getMotorVoltage();
 }
-
-	
