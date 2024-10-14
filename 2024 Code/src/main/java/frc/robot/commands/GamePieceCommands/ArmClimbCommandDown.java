@@ -15,8 +15,6 @@ public class ArmClimbCommandDown extends GamePieceCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("climb enabled------------------");
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,7 +30,6 @@ public class ArmClimbCommandDown extends GamePieceCommand {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("climb disabled---------------------");
   }
 
   // Returns true when the command should end.

@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -21,7 +21,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.proto.Kinematics;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -44,7 +43,7 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
       SwerveConstants.FRONT_LEFT_COORD,
       SwerveConstants.BACK_RIGHT_COORD, SwerveConstants.BACK_LEFT_COORD);
-  private AHRS m_navX = new AHRS();
+  public Pigeon2 m_pigeon2 = new Pigeon2(0, "3928Allen");
   private SwerveModuleState[] m_moduleStates;
 
   private final SwerveModule.MotorCfg m_frontRightSpeed = new SwerveModule.MotorCfg(MotorIDs.FRS,
@@ -251,15 +250,15 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public double getYaw() {
-    return m_navX.getYaw() * (-1);
+    return m_pigeon2.getYaw().getValue();
   }
 
   public double getAngularVelocity() {
-    return m_navX.getRate();
+    return m_pigeon2.getRate();
   }
 
-  public void resetNavX() {
-    m_navX.reset();
+  public void resetPigeon2() {
+    m_pigeon2.reset();
     m_referenceAngle = 0;
 
     if (SubsystemContainer.alliance.isRedAlliance()) {

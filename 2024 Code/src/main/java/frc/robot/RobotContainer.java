@@ -51,7 +51,7 @@ public class RobotContainer {
   CommandXboxController m_buttonsController = new CommandXboxController(OperatorConstants.XBOX_CONTROLLER);
   CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER);
 
-  LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand(m_buttonsController);
+  LEDDefaultCommand m_LEDDefaultCommand = new LEDDefaultCommand(m_buttonsController, m_driverController);
   IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
   LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
   PhotonVisionDefaultCommand m_PhotonVisionDefaultCommand = new PhotonVisionDefaultCommand();
@@ -89,7 +89,7 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(new IntakeCommand());
 
     // swerve buttons
-    m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
+    m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetPigeon2()));
 
     m_driverController.b().onTrue(new InstantCommand(() -> {
       SubsystemContainer.swerveSubsystem.ResetModules();
@@ -105,7 +105,8 @@ public class RobotContainer {
     m_driverController.start()
         .whileTrue(new InstantCommand(() -> SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose()));
 
-    m_driverController.a().whileTrue(new InstantCommand(() -> SubsystemContainer.m_angleCalculate.dumpData()));
+    // m_driverController.a().whileTrue(new InstantCommand(() ->
+    // SubsystemContainer.m_angleCalculate.dumpData()));
 
     // separate button binding to left bumper contained within the magic speaker
     // charge command
@@ -141,7 +142,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     Command auto;
     try {
-      auto = new PathPlannerAuto("2 Note SOURCE-MID 2ND BOTTOM");
+      auto = new PathPlannerAuto("4 Note AMP");
     } catch (Exception e) {
       auto = new PathPlannerAuto("Nothing");
     }
