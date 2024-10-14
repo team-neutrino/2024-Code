@@ -37,7 +37,7 @@ public class ShootShuttleCommand extends GamePieceCommand {
     public boolean isFinished() {
         return m_Controller.getHID().getLeftBumper()
                 && m_shooterSubsystem.aboveRPM(speedCalc - Constants.ShooterSpeeds.SHUTTLE_THRESHOLD_ERROR)
-                && m_intakeSubsystem.hasNote();
-                // && m_armSubsystem.aboveAngle(Constants.ArmConstants.SHUTTLE_ANGLE_THRESHOLD);
+                && m_intakeSubsystem.hasNote()
+                && m_armSubsystem.aboveAngle(Constants.ArmConstants.SHUTTLE_ANGLE_THRESHOLD);
     }
 }
