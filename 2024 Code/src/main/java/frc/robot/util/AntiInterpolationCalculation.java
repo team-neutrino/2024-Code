@@ -13,13 +13,19 @@ public class AntiInterpolationCalculation {
 
     public static void main(String[] args) {
         for (int radial = 0; radial < 5; radial++) {
-            System.out.println("For distance " + radial + " m, arm angle is: " + tester(radial));
+            System.out.println("For distance " + radial + " m, arm angle is: " + mainComparison(radial));
             System.out.println("For distance " + radial + " m, ADJUSTED arm angle is: " + getArmAngle(radial));
         }
     }
 
-    public static double tester(double radialDist) {
-        return AntiInterpolationEquation(radialDist, 0) + ShooterConstants.ARM_ANGLE_CONVERSION;
+    /**
+     * Method that returns what main's version of getArmAngle() returns for
+     * comparison when testing. "-8" fudge factor at the end is 0 because the arm
+     * pivot adjustment was theorycrafted and written without the fudge factor, so
+     * for an accurate comparison this value must be 0.
+     */
+    public static double mainComparison(double radialDist) {
+        return (-(Math.atan(1.3827 / (radialDist + 1.2)) * 57.2) - 0) + ShooterConstants.ARM_ANGLE_CONVERSION;
     }
 
     /**
@@ -45,8 +51,8 @@ public class AntiInterpolationCalculation {
      * may be necessary if the auto-align cannot keep up with robot movement.
      * 
      * @param radialDist The shortest distance between the robot and the speaker.
-     * @return An angle in radians above the horizontal which will score if the note
-     *         is shot from the ground level.
+     * @return A negated angle in radians above the horizontal which will score if
+     *         the note is shot from the ground level.
      */
     private static double AntiInterpolationEquation(double radialDist, double initialHeight) {
         // wing is 231.2" or 5.87 m
@@ -60,9 +66,9 @@ public class AntiInterpolationCalculation {
 
         // Ideal speaker impact point: 1.8907125 m
 
-        // fudge factor is currently 0 for testing purposs but median value from
-        // prevoius testing shows -7 degrees or .122173 radians to be most accurate.
-        return -Math.atan((1.8907 - initialHeight) / (radialDist + 1.2)) + 0;
+        // fudge factor is currently 0 for testing purposes but median value from
+        // previous testing shows -7 degrees or .122173 radians to be most accurate.
+        return -Math.atan(((1.8907 - .508) - initialHeight) / (radialDist + 1.2)); // 8.677 degrees or .1514422 rad
     }
 
     /**
@@ -79,11 +85,18 @@ public class AntiInterpolationCalculation {
      * 
      * initial shot height = .343 * sin((antiInterpolation output) + 3pi/20) + .508
      * 
-     * @param armAngle The output of the anti-interpolation equation.
+     * @param angle The output of the anti-interpolation equation.
      * @return The initial height of the note when it is shot.
      */
-    private static double adjustForInitialShotHeight(double armAngle) {
-        return (.343 * Math.sin(armAngle + ((3 * Math.PI) / 20))) + .508;
+    private static double adjustForInitialShotHeight(double angle, double angleDegrees) {
+        double h_1 = -(.343 * Math.sin(angle - .85381)); // 48.92 degrees or .85381 rad
+        double armAngleDegrees = (angle * (180 / Math.PI)) + ShooterConstants.ARM_ANGLE_CONVERSION;
+
+        // if (armAngleDegrees > 0) {
+        // return h_1 + (.343 * Math.sin(angle - ((65.92 * Math.PI) / 180)));
+        // }
+
+        return h_1;
     }
 
     /**
@@ -105,8 +118,9 @@ public class AntiInterpolationCalculation {
      * @return The "arm angle" (in degrees) to use as a reference for the arm.
      */
     public static double getArmAngle(double radialDist) {
-        double initialValue = AntiInterpolationEquation(radialDist, 0);
-        double radianFinalValue = AntiInterpolationEquation(radialDist, adjustForInitialShotHeight(initialValue));
+        double initialValue = -AntiInterpolationEquation(radialDist, 0);
+        double radianFinalValue = AntiInterpolationEquation(radialDist, adjustForInitialShotHeight(initialValue,
+                initialValue * (180 / Math.PI)));
 
         return (radianFinalValue * (180 / Math.PI)) + ShooterConstants.ARM_ANGLE_CONVERSION;
     }
