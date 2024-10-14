@@ -19,7 +19,7 @@ public class SwerveSim {
         motorVoltage_pub.setDefault(0.0);
     }
 
-    private TalonFX m_talonFX = new TalonFX(0);
+    private TalonFX m_talonFX = new TalonFX(4);
     
     TalonFXSimState m_talonFXSim = m_talonFX.getSimState();
     double fakeMotorVoltage = m_talonFXSim.getMotorVoltage();
