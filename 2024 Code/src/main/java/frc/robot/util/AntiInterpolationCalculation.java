@@ -4,7 +4,7 @@
 
 package frc.robot.util;
 
-import frc.robot.Constants.ShooterConstants;;
+import frc.robot.Constants.ShooterConstants;
 
 /**
  * Utility class that does math for shooting whilst swerving.
@@ -13,8 +13,13 @@ public class AntiInterpolationCalculation {
 
     public static void main(String[] args) {
         for (int radial = 0; radial < 5; radial++) {
-            System.out.println("For distance " + radial + " m, arm angle is: " + getArmAngle(radial));
+            System.out.println("For distance " + radial + " m, arm angle is: " + tester(radial));
+            System.out.println("For distance " + radial + " m, ADJUSTED arm angle is: " + getArmAngle(radial));
         }
+    }
+
+    public static double tester(double radialDist) {
+        return AntiInterpolationEquation(radialDist, 0) + ShooterConstants.ARM_ANGLE_CONVERSION;
     }
 
     /**
