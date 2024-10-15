@@ -34,10 +34,6 @@ public class MagicSpeakerChargeCommand extends GamePieceCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    System.out
-        .println("Target angle: " + AntiInterpolationCalculation.getArmAngle(m_swerve.GetSpeakerToRobot().getRadius())
-            + ", radius: " + m_swerve.GetSpeakerToRobot().getRadius());
     m_armSubsystem
         .setArmReferenceAngle(AntiInterpolationCalculation.getArmAngle(m_swerve.GetSpeakerToRobot().getRadius()));
 
