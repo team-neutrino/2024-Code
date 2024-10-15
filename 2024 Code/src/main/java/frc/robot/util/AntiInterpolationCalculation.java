@@ -50,7 +50,7 @@ public class AntiInterpolationCalculation {
         // conversion to arm angle.
 
         // fudge factor of -9, decrease to increase angle
-        return -(Math.atan(1.30827 / (radialDist + 1.2)) * 57.2) - 8;
+        return -(Math.atan(1.30827 / (radialDist + .4)) * 57.2) - 0;
     }
 
     /**
