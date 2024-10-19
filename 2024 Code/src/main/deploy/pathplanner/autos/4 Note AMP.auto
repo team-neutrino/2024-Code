@@ -41,9 +41,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "AutonIntakeCommand"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AutonIntakeCommand"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.4
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -104,7 +117,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.25
+                        "waitTime": 0.4
                       }
                     }
                   ]
@@ -168,7 +181,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.25
+                        "waitTime": 0.4
                       }
                     }
                   ]
