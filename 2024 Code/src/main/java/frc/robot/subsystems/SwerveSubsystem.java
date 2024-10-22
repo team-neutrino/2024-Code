@@ -351,10 +351,10 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     if (SubsystemContainer.alliance.isRedAlliance()) {
-      setRobotYaw(10 + Math.toDegrees(
+      setRobotYaw(15 + Math.toDegrees(
           Math.atan((m_currentPoseL.getY() - speakerPose.getY()) / (m_currentPoseL.getX() - speakerPose.getX()))));
     } else {
-      setRobotYaw((-10) + Math.toDegrees(
+      setRobotYaw((-15) + Math.toDegrees(
           Math.atan((m_currentPoseL.getY() - speakerPose.getY()) / (m_currentPoseL.getX() - speakerPose.getX()))));
     }
 

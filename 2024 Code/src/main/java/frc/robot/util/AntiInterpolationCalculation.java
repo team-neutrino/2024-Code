@@ -53,7 +53,7 @@ public class AntiInterpolationCalculation {
         if (radialDist <= 1.5) {
             return -(Math.atan(1.30827 / (radialDist + 1.2)) * 57.2) - 10.5;
         }
-        return -(Math.atan(1.30827 / (radialDist + 1.2)) * 57.2) - 8;
+        return -(Math.atan(1.30827 / (radialDist + 1.2)) * 57.2) - 9;
     }
 
     /**

@@ -29,7 +29,7 @@ public final class Constants {
     public static final Translation2d BACK_LEFT_COORD = new Translation2d(-0.339725, 0.3175);
     public static final double DRIVEBASE_RADIUS = 0.465074;
 
-    public static final double MAX_CHASSIS_LINEAR_SPEED = 3.5; // 3
+    public static final double MAX_CHASSIS_LINEAR_SPEED = 4.0; // 3
     public static final double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static final double MAX_MODULE_LINEAR_SPEED = 7;
 
@@ -184,6 +184,7 @@ public final class Constants {
   public final class ShooterSpeeds {
     public static final double SHOOTING_SPEED = 4000;
     public static final double SHUTTLE_SPEED = 400;
+    public static final double SHUTTLE_SPEED_CONSTANT = 3200;
     public static final double THRESHOLD_SHOOTING_SPEED = 3800;
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
     public static final double AMP_SPEED = 2500;

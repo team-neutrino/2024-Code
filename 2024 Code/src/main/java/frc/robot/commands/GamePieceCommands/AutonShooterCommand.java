@@ -31,7 +31,7 @@ public class AutonShooterCommand extends GamePieceCommand {
   @Override
   public void execute() {
     m_armSubsystem
-        .setArmReferenceAngle(AntiInterpolationCalculation.getArmAngle(m_swerve.GetSpeakerToRobot().getRadius()) - 2.5);
+        .setArmReferenceAngle(AntiInterpolationCalculation.getArmAngle(m_swerve.GetSpeakerToRobot().getRadius()) - 1.5);
 
     m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHOOTING_SPEED);
     m_intakeSubsystem.runIndexFeed();
