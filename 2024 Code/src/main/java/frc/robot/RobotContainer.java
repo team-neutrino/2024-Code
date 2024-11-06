@@ -45,7 +45,6 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -74,7 +73,6 @@ public class RobotContainer {
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
   /* Setting up bindings for necessary control of the swerve drive platform */
-  private final CommandSwerveDrivetrain m_swerve = TunerConstants.DriveTrain; // My m_swerve
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -101,27 +99,30 @@ public class RobotContainer {
     SubsystemContainer.armSubsystem.setDefaultCommand(new ArmDefaultCommand());
     SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
     SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
-    m_swerve.setDefaultCommand( // Drivetrain will execute this command periodically
-        m_swerve.applyRequest(() -> drive.withVelocityX(m_driverController.getLeftY() * MaxSpeed) // Drive forward
-                                                                                                  // with
-            // negative Y (forward)
-            .withVelocityY(m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
-                                                                                  // negative X (left)
-        ));
+    SubsystemContainer.swerveSubsystem2.setDefaultCommand( // Drivetrain will execute this command periodically
+        SubsystemContainer.swerveSubsystem2
+            .applyRequest(() -> drive.withVelocityX(m_driverController.getLeftY() * MaxSpeed) // Drive forward
+                // with
+                // negative Y (forward)
+                .withVelocityY(m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
+                                                                                      // negative X (left)
+            ));
 
-    m_driverController.a().whileTrue(m_swerve.applyRequest(() -> brake));
-    m_driverController.b().whileTrue(m_swerve
+    m_driverController.a().whileTrue(SubsystemContainer.swerveSubsystem2.applyRequest(() -> brake));
+    m_driverController.b().whileTrue(SubsystemContainer.swerveSubsystem2
         .applyRequest(() -> point
             .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
 
     // reset the field-centric heading on left bumper press
-    m_driverController.leftBumper().onTrue(m_swerve.runOnce(() -> m_swerve.seedFieldRelative()));
+    m_driverController.leftBumper().onTrue(
+        SubsystemContainer.swerveSubsystem2.runOnce(() -> SubsystemContainer.swerveSubsystem2.seedFieldRelative()));
 
     if (Utils.isSimulation()) {
-      m_swerve.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+      SubsystemContainer.swerveSubsystem2
+          .seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
     }
-    m_swerve.registerTelemetry(logger::telemeterize);
+    SubsystemContainer.swerveSubsystem2.registerTelemetry(logger::telemeterize);
 
     // set named commands
     NamedCommands.registerCommand("AutonIntakeCommand",
@@ -138,10 +139,11 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(new IntakeCommand());
 
     // swerve buttons
-    m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetPigeon2()));
+    // m_driverController.back().onTrue(new InstantCommand(() ->
+    // SubsystemContainer.swerveSubsystem2.resetPigeon2()));
 
     // m_driverController.b().onTrue(new InstantCommand(() -> {
-    // SubsystemContainer.swerveSubsystem.ResetModules();
+    // SubsystemContainer.swerveSubsystem2.ResetModules();
     // SubsystemContainer.armSubsystem.initializeMotorControllers();
     // }));
 
