@@ -21,10 +21,6 @@ public class ShootShuttleCommand extends GamePieceCommand {
     @Override
     public void execute() {
         m_armSubsystem.setArmReferenceAngle(m_angle);
-        // speedCalc = Constants.ShooterSpeeds.SHUTTLE_SPEED
-        //         * SubsystemContainer.swerveSubsystem.GetSpeakerToRobot().getRadius();
-        // speedCalc = Math.min(Constants.ShooterSpeeds.MAX_SHUTTLE_SPEED, speedCalc);
-        // speedCalc = Math.max(Constants.ShooterSpeeds.MIN_SHUTTLE_SPEED, speedCalc);
         m_shooterSubsystem.setTargetRPM(Constants.ShooterSpeeds.SHUTTLE_SPEED_CONSTANT);
         m_intakeSubsystem.runIndexFeed();
     }
