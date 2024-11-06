@@ -110,8 +110,7 @@ public class LimelightSubsystem extends SubsystemBase {
    * Localization with MegaTag." It specifies the conditions for accepting
    * a vision measurement and what the Stds should be depending on the
    * circumstance. This should hopefully improve the accuracy of the odometry and
-   * reject
-   * noisy/false data while keeping data that is correct.
+   * reject noisy/false data while keeping data that is correct.
    * 
    * @param poseEstimator
    * @param limelightPose
