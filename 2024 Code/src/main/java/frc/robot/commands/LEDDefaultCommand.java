@@ -24,6 +24,7 @@ public class LEDDefaultCommand extends Command {
   private XboxController m_buttonsxboxController;
   private XboxController m_driverxboxController;
   private LimelightSubsystem m_limelightSubsystem;
+  private int counter = 0;
 
   public LEDDefaultCommand(CommandXboxController p_buttonsController, CommandXboxController p_driverController) {
     m_LEDSubsystem = SubsystemContainer.LEDSubsystem;
@@ -45,6 +46,17 @@ public class LEDDefaultCommand extends Command {
 
   @Override
   public void execute() {
+    if (m_armSubsystem.getTargetAngle() == Constants.ArmConstants.INTAKE_POSE
+        && (m_intakeSubsystem.hasNote() && counter < 100)) {
+      if (counter % 14 <= 7) {
+        m_LEDSubsystem.setToPurple();
+
+      } else {
+        m_LEDSubsystem.setToPink();
+      }
+      counter++;
+      return;
+    }
 
     if (m_shooterSubsystem.approveShoot() && m_armSubsystem.getInPosition() && m_intakeSubsystem.isNoteReady()
         && m_swerveSubsystem.AutoAligned() &&
@@ -80,6 +92,11 @@ public class LEDDefaultCommand extends Command {
       m_buttonsxboxController.setRumble(RumbleType.kBothRumble, 0);
       m_driverxboxController.setRumble(RumbleType.kBothRumble, 0);
     }
+
+    if (m_intakeSubsystem.hasNoNote()) {
+      counter = 0;
+    }
+
   }
 
   @Override
