@@ -5,15 +5,24 @@
 package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
+
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.AprilTagConstants;
 import frc.robot.Constants.LEDConstants.States;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
+
+    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+            .withDeadband(SwerveConstants.MaxSpeed * 0.1).withRotationalDeadband(SwerveConstants.MaxAngularRate * 0.1)
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     /**
      * Gives the current yaw (test)
@@ -25,12 +34,13 @@ public class AutoAlignCommand extends Command {
         if (p_controller != null) {
             m_xboxController = p_controller.getHID();
         }
-        addRequirements(SubsystemContainer.swerveSubsystem);
+        addRequirements(SubsystemContainer.swerveSubsystem2);
     }
 
     @Override
     public void initialize() {
-        SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
+        // SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
+        SubsystemContainer.limelightSubsystem.updateOdometryWithLimelightPose2();
         if (SubsystemContainer.alliance.isRedAlliance()) {
             priorityTag = AprilTagConstants.RED_ALLIANCE_IDS.SPEAKER_ID;
         } else {
@@ -41,24 +51,32 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void execute() {
-        if (SubsystemContainer.limelightSubsystem.getTv()) {
+        // if (SubsystemContainer.limelightSubsystem.getTv()) {
 
-            if (SubsystemContainer.limelightSubsystem.getID() == (priorityTag)) {
-                SubsystemContainer.swerveSubsystem
-                        .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle());
-            }
+        // if (SubsystemContainer.limelightSubsystem.getID() == (priorityTag)) {
+        // SubsystemContainer.swerveSubsystem
+        // .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle());
+        // }
+        // } else {
+        // // SUPER auto align!!
+        // SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
+        // }
+
+        double omega = 0;
+        if (SubsystemContainer.limelightSubsystem.getTv()) {
+            omega = SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag();
         } else {
-            // SUPER auto align!!
-            SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
+            omega = m_xboxController.getRightX() * SwerveConstants.MaxAngularRate;
         }
 
-        SubsystemContainer.swerveSubsystem.SwerveWithDeadzone(m_xboxController.getLeftY() * -1,
-                m_xboxController.getLeftX() * -1,
-                m_xboxController.getRightX() * -1);
+        SubsystemContainer.swerveSubsystem2.setControl(drive
+                .withVelocityX(m_xboxController.getLeftY()
+                        * SwerveConstants.MaxSpeed)
+                .withVelocityY(m_xboxController.getLeftX()
+                        * SwerveConstants.MaxSpeed)
+                .withRotationalRate(omega));
 
-        SubsystemContainer.swerveSubsystem.POV(m_xboxController.getPOV());
-
-        SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
+        // SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
 
     @Override
