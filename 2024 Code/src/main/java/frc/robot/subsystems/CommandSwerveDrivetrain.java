@@ -48,6 +48,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         }
     }
 
+    public Rotation2d getCurrentRotation() {
+        return m_odometry.getEstimatedPosition().getRotation();
+    }
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
 

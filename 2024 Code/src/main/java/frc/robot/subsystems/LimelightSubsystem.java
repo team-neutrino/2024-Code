@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -133,5 +134,22 @@ public class LimelightSubsystem extends SubsystemBase {
     if (getTv()) {
       SubsystemContainer.swerveSubsystem.ResetOdometryToPose(pose[0], pose[1]);
     }
+  }
+
+  /**
+   * This is a swervesubsystem2/CommandSwerveDrivetrain method. Updates the kraken
+   * odometry with the limelight pose, DOES NOT REPLACE IT. In the words of the
+   * documentation, "adds a vision measurement to the kalman filter."
+   * 
+   * @return If the update occured or not.
+   */
+  public boolean updateOdometryWithLimelightPose2() {
+    if (!getTv()) {
+      return false;
+    }
+
+    Pose2d currentPose = new Pose2d(pose[0], pose[1], SubsystemContainer.swerveSubsystem2.getCurrentRotation());
+    SubsystemContainer.swerveSubsystem2.addVisionMeasurement(currentPose, NetworkTablesJNI.now());
+    return true;
   }
 }
