@@ -51,32 +51,24 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void execute() {
-        // if (SubsystemContainer.limelightSubsystem.getTv()) {
-
-        // if (SubsystemContainer.limelightSubsystem.getID() == (priorityTag)) {
-        // SubsystemContainer.swerveSubsystem
-        // .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle());
-        // }
-        // } else {
-        // // SUPER auto align!!
-        // SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
-        // }
-
-        double omega = 0;
-        if (SubsystemContainer.limelightSubsystem.getTv()) {
-            omega = SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag();
-        } else {
-            omega = m_xboxController.getRightX() * SwerveConstants.MaxAngularRate;
-        }
 
         SubsystemContainer.swerveSubsystem2.setControl(drive
-                .withVelocityX(m_xboxController.getLeftY()
-                        * SwerveConstants.MaxSpeed)
-                .withVelocityY(m_xboxController.getLeftX()
-                        * SwerveConstants.MaxSpeed)
-                .withRotationalRate(omega));
+                .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
+                .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
+                .withRotationalRate(SubsystemContainer.limelightSubsystem.getTv()
+                        ? convertOffsetAngleToOmega(SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())
+                        : m_xboxController.getRightX() * SwerveConstants.MaxAngularRate));
 
         // SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
+    }
+
+    /**
+     * Helper method that converts the offset angle as retrieved by the limelight to
+     * a rotational rate appropriate for autoaligning
+     */
+    private double convertOffsetAngleToOmega(double offsetAngle) {
+        offsetAngle /= 29.8; // maximum possible tx value is 29.8 in either direction
+        return offsetAngle * (SwerveConstants.MaxAngularRate * .75); // only use up to 75% turning power for autoalign
     }
 
     @Override

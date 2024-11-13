@@ -45,8 +45,10 @@ public class LimelightSubsystem extends SubsystemBase {
 
   /**
    * gets the x offest between the center of vision and the detected object
+   * <p>
+   * -29.8 to 29.8 degrees possible range
    */
-  public double getTx() {
+  public double getOffsetAngleFromTag() {
     return limelight.getEntry("tx").getDouble(0.0);
   }
 
@@ -104,12 +106,23 @@ public class LimelightSubsystem extends SubsystemBase {
     m_forceUpdate = force;
   }
 
-  public double getOffsetAngleFromTag() {
-    double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw();
-    double offsetYaw = getTx();
+  // public double getOffsetAngleFromTag() {
+  // double limeLightYaw = 0;
+  // if (SubsystemContainer.alliance.isRedAlliance()) {
+  // if (pose[5] > 0) {
+  // limeLightYaw = pose[5] - 180;
+  // } else {
+  // limeLightYaw = pose[5] + 180;
+  // }
+  // }
 
-    return currentYaw - offsetYaw;
-  }
+  // double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw2();
+  // // -29.8 to 29.8 degrees possible range for tx
+  // double offsetYaw = getTx();
+
+  // // return currentYaw - offsetYaw + (limeLightYaw * 0.06);
+  // return currentYaw - offsetYaw;
+  // }
 
   /**
    * This method is primarily taken from the limelight docs page under "Robot
@@ -142,7 +155,7 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   /**
-   * This is a swervesubsystem2/CommandSwerveDrivetrain method. Updates the kraken
+   * This is a kraken swerve method. Updates the kraken
    * odometry with the limelight pose, DOES NOT REPLACE IT. In the words of the
    * documentation, "adds a vision measurement to the kalman filter."
    * 
