@@ -17,5 +17,4 @@ public class SwerveRequestStash {
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
     public static final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     public static final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-
 }
