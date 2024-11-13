@@ -58,16 +58,6 @@ public class RobotContainer {
         IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
         LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
 
-        /* Setting up bindings for necessary control of the swerve drive platform */
-
-        private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-                        .withDeadband(SwerveConstants.MaxSpeed * 0.1)
-                        .withRotationalDeadband(SwerveConstants.MaxAngularRate * 0.1) // Add a 10% deadband
-                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
-                                                                                 // driving in open loop
-        private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-        private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-
         private final Telemetry logger = new Telemetry(SwerveConstants.MaxSpeed);
 
         public RobotContainer() {
