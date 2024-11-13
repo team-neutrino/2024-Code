@@ -4,6 +4,7 @@ import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import frc.robot.util.TunerConstants;
 
 public final class Constants {
   public static class OperatorConstants {
@@ -19,6 +20,9 @@ public final class Constants {
   }
 
   public static class SwerveConstants {
+    public static double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
+    public static double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+
     public static final double GEAR_RATIO = 6.55;
     public static final double ANGLE_P = 0.01;
     public static final double SPEED_P = 0.01;

@@ -10,6 +10,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.SwerveDefaultCommand;
 import frc.robot.commands.AmpAutoAlign;
 import frc.robot.commands.GamePieceCommands.ArmClimbCommandDown;
@@ -65,19 +66,17 @@ public class RobotContainer {
         IntakeDefaultCommand m_intakeDefaultCommand = new IntakeDefaultCommand();
         LimelightDefaultCommand m_LimelightDefaultCommand = new LimelightDefaultCommand();
 
-        private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
-        private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
-
         /* Setting up bindings for necessary control of the swerve drive platform */
 
         private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-                        .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+                        .withDeadband(SwerveConstants.MaxSpeed * 0.1)
+                        .withRotationalDeadband(SwerveConstants.MaxAngularRate * 0.1) // Add a 10% deadband
                         .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                                  // driving in open loop
         private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
         private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
-        private final Telemetry logger = new Telemetry(MaxSpeed);
+        private final Telemetry logger = new Telemetry(SwerveConstants.MaxSpeed);
 
         public RobotContainer() {
                 configureBindings();
@@ -99,23 +98,12 @@ public class RobotContainer {
                                                                        // periodically
                                 SubsystemContainer.swerveSubsystem2
                                                 .applyRequest(() -> drive
-                                                                .withVelocityX(m_driverController.getLeftY() * MaxSpeed) // Drive
-                                                                                                                         // forward
-                                                                // with
-                                                                // negative Y (forward)
-                                                                .withVelocityY(m_driverController.getLeftX() * MaxSpeed) // Drive
-                                                                                                                         // left
-                                                                                                                         // with
-                                                                                                                         // negative
-                                                                                                                         // X
-                                                                                                                         // (left)
+                                                                .withVelocityX(m_driverController.getLeftY()
+                                                                                * SwerveConstants.MaxSpeed)
+                                                                .withVelocityY(m_driverController.getLeftX()
+                                                                                * SwerveConstants.MaxSpeed)
                                                                 .withRotationalRate(-m_driverController.getRightX()
-                                                                                * MaxAngularRate) // Drive
-                                                                                                  // counterclockwise
-                                                                                                  // with
-                                                                                                  // negative X
-                                                                                                  // (left)
-                                                ));
+                                                                                * SwerveConstants.MaxAngularRate)));
 
                 m_driverController.a().whileTrue(SubsystemContainer.swerveSubsystem2.applyRequest(() -> brake));
                 m_driverController.b().whileTrue(SubsystemContainer.swerveSubsystem2
