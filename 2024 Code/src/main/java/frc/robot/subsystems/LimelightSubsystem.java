@@ -106,6 +106,13 @@ public class LimelightSubsystem extends SubsystemBase {
     m_forceUpdate = force;
   }
 
+  public double getOffsetAngleFromTag() {
+    double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw();
+    double offsetYaw = getTx();
+
+    return currentYaw - offsetYaw;
+  }
+
   /**
    * This method is primarily taken from the limelight docs page under "Robot
    * Localization with MegaTag." It specifies the conditions for accepting
