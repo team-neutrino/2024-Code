@@ -6,7 +6,10 @@ package frc.robot;
 
 import com.ctre.phoenix6.Utils;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 79b8eef9 (commands updated to be explicit)
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 
 >>>>>>> f3f5dd4d (commands updated to be explicit)
