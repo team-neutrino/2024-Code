@@ -13,10 +13,14 @@ public class KrakenSwerveBrakeCommand extends Command {
   /** Creates a new KrakenSwerveBrakeCommand. */
   public KrakenSwerveBrakeCommand() {
 <<<<<<< HEAD
+<<<<<<< HEAD
     addRequirements(SubsystemContainer.swerveSubsystem2);
 =======
     // Use addRequirements() here to declare subsystem dependencies.
 >>>>>>> 79b8eef9 (commands updated to be explicit)
+=======
+    addRequirements(SubsystemContainer.swerveSubsystem2);
+>>>>>>> 84a9eabb (addedrequirements())
   }
 
   // Called when the command is initially scheduled.
