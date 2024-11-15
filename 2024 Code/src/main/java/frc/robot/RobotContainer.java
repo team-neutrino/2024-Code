@@ -5,7 +5,6 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 
 import frc.robot.Constants.ArmConstants;
@@ -30,6 +29,9 @@ import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.AutoAlignForeverCommand;
 import frc.robot.commands.IntakeDefaultCommand;
+import frc.robot.commands.KrakenSwerveBrakeCommand;
+import frc.robot.commands.KrakenSwerveDefaultCommand;
+import frc.robot.commands.KrakenSwervePointCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
@@ -76,23 +78,11 @@ public class RobotContainer {
                 SubsystemContainer.armSubsystem.setDefaultCommand(new ArmDefaultCommand());
                 SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
                 SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
-                SubsystemContainer.swerveSubsystem2.setDefaultCommand( // Drivetrain will execute this command
-                                                                       // periodically
-                                SubsystemContainer.swerveSubsystem2
-                                                .applyRequest(() -> drive
-                                                                .withVelocityX(m_driverController.getLeftY()
-                                                                                * SwerveConstants.MaxSpeed)
-                                                                .withVelocityY(m_driverController.getLeftX()
-                                                                                * SwerveConstants.MaxSpeed)
-                                                                .withRotationalRate(-m_driverController.getRightX()
-                                                                                * SwerveConstants.MaxAngularRate)));
+                SubsystemContainer.swerveSubsystem2
+                                .setDefaultCommand(new KrakenSwerveDefaultCommand(m_driverController));
 
-                m_driverController.a().whileTrue(SubsystemContainer.swerveSubsystem2.applyRequest(() -> brake));
-                m_driverController.b().whileTrue(SubsystemContainer.swerveSubsystem2
-                                .applyRequest(() -> point
-                                                .withModuleDirection(
-                                                                new Rotation2d(-m_driverController.getLeftY(),
-                                                                                -m_driverController.getLeftX()))));
+                m_driverController.a().whileTrue(new KrakenSwerveBrakeCommand());
+                m_driverController.b().whileTrue(new KrakenSwervePointCommand(m_driverController));
 
                 // reset the field-centric heading on left bumper press
                 m_driverController.start().onTrue(
