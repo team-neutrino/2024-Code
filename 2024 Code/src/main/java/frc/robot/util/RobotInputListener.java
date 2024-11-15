@@ -3,11 +3,15 @@ package frc.robot.util;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+
+import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.HashSet;
+
 import javax.swing.JFrame;
 
 public class RobotInputListener extends JFrame implements KeyListener, MouseListener, MouseMotionListener {
@@ -18,6 +22,9 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
     private NetworkTableEntry mouseButtonEntry;
     private NetworkTableEntry mouseXEntry;
     private NetworkTableEntry mouseYEntry;
+
+    private static HashSet<String> activeKeyboardInputs = new HashSet<>();
+    private static HashSet<Integer> activeMouseButtons = new HashSet<>();
 
     public RobotInputListener() {
         // Initialize NetworkTables
@@ -32,7 +39,11 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
 
         // Set up JFrame to capture keyboard and mouse events
         this.setTitle("FRC Keyboard & Mouse Listener");
-        this.setSize(10000, 650);
+        // width 1535 full screen, current bounds: 10 to 1546
+        this.setSize(1555, 650);
+        this.setAlwaysOnTop(true);
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        this.setLocation(-10, 0);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.addKeyListener(this);
@@ -56,14 +67,16 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
     // Keyboard event handling
     @Override
     public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        keyEntry.setDouble(keyCode);
-        System.out.println("Key Pressed: " + KeyEvent.getKeyText(keyCode));
+        String key = "" + e.getKeyChar();
+        activeKeyboardInputs.add(key);
+        keyEntry.setString(key);
+        System.out.println("Key Pressed: " + KeyEvent.getKeyText(e.getKeyCode()));
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        keyEntry.setDouble(0);
+        activeKeyboardInputs.remove("" + e.getKeyChar());
+        keyEntry.setString("");
         System.out.println("Key Released: " + KeyEvent.getKeyText(e.getKeyCode()));
     }
 
@@ -76,12 +89,14 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
     @Override
     public void mousePressed(MouseEvent e) {
         int button = e.getButton();
+        activeMouseButtons.add(button);
         mouseButtonEntry.setDouble(button);
         System.out.println("Mouse Button Pressed: " + button);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        activeMouseButtons.remove(e.getButton());
         mouseButtonEntry.setDouble(0); // Reset on release
         System.out.println("Mouse Button Released: " + e.getButton());
     }
@@ -110,6 +125,14 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
         mouseXEntry.setDouble(x);
         mouseYEntry.setDouble(y);
         System.out.println("Mouse Dragged to: (" + x + ", " + y + ")");
+    }
+
+    public boolean getIsKeyActive(String ch) {
+        return activeKeyboardInputs.contains(ch);
+    }
+
+    public boolean getIsMouseButtonActive(int val) {
+        return activeMouseButtons.contains(val);
     }
 
     public static void main(String[] args) {

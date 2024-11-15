@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "InputListenerTester",
+      "request": "launch",
+      "mainClass": "frc.robot.util.InputListenerTester",
+      "projectName": "2024 Code"
+    },
+    {
+      "type": "java",
       "name": "RobotInputListener",
       "request": "launch",
       "mainClass": "frc.robot.util.RobotInputListener",

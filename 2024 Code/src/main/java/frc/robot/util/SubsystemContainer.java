@@ -22,4 +22,5 @@ public class SubsystemContainer {
     public static final LEDSubsystem LEDSubsystem = new LEDSubsystem(PWMConstants.LED1);
     public static final CommandSwerveDrivetrain swerveSubsystem2 = TunerConstants.DriveTrain;
     public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+    public static final RobotInputListener inputListener = new RobotInputListener();
 }

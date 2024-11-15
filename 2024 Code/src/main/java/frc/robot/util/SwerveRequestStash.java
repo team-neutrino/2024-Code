@@ -11,7 +11,7 @@ import frc.robot.Constants.SwerveConstants;
 
 /** Add your docs here. */
 public class SwerveRequestStash {
-    public static final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+    public static final SwerveRequest.FieldCentricFacingAngle drive = new SwerveRequest.FieldCentricFacingAngle()
             .withDeadband(SwerveConstants.MaxSpeed * 0.1)
             .withRotationalDeadband(SwerveConstants.MaxAngularRate * 0.1)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
