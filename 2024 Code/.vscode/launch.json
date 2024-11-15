@@ -6,6 +6,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "RobotInputListener",
+      "request": "launch",
+      "mainClass": "frc.robot.util.RobotInputListener",
+      "projectName": "2024 Code"
+    },
+    {
+      "type": "java",
+      "name": "RobotKeyboardListener",
+      "request": "launch",
+      "mainClass": "frc.robot.util.RobotKeyboardListener",
+      "projectName": "2024 Code"
+    },
+    {
+      "type": "java",
       "name": "ClimbRetractCommand",
       "request": "launch",
       "mainClass": "frc.robot.commands.ClimbRetractCommand",

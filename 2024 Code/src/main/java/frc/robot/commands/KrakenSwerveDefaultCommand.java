@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.SwerveConstants;
@@ -11,6 +12,7 @@ import frc.robot.util.SubsystemContainer;
 import frc.robot.util.SwerveRequestStash;
 
 public class KrakenSwerveDefaultCommand extends Command {
+  NetworkTableInstance nt = NetworkTableInstance.getDefault();
   CommandXboxController m_controller;
 
   /** Creates a new KrakenSwerveDefaultCommand. */
@@ -28,6 +30,7 @@ public class KrakenSwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double keyPressed = nt.getTable("KeyboardData").getEntry("KeyPressed").getDouble(-1);
     SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
         .withVelocityX(m_controller.getLeftY()
             * SwerveConstants.MaxSpeed)
