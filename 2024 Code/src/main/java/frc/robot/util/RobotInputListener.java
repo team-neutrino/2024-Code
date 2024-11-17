@@ -7,6 +7,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import java.awt.AWTException;
 import java.awt.Cursor;
 import java.awt.GraphicsEnvironment;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -14,21 +16,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.HashSet;
-
 import javax.swing.JFrame;
 
 public class RobotInputListener extends JFrame implements KeyListener, MouseListener, MouseMotionListener {
     // NetworkTables instance and entries for sending keyboard and mouse states
     private NetworkTableInstance networkTableInstance;
     private NetworkTable inputTable;
-    private NetworkTableEntry keyEntry;
-    private NetworkTableEntry mouseButtonEntry;
-    private NetworkTableEntry mouseXEntry;
-    private NetworkTableEntry mouseYEntry;
+    private NetworkTableEntry keyEntry, mouseButtonEntry, mouseXEntry, mouseYEntry;
     private Robot mouseMover;
 
-    private static HashSet<String> activeKeyboardInputs = new HashSet<>();
-    private static HashSet<Integer> activeMouseButtons = new HashSet<>();
+    private static HashSet<Integer> activeInputs = new HashSet<>();
 
     public RobotInputListener() {
         // Initialize NetworkTables
@@ -79,15 +76,15 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
     // Keyboard event handling
     @Override
     public void keyPressed(KeyEvent e) {
-        String key = "" + e.getKeyChar();
-        activeKeyboardInputs.add(key);
+        int keyCode = e.getKeyCode();
+        activeInputs.add(keyCode);
         // keyEntry.setString(key);
-        System.out.println("Key Pressed: " + KeyEvent.getKeyText(e.getKeyCode()));
+        System.out.println("Key Pressed: " + KeyEvent.getKeyText(keyCode));
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        activeKeyboardInputs.remove("" + e.getKeyChar());
+        activeInputs.remove(e.getKeyCode());
         // keyEntry.setString("");
         System.out.println("Key Released: " + KeyEvent.getKeyText(e.getKeyCode()));
     }
@@ -101,14 +98,14 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
     @Override
     public void mousePressed(MouseEvent e) {
         int button = e.getButton();
-        activeMouseButtons.add(button);
+        activeInputs.add(button);
         // mouseButtonEntry.setDouble(button);
         System.out.println("Mouse Button Pressed: " + button);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        activeMouseButtons.remove(e.getButton());
+        activeInputs.remove(e.getButton());
         // mouseButtonEntry.setDouble(0); // Reset on release
         System.out.println("Mouse Button Released: " + e.getButton());
     }
@@ -124,11 +121,11 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
     public void mouseMoved(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        if (x <= 20 || x >= 1530) {
-            x = 782;
-            y = 400;
-            mouseMover.mouseMove(782, 400);
-        }
+        // if (x <= 20 || x >= 1530) {
+        // x = 782;
+        // y = 300;
+        // mouseMover.mouseMove(782, 300);
+        // }
 
         // mouseXEntry.setDouble(x);
         // mouseYEntry.setDouble(y);
@@ -142,12 +139,15 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
         System.out.println("Mouse Dragged to: (" + e.getX() + ", " + e.getY() + ")");
     }
 
-    public boolean getIsKeyActive(String ch) {
-        return activeKeyboardInputs.contains(ch);
+    public boolean isInputActive(int val) {
+        return activeInputs.contains(val);
     }
 
-    public boolean getIsMouseButtonActive(int val) {
-        return activeMouseButtons.contains(val);
+    public void resetMouseBounds() {
+        Point pos = MouseInfo.getPointerInfo().getLocation();
+        if (pos.y < 31 || pos.y > 640) {
+            mouseMover.mouseMove(pos.x, 500);
+        }
     }
 
     public static void main(String[] args) {

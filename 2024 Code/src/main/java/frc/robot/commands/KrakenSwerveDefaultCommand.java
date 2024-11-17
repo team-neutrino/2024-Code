@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.awt.event.KeyEvent;
+
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -34,11 +36,13 @@ public class KrakenSwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // SubsystemContainer.inputListener.updateCursor();
+
     SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
-        .withVelocityX(SubsystemContainer.inputListener.getIsKeyActive("A") ? SwerveConstants.MaxSpeed
-            : SubsystemContainer.inputListener.getIsKeyActive("D") ? -SwerveConstants.MaxSpeed : 0)
-        .withVelocityY(SubsystemContainer.inputListener.getIsKeyActive("W") ? -SwerveConstants.MaxSpeed
-            : SubsystemContainer.inputListener.getIsKeyActive("S") ? SwerveConstants.MaxSpeed : 0)
+        .withVelocityX(SubsystemContainer.inputListener.isInputActive(KeyEvent.VK_A) ? SwerveConstants.MaxSpeed
+            : SubsystemContainer.inputListener.isInputActive(KeyEvent.VK_D) ? -SwerveConstants.MaxSpeed : 0)
+        .withVelocityY(SubsystemContainer.inputListener.isInputActive(KeyEvent.VK_W) ? -SwerveConstants.MaxSpeed
+            : SubsystemContainer.inputListener.isInputActive(KeyEvent.VK_S) ? SwerveConstants.MaxSpeed : 0)
         .withTargetDirection(getTargetAngle()));
   }
 
@@ -60,14 +64,8 @@ public class KrakenSwerveDefaultCommand extends Command {
    *         {@link SwerveRequest.FieldCentricFacingAngle}.
    */
   private Rotation2d getTargetAngle() {
-    double mousePos = SubsystemContainer.inputListener.getMousePosition().getX();
-
-    // Account for rollover
-    if (mousePos > 384) {
-      return new Rotation2d(((mousePos - 384) / 384) * (Math.PI));
-    } else {
-      return new Rotation2d((mousePos / 384) * (Math.PI));
-    }
+    double mousePos = SubsystemContainer.inputListener.getMousePosition().getX() / 1546;
+    return new Rotation2d((.5 - mousePos) * Math.PI);
   }
 
   // Called once the command ends or is interrupted.

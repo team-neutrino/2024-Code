@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.util.SubsystemContainer;
 
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements
@@ -150,5 +151,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                 hasAppliedOperatorPerspective = true;
             });
         }
+
+        SubsystemContainer.inputListener.resetMouseBounds();
     }
 }
