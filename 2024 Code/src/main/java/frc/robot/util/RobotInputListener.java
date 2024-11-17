@@ -4,7 +4,10 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+import java.awt.AWTException;
 import java.awt.Cursor;
+import java.awt.GraphicsEnvironment;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -22,20 +25,29 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
     private NetworkTableEntry mouseButtonEntry;
     private NetworkTableEntry mouseXEntry;
     private NetworkTableEntry mouseYEntry;
+    private Robot mouseMover;
 
     private static HashSet<String> activeKeyboardInputs = new HashSet<>();
     private static HashSet<Integer> activeMouseButtons = new HashSet<>();
 
     public RobotInputListener() {
         // Initialize NetworkTables
-        networkTableInstance = NetworkTableInstance.getDefault();
-        inputTable = networkTableInstance.getTable("InputData");
+        // networkTableInstance = NetworkTableInstance.getDefault();
+        // inputTable = networkTableInstance.getTable("InputData");
 
         // Entries for keyboard and mouse data
-        keyEntry = inputTable.getEntry("KeyPressed");
-        mouseButtonEntry = inputTable.getEntry("MouseButton");
-        mouseXEntry = inputTable.getEntry("MouseX");
-        mouseYEntry = inputTable.getEntry("MouseY");
+        // keyEntry = inputTable.getEntry("KeyPressed");
+        // mouseButtonEntry = inputTable.getEntry("MouseButton");
+        // mouseXEntry = inputTable.getEntry("MouseX");
+        // mouseYEntry = inputTable.getEntry("MouseY");
+
+        try {
+            mouseMover = new Robot(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
+        } catch (AWTException e) {
+            for (int i = 0; i < 20; i++) {
+                System.out.println("bad Robot initialization");
+            }
+        }
 
         // Set up JFrame to capture keyboard and mouse events
         this.setTitle("FRC Keyboard & Mouse Listener");
@@ -51,7 +63,7 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
         this.addMouseMotionListener(this);
 
         // Start NetworkTables client and connect to robot
-        networkTableInstance.startDSClient();
+        // networkTableInstance.startDSClient();
     }
 
     @Override
@@ -69,14 +81,14 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
     public void keyPressed(KeyEvent e) {
         String key = "" + e.getKeyChar();
         activeKeyboardInputs.add(key);
-        keyEntry.setString(key);
+        // keyEntry.setString(key);
         System.out.println("Key Pressed: " + KeyEvent.getKeyText(e.getKeyCode()));
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         activeKeyboardInputs.remove("" + e.getKeyChar());
-        keyEntry.setString("");
+        // keyEntry.setString("");
         System.out.println("Key Released: " + KeyEvent.getKeyText(e.getKeyCode()));
     }
 
@@ -90,14 +102,14 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
     public void mousePressed(MouseEvent e) {
         int button = e.getButton();
         activeMouseButtons.add(button);
-        mouseButtonEntry.setDouble(button);
+        // mouseButtonEntry.setDouble(button);
         System.out.println("Mouse Button Pressed: " + button);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         activeMouseButtons.remove(e.getButton());
-        mouseButtonEntry.setDouble(0); // Reset on release
+        // mouseButtonEntry.setDouble(0); // Reset on release
         System.out.println("Mouse Button Released: " + e.getButton());
     }
 
@@ -112,19 +124,22 @@ public class RobotInputListener extends JFrame implements KeyListener, MouseList
     public void mouseMoved(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        mouseXEntry.setDouble(x);
-        mouseYEntry.setDouble(y);
+        if (x <= 20 || x >= 1530) {
+            x = 782;
+            y = 400;
+            mouseMover.mouseMove(782, 400);
+        }
+
+        // mouseXEntry.setDouble(x);
+        // mouseYEntry.setDouble(y);
         System.out.println("Mouse Moved to: (" + x + ", " + y + ")");
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         // Similar to mouseMoved, but for dragging events
-        int x = e.getX();
-        int y = e.getY();
-        mouseXEntry.setDouble(x);
-        mouseYEntry.setDouble(y);
-        System.out.println("Mouse Dragged to: (" + x + ", " + y + ")");
+        mouseMoved(e);
+        System.out.println("Mouse Dragged to: (" + e.getX() + ", " + e.getY() + ")");
     }
 
     public boolean getIsKeyActive(String ch) {
