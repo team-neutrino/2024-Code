@@ -108,23 +108,23 @@ public class LimelightSubsystem extends SubsystemBase {
     m_forceUpdate = force;
   }
 
-  // public double getOffsetAngleFromTag() {
-  // double limeLightYaw = 0;
-  // if (SubsystemContainer.alliance.isRedAlliance()) {
-  // if (pose[5] > 0) {
-  // limeLightYaw = pose[5] - 180;
-  // } else {
-  // limeLightYaw = pose[5] + 180;
-  // }
-  // }
+  public double getTagAngle() {
+    double limeLightYaw = 0;
+    if (SubsystemContainer.alliance.isRedAlliance()) {
+      if (pose[5] > 0) {
+        limeLightYaw = pose[5] - 180;
+      } else {
+        limeLightYaw = pose[5] + 180;
+      }
+    }
 
-  // double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw2();
-  // // -29.8 to 29.8 degrees possible range for tx
-  // double offsetYaw = getTx();
+    double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw2();
+    // -29.8 to 29.8 degrees possible range for tx
+    double offsetYaw = getOffsetAngleFromTag();
 
-  // // return currentYaw - offsetYaw + (limeLightYaw * 0.06);
-  // return currentYaw - offsetYaw;
-  // }
+    // return currentYaw - offsetYaw + (limeLightYaw * 0.06);
+    return currentYaw - offsetYaw;
+  }
 
   /**
    * This method is primarily taken from the limelight docs page under "Robot
