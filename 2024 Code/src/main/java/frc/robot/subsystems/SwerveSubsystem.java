@@ -73,15 +73,6 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
 
-  // private SwerveModule m_frontRight = new SwerveModule(m_frontRightSpeed,
-  // m_frontRightAngle);
-  // private SwerveModule m_frontLeft = new SwerveModule(m_frontLeftSpeed,
-  // m_frontLeftAngle);
-  // private SwerveModule m_backRight = new SwerveModule(m_backRightSpeed,
-  // m_backRightAngle);
-  // private SwerveModule m_backLeft = new SwerveModule(m_backLeftSpeed,
-  // m_backLeftAngle);
-
   private SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
   private Field2d m_field = new Field2d();
