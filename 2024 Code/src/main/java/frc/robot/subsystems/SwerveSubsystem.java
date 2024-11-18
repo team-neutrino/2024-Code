@@ -5,10 +5,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -21,15 +17,11 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.SwerveModule;
-import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
@@ -40,29 +32,35 @@ import frc.robot.util.PolarCoord;
 import frc.robot.util.SubsystemContainer;
 
 public class SwerveSubsystem extends SubsystemBase {
-  SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
-      SwerveConstants.FRONT_LEFT_COORD,
-      SwerveConstants.BACK_RIGHT_COORD, SwerveConstants.BACK_LEFT_COORD);
+  SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(null, null, null, null);
   public Pigeon2 m_pigeon2 = new Pigeon2(0, "3928Allen");
   private SwerveModuleState[] m_moduleStates;
 
-  private final SwerveModule.MotorCfg m_frontRightSpeed = new SwerveModule.MotorCfg(MotorIDs.FRS,
-      true);
-  private final SwerveModule.MotorCfg m_frontLeftSpeed = new SwerveModule.MotorCfg(MotorIDs.FLS,
-      true);
-  private final SwerveModule.MotorCfg m_backRightSpeed = new SwerveModule.MotorCfg(MotorIDs.BRS,
-      false);
-  private final SwerveModule.MotorCfg m_backLeftSpeed = new SwerveModule.MotorCfg(MotorIDs.BLS,
-      false);
+  // private final SwerveModule.MotorCfg m_frontRightSpeed = new
+  // SwerveModule.MotorCfg(MotorIDs.FRS,
+  // true);
+  // private final SwerveModule.MotorCfg m_frontLeftSpeed = new
+  // SwerveModule.MotorCfg(MotorIDs.FLS,
+  // true);
+  // private final SwerveModule.MotorCfg m_backRightSpeed = new
+  // SwerveModule.MotorCfg(MotorIDs.BRS,
+  // false);
+  // private final SwerveModule.MotorCfg m_backLeftSpeed = new
+  // SwerveModule.MotorCfg(MotorIDs.BLS,
+  // false);
 
-  private final SwerveModule.MotorCfg m_frontRightAngle = new SwerveModule.MotorCfg(MotorIDs.FRA,
-      false, SwerveConstants.FRA_OFFSET);
-  private final SwerveModule.MotorCfg m_frontLeftAngle = new SwerveModule.MotorCfg(MotorIDs.FLA,
-      false, SwerveConstants.FLA_OFFSET);
-  private final SwerveModule.MotorCfg m_backRightAngle = new SwerveModule.MotorCfg(MotorIDs.BRA,
-      false, SwerveConstants.BRA_OFFSET);
-  private final SwerveModule.MotorCfg m_backLeftAngle = new SwerveModule.MotorCfg(MotorIDs.BLA,
-      false, SwerveConstants.BLA_OFFSET);
+  // private final SwerveModule.MotorCfg m_frontRightAngle = new
+  // SwerveModule.MotorCfg(MotorIDs.FRA,
+  // false, SwerveConstants.FRA_OFFSET);
+  // private final SwerveModule.MotorCfg m_frontLeftAngle = new
+  // SwerveModule.MotorCfg(MotorIDs.FLA,
+  // false, SwerveConstants.FLA_OFFSET);
+  // private final SwerveModule.MotorCfg m_backRightAngle = new
+  // SwerveModule.MotorCfg(MotorIDs.BRA,
+  // false, SwerveConstants.BRA_OFFSET);
+  // private final SwerveModule.MotorCfg m_backLeftAngle = new
+  // SwerveModule.MotorCfg(MotorIDs.BLA,
+  // false, SwerveConstants.BLA_OFFSET);
 
   private SwerveModulePosition[] m_modulePositions = new SwerveModulePosition[4];
 
@@ -75,10 +73,14 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_referenceAngle = 0;
   private boolean m_referenceSet = false;
 
-  private SwerveModule m_frontRight = new SwerveModule(m_frontRightSpeed, m_frontRightAngle);
-  private SwerveModule m_frontLeft = new SwerveModule(m_frontLeftSpeed, m_frontLeftAngle);
-  private SwerveModule m_backRight = new SwerveModule(m_backRightSpeed, m_backRightAngle);
-  private SwerveModule m_backLeft = new SwerveModule(m_backLeftSpeed, m_backLeftAngle);
+  // private SwerveModule m_frontRight = new SwerveModule(m_frontRightSpeed,
+  // m_frontRightAngle);
+  // private SwerveModule m_frontLeft = new SwerveModule(m_frontLeftSpeed,
+  // m_frontLeftAngle);
+  // private SwerveModule m_backRight = new SwerveModule(m_backRightSpeed,
+  // m_backRightAngle);
+  // private SwerveModule m_backLeft = new SwerveModule(m_backLeftSpeed,
+  // m_backLeftAngle);
 
   private SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
@@ -113,33 +115,25 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putData("Field", m_field);
     m_field.getRobotObject().close();
 
-    AutoBuilder.configureHolonomic(
-        this::getPose,
-        this::resetPose,
-        this::getRobotRelativeSpeeds,
-        this::robotRelativeSwerve,
-        new HolonomicPathFollowerConfig(
-            new PIDConstants(5, 0.0, 0.0),
-            new PIDConstants(3.0, 0.0, 0.0),
-            SwerveConstants.MAX_MODULE_LINEAR_SPEED,
-            SwerveConstants.DRIVEBASE_RADIUS,
-            new ReplanningConfig()),
-        () -> {
-          var alliance = DriverStation.getAlliance();
-          if (alliance.isPresent()) {
-            return alliance.get() == DriverStation.Alliance.Red;
-          }
-          return false;
-        },
-        this);
-
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_RED, new Rotation2d(-90)),
-          Constants.SwerveConstants.PATH_CONSTRAINTS);
-    } else {
-      m_pathfindAmp = AutoBuilder.pathfindToPose(new Pose2d(SwerveConstants.AMP_TARGET_POSE_BLUE, new Rotation2d(-90)),
-          Constants.SwerveConstants.PATH_CONSTRAINTS);
-    }
+    // AutoBuilder.configureHolonomic(
+    // this::getPose,
+    // this::resetPose,
+    // this::getRobotRelativeSpeeds,
+    // this::robotRelativeSwerve,
+    // new HolonomicPathFollowerConfig(
+    // new PIDConstants(5, 0.0, 0.0),
+    // new PIDConstants(3.0, 0.0, 0.0),
+    // SwerveConstants.MAX_MODULE_LINEAR_SPEED,
+    // SwerveConstants.DRIVEBASE_RADIUS,
+    // new ReplanningConfig()),
+    // () -> {
+    // var alliance = DriverStation.getAlliance();
+    // if (alliance.isPresent()) {
+    // return alliance.get() == DriverStation.Alliance.Red;
+    // }
+    // return false;
+    // },
+    // this);
   }
 
   public void SwerveWithDeadzone(double vx, double vy, double omega) {
@@ -203,39 +197,49 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   private void robotRelativeSwerve(ChassisSpeeds referenceSpeeds) {
-    m_moduleStates = m_kinematics.toSwerveModuleStates(referenceSpeeds);
+    // m_moduleStates = m_kinematics.toSwerveModuleStates(referenceSpeeds);
 
-    m_moduleStates[0] = SwerveModuleState.optimize(m_moduleStates[0],
-        m_frontRight.getOptimizationAngle());
-    m_moduleStates[1] = SwerveModuleState.optimize(m_moduleStates[1],
-        m_frontLeft.getOptimizationAngle());
-    m_moduleStates[2] = SwerveModuleState.optimize(m_moduleStates[2],
-        m_backRight.getOptimizationAngle());
-    m_moduleStates[3] = SwerveModuleState.optimize(m_moduleStates[3],
-        m_backLeft.getOptimizationAngle());
+    // m_moduleStates[0] = SwerveModuleState.optimize(m_moduleStates[0],
+    // m_frontRight.getOptimizationAngle());
+    // m_moduleStates[1] = SwerveModuleState.optimize(m_moduleStates[1],
+    // m_frontLeft.getOptimizationAngle());
+    // m_moduleStates[2] = SwerveModuleState.optimize(m_moduleStates[2],
+    // m_backRight.getOptimizationAngle());
+    // m_moduleStates[3] = SwerveModuleState.optimize(m_moduleStates[3],
+    // m_backLeft.getOptimizationAngle());
 
-    double feedForwardFR = m_feedForward.calculate(m_moduleStates[0].speedMetersPerSecond);
-    double feedForwardFL = m_feedForward.calculate(m_moduleStates[1].speedMetersPerSecond);
-    double feedForwardBR = m_feedForward.calculate(m_moduleStates[2].speedMetersPerSecond);
-    double feedForwardBL = m_feedForward.calculate(m_moduleStates[3].speedMetersPerSecond);
+    // double feedForwardFR =
+    // m_feedForward.calculate(m_moduleStates[0].speedMetersPerSecond);
+    // double feedForwardFL =
+    // m_feedForward.calculate(m_moduleStates[1].speedMetersPerSecond);
+    // double feedForwardBR =
+    // m_feedForward.calculate(m_moduleStates[2].speedMetersPerSecond);
+    // double feedForwardBL =
+    // m_feedForward.calculate(m_moduleStates[3].speedMetersPerSecond);
 
-    for (int i = 0; i < 4; i++) {
-      if (m_moduleStates[i].angle.getDegrees() <= 0) {
-        m_moduleStates[i].angle = Rotation2d.fromDegrees(m_moduleStates[i].angle.getDegrees() * -1);
-      } else {
-        m_moduleStates[i].angle = Rotation2d.fromDegrees(360 - m_moduleStates[i].angle.getDegrees());
-      }
-    }
+    // for (int i = 0; i < 4; i++) {
+    // if (m_moduleStates[i].angle.getDegrees() <= 0) {
+    // m_moduleStates[i].angle =
+    // Rotation2d.fromDegrees(m_moduleStates[i].angle.getDegrees() * -1);
+    // } else {
+    // m_moduleStates[i].angle = Rotation2d.fromDegrees(360 -
+    // m_moduleStates[i].angle.getDegrees());
+    // }
+    // }
 
-    m_frontRight.setAnglePID(m_moduleStates[0].angle.getDegrees());
-    m_frontLeft.setAnglePID(m_moduleStates[1].angle.getDegrees());
-    m_backRight.setAnglePID(m_moduleStates[2].angle.getDegrees());
-    m_backLeft.setAnglePID(m_moduleStates[3].angle.getDegrees());
+    // m_frontRight.setAnglePID(m_moduleStates[0].angle.getDegrees());
+    // m_frontLeft.setAnglePID(m_moduleStates[1].angle.getDegrees());
+    // m_backRight.setAnglePID(m_moduleStates[2].angle.getDegrees());
+    // m_backLeft.setAnglePID(m_moduleStates[3].angle.getDegrees());
 
-    m_frontRight.setSpeedPID(m_moduleStates[0].speedMetersPerSecond, feedForwardFR);
-    m_frontLeft.setSpeedPID(m_moduleStates[1].speedMetersPerSecond, feedForwardFL);
-    m_backRight.setSpeedPID(m_moduleStates[2].speedMetersPerSecond, feedForwardBR);
-    m_backLeft.setSpeedPID(m_moduleStates[3].speedMetersPerSecond, feedForwardBL);
+    // m_frontRight.setSpeedPID(m_moduleStates[0].speedMetersPerSecond,
+    // feedForwardFR);
+    // m_frontLeft.setSpeedPID(m_moduleStates[1].speedMetersPerSecond,
+    // feedForwardFL);
+    // m_backRight.setSpeedPID(m_moduleStates[2].speedMetersPerSecond,
+    // feedForwardBR);
+    // m_backLeft.setSpeedPID(m_moduleStates[3].speedMetersPerSecond,
+    // feedForwardBL);
   }
 
   public void setRobotYaw(double angle) {
@@ -276,10 +280,10 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void ResetModules() {
-    m_frontRight.initializeMotors();
-    m_frontLeft.initializeMotors();
-    m_backRight.initializeMotors();
-    m_backLeft.initializeMotors();
+    // m_frontRight.initializeMotors();
+    // m_frontLeft.initializeMotors();
+    // m_backRight.initializeMotors();
+    // m_backLeft.initializeMotors();
   }
 
   public Pose2d getPose() {
@@ -292,9 +296,10 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
-    return m_kinematics.toChassisSpeeds(m_frontRight.getModuleState(),
-        m_frontLeft.getModuleState(),
-        m_backRight.getModuleState(), m_backLeft.getModuleState());
+    // return m_kinematics.toChassisSpeeds(m_frontRight.getModuleState(),
+    // m_frontLeft.getModuleState(),
+    // m_backRight.getModuleState(), m_backLeft.getModuleState());
+    return null;
   }
 
   /**
@@ -455,18 +460,21 @@ public class SwerveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-    m_modulePositions[0] = m_frontRight.getModulePosition();
-    m_modulePositions[1] = m_frontLeft.getModulePosition();
-    m_modulePositions[2] = m_backRight.getModulePosition();
-    m_modulePositions[3] = m_backLeft.getModulePosition();
+    // m_modulePositions[0] = m_frontRight.getModulePosition();
+    // m_modulePositions[1] = m_frontLeft.getModulePosition();
+    // m_modulePositions[2] = m_backRight.getModulePosition();
+    // m_modulePositions[3] = m_backLeft.getModulePosition();
 
-    m_currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()), m_modulePositions);
+    // m_currentPose = m_swerveOdometry.update(Rotation2d.fromDegrees(getYaw()),
+    // m_modulePositions);
 
-    m_currentPoseL = m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()), m_modulePositions);
-    m_speakerToRobot = UpdateSpeakerToRobot(m_currentPoseL);
+    // m_currentPoseL =
+    // m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()),
+    // m_modulePositions);
+    // m_speakerToRobot = UpdateSpeakerToRobot(m_currentPoseL);
 
-    m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
-    m_field.getObject("with limelight").setPose(m_currentPoseL);
+    // m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
+    // m_field.getObject("with limelight").setPose(m_currentPoseL);
 
   }
 }
