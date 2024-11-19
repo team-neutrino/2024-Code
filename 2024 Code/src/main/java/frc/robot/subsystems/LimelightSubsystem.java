@@ -68,7 +68,9 @@ public class LimelightSubsystem extends SubsystemBase {
     Pose2d botPose = new Pose2d(getBotPose()[0], getBotPose()[1], Rotation2d.fromDegrees(yaw));
 
     if (!DriverStation.isAutonomousEnabled() || m_forceUpdate) {
-      updatePoseEstimatorWithVisionBotPose(swerve.getSwervePoseEstimator(), botPose);
+      // updatePoseEstimatorWithVisionBotPose(swerve.getSwervePoseEstimator(),
+      // botPose);
+      swerve.addVisionMeasurement(botPose, Timer.getFPGATimestamp());
     }
   }
 
