@@ -32,8 +32,8 @@ import frc.robot.util.PolarCoord;
 import frc.robot.util.SubsystemContainer;
 
 public class SwerveSubsystem extends SubsystemBase {
-  SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(null, null, null, null);
-  public Pigeon2 m_pigeon2 = new Pigeon2(0, "3928Allen");
+  // SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics();
+  // public Pigeon2 m_pigeon2 = new Pigeon2(0, "3928Allen");
   private SwerveModuleState[] m_moduleStates;
 
   // private final SwerveModule.MotorCfg m_frontRightSpeed = new
@@ -90,16 +90,18 @@ public class SwerveSubsystem extends SubsystemBase {
   private States m_state;
 
   public SwerveSubsystem() {
-    m_modulePositions[0] = new SwerveModulePosition();
-    m_modulePositions[1] = new SwerveModulePosition();
-    m_modulePositions[2] = new SwerveModulePosition();
-    m_modulePositions[3] = new SwerveModulePosition();
+    // m_modulePositions[0] = new SwerveModulePosition();
+    // m_modulePositions[1] = new SwerveModulePosition();
+    // m_modulePositions[2] = new SwerveModulePosition();
+    // m_modulePositions[3] = new SwerveModulePosition();
 
-    m_swerveOdometry = new SwerveDriveOdometry(m_kinematics, Rotation2d.fromDegrees(getYaw()),
-        m_modulePositions);
+    // m_swerveOdometry = new SwerveDriveOdometry(m_kinematics,
+    // Rotation2d.fromDegrees(getYaw()),
+    // m_modulePositions);
 
-    m_swervePoseEstimator = new SwerveDrivePoseEstimator(m_kinematics, Rotation2d.fromDegrees(getYaw()),
-        m_modulePositions, new Pose2d());
+    // m_swervePoseEstimator = new SwerveDrivePoseEstimator(m_kinematics,
+    // Rotation2d.fromDegrees(getYaw()),
+    // m_modulePositions, new Pose2d());
 
     m_angleController.enableContinuousInput(-180, 180);
 
@@ -161,7 +163,7 @@ public class SwerveSubsystem extends SubsystemBase {
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
     } else if (m_timer.get() >= 0.2 && !m_referenceSet) {
-      m_referenceAngle = getYaw();
+      m_referenceAngle = SubsystemContainer.swerveSubsystem2.getYaw2();
       m_referenceSet = true;
       m_timer.stop();
       m_timer.reset();
@@ -169,20 +171,22 @@ public class SwerveSubsystem extends SubsystemBase {
       m_referenceSet = false;
 
     } else if (omega == 0 && m_referenceSet) {
-      omega += m_angleController.calculate(getYaw(), m_referenceAngle);
+      omega += m_angleController.calculate(SubsystemContainer.swerveSubsystem2.getYaw2(), m_referenceAngle);
     }
 
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(vx, vy, omega);
-    ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
+    ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds,
+        Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem2.getYaw2()));
 
     robotRelativeSwerve(robotSpeeds);
   }
 
   public void autonRotateSwerve(double reference) {
-    double omega = m_angleController.calculate(getYaw(), reference);
+    double omega = m_angleController.calculate(SubsystemContainer.swerveSubsystem2.getYaw2(), reference);
 
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(0, 0, omega);
-    ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds, Rotation2d.fromDegrees(getYaw()));
+    ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds,
+        Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem2.getYaw2()));
 
     robotRelativeSwerve(robotSpeeds);
   }
@@ -241,34 +245,36 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_referenceAngle;
   }
 
-  public double getYaw() {
-    return m_pigeon2.getYaw().getValue();
-  }
+  // public double getYaw() {
+  // return m_pigeon2.getYaw().getValue();
+  // }
 
   public double getAngularVelocity() {
-    return m_pigeon2.getRate();
+    return 0;
   }
 
-  public void resetPigeon2() {
-    m_pigeon2.reset();
-    m_referenceAngle = 0;
+  // public void resetPigeon2() {
+  // m_pigeon2.reset();
+  // m_referenceAngle = 0;
 
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          m_modulePositions,
-          new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          m_modulePositions,
-          new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-    } else {
-      m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          m_modulePositions, new Pose2d());
-      m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
-          m_modulePositions, new Pose2d());
-    }
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, new Pose2d());
-    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, new Pose2d());
-  }
+  // if (SubsystemContainer.alliance.isRedAlliance()) {
+  // m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
+  // m_modulePositions,
+  // new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+  // m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
+  // m_modulePositions,
+  // new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+  // } else {
+  // m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
+  // m_modulePositions, new Pose2d());
+  // m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
+  // m_modulePositions, new Pose2d());
+  // }
+  // m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
+  // m_modulePositions, new Pose2d());
+  // m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
+  // m_modulePositions, new Pose2d());
+  // }
 
   public void ResetModules() {
     // m_frontRight.initializeMotors();
@@ -281,10 +287,12 @@ public class SwerveSubsystem extends SubsystemBase {
     return m_swervePoseEstimator.getEstimatedPosition();
   }
 
-  public void resetPose(Pose2d pose) {
-    m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, pose);
-    m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()), m_modulePositions, pose);
-  }
+  // public void resetPose(Pose2d pose) {
+  // m_swerveOdometry.resetPosition(Rotation2d.fromDegrees(getYaw()),
+  // m_modulePositions, pose);
+  // m_swervePoseEstimator.resetPosition(Rotation2d.fromDegrees(getYaw()),
+  // m_modulePositions, pose);
+  // }
 
   public ChassisSpeeds getRobotRelativeSpeeds() {
     // return m_kinematics.toChassisSpeeds(m_frontRight.getModuleState(),
@@ -394,7 +402,6 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void ResetOdometryToPose(double x, double y) {
-    resetPose(new Pose2d(x, y, m_currentPoseL.getRotation()));
   }
 
   public PolarCoord GetSpeakerToRobot() {
@@ -403,7 +410,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public static double calculateLimelightOffsetAngle() {
 
-    double currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
+    double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw2();
     double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
     double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
     if (SubsystemContainer.alliance.isRedAlliance()) {
@@ -429,7 +436,8 @@ public class SwerveSubsystem extends SubsystemBase {
    * @return
    */
   public boolean AutoAligned() {
-    return Math.abs(SwerveSubsystem.calculateLimelightOffsetAngle() - getYaw()) < ShooterConstants.AUTO_ALIGN_ERROR;
+    return Math.abs(SwerveSubsystem.calculateLimelightOffsetAngle()
+        - SubsystemContainer.swerveSubsystem2.getYaw2()) < ShooterConstants.AUTO_ALIGN_ERROR;
   }
 
   public boolean withinShootingDistance() {

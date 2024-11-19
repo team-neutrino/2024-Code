@@ -57,18 +57,18 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
-    SwerveSubsystem swerve = SubsystemContainer.swerveSubsystem;
+    CommandSwerveDrivetrain swerve = SubsystemContainer.swerveSubsystem2;
     limelight.getEntry("ledMode").setNumber(1);
     limelight.getEntry("robot_orientation_set").setNumberArray(
         new Double[] {
-            swerve.m_swervePoseEstimator.getEstimatedPosition().getRotation().getDegrees(),
+            swerve.getSwervePoseEstimator().getEstimatedPosition().getRotation().getDegrees(),
             0.0, 0.0, 0.0, 0.0, 0.0 });
 
-    double yaw = swerve.getYaw() + (SubsystemContainer.alliance.isRedAlliance() ? 180 : 0);
+    double yaw = swerve.getYaw2() + (SubsystemContainer.alliance.isRedAlliance() ? 180 : 0);
     Pose2d botPose = new Pose2d(getBotPose()[0], getBotPose()[1], Rotation2d.fromDegrees(yaw));
 
     if (!DriverStation.isAutonomousEnabled() || m_forceUpdate) {
-      updatePoseEstimatorWithVisionBotPose(swerve.m_swervePoseEstimator, botPose);
+      updatePoseEstimatorWithVisionBotPose(swerve.getSwervePoseEstimator(), botPose);
     }
   }
 
@@ -118,13 +118,15 @@ public class LimelightSubsystem extends SubsystemBase {
    */
   public void updatePoseEstimatorWithVisionBotPose(SwerveDrivePoseEstimator poseEstimator, Pose2d limelightPose) {
     // invalid limelight data
-    if (limelightPose.getX() == 0.0) {
-      return;
-    }
-    if (!(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) > 720) && getTv()) {
-      poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 0));
-      poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
-    }
+    // if (limelightPose.getX() == 0.0) {
+    // return;
+    // }
+    // if (!(Math.abs(SubsystemContainer.swerveSubsystem.getAngularVelocity()) >
+    // 720) && getTv()) {
+    // poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.6, .6, 0));
+    // poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() -
+    // (pose[6] / 1000.0));
+    // }
   }
 
   public void resetOdometryToLimelightPose() {
