@@ -27,20 +27,9 @@ public final class Constants {
     public static final double ANGLE_P = 0.01;
     public static final double SPEED_P = 0.01;
 
-    public static final Translation2d FRONT_RIGHT_COORD = new Translation2d(0.339725, -0.3175);
-    public static final Translation2d FRONT_LEFT_COORD = new Translation2d(0.339725, 0.3175);
-    public static final Translation2d BACK_RIGHT_COORD = new Translation2d(-0.339725, -0.3175);
-    public static final Translation2d BACK_LEFT_COORD = new Translation2d(-0.339725, 0.3175);
-    public static final double DRIVEBASE_RADIUS = 0.465074;
-
     public static final double MAX_CHASSIS_LINEAR_SPEED = 4.0;
     public static final double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static final double MAX_MODULE_LINEAR_SPEED = 7;
-
-    public static final double FLA_OFFSET = 285;
-    public static final double FRA_OFFSET = 273;
-    public static final double BLA_OFFSET = 1;
-    public static final double BRA_OFFSET = 127.12;
 
     public static final double ks = 0.15;
     public static final double kv = 2.6;
