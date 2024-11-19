@@ -47,7 +47,9 @@ public class AutoAlignCommand extends Command {
     @Override
     public void initialize() {
         // SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
-        SubsystemContainer.limelightSubsystem.updateOdometryWithLimelightPose2();
+        if (SubsystemContainer.limelightSubsystem.getTv()) {
+            SubsystemContainer.limelightSubsystem.updateOdometryWithLimelightPose2();
+        }
         if (SubsystemContainer.alliance.isRedAlliance()) {
             priorityTag = AprilTagConstants.RED_ALLIANCE_IDS.SPEAKER_ID;
         } else {
@@ -59,6 +61,7 @@ public class AutoAlignCommand extends Command {
     @Override
     public void execute() {
         if (SubsystemContainer.limelightSubsystem.getTv()) {
+            System.out.println("if statement is running");
             SubsystemContainer.swerveSubsystem2.setControl(drive1
                     .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
                     .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
