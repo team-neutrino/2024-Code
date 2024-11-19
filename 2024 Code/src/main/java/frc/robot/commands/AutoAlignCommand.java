@@ -63,7 +63,7 @@ public class AutoAlignCommand extends Command {
                     .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
                     .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
                     .withTargetDirection(
-                            new Rotation2d(SubsystemContainer.limelightSubsystem.getTagAngle())));
+                            new Rotation2d(SwerveSubsystem.calculateLimelightOffsetAngle())));
         } else {
             SubsystemContainer.swerveSubsystem2.setControl(drive2
                     .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
