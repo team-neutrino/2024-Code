@@ -11,7 +11,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class Intake extends IntakeSubsystem {
 
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    BooleanTopic beambreakStatus_topic = inst.getBooleanTopic("Intake/beam_break");
+    BooleanTopic beambreakStatus_topic = inst.getBooleanTopic("/Intake/beam_break");
     BooleanTopic indexBeamBreakStatus_topic = inst.getBooleanTopic("Index/beam_break");
     DoubleTopic indexSpeed_topic = inst.getDoubleTopic("Index/target_speed");
 
