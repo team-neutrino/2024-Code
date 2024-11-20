@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
+import frc.robot.util.SwerveRequestStash;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.FieldCentric;
@@ -22,14 +23,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
-
-    private final FieldCentricFacingAngle drive1 = new SwerveRequest.FieldCentricFacingAngle()
-            .withDeadband(SwerveConstants.MaxSpeed * 0.1).withRotationalDeadband(SwerveConstants.MaxAngularRate * 0.1)
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-
-    private final FieldCentric drive2 = new SwerveRequest.FieldCentric()
-            .withDeadband(SwerveConstants.MaxSpeed * 0.1).withRotationalDeadband(SwerveConstants.MaxAngularRate * 0.1)
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     /**
      * Gives the current yaw (test)
@@ -62,13 +55,13 @@ public class AutoAlignCommand extends Command {
     public void execute() {
         if (SubsystemContainer.limelightSubsystem.getTv()) {
             System.out.println("if statement is running");
-            SubsystemContainer.swerveSubsystem2.setControl(drive1
+            SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive1
                     .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
                     .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
                     .withTargetDirection(
                             new Rotation2d(SwerveSubsystem.calculateLimelightOffsetAngle())));
         } else {
-            SubsystemContainer.swerveSubsystem2.setControl(drive2
+            SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
                     .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
                     .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
                     .withRotationalRate(-m_xboxController.getRightX() * SwerveConstants.MaxAngularRate));
