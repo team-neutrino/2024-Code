@@ -7,15 +7,22 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.Constants.SwerveConstants;
 
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements
@@ -39,6 +46,24 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         if (Utils.isSimulation()) {
             startSimThread();
         }
+        AutoBuilder.configureHolonomic(this::getPose,
+                this::resetPose,
+                this::getChassisSpeeds,
+                this::robotRelativeSwerve,
+                new HolonomicPathFollowerConfig(
+                        new PIDConstants(5, 0.0, 0.0),
+                        new PIDConstants(3.0, 0.0, 0.0),
+                        SwerveConstants.MAX_MODULE_LINEAR_SPEED,
+                        SwerveConstants.DRIVEBASE_RADIUS,
+                        new ReplanningConfig()),
+                () -> {
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
+                this);
     }
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
@@ -69,6 +94,19 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public double getYaw2() {
         return m_yawGetter.getValueAsDouble();
+    }
+
+    public Pose2d getPose() {
+        return this.getState().Pose;
+    }
+
+    public ChassisSpeeds getChassisSpeeds() {
+        return m_kinematics.toChassisSpeeds(m_moduleStates);
+    }
+
+    public void resetPose(Pose2d pose) {
+        m_odometry.resetPosition(Rotation2d.fromDegrees(getYaw2()),
+                m_modulePositions, pose);
     }
 
     @Override
