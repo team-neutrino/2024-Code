@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -40,6 +41,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean hasAppliedOperatorPerspective = false;
 
+    private SwerveRequest.ApplyChassisSpeeds thing = new SwerveRequest.ApplyChassisSpeeds()
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
             SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
@@ -49,7 +53,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         AutoBuilder.configureHolonomic(this::getPose,
                 this::resetPose,
                 this::getChassisSpeeds,
-                this::robotRelativeSwerve,
+                thing::withSpeeds,
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(5, 0.0, 0.0),
                         new PIDConstants(3.0, 0.0, 0.0),
