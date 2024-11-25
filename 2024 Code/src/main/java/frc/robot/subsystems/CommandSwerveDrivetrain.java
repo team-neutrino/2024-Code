@@ -53,7 +53,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         AutoBuilder.configureHolonomic(this::getPose,
                 this::resetPose,
                 this::getChassisSpeeds,
-                thing::withSpeeds,
+                this::setControlAndApplyChassis,
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(5, 0.0, 0.0),
                         new PIDConstants(3.0, 0.0, 0.0),
@@ -75,6 +75,28 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         if (Utils.isSimulation()) {
             startSimThread();
         }
+        AutoBuilder.configureHolonomic(this::getPose,
+                this::resetPose,
+                this::getChassisSpeeds,
+                this::setControlAndApplyChassis,
+                new HolonomicPathFollowerConfig(
+                        new PIDConstants(5, 0.0, 0.0),
+                        new PIDConstants(3.0, 0.0, 0.0),
+                        SwerveConstants.MAX_MODULE_LINEAR_SPEED,
+                        SwerveConstants.DRIVEBASE_RADIUS,
+                        new ReplanningConfig()),
+                () -> {
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
+                this);
+    }
+
+    private void setControlAndApplyChassis(ChassisSpeeds speeds) {
+        setControl(thing.withSpeeds(speeds));
     }
 
     private void startSimThread() {
