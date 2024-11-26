@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
-      "y": 5.55
+      "x": 2.0,
+      "y": 2.0
     },
     "rotation": 0
   },
@@ -12,65 +12,14 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "SingleSubwooferShot"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "test path"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "AutoAlignForever"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonIntakeCommand"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonShoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAlignForever"
-                }
-              }
-            ]
+            "pathName": "Test"
           }
         }
       ]
     }
   },
-  "folder": "3 Note",
+  "folder": "0 Note",
   "choreoAuto": false
 }

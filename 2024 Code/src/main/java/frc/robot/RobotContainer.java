@@ -5,8 +5,6 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -152,7 +150,7 @@ public class RobotContainer {
         public Command getAutonomousCommand() {
                 Command auto;
                 try {
-                        auto = new PathPlannerAuto("4 Note AMP");
+                        auto = new PathPlannerAuto("test");
                 } catch (Exception e) {
                         auto = new PathPlannerAuto("Nothing");
                 }
