@@ -38,7 +38,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean hasAppliedOperatorPerspective = false;
 
-    private SwerveRequest.ApplyChassisSpeeds thing = new SwerveRequest.ApplyChassisSpeeds()
+    private SwerveRequest.ApplyChassisSpeeds chassisSwerveRequest = new SwerveRequest.ApplyChassisSpeeds()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
@@ -47,24 +47,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         if (Utils.isSimulation()) {
             startSimThread();
         }
-        AutoBuilder.configureHolonomic(this::getPose,
-                this::resetPose,
-                this::getChassisSpeeds,
-                this::setControlAndApplyChassis,
-                new HolonomicPathFollowerConfig(
-                        new PIDConstants(5, 0.0, 0.0),
-                        new PIDConstants(3.0, 0.0, 0.0),
-                        SwerveConstants.MAX_MODULE_LINEAR_SPEED,
-                        SwerveConstants.DRIVEBASE_RADIUS,
-                        new ReplanningConfig()),
-                () -> {
-                    var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
-                },
-                this);
+        configurePathPlanner();
     }
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
@@ -72,6 +55,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         if (Utils.isSimulation()) {
             startSimThread();
         }
+        configurePathPlanner();
+    }
+
+    private void configurePathPlanner() {
         AutoBuilder.configureHolonomic(this::getPose,
                 this::resetPose,
                 this::getChassisSpeeds,
@@ -93,7 +80,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     }
 
     private void setControlAndApplyChassis(ChassisSpeeds speeds) {
-        setControl(thing.withSpeeds(speeds));
+        setControl(chassisSwerveRequest.withSpeeds(speeds));
     }
 
     private void startSimThread() {
@@ -120,7 +107,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     }
 
     public Pose2d getPose() {
-        return this.getState().Pose;
+        return getState().Pose;
     }
 
     public ChassisSpeeds getChassisSpeeds() {
