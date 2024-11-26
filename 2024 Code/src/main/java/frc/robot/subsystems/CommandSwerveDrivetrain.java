@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.util.PolarCoord;
+import frc.robot.util.SubsystemContainer;
 
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements
@@ -30,6 +32,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
+    private PolarCoord m_speakerToRobot;
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private final Rotation2d BlueAlliancePerspectiveRotation = Rotation2d.fromDegrees(0);
@@ -65,7 +68,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                 this::setControlAndApplyChassis,
                 new HolonomicPathFollowerConfig(
                         new PIDConstants(5, 0.0, 0.0),
-                        new PIDConstants(3.0, 0.0, 0.0),
+                        new PIDConstants(1.7, 0.0, 0.0),
                         SwerveConstants.MAX_MODULE_LINEAR_SPEED,
                         SwerveConstants.DRIVEBASE_RADIUS,
                         new ReplanningConfig()),
@@ -110,6 +113,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         return getState().Pose;
     }
 
+    public PolarCoord getSpeakerToRobot() {
+        return m_speakerToRobot;
+    }
+
     public ChassisSpeeds getChassisSpeeds() {
         return m_kinematics.toChassisSpeeds(m_moduleStates);
     }
@@ -121,6 +128,26 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public void resetPigeon2() {
         getPigeon2().reset();
+    }
+
+    private PolarCoord UpdateSpeakerToRobot(Pose2d pose) {
+        double xComp = 0;
+        double yComp = 0;
+        double radius = 0.0;
+        double theta = 0.0;
+        if (SubsystemContainer.alliance.isRedAlliance()) {
+            xComp = Math.abs(pose.getX() - SwerveConstants.SPEAKER_RED_SIDE.getX());
+            yComp = Math.abs(pose.getY() - SwerveConstants.SPEAKER_RED_SIDE.getY());
+            radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));
+            theta = Math.atan(yComp / xComp);
+        } else {
+            xComp = Math.abs(pose.getX());
+            yComp = Math.abs(pose.getY() - SwerveConstants.SPEAKER_BLUE_SIDE.getY());
+            radius = Math.sqrt(Math.pow(xComp, 2) + Math.pow(yComp, 2));
+            theta = Math.atan(yComp / xComp);
+        }
+
+        return new PolarCoord(radius, theta);
     }
 
     @Override
@@ -142,6 +169,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
          * This ensures driving behavior doesn't change until an explicit disable event
          * occurs during testing
          */
+
+        m_speakerToRobot = UpdateSpeakerToRobot(getPose());
+
         if (!hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
             DriverStation.getAlliance().ifPresent((allianceColor) -> {
                 this.setOperatorPerspectiveForward(

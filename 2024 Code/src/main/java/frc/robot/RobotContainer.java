@@ -20,6 +20,7 @@ import frc.robot.commands.GamePieceCommands.IntakeReverseCommand;
 import frc.robot.commands.GamePieceCommands.MagicAmpChargeCommand;
 import frc.robot.commands.GamePieceCommands.MagicShootCommand;
 import frc.robot.commands.GamePieceCommands.MagicSpeakerChargeCommand;
+import frc.robot.commands.GamePieceCommands.NoLLAutonShooterCommand;
 import frc.robot.commands.GamePieceCommands.ShootManualCommand;
 import frc.robot.commands.GamePieceCommands.ShootShuttleCommand;
 import frc.robot.commands.GamePieceCommands.ShuttleCloseCommand;
@@ -96,7 +97,7 @@ public class RobotContainer {
                                 new AutonIntakeCommand(Constants.ArmConstants.INTAKE_POSE,
                                                 Constants.ShooterSpeeds.INITIAL_SHOOTER_SPEED));
                 NamedCommands.registerCommand("AutonShoot",
-                                new AutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED,
+                                new NoLLAutonShooterCommand(Constants.ShooterSpeeds.SHOOTING_SPEED,
                                                 SubsystemContainer.m_angleCalculate));
                 NamedCommands.registerCommand("AutoAlignForever", new AutoAlignForeverCommand());
                 NamedCommands.registerCommand("SingleSubwooferShot",
@@ -147,7 +148,7 @@ public class RobotContainer {
         public Command getAutonomousCommand() {
                 Command auto;
                 try {
-                        auto = new PathPlannerAuto("test");
+                        auto = new PathPlannerAuto("4 Note Amp No LL");
                 } catch (Exception e) {
                         auto = new PathPlannerAuto("Nothing");
                 }

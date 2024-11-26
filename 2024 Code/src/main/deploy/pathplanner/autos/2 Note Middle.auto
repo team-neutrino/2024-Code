@@ -12,6 +12,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "SingleSubwooferShot"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
@@ -22,7 +28,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "2 Note Source I"
+                        "pathName": "2 Note Middle I"
                       }
                     },
                     {
@@ -46,7 +52,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2 Note Source II"
+            "pathName": "2 Note Middle II"
           }
         },
         {
