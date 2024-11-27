@@ -30,6 +30,7 @@ public final class Constants {
     public static final double MAX_CHASSIS_LINEAR_SPEED = 4.0;
     public static final double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static final double MAX_MODULE_LINEAR_SPEED = 7;
+    public static final double DRIVEBASE_RADIUS = 0.465074;
 
     public static final double ks = 0.15;
     public static final double kv = 2.6;
