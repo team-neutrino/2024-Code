@@ -38,7 +38,7 @@ public class KrakenSwerveDefaultCommand extends Command {
   public void execute() {
     // SubsystemContainer.inputListener.updateCursor();
 
-    SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
+    SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.driveFacingAngle
         .withVelocityX(SubsystemContainer.inputListener.isInputActive(KeyEvent.VK_A) ? SwerveConstants.MaxSpeed
             : SubsystemContainer.inputListener.isInputActive(KeyEvent.VK_D) ? -SwerveConstants.MaxSpeed : 0)
         .withVelocityY(SubsystemContainer.inputListener.isInputActive(KeyEvent.VK_W) ? -SwerveConstants.MaxSpeed

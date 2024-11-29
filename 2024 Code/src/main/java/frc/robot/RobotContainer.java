@@ -36,6 +36,7 @@ import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShuttleAutoAlignCommand;
+import frc.robot.util.RobotInputListener;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -64,7 +65,7 @@ public class RobotContainer {
 
         public RobotContainer() {
                 configureBindings();
-
+                SubsystemContainer.inputListener = new RobotInputListener();
                 DataLogManager.start();
 
                 DriverStation.startDataLog(DataLogManager.getLog());
