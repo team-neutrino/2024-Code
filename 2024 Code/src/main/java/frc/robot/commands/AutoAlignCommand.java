@@ -54,12 +54,11 @@ public class AutoAlignCommand extends Command {
     @Override
     public void execute() {
         if (SubsystemContainer.limelightSubsystem.getTv()) {
-            System.out.println("if statement is running");
             SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive1
                     .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
                     .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
                     .withTargetDirection(
-                            new Rotation2d(SwerveSubsystem.calculateLimelightOffsetAngle())));
+                            new Rotation2d(SubsystemContainer.limelightSubsystem.getRobotToTagDifference())));
         } else {
             SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
                     .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)

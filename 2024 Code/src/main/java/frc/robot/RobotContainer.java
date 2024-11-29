@@ -5,6 +5,8 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -35,6 +37,8 @@ import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShuttleAutoAlignCommand;
 import frc.robot.util.SubsystemContainer;
+import frc.robot.util.SwerveRequestStash;
+
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -69,6 +73,7 @@ public class RobotContainer {
         }
 
         private void configureBindings() {
+                SwerveRequestStash.configurePIDControllers();
                 // set default commands
                 SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
                 SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_driverController));
@@ -87,7 +92,8 @@ public class RobotContainer {
 
                 if (Utils.isSimulation()) {
                         SubsystemContainer.swerveSubsystem2
-                                        .seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+                                        .seedFieldRelative(new Pose2d(new Translation2d(),
+                                                        Rotation2d.fromDegrees(90)));
                 }
                 SubsystemContainer.swerveSubsystem2.registerTelemetry(logger::telemeterize);
 
