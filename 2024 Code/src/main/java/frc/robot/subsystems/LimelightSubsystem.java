@@ -106,7 +106,7 @@ public class LimelightSubsystem extends SubsystemBase {
     m_forceUpdate = force;
   }
 
-  public double getTagAngle() {
+  public double getRobotToTagDifference() {
     double limeLightYaw = 0;
     if (SubsystemContainer.alliance.isRedAlliance()) {
       if (pose[5] > 0) {
@@ -117,11 +117,12 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw2();
-    // -29.8 to 29.8 degrees possible range for tx
     double offsetYaw = getOffsetAngleFromTag();
 
-    // return currentYaw - offsetYaw + (limeLightYaw * 0.06);
-    return currentYaw - offsetYaw;
+    System.out.println(currentYaw - offsetYaw);
+
+    // return Math.toRadians(currentYaw - offsetYaw + (limeLightYaw * 0.06));
+    return Math.toRadians(currentYaw - offsetYaw);
   }
 
   /**
