@@ -176,14 +176,14 @@ public final class Constants {
   }
 
   public final class ShooterSpeeds {
-    public static final double SHOOTING_SPEED = 4000;
+    public static final double SHOOTING_SPEED = 2000;
     public static final double SHUTTLE_SPEED = 400;
     public static final double SHUTTLE_SPEED_CONSTANT = 3200;
-    public static final double THRESHOLD_SHOOTING_SPEED = 3800;
+    public static final double THRESHOLD_SHOOTING_SPEED = 800;
     public static final double SHUTTLE_CLOSE_SPEED = 2700;
     public static final double AMP_SPEED = 2500;
     public static final double INITIAL_SHOOTER_SPEED = 0.6 * 12;
-    public static final double LOW_SPEED_THRESHOLD = 2800;
+    public static final double LOW_SPEED_THRESHOLD = 800;
     public static final double SPEED_THRESHOLD_SHUTTLE = 3000;
     public static final double MAX_SHUTTLE_SPEED = 4000;
     public static final double MIN_SHUTTLE_SPEED = 2500;

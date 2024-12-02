@@ -9,8 +9,6 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.SwerveDefaultCommand;
-import frc.robot.commands.GamePieceCommands.ArmClimbCommandDown;
-import frc.robot.commands.GamePieceCommands.ArmClimbCommandUp;
 import frc.robot.commands.GamePieceCommands.ArmManualCommand;
 import frc.robot.commands.GamePieceCommands.AutonIntakeCommand;
 import frc.robot.commands.GamePieceCommands.AutonShooterCommand;
@@ -19,21 +17,14 @@ import frc.robot.commands.GamePieceCommands.IntakeCommand;
 import frc.robot.commands.GamePieceCommands.IntakeReverseCommand;
 import frc.robot.commands.GamePieceCommands.MagicAmpChargeCommand;
 import frc.robot.commands.GamePieceCommands.MagicShootCommand;
-import frc.robot.commands.GamePieceCommands.MagicSpeakerChargeCommand;
 import frc.robot.commands.GamePieceCommands.ShootManualCommand;
-import frc.robot.commands.GamePieceCommands.ShootShuttleCommand;
-import frc.robot.commands.GamePieceCommands.ShuttleCloseCommand;
 import frc.robot.commands.ArmDefaultCommand;
-import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.AutoAlignForeverCommand;
 import frc.robot.commands.IntakeDefaultCommand;
-import frc.robot.commands.KrakenSwerveBrakeCommand;
 import frc.robot.commands.KrakenSwerveDefaultCommand;
-import frc.robot.commands.KrakenSwervePointCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
-import frc.robot.commands.ShuttleAutoAlignCommand;
 import frc.robot.util.SubsystemContainer;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -79,9 +70,6 @@ public class RobotContainer {
                 SubsystemContainer.swerveSubsystem2
                                 .setDefaultCommand(new KrakenSwerveDefaultCommand(m_driverController));
 
-                m_driverController.a().whileTrue(new KrakenSwerveBrakeCommand());
-                m_driverController.b().whileTrue(new KrakenSwervePointCommand(m_driverController));
-
                 // reset the field-centric heading on left bumper press
                 m_driverController.start().onTrue(
                                 SubsystemContainer.swerveSubsystem2
@@ -108,7 +96,6 @@ public class RobotContainer {
 
                 // Intake buttons
                 m_driverController.leftBumper().whileTrue(new IntakeReverseCommand());
-                m_driverController.rightTrigger().whileTrue(new ShuttleCloseCommand());
                 m_driverController.leftTrigger().whileTrue(new IntakeCommand());
 
                 // shooter buttons
@@ -117,40 +104,24 @@ public class RobotContainer {
                                 .whileTrue(new SequentialCommandGroup(new MagicAmpChargeCommand(m_buttonsController),
                                                 new MagicShootCommand()));
 
-                m_buttonsController.y().whileTrue(new SequentialCommandGroup(
-                                new MagicSpeakerChargeCommand(m_buttonsController),
-                                new MagicShootCommand()));
-
                 m_buttonsController.x().whileTrue(new SequentialCommandGroup(
                                 new ShootManualCommand(Constants.ArmConstants.SUBWOOFER_ANGLE,
                                                 Constants.ShooterSpeeds.SHOOTING_SPEED,
                                                 Constants.ShooterSpeeds.LOW_SPEED_THRESHOLD, m_buttonsController),
                                 new MagicShootCommand()));
 
-                m_buttonsController.b()
-                                .whileTrue(new SequentialCommandGroup(
-                                                new ShootShuttleCommand(Constants.ArmConstants.SHUTTLE_ANGLE,
-                                                                m_buttonsController),
-                                                new MagicShootCommand()));
-
                 m_buttonsController.povDown()
                                 .onTrue(new InstantCommand(
                                                 () -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
 
-                m_driverController.rightBumper().whileTrue(new AutoAlignCommand(m_driverController));
-
-                m_driverController.y().whileTrue(new ShuttleAutoAlignCommand(m_buttonsController));
-
                 // arm buttons
                 m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));
-                m_buttonsController.back().toggleOnTrue(new ArmClimbCommandDown());
-                m_buttonsController.start().toggleOnTrue(new ArmClimbCommandUp());
         }
 
         public Command getAutonomousCommand() {
                 Command auto;
                 try {
-                        auto = new PathPlannerAuto("test");
+                        auto = new PathPlannerAuto("Nothing");
                 } catch (Exception e) {
                         auto = new PathPlannerAuto("Nothing");
                 }
