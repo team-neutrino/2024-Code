@@ -31,7 +31,6 @@ import frc.robot.util.SubsystemContainer;
 
 public class SwerveSubsystem extends SubsystemBase {
   // SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics();
-  // public Pigeon2 m_pigeon2 = new Pigeon2(0, "3928Allen");
   private SwerveModuleState[] m_moduleStates;
 
   // private final SwerveModule.MotorCfg m_frontRightSpeed = new
@@ -72,8 +71,6 @@ public class SwerveSubsystem extends SubsystemBase {
   private boolean m_referenceSet = false;
 
   private SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
-
-  // private Field2d m_field = new Field2d();
   private Pose2d m_currentPose = new Pose2d();
   private Pose2d m_currentPoseL = new Pose2d();
   private PolarCoord m_speakerToRobot = new PolarCoord();
@@ -102,9 +99,6 @@ public class SwerveSubsystem extends SubsystemBase {
     // m_modulePositions, new Pose2d());
 
     m_angleController.enableContinuousInput(-180, 180);
-
-    // SmartDashboard.putData("Field", m_field);
-    // m_field.getRobotObject().close();
 
     // AutoBuilder.configureHolonomic(
     // this::getPose,
@@ -469,9 +463,5 @@ public class SwerveSubsystem extends SubsystemBase {
     // m_swervePoseEstimator.update(Rotation2d.fromDegrees(getYaw()),
     // m_modulePositions);
     // m_speakerToRobot = UpdateSpeakerToRobot(m_currentPoseL);
-
-    // m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
-    // m_field.getObject("with limelight").setPose(m_currentPoseL);
-
   }
 }
