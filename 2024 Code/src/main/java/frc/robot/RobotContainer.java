@@ -83,10 +83,13 @@ public class RobotContainer {
                 m_driverController.b().whileTrue(new KrakenSwervePointCommand(m_driverController));
 
                 // reset the field-centric heading on left bumper press
-                m_driverController.start().onTrue(
-                                SubsystemContainer.swerveSubsystem2
-                                                .runOnce(() -> SubsystemContainer.swerveSubsystem2
-                                                                .seedFieldRelative()));
+                // m_driverController.start().onTrue(
+                // SubsystemContainer.swerveSubsystem2
+                // .runOnce(() -> SubsystemContainer.swerveSubsystem2
+                // .seedFieldRelative()));
+
+                m_driverController.back().onTrue(SubsystemContainer.swerveSubsystem2
+                                .runOnce(() -> SubsystemContainer.swerveSubsystem2.resetPigeon2()));
 
                 if (Utils.isSimulation()) {
                         SubsystemContainer.swerveSubsystem2

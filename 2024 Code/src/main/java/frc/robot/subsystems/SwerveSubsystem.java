@@ -73,7 +73,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(SwerveConstants.ks, SwerveConstants.kv);
 
-  private Field2d m_field = new Field2d();
+  // private Field2d m_field = new Field2d();
   private Pose2d m_currentPose = new Pose2d();
   private Pose2d m_currentPoseL = new Pose2d();
   private PolarCoord m_speakerToRobot = new PolarCoord();
@@ -103,8 +103,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     m_angleController.enableContinuousInput(-180, 180);
 
-    SmartDashboard.putData("Field", m_field);
-    m_field.getRobotObject().close();
+    // SmartDashboard.putData("Field", m_field);
+    // m_field.getRobotObject().close();
 
     // AutoBuilder.configureHolonomic(
     // this::getPose,
