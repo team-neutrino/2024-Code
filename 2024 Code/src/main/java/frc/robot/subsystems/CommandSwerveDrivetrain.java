@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
@@ -20,8 +19,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.SwerveConstants;
 
@@ -40,8 +37,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private final Rotation2d RedAlliancePerspectiveRotation = Rotation2d.fromDegrees(180);
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean hasAppliedOperatorPerspective = false;
-    private Field2d m_field = new Field2d();
-    private Pigeon2 m_pigeon = new Pigeon2(ModuleCount);
 
     private SwerveRequest.ApplyChassisSpeeds chassisSwerveRequest = new SwerveRequest.ApplyChassisSpeeds()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
@@ -53,8 +48,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             startSimThread();
         }
         configurePathPlanner();
-        SmartDashboard.putData("Field", m_field);
-        m_field.getRobotObject().close();
     }
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
@@ -63,8 +56,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             startSimThread();
         }
         configurePathPlanner();
-        SmartDashboard.putData("Field", m_field);
-        m_field.getRobotObject().close();
     }
 
     private void configurePathPlanner() {
@@ -129,7 +120,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     }
 
     public void resetPigeon2() {
-        m_pigeon.reset();
+        getPigeon2().reset();
     }
 
     @Override
@@ -159,8 +150,5 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                 hasAppliedOperatorPerspective = true;
             });
         }
-
-        m_field.getObject("odometry w/o limelight").setPose(getPose());
-        // m_field.getObject("with limelight").setPose(m_currentPoseL);
     }
 }

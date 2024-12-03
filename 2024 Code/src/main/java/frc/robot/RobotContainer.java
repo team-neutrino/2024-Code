@@ -88,8 +88,8 @@ public class RobotContainer {
                 // .runOnce(() -> SubsystemContainer.swerveSubsystem2
                 // .seedFieldRelative()));
 
-                m_driverController.back().onTrue(SubsystemContainer.swerveSubsystem2
-                                .runOnce(() -> SubsystemContainer.swerveSubsystem2.resetPigeon2()));
+                m_driverController.back()
+                                .onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem2.resetPigeon2()));
 
                 if (Utils.isSimulation()) {
                         SubsystemContainer.swerveSubsystem2
