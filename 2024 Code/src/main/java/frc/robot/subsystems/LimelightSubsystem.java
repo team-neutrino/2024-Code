@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.sql.Driver;
+
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,6 +22,7 @@ public class LimelightSubsystem extends SubsystemBase {
   private double[] pastPose = new double[11];
   private double[] pastTargetPose = new double[6];
   private boolean m_forceUpdate = false;
+  private double m_heartBeat = 0;
 
   public LimelightSubsystem() {
     // global instance of the network table and gets the limelight table
@@ -68,9 +71,14 @@ public class LimelightSubsystem extends SubsystemBase {
     double yaw = swerve.getYaw2() + (SubsystemContainer.alliance.isRedAlliance() ? 180 : 0);
     Pose2d botPose = new Pose2d(getBotPose()[0], getBotPose()[1], Rotation2d.fromDegrees(yaw));
 
-    if (!DriverStation.isAutonomousEnabled() || m_forceUpdate) {
-      updatePoseEstimatorWithVisionBotPose(swerve.getSwervePoseEstimator(), botPose);
+    // if (!DriverStation.isAutonomousEnabled() || m_forceUpdate) {
+    // updatePoseEstimatorWithVisionBotPose(swerve.getSwervePoseEstimator(),
+    // botPose);
+    // }
+    if (!DriverStation.isAutonomousEnabled() && getTv() && (m_heartBeat != getHB())) {
+      swerve.addVisionMeasurement(botPose, NetworkTablesJNI.now());
     }
+    m_heartBeat = getHB();
   }
 
   public double[] getBotPose() {
@@ -88,6 +96,11 @@ public class LimelightSubsystem extends SubsystemBase {
       pastTargetPose = targetPose;
     }
     return targetPose;
+  }
+
+  public double getHB() {
+    NetworkTableEntry hb = limelight.getEntry("hb");
+    return hb.getDouble(0.0);
   }
 
   public void setPipeline(int pipeline) {
