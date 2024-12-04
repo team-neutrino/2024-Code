@@ -128,6 +128,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                 m_modulePositions, pose);
     }
 
+    public void resetPigeon2() {
+        getPigeon2().reset();
+    }
+
     @Override
     public void periodic() {
         /* Periodically try to apply the operator perspective */
