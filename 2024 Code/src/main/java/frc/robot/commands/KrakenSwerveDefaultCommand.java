@@ -32,15 +32,15 @@ public class KrakenSwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
-    // .withVelocityX(m_controller.getLeftY() * SwerveConstants.MaxSpeed)
-    // .withVelocityY(m_controller.getLeftX() * SwerveConstants.MaxSpeed)
-    // .withRotationalRate(-m_controller.getRightX() *
-    // SwerveConstants.MaxAngularRate));
-    SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive1
+    SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
         .withVelocityX(m_controller.getLeftY() * SwerveConstants.MaxSpeed)
         .withVelocityY(m_controller.getLeftX() * SwerveConstants.MaxSpeed)
-        .withTargetDirection(new Rotation2d(0)));
+        .withRotationalRate(-m_controller.getRightX() *
+            SwerveConstants.MaxAngularRate));
+    // SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive1
+    // .withVelocityX(m_controller.getLeftY() * SwerveConstants.MaxSpeed)
+    // .withVelocityY(m_controller.getLeftX() * SwerveConstants.MaxSpeed)
+    // .withTargetDirection(new Rotation2d(0)));
   }
 
   // Called once the command ends or is interrupted.

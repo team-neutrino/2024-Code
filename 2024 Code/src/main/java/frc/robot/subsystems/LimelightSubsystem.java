@@ -119,7 +119,7 @@ public class LimelightSubsystem extends SubsystemBase {
     double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw2();
     double offsetYaw = getOffsetAngleFromTag();
 
-    System.out.println(currentYaw - offsetYaw);
+    System.out.println("current yaw: " + currentYaw + "offset yaw: " + offsetYaw);
 
     // return Math.toRadians(currentYaw - offsetYaw + (limeLightYaw * 0.06));
     return Math.toRadians(currentYaw - offsetYaw);
