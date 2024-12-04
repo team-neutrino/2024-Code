@@ -85,7 +85,7 @@ public class RobotContainer {
                 m_driverController.b().whileTrue(new KrakenSwervePointCommand(m_driverController));
 
                 m_driverController.back()
-                                .onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem2.resetPigeon2()));
+                                .onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem2.resetOdometry()));
 
                 if (Utils.isSimulation()) {
                         SubsystemContainer.swerveSubsystem2

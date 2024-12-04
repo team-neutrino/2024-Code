@@ -23,6 +23,7 @@ public class LimelightSubsystem extends SubsystemBase {
   private double[] pastTargetPose = new double[6];
   private boolean m_forceUpdate = false;
   private double m_heartBeat = 0;
+  private Pose2d m_botPose;
 
   public LimelightSubsystem() {
     // global instance of the network table and gets the limelight table
@@ -65,20 +66,25 @@ public class LimelightSubsystem extends SubsystemBase {
     limelight.getEntry("ledMode").setNumber(1);
     limelight.getEntry("robot_orientation_set").setNumberArray(
         new Double[] {
-            swerve.getSwervePoseEstimator().getEstimatedPosition().getRotation().getDegrees(),
+            swerve.getYaw2(),
             0.0, 0.0, 0.0, 0.0, 0.0 });
 
     double yaw = swerve.getYaw2() + (SubsystemContainer.alliance.isRedAlliance() ? 180 : 0);
-    Pose2d botPose = new Pose2d(getBotPose()[0], getBotPose()[1], Rotation2d.fromDegrees(yaw));
+
+    double[] pose = getBotPose();
+    Rotation2d bot_yaw = Rotation2d.fromDegrees(pose[5]);
+    m_botPose = new Pose2d(pose[0], pose[1], bot_yaw);
+    // m_botPose = new Pose2d(getBotPose()[0], getBotPose()[1],
+    // Rotation2d.fromDegrees(yaw));
 
     // if (!DriverStation.isAutonomousEnabled() || m_forceUpdate) {
     // updatePoseEstimatorWithVisionBotPose(swerve.getSwervePoseEstimator(),
     // botPose);
     // }
-    if (!DriverStation.isAutonomousEnabled() && getTv() && (m_heartBeat != getHB())) {
-      swerve.addVisionMeasurement(botPose, NetworkTablesJNI.now());
-    }
-    m_heartBeat = getHB();
+    // if (getTv() && (m_heartBeat != getHB())) {
+    // swerve.addVisionMeasurement(botPose, NetworkTablesJNI.now());
+    // }
+    // m_heartBeat = getHB();
   }
 
   public double[] getBotPose() {
@@ -88,6 +94,10 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     return pose;
+  }
+
+  public Pose2d getLLPose() {
+    return m_botPose;
   }
 
   public double[] getTargetPose() {

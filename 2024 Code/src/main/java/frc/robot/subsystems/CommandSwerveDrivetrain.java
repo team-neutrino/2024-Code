@@ -127,8 +127,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                 m_modulePositions, pose);
     }
 
-    public void resetPigeon2() {
+    public void resetOdometry() {
         getPigeon2().reset();
+        resetPose(new Pose2d());
     }
 
     @Override
@@ -158,5 +159,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                 hasAppliedOperatorPerspective = true;
             });
         }
+
+        System.out.println(getYaw2());
+
     }
 }
