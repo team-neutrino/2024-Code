@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
+import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -37,6 +38,11 @@ public class AutoAlignCommand extends Command {
             priorityTag = AprilTagConstants.BLUE_ALLIANCE_IDS.SPEAKER_ID;
         }
         SubsystemContainer.limelightSubsystem.setPriorityID(priorityTag);
+
+        if (SubsystemContainer.limelightSubsystem.getTv()) {
+            SubsystemContainer.swerveSubsystem2.addVisionMeasurement(SubsystemContainer.limelightSubsystem.getLLPose(),
+                    NetworkTablesJNI.now());
+        }
     }
 
     @Override
