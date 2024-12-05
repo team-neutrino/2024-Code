@@ -106,25 +106,6 @@ public class LimelightSubsystem extends SubsystemBase {
     m_forceUpdate = force;
   }
 
-  public double getRobotToTagDifference() {
-    double limeLightYaw = 0;
-    if (SubsystemContainer.alliance.isRedAlliance()) {
-      if (pose[5] > 0) {
-        limeLightYaw = pose[5] - 180;
-      } else {
-        limeLightYaw = pose[5] + 180;
-      }
-    }
-
-    double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw2();
-    double offsetYaw = getOffsetAngleFromTag();
-
-    System.out.println("current yaw: " + currentYaw + "offset yaw: " + offsetYaw);
-
-    // return Math.toRadians(currentYaw - offsetYaw + (limeLightYaw * 0.06));
-    return Math.toRadians(currentYaw - offsetYaw);
-  }
-
   /**
    * This method is primarily taken from the limelight docs page under "Robot
    * Localization with MegaTag." It specifies the conditions for accepting
@@ -149,9 +130,13 @@ public class LimelightSubsystem extends SubsystemBase {
     // }
   }
 
+  /**
+   * Method updated for use with krakens, untested.
+   */
   public void resetOdometryToLimelightPose() {
     if (getTv()) {
-      SubsystemContainer.swerveSubsystem.ResetOdometryToPose(pose[0], pose[1]);
+      SubsystemContainer.swerveSubsystem2
+          .resetPose(new Pose2d(pose[0], pose[1], SubsystemContainer.swerveSubsystem2.getCurrentRotation()));
     }
   }
 

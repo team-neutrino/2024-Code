@@ -41,9 +41,7 @@ public class AutoAlignCommand extends Command {
     @Override
     public void initialize() {
         // SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
-        if (SubsystemContainer.limelightSubsystem.getTv()) {
-            SubsystemContainer.limelightSubsystem.updateOdometryWithLimelightPose2();
-        }
+        SubsystemContainer.limelightSubsystem.updateOdometryWithLimelightPose2();
         if (SubsystemContainer.alliance.isRedAlliance()) {
             priorityTag = AprilTagConstants.RED_ALLIANCE_IDS.SPEAKER_ID;
         } else {
@@ -54,44 +52,27 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void execute() {
-        if (SubsystemContainer.limelightSubsystem.getTv()) {
-            // SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive1
-            // .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
-            // .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
-            // .withTargetDirection(
-            // new
-            // Rotation2d(SubsystemContainer.limelightSubsystem.getRobotToTagDifference())));
-            SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
-                    .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
-                    .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
-                    .withRotationalRate(
-                            convertOffsetAngleToOmega(-SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
-        } else {
-            SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
-                    .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
-                    .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
-                    .withRotationalRate(-m_xboxController.getRightX() * SwerveConstants.MaxAngularRate));
-        }
+        SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
+                .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
+                .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
+                .withRotationalRate(
+                        offsetToOmega(-SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
 
         // SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
 
     /**
      * Helper method that converts the offset angle as retrieved by the limelight to
-     * a rotational rate appropriate for autoaligning.
-     * <p>
-     * CURRENTLY UNUSED: using the fieldcentricfacingangle request appears to be a
-     * more intuitive solution; this method currently kept in existence in case it
-     * is needed.
+     * a rotational rate appropriate for autoaligning. Uses proportional control.
      */
-    private double convertOffsetAngleToOmega(double offsetAngle) {
+    private double offsetToOmega(double offsetAngle) {
         offsetAngle /= 32; // maximum possible tx value is 29.8 in either direc
 
-        double scalar = SwerveConstants.MaxAngularRate * .5;
+        double scaler = SwerveConstants.MaxAngularRate * .5;
 
-        System.out.println(offsetAngle * scalar);
-        // Use power proportional to the offset angle (jank PID)
-        return offsetAngle * scalar;
+        System.out.println(offsetAngle * scaler);
+        // Use power proportional to the offset angle
+        return offsetAngle * scaler;
     }
 
     @Override
