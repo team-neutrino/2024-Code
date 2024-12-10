@@ -33,9 +33,12 @@ public class AutoAlignCommandNote extends Command {
     @Override
     public void execute() {
         if (SubsystemContainer.photonVision.hasTarget()) {
+            SubsystemContainer.swerveSubsystem.setSlowWhileVision(true);
             currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
             targetYaw = PhotonVision.getYaw();
             SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
+            System.out.println(currentYaw + "current yaw");
+            System.out.println(targetYaw + "target yaw");
             // SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
             // double referenceAngle = SubsystemContainer.photonVision.getYaw();
             // double yaw = SubsystemContainer.swerveSubsystem.getYaw();

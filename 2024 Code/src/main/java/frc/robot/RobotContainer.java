@@ -50,7 +50,7 @@ public class RobotContainer {
     // Intake buttons
 
     // swerve buttons
-    m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetPigeon2()));
+    m_driverController.back().onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem.resetNavX()));
 
     // shooter buttons
 

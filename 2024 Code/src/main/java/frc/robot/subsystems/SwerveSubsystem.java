@@ -4,12 +4,11 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.Pigeon2;
+import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -22,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.proto.Kinematics;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -29,13 +29,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
-import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
-import frc.robot.Constants.LEDConstants.States;
+import frc.robot.SwerveModule;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.SwerveModule;
+import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
+import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
+import frc.robot.Constants.LEDConstants.States;
 import frc.robot.util.Limiter;
 import frc.robot.util.PolarCoord;
 import frc.robot.util.SubsystemContainer;
@@ -44,7 +44,7 @@ public class SwerveSubsystem extends SubsystemBase {
   SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(SwerveConstants.FRONT_RIGHT_COORD,
       SwerveConstants.FRONT_LEFT_COORD,
       SwerveConstants.BACK_RIGHT_COORD, SwerveConstants.BACK_LEFT_COORD);
-  public Pigeon2 m_pigeon2 = new Pigeon2(0, "3928Allen");
+  private AHRS m_navX = new AHRS();
   private SwerveModuleState[] m_moduleStates;
 
   private final SwerveModule.MotorCfg m_frontRightSpeed = new SwerveModule.MotorCfg(MotorIDs.FRS,
@@ -92,17 +92,16 @@ public class SwerveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_filterX = new SlewRateLimiter(2);
   private SlewRateLimiter m_filterY = new SlewRateLimiter(2);
   private SlewRateLimiter m_filterOmega = new SlewRateLimiter(10.0);
-  private Boolean test;
 
   private double m_currentVx = 0;
   private double m_currentVy = 0;
   private States m_state;
+  private boolean slowWhileVision;
 
   double periodicCount = 0;
   double initCount = 0;
 
   public SwerveSubsystem() {
-    test = false;
     m_modulePositions[0] = new SwerveModulePosition();
     m_modulePositions[1] = new SwerveModulePosition();
     m_modulePositions[2] = new SwerveModulePosition();
@@ -232,16 +231,23 @@ public class SwerveSubsystem extends SubsystemBase {
         m_moduleStates[i].angle = Rotation2d.fromDegrees(360 - m_moduleStates[i].angle.getDegrees());
       }
     }
-
-    m_frontRight.setAnglePID(m_moduleStates[0].angle.getDegrees());
-    m_frontLeft.setAnglePID(m_moduleStates[1].angle.getDegrees());
-    m_backRight.setAnglePID(m_moduleStates[2].angle.getDegrees());
-    m_backLeft.setAnglePID(m_moduleStates[3].angle.getDegrees());
+    double change = 1;
+    if (slowWhileVision) {
+      change = 0.5;
+    }
+    m_frontRight.setAnglePID(m_moduleStates[0].angle.getDegrees() * change);
+    m_frontLeft.setAnglePID(m_moduleStates[1].angle.getDegrees() * change);
+    m_backRight.setAnglePID(m_moduleStates[2].angle.getDegrees() * change);
+    m_backLeft.setAnglePID(m_moduleStates[3].angle.getDegrees() * change);
 
     m_frontRight.setSpeedPID(m_moduleStates[0].speedMetersPerSecond, feedForwardFR);
     m_frontLeft.setSpeedPID(m_moduleStates[1].speedMetersPerSecond, feedForwardFL);
     m_backRight.setSpeedPID(m_moduleStates[2].speedMetersPerSecond, feedForwardBR);
     m_backLeft.setSpeedPID(m_moduleStates[3].speedMetersPerSecond, feedForwardBL);
+  }
+
+  public void setSlowWhileVision(boolean x) {
+    slowWhileVision = x;
   }
 
   public void setRobotYaw(double angle) {
@@ -253,15 +259,15 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public double getYaw() {
-    return m_pigeon2.getYaw().getValue();
+    return m_navX.getYaw() * (-1);
   }
 
   public double getAngularVelocity() {
-    return m_pigeon2.getRate();
+    return m_navX.getRate();
   }
 
-  public void resetPigeon2() {
-    m_pigeon2.reset();
+  public void resetNavX() {
+    m_navX.reset();
     m_referenceAngle = 0;
 
     if (SubsystemContainer.alliance.isRedAlliance()) {
@@ -461,14 +467,5 @@ public class SwerveSubsystem extends SubsystemBase {
     m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
     m_field.getObject("with limelight").setPose(m_currentPoseL);
 
-    if (!test) {
-
-      System.out.println(m_frontRight.adjustAngleOut() + "FR");
-      System.out.println(m_frontLeft.adjustAngleOut() + "FL");
-      System.out.println(m_backRight.adjustAngleOut() + "BR");
-      System.out.println(m_backLeft.adjustAngleOut() + " BL");
-
-      test = true;
-    }
   }
 }
