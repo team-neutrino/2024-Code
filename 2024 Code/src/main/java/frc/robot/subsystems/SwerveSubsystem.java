@@ -463,11 +463,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     if (!test) {
 
-      System.out.println(m_frontRightAngle.AngleOffset() + "FR");
-      System.out.println(m_frontLeftAngle.AngleOffset() + "FL");
-      System.out.println(m_backRightAngle.AngleOffset() + "BR");
-      System.out.println(m_backLeftAngle.AngleOffset() + "offset BL");
-
       System.out.println(m_frontRight.adjustAngleOut() + "FR");
       System.out.println(m_frontLeft.adjustAngleOut() + "FL");
       System.out.println(m_backRight.adjustAngleOut() + "BR");

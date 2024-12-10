@@ -32,26 +32,26 @@ public class AutoAlignCommandNote extends Command {
 
     @Override
     public void execute() {
-        return;
-        // if (SubsystemContainer.photonVision.hasTarget()) {
-        //     currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
-        //     targetYaw = PhotonVision.getYaw();
-        //     SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
-        //     SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
-        //     double referenceAngle = SubsystemContainer.photonVision.getYaw();
-        //     double yaw = SubsystemContainer.swerveSubsystem.getYaw();
-        //     double distanceFromTarget = PhotonUtils.calculateDistanceToTargetMeters(
-        //             Constants.PhotonVisionConstants.CAMERA_HEIGHT_METERS,
-        //             Constants.PhotonVisionConstants.TARGET_HEIGHT_METERS,
-        //             Constants.PhotonVisionConstants.CAMERA_PITCH_RADIANS,
-        //             Units.degreesToRadians(SubsystemContainer.photonVision.getResult().getBestTarget().getPitch()));
-        //     // double vy = Math.sin(yaw) * distanceFromTarget;
-        //     // double vx = Math.cos(yaw) * distanceFromTarget;
-        //     double vy = 0;
-        //     double vx = 0;
-        //     System.out.println(vy + " " + vx + " " + yaw + " " + distanceFromTarget);
-        //     SubsystemContainer.swerveSubsystem.SwerveWithoutDeadzone(vx, vy, (referenceAngle - yaw) / 57.2);
-        // }
+        if (SubsystemContainer.photonVision.hasTarget()) {
+            currentYaw = SubsystemContainer.swerveSubsystem.getYaw();
+            targetYaw = PhotonVision.getYaw();
+            SubsystemContainer.swerveSubsystem.setRobotYaw(currentYaw - targetYaw);
+            // SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
+            // double referenceAngle = SubsystemContainer.photonVision.getYaw();
+            // double yaw = SubsystemContainer.swerveSubsystem.getYaw();
+            // double distanceFromTarget = PhotonUtils.calculateDistanceToTargetMeters(
+            // Constants.PhotonVisionConstants.CAMERA_HEIGHT_METERS,
+            // Constants.PhotonVisionConstants.TARGET_HEIGHT_METERS,
+            // Constants.PhotonVisionConstants.CAMERA_PITCH_RADIANS,
+            // Units.degreesToRadians(SubsystemContainer.photonVision.getResult().getBestTarget().getPitch()));
+            // // double vy = Math.sin(yaw) * distanceFromTarget;
+            // // double vx = Math.cos(yaw) * distanceFromTarget;
+            // double vy = 0;
+            // double vx = 0;
+            // System.out.println(vy + " " + vx + " " + yaw + " " + distanceFromTarget);
+            // SubsystemContainer.swerveSubsystem.SwerveWithoutDeadzone(vx, vy,
+            // (referenceAngle - yaw) / 57.2);
+        }
     }
 
     @Override
