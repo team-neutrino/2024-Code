@@ -68,7 +68,7 @@ public class SwerveModule {
         return Rotation2d.fromDegrees(out);
     }
 
-    private double adjustAngleOut() {
+    public double adjustAngleOut() {
         final double OFFSET = angle_motor_cfg.AngleOffset();
         double angle = absAngleEncoder.getPosition();
 

@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.path.PathConstraints;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -34,10 +35,13 @@ public final class Constants {
     public static final double MAX_CHASSIS_ROTATIONAL_SPEED = 1.5 * Math.PI;
     public static final double MAX_MODULE_LINEAR_SPEED = 7;
 
-    public static final double FLA_OFFSET = 285;
-    public static final double FRA_OFFSET = 273;
-    public static final double BLA_OFFSET = 1;
-    public static final double BRA_OFFSET = 127.12;// 311;
+    public static final double FLA_OFFSET = -24.8;
+    public static final double FRA_OFFSET = -207.5;
+    public static final double BLA_OFFSET = 29.6;
+    public static final double BRA_OFFSET = 331.5;
+
+    // 662.4372253417969BR
+    // 58.11023101806641 BL
 
     public static final double ks = 0.15;
     public static final double kv = 2.6;

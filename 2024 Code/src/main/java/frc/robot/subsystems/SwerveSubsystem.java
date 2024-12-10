@@ -9,6 +9,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -28,13 +29,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.SwerveModule;
-import frc.robot.Constants.MotorIDs;
-import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
 import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
 import frc.robot.Constants.LEDConstants.States;
+import frc.robot.Constants.MotorIDs;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.SwerveModule;
 import frc.robot.util.Limiter;
 import frc.robot.util.PolarCoord;
 import frc.robot.util.SubsystemContainer;
@@ -91,6 +92,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_filterX = new SlewRateLimiter(2);
   private SlewRateLimiter m_filterY = new SlewRateLimiter(2);
   private SlewRateLimiter m_filterOmega = new SlewRateLimiter(10.0);
+  private Boolean test;
 
   private double m_currentVx = 0;
   private double m_currentVy = 0;
@@ -100,6 +102,7 @@ public class SwerveSubsystem extends SubsystemBase {
   double initCount = 0;
 
   public SwerveSubsystem() {
+    test = false;
     m_modulePositions[0] = new SwerveModulePosition();
     m_modulePositions[1] = new SwerveModulePosition();
     m_modulePositions[2] = new SwerveModulePosition();
@@ -458,5 +461,19 @@ public class SwerveSubsystem extends SubsystemBase {
     m_field.getObject("odometry w/o limelight").setPose(m_currentPose);
     m_field.getObject("with limelight").setPose(m_currentPoseL);
 
+    if (!test) {
+
+      System.out.println(m_frontRightAngle.AngleOffset() + "FR");
+      System.out.println(m_frontLeftAngle.AngleOffset() + "FL");
+      System.out.println(m_backRightAngle.AngleOffset() + "BR");
+      System.out.println(m_backLeftAngle.AngleOffset() + "offset BL");
+
+      System.out.println(m_frontRight.adjustAngleOut() + "FR");
+      System.out.println(m_frontLeft.adjustAngleOut() + "FL");
+      System.out.println(m_backRight.adjustAngleOut() + "BR");
+      System.out.println(m_backLeft.adjustAngleOut() + " BL");
+
+      test = true;
+    }
   }
 }

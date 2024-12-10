@@ -68,7 +68,7 @@ public class RobotContainer {
     // arm buttons
 
     // photonvision stuff
-    m_buttonsController.rightTrigger().whileTrue(new AutoAlignCommandNote());
+    m_driverController.rightTrigger().whileTrue(new AutoAlignCommandNote());
   }
 
   public Command getAutonomousCommand() {
