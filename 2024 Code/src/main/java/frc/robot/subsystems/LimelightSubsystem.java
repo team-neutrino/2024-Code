@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
@@ -44,8 +45,10 @@ public class LimelightSubsystem extends SubsystemBase {
 
   /**
    * gets the x offest between the center of vision and the detected object
+   * <p>
+   * -29.8 to 29.8 degrees possible range
    */
-  public double getTx() {
+  public double getOffsetAngleFromTag() {
     return limelight.getEntry("tx").getDouble(0.0);
   }
 
@@ -127,9 +130,30 @@ public class LimelightSubsystem extends SubsystemBase {
     // }
   }
 
+  /**
+   * Method updated for use with krakens, untested.
+   */
   public void resetOdometryToLimelightPose() {
     if (getTv()) {
-      SubsystemContainer.swerveSubsystem.ResetOdometryToPose(pose[0], pose[1]);
+      SubsystemContainer.swerveSubsystem2
+          .resetPose(new Pose2d(pose[0], pose[1], SubsystemContainer.swerveSubsystem2.getCurrentRotation()));
     }
+  }
+
+  /**
+   * This is a kraken swerve method. Updates the kraken
+   * odometry with the limelight pose, DOES NOT REPLACE IT. In the words of the
+   * documentation, "adds a vision measurement to the kalman filter."
+   * 
+   * @return If the update occured or not.
+   */
+  public boolean updateOdometryWithLimelightPose2() {
+    if (!getTv()) {
+      return false;
+    }
+
+    Pose2d currentPose = new Pose2d(pose[0], pose[1], SubsystemContainer.swerveSubsystem2.getCurrentRotation());
+    SubsystemContainer.swerveSubsystem2.addVisionMeasurement(currentPose, NetworkTablesJNI.now());
+    return true;
   }
 }

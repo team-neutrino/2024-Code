@@ -403,7 +403,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public static double calculateLimelightOffsetAngle() {
 
     double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw2();
-    double offsetYaw = SubsystemContainer.limelightSubsystem.getTx();
+    double offsetYaw = SubsystemContainer.limelightSubsystem.getDistanceFromPrimaryTarget();
     double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
     if (SubsystemContainer.alliance.isRedAlliance()) {
       if (pose[5] > 0) {
