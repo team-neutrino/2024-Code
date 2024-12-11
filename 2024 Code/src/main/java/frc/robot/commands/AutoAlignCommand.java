@@ -6,28 +6,14 @@ package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
 import frc.robot.util.SwerveRequestStash;
-
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.FieldCentric;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.FieldCentricFacingAngle;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.AprilTagConstants;
-import frc.robot.Constants.LEDConstants.States;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.subsystems.SwerveSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
-
-    /**
-     * Gives the current yaw (test)
-     */
     private int priorityTag;
     private XboxController m_xboxController;
 
@@ -40,8 +26,6 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void initialize() {
-        // SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
-        SubsystemContainer.limelightSubsystem.updateOdometryWithLimelightPose2();
         if (SubsystemContainer.alliance.isRedAlliance()) {
             priorityTag = AprilTagConstants.RED_ALLIANCE_IDS.SPEAKER_ID;
         } else {
@@ -58,7 +42,6 @@ public class AutoAlignCommand extends Command {
                 .withRotationalRate(
                         offsetToOmega(-SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
 
-        // SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
     }
 
     /**
@@ -70,7 +53,6 @@ public class AutoAlignCommand extends Command {
 
         double scaler = SwerveConstants.MaxAngularRate * .5;
 
-        System.out.println(offsetAngle * scaler);
         // Use power proportional to the offset angle
         return offsetAngle * scaler;
     }
@@ -82,5 +64,6 @@ public class AutoAlignCommand extends Command {
     @Override
     public boolean isFinished() {
         return false;
+
     }
 }

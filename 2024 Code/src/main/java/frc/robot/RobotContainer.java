@@ -5,8 +5,6 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -37,7 +35,6 @@ import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShuttleAutoAlignCommand;
 import frc.robot.util.SubsystemContainer;
-import frc.robot.util.SwerveRequestStash;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -74,7 +71,6 @@ public class RobotContainer {
         }
 
         private void configureBindings() {
-                SwerveRequestStash.configurePIDControllers();
                 // set default commands
                 SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
                 SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_driverController));
