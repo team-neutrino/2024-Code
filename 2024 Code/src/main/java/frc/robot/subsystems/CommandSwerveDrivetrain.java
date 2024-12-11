@@ -29,7 +29,7 @@ import frc.robot.util.SubsystemContainer;
  * subsystem so it can be used in command-based projects easily.
  */
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
-    private static final double kSimLoopPeriod = 0.005; // 5 ms
+    private static final double kSimLoopPeriod = 0.002; // 2 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
     private PolarCoord m_speakerToRobot;
