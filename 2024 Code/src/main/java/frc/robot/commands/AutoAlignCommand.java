@@ -14,8 +14,8 @@ import frc.robot.Constants.SwerveConstants;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
-    private int priorityTag;
-    private XboxController m_xboxController;
+    protected int priorityTag;
+    protected XboxController m_xboxController;
 
     public AutoAlignCommand(CommandXboxController p_controller) {
         if (p_controller != null) {
@@ -48,7 +48,7 @@ public class AutoAlignCommand extends Command {
      * Helper method that converts the offset angle as retrieved by the limelight to
      * a rotational rate appropriate for autoaligning. Uses proportional control.
      */
-    private double offsetToOmega(double offsetAngle) {
+    protected double offsetToOmega(double offsetAngle) {
         offsetAngle /= 32; // maximum possible tx value is 29.8 in either direc
 
         double scaler = SwerveConstants.MaxAngularRate * .5;
