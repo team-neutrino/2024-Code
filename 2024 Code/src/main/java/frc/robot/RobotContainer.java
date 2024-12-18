@@ -32,6 +32,7 @@ import frc.robot.commands.KrakenSwerveDefaultCommand;
 import frc.robot.commands.KrakenSwervePointCommand;
 import frc.robot.commands.LEDDefaultCommand;
 import frc.robot.commands.LimelightDefaultCommand;
+import frc.robot.commands.MovingAutoAlign;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShuttleAutoAlignCommand;
 import frc.robot.util.SubsystemContainer;
@@ -143,6 +144,8 @@ public class RobotContainer {
                                                 () -> SubsystemContainer.limelightSubsystem.getTv()));
 
                 m_driverController.y().whileTrue(new ShuttleAutoAlignCommand(m_buttonsController));
+
+                m_driverController.x().whileTrue(new MovingAutoAlign(m_driverController));
 
                 // arm buttons
                 m_buttonsController.leftStick().toggleOnTrue(new ArmManualCommand(m_buttonsController));

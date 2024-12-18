@@ -36,7 +36,7 @@ public class MovingAutoAlign extends AutoAlignCommand {
    */
   private double movementCompensatedOmega() {
     double omega = offsetToOmega(SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag());
-    omega += ShootWhilstSwervingMath.getSpeakerRelativeTangentialVelocity() * .5;
+    omega -= ShootWhilstSwervingMath.getSpeakerRelativeTangentialVelocity() * .5;
     return omega;
   }
 
