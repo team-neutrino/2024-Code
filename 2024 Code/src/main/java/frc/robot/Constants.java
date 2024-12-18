@@ -38,7 +38,7 @@ public final class Constants {
     public static final double FLA_OFFSET = 155.2;
     public static final double FRA_OFFSET = -27.5;
     public static final double BLA_OFFSET = 29.6;
-    public static final double BRA_OFFSET = 331.5;
+    public static final double BRA_OFFSET = 347.5;
 
     // 662.4372253417969BR
     // 58.11023101806641 BL

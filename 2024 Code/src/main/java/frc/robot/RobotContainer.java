@@ -63,8 +63,6 @@ public class RobotContainer {
     // separate button binding to left bumper contained within the magic speaker
     // charge command
 
-    m_driverController.rightBumper().whileTrue(new AutoAlignCommand(m_driverController));
-
     // arm buttons
 
     // photonvision stuff

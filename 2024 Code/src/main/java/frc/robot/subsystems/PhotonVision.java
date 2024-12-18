@@ -25,8 +25,8 @@ public class PhotonVision extends SubsystemBase {
 
   public PhotonVision() {
     instance = NetworkTableInstance.getDefault();
-    camera = new PhotonCamera("Arducam_B0478_(USB3_48MP)");
-    photonVision = instance.getTable("/photonvision/Arducam_B0478_(USB3_48MP)");
+    camera = new PhotonCamera("Arducam_B0478_(USB3_48MP) (1)");
+    photonVision = instance.getTable("/photonvision/Arducam_B0478_(USB3_48MP) (1)");
     // global instance of the network table and gets the limelight table
     // turns off LED
     photonVision.getEntry("ledMode").setNumber(1);

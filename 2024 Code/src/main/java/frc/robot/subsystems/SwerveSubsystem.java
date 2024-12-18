@@ -96,7 +96,7 @@ public class SwerveSubsystem extends SubsystemBase {
   private double m_currentVx = 0;
   private double m_currentVy = 0;
   private States m_state;
-  private boolean slowWhileVision;
+  private boolean slowWhileVision = false;
 
   double periodicCount = 0;
   double initCount = 0;
@@ -232,7 +232,9 @@ public class SwerveSubsystem extends SubsystemBase {
       }
     }
     double change = 1;
+    System.out.println("hello2");
     if (slowWhileVision) {
+      System.out.println("hello");
       change = 0.5;
     }
     m_frontRight.setAnglePID(m_moduleStates[0].angle.getDegrees() * change);
