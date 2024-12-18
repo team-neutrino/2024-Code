@@ -18,9 +18,9 @@ public class ShootWhilstSwervingMath {
      */
     public static double getSpeakerRelativeTangentialVelocity() {
         ChassisSpeeds x = SubsystemContainer.swerveSubsystem2.getChassisSpeeds();
-        Rotation2d scoringAngle = new Rotation2d(SubsystemContainer.swerveSubsystem2.getYaw2()
-                - SubsystemContainer.limelightSubsystem.getDistanceFromPrimaryTarget());
+        Rotation2d scoringAngle = new Rotation2d(Math.toRadians(SubsystemContainer.swerveSubsystem2.getYaw2()
+                - SubsystemContainer.limelightSubsystem.getDistanceFromPrimaryTarget()));
         x = ChassisSpeeds.fromFieldRelativeSpeeds(x, scoringAngle);
-        return x.vxMetersPerSecond;
+        return x.vyMetersPerSecond;
     }
 }

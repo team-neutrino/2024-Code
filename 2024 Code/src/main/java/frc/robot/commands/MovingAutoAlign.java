@@ -20,10 +20,12 @@ public class MovingAutoAlign extends AutoAlignCommand {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
-        .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
-        .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
-        .withRotationalRate(-movementCompensatedOmega()));
+    if (SubsystemContainer.limelightSubsystem.getTv()) {
+      SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
+          .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
+          .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
+          .withRotationalRate(-movementCompensatedOmega()));
+    }
   }
 
   /**
@@ -36,7 +38,7 @@ public class MovingAutoAlign extends AutoAlignCommand {
    */
   private double movementCompensatedOmega() {
     double omega = offsetToOmega(SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag());
-    omega -= ShootWhilstSwervingMath.getSpeakerRelativeTangentialVelocity() * .5;
+    omega += ShootWhilstSwervingMath.getSpeakerRelativeTangentialVelocity() * .75;
     return omega;
   }
 
