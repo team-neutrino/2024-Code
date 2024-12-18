@@ -5,19 +5,15 @@
 package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
+import frc.robot.util.SwerveRequestStash;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.AprilTagConstants;
-import frc.robot.Constants.LEDConstants.States;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.Constants.SwerveConstants;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
-
-    /**
-     * Gives the current yaw (test)
-     */
     private int priorityTag;
     private XboxController m_xboxController;
 
@@ -25,12 +21,11 @@ public class AutoAlignCommand extends Command {
         if (p_controller != null) {
             m_xboxController = p_controller.getHID();
         }
-        addRequirements(SubsystemContainer.swerveSubsystem);
+        addRequirements(SubsystemContainer.swerveSubsystem2);
     }
 
     @Override
     public void initialize() {
-        SubsystemContainer.limelightSubsystem.resetOdometryToLimelightPose();
         if (SubsystemContainer.alliance.isRedAlliance()) {
             priorityTag = AprilTagConstants.RED_ALLIANCE_IDS.SPEAKER_ID;
         } else {
@@ -41,24 +36,25 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void execute() {
-        if (SubsystemContainer.limelightSubsystem.getTv()) {
+        SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
+                .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
+                .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
+                .withRotationalRate(
+                        offsetToOmega(-SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
 
-            if (SubsystemContainer.limelightSubsystem.getID() == (priorityTag)) {
-                SubsystemContainer.swerveSubsystem
-                        .setRobotYaw(SwerveSubsystem.calculateLimelightOffsetAngle());
-            }
-        } else {
-            // SUPER auto align!!
-            SubsystemContainer.swerveSubsystem.AlignToSpeakerUsingOdometry();
-        }
+    }
 
-        SubsystemContainer.swerveSubsystem.SwerveWithDeadzone(m_xboxController.getLeftY() * -1,
-                m_xboxController.getLeftX() * -1,
-                m_xboxController.getRightX() * -1);
+    /**
+     * Helper method that converts the offset angle as retrieved by the limelight to
+     * a rotational rate appropriate for autoaligning. Uses proportional control.
+     */
+    private double offsetToOmega(double offsetAngle) {
+        offsetAngle /= 32; // maximum possible tx value is 29.8 in either direc
 
-        SubsystemContainer.swerveSubsystem.POV(m_xboxController.getPOV());
+        double scaler = SwerveConstants.MaxAngularRate * .5;
 
-        SubsystemContainer.swerveSubsystem.setCommandState(States.AUTOALIGN);
+        // Use power proportional to the offset angle
+        return offsetAngle * scaler;
     }
 
     @Override
@@ -68,5 +64,6 @@ public class AutoAlignCommand extends Command {
     @Override
     public boolean isFinished() {
         return false;
+
     }
 }

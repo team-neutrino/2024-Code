@@ -29,12 +29,10 @@ public class KrakenSwerveDefaultCommand extends Command {
   @Override
   public void execute() {
     SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
-        .withVelocityX(m_controller.getLeftY()
-            * SwerveConstants.MaxSpeed)
-        .withVelocityY(m_controller.getLeftX()
-            * SwerveConstants.MaxSpeed)
-        .withRotationalRate(-m_controller.getRightX()
-            * SwerveConstants.MaxAngularRate));
+        .withVelocityX(m_controller.getLeftY() * SwerveConstants.MaxSpeed)
+        .withVelocityY(m_controller.getLeftX() * SwerveConstants.MaxSpeed)
+        .withRotationalRate(-m_controller.getRightX() *
+            SwerveConstants.MaxAngularRate));
   }
 
   // Called once the command ends or is interrupted.

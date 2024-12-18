@@ -83,6 +83,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         setControl(chassisSwerveRequest.withSpeeds(speeds));
     }
 
+    public Rotation2d getCurrentRotation() {
+        return m_odometry.getEstimatedPosition().getRotation();
+    }
+
     private void startSimThread() {
         m_lastSimTime = Utils.getCurrentTimeSeconds();
 
@@ -102,8 +106,12 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         return m_odometry;
     }
 
+    /**
+     * Returns yaw from -360 to 360, % needed because the provided yawGetter finds
+     * total yaw difference since the last navx reset.
+     */
     public double getYaw2() {
-        return m_yawGetter.getValueAsDouble();
+        return m_yawGetter.getValueAsDouble() % 360;
     }
 
     public Pose2d getPose() {

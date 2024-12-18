@@ -35,6 +35,7 @@ import frc.robot.commands.LimelightDefaultCommand;
 import frc.robot.commands.ShooterDefaultCommand;
 import frc.robot.commands.ShuttleAutoAlignCommand;
 import frc.robot.util.SubsystemContainer;
+
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -46,6 +47,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 
 public class RobotContainer {
 
@@ -87,7 +89,8 @@ public class RobotContainer {
 
                 if (Utils.isSimulation()) {
                         SubsystemContainer.swerveSubsystem2
-                                        .seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+                                        .seedFieldRelative(new Pose2d(new Translation2d(),
+                                                        Rotation2d.fromDegrees(90)));
                 }
                 SubsystemContainer.swerveSubsystem2.registerTelemetry(logger::telemeterize);
 
@@ -134,7 +137,10 @@ public class RobotContainer {
                                 .onTrue(new InstantCommand(
                                                 () -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
 
-                m_driverController.rightBumper().whileTrue(new AutoAlignCommand(m_driverController));
+                m_driverController.rightBumper()
+                                .whileTrue(new ConditionalCommand(new AutoAlignCommand(m_driverController),
+                                                new KrakenSwerveDefaultCommand(m_driverController),
+                                                () -> SubsystemContainer.limelightSubsystem.getTv()));
 
                 m_driverController.y().whileTrue(new ShuttleAutoAlignCommand(m_buttonsController));
 
