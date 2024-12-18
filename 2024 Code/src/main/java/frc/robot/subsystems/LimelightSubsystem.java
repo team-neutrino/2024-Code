@@ -139,21 +139,4 @@ public class LimelightSubsystem extends SubsystemBase {
           .resetPose(new Pose2d(pose[0], pose[1], SubsystemContainer.swerveSubsystem2.getCurrentRotation()));
     }
   }
-
-  /**
-   * This is a kraken swerve method. Updates the kraken
-   * odometry with the limelight pose, DOES NOT REPLACE IT. In the words of the
-   * documentation, "adds a vision measurement to the kalman filter."
-   * 
-   * @return If the update occured or not.
-   */
-  public boolean updateOdometryWithLimelightPose2() {
-    if (!getTv()) {
-      return false;
-    }
-
-    Pose2d currentPose = new Pose2d(pose[0], pose[1], SubsystemContainer.swerveSubsystem2.getCurrentRotation());
-    SubsystemContainer.swerveSubsystem2.addVisionMeasurement(currentPose, NetworkTablesJNI.now());
-    return true;
-  }
 }
