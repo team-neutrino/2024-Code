@@ -24,22 +24,8 @@ public class MovingAutoAlign extends AutoAlignCommand {
       SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
           .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
           .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
-          .withRotationalRate(-movementCompensatedOmega()));
+          .withRotationalRate(-ShootWhilstSwervingMath.movingOffsetToOmega()));
     }
-  }
-
-  /**
-   * Modifies the autoalign angle to account for movement tangential to the
-   * speaker.
-   * <p>
-   * Uses a ratio of 2 m/s per radian/s of rotation.
-   * 
-   * @return The speed the robot should turn, accounting for movement.
-   */
-  private double movementCompensatedOmega() {
-    double omega = offsetToOmega(SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag());
-    omega += ShootWhilstSwervingMath.getSpeakerRelativeTangentialVelocity() * .75;
-    return omega;
   }
 
   // Called once the command ends or is interrupted.

@@ -39,22 +39,8 @@ public class AutoAlignCommand extends Command {
         SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
                 .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
                 .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
-                .withRotationalRate(
-                        offsetToOmega(-SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
+                .withRotationalRate(-SubsystemContainer.limelightSubsystem.offsetToOmega()));
 
-    }
-
-    /**
-     * Helper method that converts the offset angle as retrieved by the limelight to
-     * a rotational rate appropriate for autoaligning. Uses proportional control.
-     */
-    protected double offsetToOmega(double offsetAngle) {
-        offsetAngle /= 32; // maximum possible tx value is 29.8 in either direc
-
-        double scaler = SwerveConstants.MaxAngularRate * .5;
-
-        // Use power proportional to the offset angle
-        return offsetAngle * scaler;
     }
 
     @Override

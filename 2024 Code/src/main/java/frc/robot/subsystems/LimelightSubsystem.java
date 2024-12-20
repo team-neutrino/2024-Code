@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AprilTagConstants.BLUE_ALLIANCE_IDS;
 import frc.robot.Constants.AprilTagConstants.RED_ALLIANCE_IDS;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.SubsystemContainer;
 
 public class LimelightSubsystem extends SubsystemBase {
@@ -155,5 +156,18 @@ public class LimelightSubsystem extends SubsystemBase {
     Pose2d currentPose = new Pose2d(pose[0], pose[1], SubsystemContainer.swerveSubsystem2.getCurrentRotation());
     SubsystemContainer.swerveSubsystem2.addVisionMeasurement(currentPose, NetworkTablesJNI.now());
     return true;
+  }
+
+  /**
+   * Helper method that converts the offset angle as retrieved by the limelight to
+   * a rotational rate appropriate for autoaligning. Uses proportional control.
+   */
+  public double offsetToOmega() {
+    double offsetAngle = getOffsetAngleFromTag() / 32; // maximum possible tx value is 29.8 in either direc
+
+    double scaler = SwerveConstants.MaxAngularRate * .5;
+
+    // Use power proportional to the offset angle
+    return offsetAngle * scaler;
   }
 }

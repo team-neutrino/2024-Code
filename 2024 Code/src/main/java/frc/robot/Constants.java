@@ -19,6 +19,16 @@ public final class Constants {
     public static final double SPEAKER_TO_MOUNT_HEIGHT = 0.6604;
   }
 
+  public static class ShootWhilstSwervingConstants {
+    // speed of a note perfectly leaving the shooter at 4000 rpm - calculated by
+    // doing shady video analysis of antiinterpolation shot testing.
+    public static double NOTE_SPEED = 10;
+    // this value represents the maximum possible offset angle from the autoalign
+    // target, including both movement correction and basic tx offset. .5585 is 32
+    // in radians and .4636 is atan(5 / 10)
+    public static double MOVING_AUTOALIGN_FEEDFOWARD = .5585 + .4636;
+  }
+
   public static class SwerveConstants {
     public static double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
     public static double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
