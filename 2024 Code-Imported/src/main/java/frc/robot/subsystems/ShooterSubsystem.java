@@ -37,11 +37,11 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkClosedLoopController m_pidController;
   private Debouncer m_shootDebouncer;
 
-  private ControlType m_shootControlType;
-  private double m_targetVoltage;
-  private double m_targetRPM;
+    private ControlType m_shootControlType;
+    private double m_targetVoltage;
+    private double m_targetRPM;
 
-  private boolean m_atSpeed;
+    private boolean m_atSpeed;
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooterMotor.getEncoder();
@@ -70,59 +70,63 @@ public class ShooterSubsystem extends SubsystemBase {
     .iZone(ShooterConstants.WHEEL_IZONE)
     .outputRange(0, 1);
 
-    // shooter motor CAN messages rates
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, 5);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, 10);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+        // shooter motor CAN messages rates
+        m_shooterMotor.config.signals.faultsPeriodMs(5);
+        m_shooterMotor.config.signals.primaryEncoderVelocityPeriodMs(10);
+        m_shooterMotor.config.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
+        m_shooterMotor.config.signals.analogVoltagePeriodMs(MessageTimers.Status3);
+        m_shooterMotor.config.signals.externalOrAltEncoderPosition(MessageTimers.Status4);
+        m_shooterMotor.config.signals.externalOrAltEncoderVelocity(MessageTimers.Status4);
+        // m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5,
+        // MessageTimers.Status5);
+        m_shooterMotor.config.signals.motorTemperaturePeriodMs(MessageTimers.Status6);
+        m_shooterMotor.configure(config, ResetMode.kResetSafeParameters, PersistParameters.kPersistParameters);
 
-    // // shooter follower CAN messages rates
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+        // shooter follower CAN messages rates
+        m_followerMotor.config.signals.faultsPeriodMs(MessageTimers.Status0);
+        m_followerMotor.config.signals.primaryEncoderVelocityPeriodMs(MessageTimers.Status1);
+        m_followerMotor.config.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
+        m_followerMotor.config.signals.analogVoltagePeriodMs(MessageTimers.Status3);
+        m_followerMotor.config.signals.externalOrAltEncoderPosition(MessageTimers.Status4);
+        m_followerMotor.config.signals.externalOrAltEncoderVelocity(MessageTimers.Status4);
+        // m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5,
+        // MessageTimers.Status5);
 
     // m_shooterMotor.burnFlash();
     // m_followerMotor.burnFlash();
 
-    m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME, DebounceType.kRising);
-  }
+        m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME, DebounceType.kRising);
+    }
 
-  public void defaultShooter() {
-    setVoltage(SubsystemContainer.intakeSubsystem.hasNote() ? ShooterSpeeds.INITIAL_SHOOTER_SPEED : 0.0);
-  }
+    public void defaultShooter() {
+        setVoltage(SubsystemContainer.intakeSubsystem.hasNote() ? ShooterSpeeds.INITIAL_SHOOTER_SPEED : 0.0);
+    }
 
-  public boolean approveShoot() {
-    return m_atSpeed;
-  }
+    public boolean approveShoot() {
+        return m_atSpeed;
+    }
 
-  public boolean aboveRPM(double p_rpm) {
-    return (getShooterRPM() > p_rpm);
-  }
+    public boolean aboveRPM(double p_rpm) {
+        return (getShooterRPM() > p_rpm);
+    }
 
-  public double getShooterRPM() {
-    return m_shooterEncoder.getVelocity();
-  }
+    public double getShooterRPM() {
+        return m_shooterEncoder.getVelocity();
+    }
 
-  public double getTargetRPM() {
-    return m_targetRPM;
-  }
+    public double getTargetRPM() {
+        return m_targetRPM;
+    }
 
-  public void setTargetRPM(double p_targetRPM) {
-    m_targetRPM = p_targetRPM;
-    m_shootControlType = ControlType.kVelocity;
-  }
+    public void setTargetRPM(double p_targetRPM) {
+        m_targetRPM = p_targetRPM;
+        m_shootControlType = ControlType.kVelocity;
+    }
 
-  public void setVoltage(double voltage) {
-    m_targetVoltage = voltage;
-    m_shootControlType = ControlType.kVoltage;
-  }
+    public void setVoltage(double voltage) {
+        m_targetVoltage = voltage;
+        m_shootControlType = ControlType.kVoltage;
+    }
 
   public void useHighCurrentLimits(boolean isHighCurrent) {
     if (isHighCurrent) {
@@ -132,7 +136,6 @@ public class ShooterSubsystem extends SubsystemBase {
       m_shooterMotorConfig.smartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
       m_shooterFollowerConfig.smartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
     }
-  }
 
   @Override
   public void periodic() {
@@ -141,8 +144,4 @@ public class ShooterSubsystem extends SubsystemBase {
     } else {
       m_shooterMotor.setVoltage(m_targetVoltage);
     }
-
-    m_atSpeed = m_shootDebouncer
-        .calculate(Math.abs(getTargetRPM() - getShooterRPM()) <= ShooterConstants.RPM_ERROR_THRESHOLD);
-  }
 }

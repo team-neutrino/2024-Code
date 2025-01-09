@@ -73,40 +73,48 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexFollowerConfig.follow(m_indexMotor, true);
 
         // intake motor CAN messages rates
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 10);
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+        m_intakeMotor.config.signals.faultsPeriodMs(10);
+        m_intakeMotor.config.signals.primaryEncoderVelocityPeriodMs(MessageTimers.Status1);
+        m_intakeMotor.config.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
+        m_intakeMotor.config.signals.analogVoltagePeriodMs(MessageTimers.Status3);
+        m_intakeMotor.config.signals.externalOrAltEncoderPosition(MessageTimers.Status4);
+        m_intakeMotor.config.signals.externalOrAltEncoderVelocity(MessageTimers.Status4);
         // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+        m_intakeMotor.config.signals.motorTemperaturePeriodMs(MessageTimers.Status6);
+        m_intakeMotor.configure(config, ResetMode.kResetSafeParameters, PersistParameters.kPersistParameters);
 
-        // // intake follower CAN messages rates
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+        // intake follower CAN messages rates
+        m_intakeFollower.config.signals.faultsPeriodMs(MessageTimers.Status0);
+        m_intakeFollower.config.signals.primaryEncoderVelocityPeriodMs(MessageTimers.Status1);
+        m_intakeFollower.config.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
+        m_intakeFollower.config.signals.analogVoltagePeriodMs(MessageTimers.Status3);
+        m_intakeFollower.config.signals.externalOrAltEncoderPosition(MessageTimers.Status4);
+        m_intakeFollower.config.signals.externalOrAltEncoderVelocity(MessageTimers.Status4);
         // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+        m_intakeFollower.config.signals.motorTemperaturePeriodMs(MessageTimers.Status6);
+        m_intakeFollower.configure(config, ResetMode.kResetSafeParameters, PersistParameters.kPersistParameters);
 
-        // // index motor CAN messages rates
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 10);
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+        // index motor CAN messages rates
+        m_indexMotor.config.signals.faultsPeriodMs(10);
+        m_indexMotor.config.signals.primaryEncoderVelocityPeriodMs(MessageTimers.Status1);
+        m_indexMotor.config.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
+        m_indexMotor.config.signals.analogVoltagePeriodMs(MessageTimers.Status3);
+        m_indexMotor.config.signals.externalOrAltEncoderPosition(MessageTimers.Status4);
+        m_indexMotor.config.signals.externalOrAltEncoderVelocity(MessageTimers.Status4);
         // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+        m_indexMotor.config.signals.motorTemperaturePeriodMs(MessageTimers.Status6);
+        m_indexMotor.configure(config, ResetMode.kResetSafeParameters, PersistParameters.kPersistParameters);
 
-        // // index follower CAN messages rates
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+        // index follower CAN messages rates
+        m_indexFollower.config.signals.faultsPeriodMs(MessageTimers.Status0);
+        m_indexFollower.config.signals.primaryEncoderVelocityPeriodMs(MessageTimers.Status1);
+        m_indexFollower.config.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
+        m_indexFollower.config.signals.analogVoltagePeriodMs(MessageTimers.Status3);
+        m_indexFollower.config.signals.externalOrAltEncoderPosition(MessageTimers.Status4);
+        m_indexFollower.config.signals.externalOrAltEncoderVelocity(MessageTimers.Status4);
+        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
+        m_indexFollower.config.signals.motorTemperaturePeriodMs(MessageTimers.Status6);
+        m_indexFollower.configure(config, ResetMode.kResetSafeParameters, PersistParameters.kPersistParameters);
 
         m_intakeDebouncer = new Debouncer(IntakeConstants.INTAKE_ERROR_THRESHOLD, DebounceType.kRising);
     }

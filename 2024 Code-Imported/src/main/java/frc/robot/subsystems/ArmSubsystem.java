@@ -121,16 +121,16 @@ public class ArmSubsystem extends SubsystemBase {
     m_armEncoder = m_armMotor.getAbsoluteEncoder();
     config.encoder.positionConversionFactor(360);
     config.absoluteEncoder.zeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
-    m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-    config.signals.primaryEncoderVelocityPeriodMs(20);
-    config.signals.primaryEncoderPositionPeriodMs(20);
-    config.signals.analogVoltage(50);
-    config.signals.externalOrAltEncoderPosition(20);
-    config.signals.externalOrAltEncoderVelocity(20);
-    config.signals.motorTemperaturePeriodMs(1000);
+    config.signals.faultsPeriodMs(MessageTimers.Status0);
+    config.signals.primaryEncoderVelocityPeriodMs(MessageTimers.Status1);
+    config.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
+    config.signals.analogVoltagePeriodMs(MessageTimers.Status3);
+    config.signals.externalOrAltEncoderPosition(MessageTimers.Status4);
+    config.signals.externalOrAltEncoderVelocity(MessageTimers.Status4);
+    config.signals.motorTemperaturePeriodMs(MessageTimers.Status6);
     m_armMotor.configure(config, ResetMode.kResetSafeParameters, PersistParameters.kPersistParameters);
     // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, 17); don't know what it is
-    config.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
+    
 
     m_armMotor.configure(m_armMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
