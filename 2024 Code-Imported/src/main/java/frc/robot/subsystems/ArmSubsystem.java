@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkAbsoluteEncoder;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -118,16 +119,18 @@ public class ArmSubsystem extends SubsystemBase {
     m_armMotor.configure(m_armMotorConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
     //change?
     m_armEncoder = m_armMotor.getAbsoluteEncoder();
-   m_armMotorConfig.encoder.positionConversionFactor(360);
-   m_armMotorConfig.absoluteEncoder.zeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, 17);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
-   m_armMotorConfig.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
+    config.encoder.positionConversionFactor(360);
+    config.absoluteEncoder.zeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
+    m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
+    config.signals.primaryEncoderVelocityPeriodMs(20);
+    config.signals.primaryEncoderPositionPeriodMs(20);
+    config.signals.analogVoltage(50);
+    config.signals.externalOrAltEncoderPosition(20);
+    config.signals.externalOrAltEncoderVelocity(20);
+    config.signals.motorTemperaturePeriodMs(1000);
+    m_armMotor.configure(config, ResetMode.kResetSafeParameters, PersistParameters.kPersistParameters);
+    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, 17); don't know what it is
+    config.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
 
     m_armMotor.configure(m_armMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
