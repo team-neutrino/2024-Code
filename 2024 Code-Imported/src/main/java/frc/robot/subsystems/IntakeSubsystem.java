@@ -106,11 +106,6 @@ public class IntakeSubsystem extends SubsystemBase {
         m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
         m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
 
-        m_intakeMotor.burnFlash();
-        m_intakeFollower.burnFlash();
-        m_indexMotor.burnFlash();
-        m_indexFollower.burnFlash();
-
         m_intakeDebouncer = new Debouncer(IntakeConstants.INTAKE_ERROR_THRESHOLD, DebounceType.kRising);
     }
 

@@ -6,7 +6,7 @@ import java.io.ObjectInputFilter.Config;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
-
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -16,6 +16,7 @@ import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MessageTimers;
 import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.ShooterConstants;
@@ -48,18 +49,20 @@ public class ShooterSubsystem extends SubsystemBase {
     //m_pidController.setFeedbackDevice(m_shooterEncoder);
     m_shooterMotorConfig.closedLoop
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
-    m_shooterMotor.IdleMode(IdleMode.kCoast);
-    m_shooterMotor.setInverted(false);
-    m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
-    m_shooterMotor.enableSoftLimit(SparkBase.SoftLimitDirection.kReverse, true);
+    m_shooterMotorConfig
+      .inverted(false)
+      .idleMode(IdleMode.kCoast);
+      m_shooterMotorConfig.smartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+    m_shooterMotorConfig.softLimit.reverseSoftLimitEnabled(true);
 
     m_followerEncoder = m_followerMotor.getEncoder();
-    m_followerMotor.setIdleMode(IdleMode.kCoast);
-    m_followerMotor.setInverted(true);
-    m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
-    m_followerMotor.enableSoftLimit(SparkBase.SoftLimitDirection.kForward, false);
-    m_followerMotor.enableSoftLimit(SparkBase.SoftLimitDirection.kReverse, false);
-    m_followerMotor.follow(m_shooterMotor, true);
+    m_shooterFollowerConfig
+      .inverted(true)
+      .idleMode(IdleMode.kCoast);
+    m_shooterFollowerConfig.smartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+    m_shooterFollowerConfig.softLimit.forwardSoftLimitEnabled(false);
+    m_shooterFollowerConfig.softLimit.reverseSoftLimitEnabled(false);   
+    m_shooterFollowerConfig.follow(m_shooterMotor, true);
 
     m_pidController.setP(ShooterConstants.WHEEL_P);
     m_pidController.setI(ShooterConstants.WHEEL_I);
@@ -67,6 +70,12 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController.setFF(ShooterConstants.WHEEL_FF);
     m_pidController.setIZone(ShooterConstants.WHEEL_IZONE);
     m_pidController.setOutputRange(0, 1);
+
+    m_shooterMotorConfig.closedLoop
+    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+    .pidf(ShooterConstants.WHEEL_P, ShooterConstants.WHEEL_I, ShooterConstants.WHEEL_D,ShooterConstants.WHEEL_FF,ClosedLoopSlot.kSlot1)
+    .iZone(ShooterConstants.WHEEL_IZONE)
+    .outputRange(0, 1);
 
     // shooter motor CAN messages rates
     m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, 5);
@@ -127,15 +136,15 @@ public class ShooterSubsystem extends SubsystemBase {
       m_shooterMotorConfig.smartCurrentLimit(Constants.ShooterConstants.HIGH_SHOOTER_CURRENT_LIMIT);
       m_shooterFollowerConfig.smartCurrentLimit(Constants.ShooterConstants.HIGH_SHOOTER_CURRENT_LIMIT);
     } else {
-      m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
-      m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+      m_shooterMotorConfig.smartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+      m_shooterFollowerConfig.smartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
     }
   }
 
   @Override
   public void periodic() {
     if (m_shootControlType == ControlType.kVelocity) {
-      m_pidController.setReference(m_targetRPM, CANSparkBase.ControlType.kVelocity);
+      m_pidController.setReference(m_targetRPM, SparkBase.ControlType.kVelocity);
     } else {
       m_shooterMotor.setVoltage(m_targetVoltage);
     }
