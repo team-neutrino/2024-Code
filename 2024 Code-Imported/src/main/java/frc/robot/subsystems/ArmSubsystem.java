@@ -38,7 +38,7 @@ import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.LEDConstants.States;
 
 public class ArmSubsystem extends SubsystemBase {
-  private static final int m_sparkHandle = MotorIDs.Arm; //maybe change spark handle
+  private static final int m_sparkHandle = MotorIDs.Arm; // maybe change spark handle
   private SparkFlex m_armMotor = new SparkFlex(MotorIDs.Arm, SparkLowLevel.MotorType.kBrushless);
   private SparkMaxConfig m_armMotorConfig = new SparkMaxConfig();
   private SparkMaxConfigAccessor m_armMotorConfigAccessor = new SparkMaxConfigAccessor(m_sparkHandle);
@@ -115,35 +115,36 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void initializeMotorControllers() {
-   m_armMotorConfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
-    m_armMotor.configure(m_armMotorConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
-    //change?
+    m_armMotorConfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
+    m_armMotor.configure(m_armMotorConfig, ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
+    // change?
     m_armEncoder = m_armMotor.getAbsoluteEncoder();
-    config.encoder.positionConversionFactor(360);
-    config.absoluteEncoder.zeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
-    config.signals.faultsPeriodMs(MessageTimers.Status0);
-    config.signals.primaryEncoderVelocityPeriodMs(MessageTimers.Status1);
-    config.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
-    config.signals.analogVoltagePeriodMs(MessageTimers.Status3);
-    config.signals.externalOrAltEncoderPosition(MessageTimers.Status4);
-    config.signals.externalOrAltEncoderVelocity(MessageTimers.Status4);
-    config.signals.motorTemperaturePeriodMs(MessageTimers.Status6);
-    m_armMotor.configure(config, ResetMode.kResetSafeParameters, PersistParameters.kPersistParameters);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, 17); don't know what it is
-    
+    m_armMotorConfig.encoder.positionConversionFactor(360);
+    m_armMotorConfig.absoluteEncoder.zeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
+    m_armMotorConfig.signals.faultsPeriodMs(MessageTimers.Status0);
+    m_armMotorConfig.signals.primaryEncoderVelocityPeriodMs(MessageTimers.Status1);
+    m_armMotorConfig.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
+    m_armMotorConfig.signals.analogVoltagePeriodMs(MessageTimers.Status3);
+    m_armMotorConfig.signals.externalOrAltEncoderPosition(MessageTimers.Status4);
+    m_armMotorConfig.signals.externalOrAltEncoderVelocity(MessageTimers.Status4);
+    m_armMotorConfig.signals.motorTemperaturePeriodMs(MessageTimers.Status6);
+    m_armMotor.configure(m_armMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, 17);
+    // don't know what it is
 
     m_armMotor.configure(m_armMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-   m_armMotorConfig.smartCurrentLimit(ArmConstants.ARM_CURRENT_LIMIT);
+    m_armMotorConfig.smartCurrentLimit(ArmConstants.ARM_CURRENT_LIMIT);
 
-   m_armMotorConfig.closedLoop
-    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-    .pid(ArmConstants.ClimbArm_kp, ArmConstants.ClimbArm_ki, ArmConstants.ClimbArm_kd,ClosedLoopSlot.kSlot1)
-    .pid(ArmConstants.FastArm_kp, ArmConstants.Arm_ki, ArmConstants.Arm_kd,ClosedLoopSlot.kSlot2)
-    .iZone(ArmConstants.ClimbIZone)
-    .positionWrappingMaxInput(360)
-    .positionWrappingMinInput(0)
-    .positionWrappingEnabled(true);
+    m_armMotorConfig.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pid(ArmConstants.ClimbArm_kp, ArmConstants.ClimbArm_ki, ArmConstants.ClimbArm_kd, ClosedLoopSlot.kSlot1)
+        .pid(ArmConstants.FastArm_kp, ArmConstants.Arm_ki, ArmConstants.Arm_kd, ClosedLoopSlot.kSlot2)
+        .iZone(ArmConstants.ClimbIZone)
+        .positionWrappingMaxInput(360)
+        .positionWrappingMinInput(0)
+        .positionWrappingEnabled(true);
     m_pidController = m_armMotor.getClosedLoopController();
   }
 
@@ -202,7 +203,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_armWrapCounter++;
     if (m_armWrapCounter >= 50) {
       if (!m_armMotorConfigAccessor.closedLoop.getPositionWrappingEnabled()) {
-       m_armMotorConfig.closedLoop.positionWrappingEnabled(true);
+        m_armMotorConfig.closedLoop.positionWrappingEnabled(true);
       } else {
         m_armWrapCounter = 0;
       }
