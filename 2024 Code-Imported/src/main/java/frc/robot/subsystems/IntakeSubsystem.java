@@ -6,10 +6,14 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel;
+import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel;
 
 import frc.robot.Constants.DigitalConstants;
 import frc.robot.Constants.IntakeConstants;
@@ -26,12 +30,15 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private RelativeEncoder m_intakeEncoder;
     private RelativeEncoder m_indexEncoder;
+    private SparkMax m_intakeMotor = new SparkMax(MotorIDs.INTAKE_MOTOR, SparkLowLevel.MotorType.kBrushless);
+    private SparkMax m_intakeFollower = new SparkMax(MotorIDs.INTAKE_MOTOR_TWO, SparkLowLevel.MotorType.kBrushless);
+    private SparkMax m_indexMotor = new SparkMax(MotorIDs.INDEX_MOTOR, SparkLowLevel.MotorType.kBrushless);
+    private SparkMax m_indexFollower = new SparkMax(MotorIDs.INDEX_MOTOR2, SparkLowLevel.MotorType.kBrushless);
 
-    private SparkMax m_intakeMotor = new SparkMax(MotorIDs.INTAKE_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
-    private SparkMax m_intakeFollower = new SparkMax(MotorIDs.INTAKE_MOTOR_TWO,
-            CANSparkLowLevel.MotorType.kBrushless);
-    private CANSparkMax m_indexMotor = new CANSparkMax(MotorIDs.INDEX_MOTOR, CANSparkLowLevel.MotorType.kBrushless);
-    private CANSparkMax m_indexFollower = new CANSparkMax(MotorIDs.INDEX_MOTOR2, CANSparkLowLevel.MotorType.kBrushless);
+    private SparkMaxConfig m_intakeMotorConfig = new SparkMaxConfig();
+    private SparkMaxConfig m_intakeFollowerConfig = new SparkMaxConfig();
+    private SparkMaxConfig m_indexMotorConfig = new SparkMaxConfig();
+    private SparkMaxConfig m_indexFollowerConfig = new SparkMaxConfig();
 
     private DigitalInput m_intakeBeamBreak = new DigitalInput(DigitalConstants.INTAKE_MOTOR_BEAMBREAK);
     private DigitalInput m_indexBeamBreak = new DigitalInput(DigitalConstants.INDEX_MOTOR_BEAMBREAK);
@@ -44,17 +51,24 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeEncoder = m_intakeMotor.getEncoder();
         m_indexEncoder = m_indexMotor.getEncoder();
 
-        m_intakeMotor.setSmartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT);
-        m_intakeFollower.setSmartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT);
-        m_intakeFollower.follow(m_intakeMotor, false);
+        m_intakeMotor.configure(m_intakeMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_intakeFollower.configure(m_intakeFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_indexMotor.configure(m_indexMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_indexFollower.configure(m_indexFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        m_indexMotor.setSmartCurrentLimit(IntakeConstants.INDEX_CURRENT_LIMIT);
 
-        m_intakeMotor.setIdleMode(IdleMode.kCoast);
-        m_intakeFollower.setIdleMode(IdleMode.kCoast);
+        m_intakeMotorConfig.smartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT); 
+        //potentially check later if it applys for both motors
+        m_intakeFollowerConfig.smartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT);
+        m_intakeFollowerConfig.follow(m_intakeMotor, false);
 
-        m_indexFollower.setSmartCurrentLimit(IntakeConstants.INDEX_CURRENT_LIMIT);
-        m_indexFollower.follow(m_indexMotor, true);
+        m_indexMotorConfig.smartCurrentLimit(IntakeConstants.INDEX_CURRENT_LIMIT);
+
+        m_intakeMotorConfig.idleMode(IdleMode.kCoast);
+        m_intakeFollowerConfig.idleMode(IdleMode.kCoast);
+
+        m_indexFollowerConfig.smartCurrentLimit(IntakeConstants.INDEX_CURRENT_LIMIT);
+        m_indexFollowerConfig.follow(m_indexMotor, true);
 
         // intake motor CAN messages rates
         m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 10);

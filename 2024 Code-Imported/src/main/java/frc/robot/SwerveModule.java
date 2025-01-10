@@ -42,8 +42,8 @@ public class SwerveModule {
 
     private MotorCfg angle_motor_cfg;
     private MotorCfg speed_motor_cfg;
-    private CANSparkMax angleMotor;
-    private CANSparkMax speedMotor;
+    private SparkMax angleMotor;
+    private SparkMax speedMotor;
     private SparkAnalogSensor absAngleEncoder;
     private RelativeEncoder speedEncoder;
     private SparkPIDController anglePID;
@@ -52,8 +52,8 @@ public class SwerveModule {
     public SwerveModule(MotorCfg speed_motor_configuration, MotorCfg angle_motor_configuration) {
         speed_motor_cfg = speed_motor_configuration;
         angle_motor_cfg = angle_motor_configuration;
-        angleMotor = new CANSparkMax(angle_motor_cfg.CanId(), CANSparkLowLevel.MotorType.kBrushless);
-        speedMotor = new CANSparkMax(speed_motor_cfg.CanId(), CANSparkLowLevel.MotorType.kBrushless);
+        angleMotor = new SparkMax(angle_motor_cfg.CanId(), SparkLowLevel.MotorType.kBrushless);
+        speedMotor = new SparkMax(speed_motor_cfg.CanId(), SparkLowLevel.MotorType.kBrushless);
         initializeMotors();
     }
 
@@ -95,11 +95,11 @@ public class SwerveModule {
 
     public void setAnglePID(double reference) {
         reference = adjustAngleIn(reference);
-        anglePID.setReference(reference, CANSparkBase.ControlType.kPosition, 0);
+        anglePID.setReference(reference, SparkBase.ControlType.kPosition, 0);
     }
 
     public void setSpeedPID(double reference, double feedforward) {
-        speedPID.setReference(reference, CANSparkBase.ControlType.kVelocity, 0, feedforward);
+        speedPID.setReference(reference, SparkBase.ControlType.kVelocity, 0, feedforward);
     }
 
     public SwerveModulePosition getModulePosition() {

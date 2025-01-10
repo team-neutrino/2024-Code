@@ -1,14 +1,19 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
+import com.revrobotics.spark.SparkMax;
 
-import com.revrobotics.CANSparkBase;
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import java.io.ObjectInputFilter.Config;
+
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkClosedLoopController;
+
+import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.SparkLowLevel;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.MessageTimers;
@@ -20,11 +25,15 @@ import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private CANSparkMax m_shooterMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
-  private CANSparkMax m_followerMotor = new CANSparkMax(MotorIDs.SHOOTER_MOTOR2, MotorType.kBrushless);
+  private SparkMax m_shooterMotor = new SparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
+  private SparkMax m_followerMotor = new SparkMax(MotorIDs.SHOOTER_MOTOR2, MotorType.kBrushless);
+  
+  private SparkMaxConfig m_shooterMotorConfig = new SparkMaxConfig();
+  private SparkMaxConfig m_shooterFollowerConfig = new SparkMaxConfig();
+
   private RelativeEncoder m_shooterEncoder;
   private RelativeEncoder m_followerEncoder;
-  private SparkPIDController m_pidController;
+  private SparkClosedLoopController m_pidController;
   private Debouncer m_shootDebouncer;
 
   private ControlType m_shootControlType;
@@ -35,19 +44,21 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooterMotor.getEncoder();
-    m_pidController = m_shooterMotor.getPIDController();
-    m_pidController.setFeedbackDevice(m_shooterEncoder);
-    m_shooterMotor.setIdleMode(IdleMode.kCoast);
+    m_pidController = m_shooterMotor.getClosedLoopController();
+    //m_pidController.setFeedbackDevice(m_shooterEncoder);
+    m_shooterMotorConfig.closedLoop
+      .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+    m_shooterMotor.IdleMode(IdleMode.kCoast);
     m_shooterMotor.setInverted(false);
     m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
-    m_shooterMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, true);
+    m_shooterMotor.enableSoftLimit(SparkBase.SoftLimitDirection.kReverse, true);
 
     m_followerEncoder = m_followerMotor.getEncoder();
     m_followerMotor.setIdleMode(IdleMode.kCoast);
     m_followerMotor.setInverted(true);
     m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
-    m_followerMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kForward, false);
-    m_followerMotor.enableSoftLimit(CANSparkBase.SoftLimitDirection.kReverse, false);
+    m_followerMotor.enableSoftLimit(SparkBase.SoftLimitDirection.kForward, false);
+    m_followerMotor.enableSoftLimit(SparkBase.SoftLimitDirection.kReverse, false);
     m_followerMotor.follow(m_shooterMotor, true);
 
     m_pidController.setP(ShooterConstants.WHEEL_P);
@@ -58,22 +69,22 @@ public class ShooterSubsystem extends SubsystemBase {
     m_pidController.setOutputRange(0, 1);
 
     // shooter motor CAN messages rates
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 5);
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 10);
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-    m_shooterMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, 5);
+    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, 10);
+    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
+    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
+    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
+    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
 
     // shooter follower CAN messages rates
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-    m_followerMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
+    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
+    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
+    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
+    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
+    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
 
     m_shooterMotor.burnFlash();
     m_followerMotor.burnFlash();
@@ -113,8 +124,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void useHighCurrentLimits(boolean isHighCurrent) {
     if (isHighCurrent) {
-      m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.HIGH_SHOOTER_CURRENT_LIMIT);
-      m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.HIGH_SHOOTER_CURRENT_LIMIT);
+      m_shooterMotorConfig.smartCurrentLimit(Constants.ShooterConstants.HIGH_SHOOTER_CURRENT_LIMIT);
+      m_shooterFollowerConfig.smartCurrentLimit(Constants.ShooterConstants.HIGH_SHOOTER_CURRENT_LIMIT);
     } else {
       m_shooterMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
       m_followerMotor.setSmartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
