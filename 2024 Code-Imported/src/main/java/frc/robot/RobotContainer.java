@@ -85,13 +85,13 @@ public class RobotContainer {
                 m_driverController.b().whileTrue(new KrakenSwervePointCommand(m_driverController));
 
                 m_driverController.back()
-                                .onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem2.resetPigeon2()));
+                                .onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem2.resetPigeon()));
 
-                if (Utils.isSimulation()) {
-                        SubsystemContainer.swerveSubsystem2
-                                        .seedFieldRelative(new Pose2d(new Translation2d(),
-                                                        Rotation2d.fromDegrees(90)));
-                }
+                // if (Utils.isSimulation()) {
+                // SubsystemContainer.swerveSubsystem2
+                // .seedFieldRelative(new Pose2d(new Translation2d(),
+                // Rotation2d.fromDegrees(90)));
+                // }
                 SubsystemContainer.swerveSubsystem2.registerTelemetry(logger::telemeterize);
 
                 // set named commands

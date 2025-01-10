@@ -155,7 +155,7 @@ public class SwerveSubsystem extends SubsystemBase {
     if (omega == 0 && m_timer.get() == 0) {
       m_timer.start();
     } else if (m_timer.get() >= 0.2 && !m_referenceSet) {
-      m_referenceAngle = SubsystemContainer.swerveSubsystem2.getYaw2();
+      m_referenceAngle = SubsystemContainer.swerveSubsystem2.getYaw();
       m_referenceSet = true;
       m_timer.stop();
       m_timer.reset();
@@ -163,22 +163,22 @@ public class SwerveSubsystem extends SubsystemBase {
       m_referenceSet = false;
 
     } else if (omega == 0 && m_referenceSet) {
-      omega += m_angleController.calculate(SubsystemContainer.swerveSubsystem2.getYaw2(), m_referenceAngle);
+      omega += m_angleController.calculate(SubsystemContainer.swerveSubsystem2.getYaw(), m_referenceAngle);
     }
 
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(vx, vy, omega);
     ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds,
-        Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem2.getYaw2()));
+        Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem2.getYaw()));
 
     robotRelativeSwerve(robotSpeeds);
   }
 
   public void autonRotateSwerve(double reference) {
-    double omega = m_angleController.calculate(SubsystemContainer.swerveSubsystem2.getYaw2(), reference);
+    double omega = m_angleController.calculate(SubsystemContainer.swerveSubsystem2.getYaw(), reference);
 
     ChassisSpeeds fieldSpeeds = new ChassisSpeeds(0, 0, omega);
     ChassisSpeeds robotSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(fieldSpeeds,
-        Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem2.getYaw2()));
+        Rotation2d.fromDegrees(SubsystemContainer.swerveSubsystem2.getYaw()));
 
     robotRelativeSwerve(robotSpeeds);
   }
@@ -402,7 +402,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public static double calculateLimelightOffsetAngle() {
 
-    double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw2();
+    double currentYaw = SubsystemContainer.swerveSubsystem2.getYaw();
     double offsetYaw = SubsystemContainer.limelightSubsystem.getDistanceFromPrimaryTarget();
     double[] pose = SubsystemContainer.limelightSubsystem.getBotPose();
     if (SubsystemContainer.alliance.isRedAlliance()) {
@@ -429,7 +429,7 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public boolean AutoAligned() {
     return Math.abs(SwerveSubsystem.calculateLimelightOffsetAngle()
-        - SubsystemContainer.swerveSubsystem2.getYaw2()) < ShooterConstants.AUTO_ALIGN_ERROR;
+        - SubsystemContainer.swerveSubsystem2.getYaw()) < ShooterConstants.AUTO_ALIGN_ERROR;
   }
 
   public boolean withinShootingDistance() {

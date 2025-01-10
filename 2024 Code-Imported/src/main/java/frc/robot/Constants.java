@@ -20,7 +20,7 @@ public final class Constants {
   }
 
   public static class SwerveConstants {
-    public static double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
+    public static double MaxSpeed = TunerConstants.kSpeedAt12Volts.magnitude(); // kSpeedAt12VoltsMps desired top speed
     public static double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
     public static final double GEAR_RATIO = 6.55;

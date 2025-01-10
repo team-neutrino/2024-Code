@@ -1,10 +1,10 @@
 package frc.robot.util;
 
 import frc.robot.Constants.PWMConstants;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.WrappedSwerve;
 import frc.robot.subsystems.wrapper.Arm;
 import frc.robot.subsystems.wrapper.Intake;
 import frc.robot.subsystems.wrapper.NetworkTables;
@@ -20,6 +20,6 @@ public class SubsystemContainer {
     public static final Shooter shooterSubsystem = new Shooter();
     public static final Arm armSubsystem = new Arm(m_angleCalculate);
     public static final LEDSubsystem LEDSubsystem = new LEDSubsystem(PWMConstants.LED1);
-    public static final CommandSwerveDrivetrain swerveSubsystem2 = TunerConstants.createDrivetrain();
+    public static final WrappedSwerve swerveSubsystem2 = TunerConstants.createDrivetrain();
     public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 }
