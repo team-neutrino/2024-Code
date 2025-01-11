@@ -109,9 +109,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void initializeMotorControllers() {
     m_armMotorConfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
-    m_armMotor.configure(m_armMotorConfig,
-        SparkBase.ResetMode.kResetSafeParameters,
-        SparkBase.PersistMode.kPersistParameters);
     // change?
     m_armEncoder = m_armMotor.getAbsoluteEncoder();
     m_armMotorConfig.encoder.positionConversionFactor(360);
@@ -145,6 +142,9 @@ public class ArmSubsystem extends SubsystemBase {
         .positionWrappingMinInput(0)
         .positionWrappingEnabled(true);
     m_pidController = m_armMotor.getClosedLoopController();
+    m_armMotor.configure(m_armMotorConfig,
+        ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
   }
 
   public void setArmReferenceAngle(double targetAngle) {

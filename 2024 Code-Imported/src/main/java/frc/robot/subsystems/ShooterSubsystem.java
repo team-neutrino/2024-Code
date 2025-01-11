@@ -9,6 +9,8 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -28,7 +30,7 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 public class ShooterSubsystem extends SubsystemBase {
   private SparkMax m_shooterMotor = new SparkMax(MotorIDs.SHOOTER_MOTOR1, MotorType.kBrushless);
   private SparkMax m_followerMotor = new SparkMax(MotorIDs.SHOOTER_MOTOR2, MotorType.kBrushless);
-  
+
   private SparkMaxConfig m_shooterMotorConfig = new SparkMaxConfig();
   private SparkMaxConfig m_shooterFollowerConfig = new SparkMaxConfig();
 
@@ -46,50 +48,71 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     m_shooterEncoder = m_shooterMotor.getEncoder();
     m_pidController = m_shooterMotor.getClosedLoopController();
-    //m_pidController.setFeedbackDevice(m_shooterEncoder);
+    // m_pidController.setFeedbackDevice(m_shooterEncoder);
     m_shooterMotorConfig.closedLoop
-      .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
     m_shooterMotorConfig
-      .inverted(false)
-      .idleMode(IdleMode.kCoast);
-      m_shooterMotorConfig.smartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
+        .inverted(false)
+        .idleMode(IdleMode.kCoast);
+    m_shooterMotorConfig.smartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
     m_shooterMotorConfig.softLimit.reverseSoftLimitEnabled(true);
 
     m_followerEncoder = m_followerMotor.getEncoder();
     m_shooterFollowerConfig
-      .inverted(true)
-      .idleMode(IdleMode.kCoast);
+        .inverted(true)
+        .idleMode(IdleMode.kCoast);
     m_shooterFollowerConfig.smartCurrentLimit(Constants.ShooterConstants.SHOOTER_CURRENT_LIMIT);
     m_shooterFollowerConfig.softLimit.forwardSoftLimitEnabled(false);
-    m_shooterFollowerConfig.softLimit.reverseSoftLimitEnabled(false);   
+    m_shooterFollowerConfig.softLimit.reverseSoftLimitEnabled(false);
     m_shooterFollowerConfig.follow(m_shooterMotor, true);
 
     m_shooterMotorConfig.closedLoop
-    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-    .pidf(ShooterConstants.WHEEL_P, ShooterConstants.WHEEL_I, ShooterConstants.WHEEL_D,ShooterConstants.WHEEL_FF,ClosedLoopSlot.kSlot1)
-    .iZone(ShooterConstants.WHEEL_IZONE)
-    .outputRange(0, 1);
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pidf(ShooterConstants.WHEEL_P, ShooterConstants.WHEEL_I, ShooterConstants.WHEEL_D, ShooterConstants.WHEEL_FF,
+            ClosedLoopSlot.kSlot1)
+        .iZone(ShooterConstants.WHEEL_IZONE)
+        .outputRange(0, 1);
 
     // shooter motor CAN messages rates
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, 5);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, 10);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0,
+    // 5);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1,
+    // 10);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2,
+    // MessageTimers.Status2);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3,
+    // MessageTimers.Status3);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4,
+    // MessageTimers.Status4);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5,
+    // MessageTimers.Status5);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6,
+    // MessageTimers.Status6);
 
     // // shooter follower CAN messages rates
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0,
+    // MessageTimers.Status0);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1,
+    // MessageTimers.Status1);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2,
+    // MessageTimers.Status2);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3,
+    // MessageTimers.Status3);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4,
+    // MessageTimers.Status4);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5,
+    // MessageTimers.Status5);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6,
+    // MessageTimers.Status6);
 
     // m_shooterMotor.burnFlash();
     // m_followerMotor.burnFlash();
+    m_shooterMotor.configure(m_shooterMotorConfig,
+        ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
+    m_followerMotor.configure(m_shooterMotorConfig,
+        ResetMode.kResetSafeParameters,
+        PersistMode.kPersistParameters);
 
     m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME, DebounceType.kRising);
   }

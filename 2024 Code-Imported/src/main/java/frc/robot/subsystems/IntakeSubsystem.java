@@ -51,16 +51,10 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeEncoder = m_intakeMotor.getEncoder();
         m_indexEncoder = m_indexMotor.getEncoder();
 
-        m_intakeMotor.configure(m_intakeMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        m_intakeFollower.configure(m_intakeFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        m_indexMotor.configure(m_indexMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        m_indexFollower.configure(m_indexFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-
-        m_intakeMotorConfig.smartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT); 
-        //potentially check later if it applys for both motors
+        m_intakeMotorConfig.smartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT);
+        // potentially check later if it applys for both motors
         m_intakeFollowerConfig.smartCurrentLimit(IntakeConstants.INTAKE_CURRENT_LIMIT);
-        m_intakeFollowerConfig.follow(m_intakeMotor, false);
+        m_intakeFollowerConfig.follow(MotorIDs.INTAKE_MOTOR, false);
 
         m_indexMotorConfig.smartCurrentLimit(IntakeConstants.INDEX_CURRENT_LIMIT);
 
@@ -68,43 +62,78 @@ public class IntakeSubsystem extends SubsystemBase {
         m_intakeFollowerConfig.idleMode(IdleMode.kCoast);
 
         m_indexFollowerConfig.smartCurrentLimit(IntakeConstants.INDEX_CURRENT_LIMIT);
-        m_indexFollowerConfig.follow(m_indexMotor, true);
+        m_indexFollowerConfig.follow(m_indexFollower, false);
 
         // intake motor CAN messages rates
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 10);
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0,
+        // 10);
+        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1,
+        // MessageTimers.Status1);
+        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2,
+        // MessageTimers.Status2);
+        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3,
+        // MessageTimers.Status3);
+        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4,
+        // MessageTimers.Status4);
+        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5,
+        // MessageTimers.Status5);
+        // m_intakeMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6,
+        // MessageTimers.Status6);
 
         // // intake follower CAN messages rates
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0,
+        // MessageTimers.Status0);
+        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1,
+        // MessageTimers.Status1);
+        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2,
+        // MessageTimers.Status2);
+        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3,
+        // MessageTimers.Status3);
+        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4,
+        // MessageTimers.Status4);
+        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5,
+        // MessageTimers.Status5);
+        // m_intakeFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6,
+        // MessageTimers.Status6);
 
         // // index motor CAN messages rates
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 10);
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0,
+        // 10);
+        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1,
+        // MessageTimers.Status1);
+        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2,
+        // MessageTimers.Status2);
+        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3,
+        // MessageTimers.Status3);
+        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4,
+        // MessageTimers.Status4);
+        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5,
+        // MessageTimers.Status5);
+        // m_indexMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6,
+        // MessageTimers.Status6);
 
         // // index follower CAN messages rates
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0,
+        // MessageTimers.Status0);
+        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1,
+        // MessageTimers.Status1);
+        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2,
+        // MessageTimers.Status2);
+        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3,
+        // MessageTimers.Status3);
+        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus4,
+        // MessageTimers.Status4);
+        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus5,
+        // MessageTimers.Status5);
+        // m_indexFollower.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus6,
+        // MessageTimers.Status6);
+
+        m_intakeMotor.configure(m_intakeMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_intakeFollower.configure(m_intakeFollowerConfig, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
+        m_indexMotor.configure(m_indexMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_indexFollower.configure(m_indexFollowerConfig, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
 
         m_intakeDebouncer = new Debouncer(IntakeConstants.INTAKE_ERROR_THRESHOLD, DebounceType.kRising);
     }

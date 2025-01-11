@@ -37,6 +37,8 @@ public class SwerveDefaultCommand extends Command {
     m_swerveSubsystem.POV(m_xboxController.getPOV());
 
     m_swerveSubsystem.setCommandState(States.DEFAULT);
+
+    System.out.println("Swerve Default");
   }
 
   // Called once the command ends or is interrupted.
