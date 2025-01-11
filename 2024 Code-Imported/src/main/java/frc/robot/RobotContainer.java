@@ -75,7 +75,7 @@ public class RobotContainer {
                 SubsystemContainer.LEDSubsystem.setDefaultCommand(m_LEDDefaultCommand);
                 SubsystemContainer.swerveSubsystem.setDefaultCommand(new SwerveDefaultCommand(m_driverController));
                 SubsystemContainer.intakeSubsystem.setDefaultCommand(m_intakeDefaultCommand);
-                SubsystemContainer.armSubsystem.setDefaultCommand(new ArmDefaultCommand());
+                // SubsystemContainer.armSubsystem.setDefaultCommand(new ArmDefaultCommand());
                 SubsystemContainer.shooterSubsystem.setDefaultCommand(new ShooterDefaultCommand());
                 SubsystemContainer.limelightSubsystem.setDefaultCommand(m_LimelightDefaultCommand);
                 SubsystemContainer.swerveSubsystem2

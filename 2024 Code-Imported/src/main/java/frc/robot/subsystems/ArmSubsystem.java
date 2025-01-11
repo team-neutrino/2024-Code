@@ -12,9 +12,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
-import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
-import com.revrobotics.spark.config.ClosedLoopConfigAccessor;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkMaxConfigAccessor;
@@ -23,10 +21,6 @@ import edu.wpi.first.wpilibj.Timer;
 import java.util.TreeMap;
 
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.spark.SparkBase;
-import com.revrobotics.spark.SparkFlex;
-import com.revrobotics.spark.SparkLowLevel;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,7 +31,7 @@ import frc.robot.Constants.MotorIDs;
 import frc.robot.Constants.LEDConstants.States;
 
 public class ArmSubsystem extends SubsystemBase {
-  private static final int m_sparkHandle = MotorIDs.Arm; //maybe change spark handle
+  private static final int m_sparkHandle = MotorIDs.Arm; // maybe change spark handle
   private SparkFlex m_armMotor = new SparkFlex(MotorIDs.Arm, SparkLowLevel.MotorType.kBrushless);
   private SparkMaxConfig m_armMotorConfig = new SparkMaxConfig();
   private SparkMaxConfigAccessor m_armMotorConfigAccessor = new SparkMaxConfigAccessor(m_sparkHandle);
@@ -46,7 +40,7 @@ public class ArmSubsystem extends SubsystemBase {
   private boolean m_inPosition;
   private Debouncer m_armDebouncer;
   private SparkClosedLoopController m_pidController;
-  private ClosedLoopSlot m_PIDslot;
+  private ClosedLoopSlot m_PIDslot = ClosedLoopSlot.kSlot1;
   private double m_error;
   private double m_oldAngle;
   private Timer m_timer;
@@ -114,33 +108,42 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void initializeMotorControllers() {
-   m_armMotorConfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
-    m_armMotor.configure(m_armMotorConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
-    //change?
+    m_armMotorConfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
+    m_armMotor.configure(m_armMotorConfig,
+        SparkBase.ResetMode.kResetSafeParameters,
+        SparkBase.PersistMode.kPersistParameters);
+    // change?
     m_armEncoder = m_armMotor.getAbsoluteEncoder();
-   m_armMotorConfig.encoder.positionConversionFactor(360);
-   m_armMotorConfig.absoluteEncoder.zeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+    m_armMotorConfig.encoder.positionConversionFactor(360);
+    m_armMotorConfig.absoluteEncoder.zeroOffset(ArmConstants.ARM_ABS_ENCODER_ZERO_OFFSET);
+    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0,
+    // MessageTimers.Status0);
+    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1,
+    // MessageTimers.Status1);
+    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2,
+    // MessageTimers.Status2);
+    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3,
+    // MessageTimers.Status3);
+    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4,
+    // MessageTimers.Status4);
     // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, 17);
-    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
-   m_armMotorConfig.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
+    // m_armMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6,
+    // MessageTimers.Status6);
+    m_armMotorConfig.signals.primaryEncoderPositionPeriodMs(MessageTimers.Status2);
 
-    m_armMotor.configure(m_armMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // m_armMotor.configure(m_armMotorConfig, ResetMode.kResetSafeParameters,
+    // PersistMode.kPersistParameters);
 
-   m_armMotorConfig.smartCurrentLimit(ArmConstants.ARM_CURRENT_LIMIT);
+    m_armMotorConfig.smartCurrentLimit(ArmConstants.ARM_CURRENT_LIMIT);
 
-   m_armMotorConfig.closedLoop
-    .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-    .pid(ArmConstants.ClimbArm_kp, ArmConstants.ClimbArm_ki, ArmConstants.ClimbArm_kd,ClosedLoopSlot.kSlot1)
-    .pid(ArmConstants.FastArm_kp, ArmConstants.Arm_ki, ArmConstants.Arm_kd,ClosedLoopSlot.kSlot2)
-    .iZone(ArmConstants.ClimbIZone)
-    .positionWrappingMaxInput(360)
-    .positionWrappingMinInput(0)
-    .positionWrappingEnabled(true);
+    m_armMotorConfig.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pid(ArmConstants.ClimbArm_kp, ArmConstants.ClimbArm_ki, ArmConstants.ClimbArm_kd, ClosedLoopSlot.kSlot1)
+        .pid(ArmConstants.FastArm_kp, ArmConstants.Arm_ki, ArmConstants.Arm_kd, ClosedLoopSlot.kSlot2)
+        .iZone(ArmConstants.ClimbIZone)
+        .positionWrappingMaxInput(360)
+        .positionWrappingMinInput(0)
+        .positionWrappingEnabled(true);
     m_pidController = m_armMotor.getClosedLoopController();
   }
 
@@ -199,7 +202,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_armWrapCounter++;
     if (m_armWrapCounter >= 50) {
       if (!m_armMotorConfigAccessor.closedLoop.getPositionWrappingEnabled()) {
-       m_armMotorConfig.closedLoop.positionWrappingEnabled(true);
+        m_armMotorConfig.closedLoop.positionWrappingEnabled(true);
       } else {
         m_armWrapCounter = 0;
       }
