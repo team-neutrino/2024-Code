@@ -33,7 +33,6 @@ public class KrakenSwerveDefaultCommand extends Command {
         .withVelocityY(m_controller.getLeftX() * SwerveConstants.MaxSpeed)
         .withRotationalRate(-m_controller.getRightX() *
             SwerveConstants.MaxAngularRate));
-    System.out.println("Kraken Default");
   }
 
   // Called once the command ends or is interrupted.

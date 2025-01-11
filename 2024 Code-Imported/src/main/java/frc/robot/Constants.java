@@ -4,7 +4,7 @@ import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import frc.robot.util.TunerConstants;
+import frc.robot.generated.TunerConstants;
 
 public final class Constants {
   public static class OperatorConstants {
