@@ -64,13 +64,6 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterFollowerConfig.softLimit.reverseSoftLimitEnabled(false);   
     m_shooterFollowerConfig.follow(m_shooterMotor, true);
 
-    m_pidController.setP(ShooterConstants.WHEEL_P);
-    m_pidController.setI(ShooterConstants.WHEEL_I);
-    m_pidController.setD(ShooterConstants.WHEEL_D);
-    m_pidController.setFF(ShooterConstants.WHEEL_FF);
-    m_pidController.setIZone(ShooterConstants.WHEEL_IZONE);
-    m_pidController.setOutputRange(0, 1);
-
     m_shooterMotorConfig.closedLoop
     .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
     .pidf(ShooterConstants.WHEEL_P, ShooterConstants.WHEEL_I, ShooterConstants.WHEEL_D,ShooterConstants.WHEEL_FF,ClosedLoopSlot.kSlot1)
@@ -78,25 +71,25 @@ public class ShooterSubsystem extends SubsystemBase {
     .outputRange(0, 1);
 
     // shooter motor CAN messages rates
-    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, 5);
-    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, 10);
-    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-    m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, 5);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, 10);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
+    // m_shooterMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
 
-    // shooter follower CAN messages rates
-    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
-    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
-    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
-    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
-    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
-    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
-    m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
+    // // shooter follower CAN messages rates
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus0, MessageTimers.Status0);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus1, MessageTimers.Status1);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus2, MessageTimers.Status2);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus3, MessageTimers.Status3);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus4, MessageTimers.Status4);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus5, MessageTimers.Status5);
+    // m_followerMotor.setPeriodicFramePeriod(SparkLowLevel.PeriodicFrame.kStatus6, MessageTimers.Status6);
 
-    m_shooterMotor.burnFlash();
-    m_followerMotor.burnFlash();
+    // m_shooterMotor.burnFlash();
+    // m_followerMotor.burnFlash();
 
     m_shootDebouncer = new Debouncer(ShooterConstants.DEBOUNCE_TIME, DebounceType.kRising);
   }
