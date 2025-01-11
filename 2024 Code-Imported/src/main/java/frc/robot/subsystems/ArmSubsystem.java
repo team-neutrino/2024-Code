@@ -201,7 +201,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void keepArmWrapped() {
     m_armWrapCounter++;
     if (m_armWrapCounter >= 50) {
-      if (!m_armMotorConfigAccessor.closedLoop.getPositionWrappingEnabled()) {
+      if (!m_armMotor.configAccessor.closedLoop.getPositionWrappingEnabled()) {
         m_armMotorConfig.closedLoop.positionWrappingEnabled(true);
       } else {
         m_armWrapCounter = 0;
