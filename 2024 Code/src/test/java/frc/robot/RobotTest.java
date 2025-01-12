@@ -16,8 +16,8 @@ public class RobotTest {
         // assertTrue(1.92 < armDefault);
         // assertTrue(armDefault < 1.93);
 
-        var targetAngle = armSubsysem.getTargetAngle();
-        System.out.println("targetAngle " + targetAngle);
-        assertEquals(-27.0, targetAngle);
+        var defaultTargetAngle = armSubsysem.getTargetAngle();
+        System.out.println("targetAngle " + defaultTargetAngle);
+        assertEquals(-27.0, defaultTargetAngle);
     }
 }
