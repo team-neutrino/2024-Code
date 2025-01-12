@@ -8,6 +8,6 @@ public class RobotTest {
 
     @Test
     void testSomething() {
-        assertEquals(10, 5+4)
+        assertEquals(10, 5+4);
     }
 }
