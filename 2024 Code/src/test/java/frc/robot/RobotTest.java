@@ -10,6 +10,7 @@ public class RobotTest {
     @Test
     void testSomething() {
         assertEquals(10, 5+5);
-        new ArmSubsystem();
+        var armSubsysem = new ArmSubsystem();
+        assertEquals(armSubsysem.getArmAngleDegrees(), 100);
     }
 }
