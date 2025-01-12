@@ -43,4 +43,17 @@ public class RobotTest {
 
         var newTargetAngle = armSubsystem.getTargetAngle();
         assertEquals(expectedClimbAngle, newTargetAngle);
-    }}
+    }
+
+    @Test
+    void testWAT() {
+        double expectedClimbAngle = -20.0;
+        var armSubsystem = new ArmSubsystem();
+        var armDefault = armSubsystem.getArmAngleDegrees();
+
+        armSubsystem.setClimbReferenceAngle();
+
+        var newTargetAngle = armSubsystem.getTargetAngle();
+        assertEquals(expectedClimbAngle, newTargetAngle);
+    }
+}
