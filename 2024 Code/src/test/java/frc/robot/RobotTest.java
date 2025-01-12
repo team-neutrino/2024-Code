@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RobotTest {
 
     @Test
-    void testSomething() {
+    void testTargetAngle() {
         var armSubsysem = new ArmSubsystem();
         var armDefault = armSubsysem.getArmAngleDegrees();
         System.out.println("armDefault " + armDefault);
@@ -19,5 +19,10 @@ public class RobotTest {
         var defaultTargetAngle = armSubsysem.getTargetAngle();
         System.out.println("targetAngle " + defaultTargetAngle);
         assertEquals(-27.0, defaultTargetAngle);
+
+        armSubsysem.setClimbReferenceAngle()
+        var newTargetAngle = armSubsysem.getTargetAngle();
+        System.out.println("newTargetAngle " + newTargetAngle);
+        assertEquals(-20.0, newTargetAngle);
     }
 }
