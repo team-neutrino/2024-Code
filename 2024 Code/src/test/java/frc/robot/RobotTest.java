@@ -20,7 +20,7 @@ public class RobotTest {
         System.out.println("targetAngle " + defaultTargetAngle);
         assertEquals(-27.0, defaultTargetAngle);
 
-        armSubsysem.setClimbReferenceAngle()
+        armSubsysem.setClimbReferenceAngle();
         var newTargetAngle = armSubsysem.getTargetAngle();
         System.out.println("newTargetAngle " + newTargetAngle);
         assertEquals(-20.0, newTargetAngle);
