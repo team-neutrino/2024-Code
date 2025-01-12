@@ -11,7 +11,9 @@ public class RobotTest {
     void testSomething() {
         assertEquals(10, 5+5);
         var armSubsysem = new ArmSubsystem();
-        System.out.println("actual " + armSubsysem.getArmAngleDegrees());
-        asserTrue(1.92 < armSubsysem.getArmAngleDegrees() < 1.93);
+        var armDeafault = armSubsysem.getArmAngleDegrees();
+        System.out.println("armDefault " + armDefault);
+        asserTrue(1.92 < armDefault);
+        asserTrue(armDefault < 1.93);
     }
 }
