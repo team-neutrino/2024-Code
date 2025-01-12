@@ -12,7 +12,7 @@ public class RobotTest {
         var armSubsysem = new ArmSubsystem();
         var armDefault = armSubsysem.getArmAngleDegrees();
         System.out.println("armDefault " + armDefault);
-        //this looks to random at the moment
+        //this looks to be random at the moment
         // assertTrue(1.92 < armDefault);
         // assertTrue(armDefault < 1.93);
 
