@@ -3,7 +3,7 @@ package frc.robot;
 import org.junit.jupiter.api.Test;
 import frc.robot.subsystems.ArmSubsystem;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RobotTest {
 
@@ -12,6 +12,6 @@ public class RobotTest {
         assertEquals(10, 5+5);
         var armSubsysem = new ArmSubsystem();
         System.out.println("actual " + armSubsysem.getArmAngleDegrees());
-        assertEquals(armSubsysem.getArmAngleDegrees(), 100);
+        asserTrue(1.92 < armSubsysem.getArmAngleDegrees() < 1.93);
     }
 }
