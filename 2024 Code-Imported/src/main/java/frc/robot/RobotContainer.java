@@ -26,6 +26,7 @@ import frc.robot.commands.GamePieceCommands.ShuttleCloseCommand;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.commands.AutoAlignCommand;
 import frc.robot.commands.AutoAlignForeverCommand;
+import frc.robot.commands.EscapeManeuvers;
 import frc.robot.commands.IntakeDefaultCommand;
 import frc.robot.commands.KrakenSwerveBrakeCommand;
 import frc.robot.commands.KrakenSwerveDefaultCommand;
@@ -83,6 +84,7 @@ public class RobotContainer {
 
                 m_driverController.a().whileTrue(new KrakenSwerveBrakeCommand());
                 m_driverController.b().whileTrue(new KrakenSwervePointCommand(m_driverController));
+                m_driverController.rightStick().whileTrue(new EscapeManeuvers(m_driverController));
 
                 m_driverController.back()
                                 .onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem2.resetPigeon()));
