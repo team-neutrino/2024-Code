@@ -84,7 +84,7 @@ public class RobotContainer {
 
                 m_driverController.a().whileTrue(new KrakenSwerveBrakeCommand());
                 m_driverController.b().whileTrue(new KrakenSwervePointCommand(m_driverController));
-                m_driverController.rightStick().whileTrue(new EscapeManeuvers(m_driverController));
+                m_driverController.rightStick().toggleOnTrue(new EscapeManeuvers(m_driverController));
 
                 m_driverController.back()
                                 .onTrue(new InstantCommand(() -> SubsystemContainer.swerveSubsystem2.resetPigeon()));

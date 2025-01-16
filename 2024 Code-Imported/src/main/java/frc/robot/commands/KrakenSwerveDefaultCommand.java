@@ -4,7 +4,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.SubsystemContainer;
@@ -28,11 +31,13 @@ public class KrakenSwerveDefaultCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
-        .withVelocityX(m_controller.getLeftY() * SwerveConstants.MaxSpeed)
-        .withVelocityY(m_controller.getLeftX() * SwerveConstants.MaxSpeed)
-        .withRotationalRate(-m_controller.getRightX() *
-            SwerveConstants.MaxAngularRate));
+    System.out.println(SubsystemContainer.swerveSubsystem2.getYaw());
+    SubsystemContainer.swerveSubsystem2
+        .setControl(SwerveRequestStash.drive.withCenterOfRotation(new Translation2d(0, 0))
+            .withVelocityX(m_controller.getLeftY() * SwerveConstants.MaxSpeed)
+            .withVelocityY(m_controller.getLeftX() * SwerveConstants.MaxSpeed)
+            .withRotationalRate(m_controller.getRightX() *
+                SwerveConstants.MaxAngularRate));
   }
 
   // Called once the command ends or is interrupted.
