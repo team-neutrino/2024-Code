@@ -44,10 +44,15 @@ public class EscapeManeuvers extends Command {
   public void execute() {
     double controllerX = controller.getLeftX();
     double controllerY = -controller.getLeftY();
+    double controllerOmega = controller.getRightX();
+
     double fieldRelativeMoveAngle = Math.atan2(controllerY, controllerX);
     double yaw = Math.toRadians(SubsystemContainer.swerveSubsystem2.getYaw());
 
-    Rotation2d robotRelativeMoveAngle = new Rotation2d(fieldRelativeMoveAngle - yaw - (Math.PI / 2));
+    double translational = fieldRelativeMoveAngle - yaw - (Math.PI / 2);
+    double rotational = (Math.signum(controllerOmega) * (Math.PI / 4));
+
+    Rotation2d robotRelativeMoveAngle = new Rotation2d(translational + rotational);
 
     SubsystemContainer.swerveSubsystem2
         .setControl(
