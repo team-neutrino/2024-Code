@@ -18,11 +18,11 @@ public class LimelightDefaultCommand extends Command {
     @Override
     public void initialize() {
         SubsystemContainer.limelightSubsystem.setPipeline(0);
-        if (SubsystemContainer.alliance.isRedAlliance()) {
-            SubsystemContainer.limelightSubsystem.setPriorityID(4);
-        } else {
-            SubsystemContainer.limelightSubsystem.setPriorityID(7);
-        }
+        // if (SubsystemContainer.alliance.isRedAlliance()) {
+        // SubsystemContainer.limelightSubsystem.setPriorityID(7);
+        // } else {
+        // SubsystemContainer.limelightSubsystem.setPriorityID(7);
+        // }
     }
 
     @Override

@@ -137,10 +137,11 @@ public class RobotContainer {
                                 .onTrue(new InstantCommand(
                                                 () -> SubsystemContainer.armSubsystem.initializeMotorControllers()));
 
-                m_driverController.rightBumper()
-                                .whileTrue(new ConditionalCommand(new AutoAlignCommand(m_driverController),
-                                                new KrakenSwerveDefaultCommand(m_driverController),
-                                                () -> SubsystemContainer.limelightSubsystem.getTv()));
+                m_driverController.rightBumper().whileTrue(new AutoAlignCommand(m_driverController));
+                // new KrakenSwerveDefaultCommand(m_driverController));
+                // .whileTrue(new ConditionalCommand(new AutoAlignCommand(m_driverController),
+                // new KrakenSwerveDefaultCommand(m_driverController),
+                // () -> SubsystemContainer.limelightSubsystem.getTv()));
 
                 m_driverController.y().whileTrue(new ShuttleAutoAlignCommand(m_buttonsController));
 

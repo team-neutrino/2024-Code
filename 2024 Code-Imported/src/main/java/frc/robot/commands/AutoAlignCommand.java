@@ -6,11 +6,13 @@ package frc.robot.commands;
 
 import frc.robot.util.SubsystemContainer;
 import frc.robot.util.SwerveRequestStash;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.AprilTagConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.subsystems.LimelightSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
@@ -26,22 +28,44 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void initialize() {
-        if (SubsystemContainer.alliance.isRedAlliance()) {
-            priorityTag = AprilTagConstants.RED_ALLIANCE_IDS.SPEAKER_ID;
-        } else {
-            priorityTag = AprilTagConstants.BLUE_ALLIANCE_IDS.SPEAKER_ID;
-        }
-        SubsystemContainer.limelightSubsystem.setPriorityID(priorityTag);
+        // if (SubsystemContainer.alliance.isRedAlliance()) {
+        // priorityTag = AprilTagConstants.RED_ALLIANCE_IDS.SPEAKER_ID;
+        // } else {
+        // priorityTag = AprilTagConstants.BLUE_ALLIANCE_IDS.SPEAKER_ID;
+        // }
+        // SubsystemContainer.limelightSubsystem.setPriorityID(priorityTag);
     }
 
     @Override
     public void execute() {
-        SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
-                .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
-                .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
-                .withRotationalRate(
-                        offsetToOmega(-SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
+        // if (SubsystemContainer.limelightSubsystem.getTv()) {
+        // SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
+        // .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
+        // .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
+        // .withRotationalRate(
+        // offsetToOmega(SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
+        // }
 
+        // if (SubsystemContainer.limelightSubsystem.getTv()) {
+        SwerveRequestStash.driveForAutoAlign.HeadingController.setPID(2, 0, 0.2);
+        double x = SubsystemContainer.swerveSubsystem2.getYaw() % 360;
+        if ((x < 0)) {
+            x += 360;
+        }
+        SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.driveForAutoAlign
+                .withVelocityX(m_xboxController.getLeftY())
+                .withVelocityY(m_xboxController.getLeftX())
+                .withTargetDirection(
+                        Rotation2d.fromDegrees(0)));
+        // Rotation2d.fromDegrees(-x
+        // + SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
+
+        // System.out.println("tag " +
+        // SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag());
+        System.out.println("swerve " + x);
+        // System.out.println("Result" + Rotation2d.fromDegrees(x
+        // - SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag()));
+        // }
     }
 
     /**
