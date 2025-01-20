@@ -48,7 +48,7 @@ public class AutoAlignCommand extends Command {
         // }
 
         // if (SubsystemContainer.limelightSubsystem.getTv()) {
-        SwerveRequestStash.driveForAutoAlign.HeadingController.setPID(2, 0, 0.2);
+        SwerveRequestStash.driveForAutoAlign.HeadingController.setPID(0.5, 0, 0.2);
         SwerveRequestStash.driveForAutoAlign.HeadingController.enableContinuousInput(-180.0, 180.0);
         double x = SubsystemContainer.swerveSubsystem2.getYaw() % 360;
         x *= Math.signum(x);
@@ -56,7 +56,7 @@ public class AutoAlignCommand extends Command {
                 .withVelocityX(m_xboxController.getLeftY())
                 .withVelocityY(m_xboxController.getLeftX())
                 .withTargetDirection(
-                        Rotation2d.fromDegrees(0)));
+                        // Rotation2d.fromDegrees(0)));
         // Rotation2d.fromDegrees(-x
         // + SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
 
