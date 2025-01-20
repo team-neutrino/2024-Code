@@ -22,7 +22,6 @@ public class SubsystemContainer {
     public static final Shooter shooterSubsystem = new Shooter();
     public static final Arm armSubsystem = new Arm(m_angleCalculate);
     public static final LEDSubsystem LEDSubsystem = new LEDSubsystem(PWMConstants.LED1);
-    public static final WrappedSwerve swerveSubsystem2 = TunerConstants.createDrivetrain(); // (WrappedSwerve)
-                                                                                            // TunerConstants.createDrivetrain();
+    public static final WrappedSwerve swerveSubsystem2 = TunerConstants.createDrivetrain();
     public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 }

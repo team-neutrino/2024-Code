@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.AprilTagConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.LimelightSubsystem;
+import java.math.*;
 
 /** An example command that uses an example subsystem. */
 public class AutoAlignCommand extends Command {
@@ -48,10 +49,9 @@ public class AutoAlignCommand extends Command {
 
         // if (SubsystemContainer.limelightSubsystem.getTv()) {
         SwerveRequestStash.driveForAutoAlign.HeadingController.setPID(2, 0, 0.2);
+        SwerveRequestStash.driveForAutoAlign.HeadingController.enableContinuousInput(-180.0, 180.0);
         double x = SubsystemContainer.swerveSubsystem2.getYaw() % 360;
-        if ((x < 0)) {
-            x += 360;
-        }
+        x *= Math.signum(x);
         SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.driveForAutoAlign
                 .withVelocityX(m_xboxController.getLeftY())
                 .withVelocityY(m_xboxController.getLeftX())
