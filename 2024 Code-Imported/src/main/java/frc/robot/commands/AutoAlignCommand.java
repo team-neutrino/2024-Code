@@ -56,7 +56,7 @@ public class AutoAlignCommand extends Command {
                 .withVelocityX(m_xboxController.getLeftY())
                 .withVelocityY(m_xboxController.getLeftX())
                 .withTargetDirection(
-                        // Rotation2d.fromDegrees(0)));
+                        Rotation2d.fromDegrees(0)));
         // Rotation2d.fromDegrees(-x
         // + SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
 
