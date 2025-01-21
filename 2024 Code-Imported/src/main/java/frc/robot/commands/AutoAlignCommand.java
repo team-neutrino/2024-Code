@@ -9,6 +9,7 @@ import frc.robot.util.SwerveRequestStash;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.AprilTagConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -39,38 +40,39 @@ public class AutoAlignCommand extends Command {
 
     @Override
     public void execute() {
-        // if (SubsystemContainer.limelightSubsystem.getTv()) {
-        // SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
-        // .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
-        // .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
-        // .withRotationalRate(
-        // offsetToOmega(SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
-        // }
+        if (SubsystemContainer.limelightSubsystem.getTv()) {
+            // SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.drive
+            // .withVelocityX(m_xboxController.getLeftY() * SwerveConstants.MaxSpeed)
+            // .withVelocityY(m_xboxController.getLeftX() * SwerveConstants.MaxSpeed)
+            // .withRotationalRate(
+            // offsetToOmega(SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
+            // }
 
-        // if (SubsystemContainer.limelightSubsystem.getTv()) {
-        SwerveRequestStash.driveForAutoAlign.HeadingController.setPID(10, 0, 1);
-        // SwerveRequestStash.driveForAutoAlign.HeadingController.setTolerance(5);
-        SwerveRequestStash.driveForAutoAlign.HeadingController.enableContinuousInput(-Math.PI,
-                Math.PI);
-        double yaw = SubsystemContainer.swerveSubsystem2.getYaw();
-        // yaw *= Math.signum(yaw);
-        Rotation2d targetDirection = Rotation2d.fromDegrees(0);
+            // if (SubsystemContainer.limelightSubsystem.getTv()) {
+            SwerveRequestStash.driveForAutoAlign.HeadingController.setPID(10, 0, 1);
+            // SwerveRequestStash.driveForAutoAlign.HeadingController.setTolerance(5);
+            SwerveRequestStash.driveForAutoAlign.HeadingController.enableContinuousInput(-Math.PI,
+                    Math.PI);
+            double yaw = SubsystemContainer.swerveSubsystem2.getYaw() % 360;
+            // yaw *= Math.signum(yaw);
+            Rotation2d targetDirection = Rotation2d
+                    .fromDegrees(yaw - SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag());
 
-        SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.driveForAutoAlign
-                .withVelocityX(m_xboxController.getLeftY())
-                .withVelocityY(m_xboxController.getLeftX())
-                .withTargetDirection(
-                        targetDirection));
-        // Rotation2d.fromDegrees(-yaw
-        // + SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
+            SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.driveForAutoAlign
+                    .withVelocityX(m_xboxController.getLeftY())
+                    .withVelocityY(m_xboxController.getLeftX())
+                    .withTargetDirection(
+                            targetDirection));
+            // Rotation2d.fromDegrees(-yaw
+            // + SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
 
-        // System.out.println("tag " +
-        // SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag());
-        System.out.println("robot yaw" + yaw);
-        System.out.println("target direction" + targetDirection);
-        // System.out.println("Result" + Rotation2d.fromDegrees(yaw
-        // - SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag()));
-        // }
+            // System.out.println("tag " +
+            // SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag());
+            System.out.println("robot yaw" + yaw);
+            System.out.println("target direction" + targetDirection);
+            // System.out.println("Result" + Rotation2d.fromDegrees(yaw
+            // - SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag()));
+        }
     }
 
     /**
