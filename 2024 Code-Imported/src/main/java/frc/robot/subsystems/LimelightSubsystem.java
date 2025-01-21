@@ -134,9 +134,10 @@ public class LimelightSubsystem extends SubsystemBase {
    * Method updated for use with krakens, untested.
    */
   public void resetOdometryToLimelightPose() {
-    if (getTv()) {
-      SubsystemContainer.swerveSubsystem2
-          .resetPose(new Pose2d(pose[0], pose[1], SubsystemContainer.swerveSubsystem2.getCurrentPose().getRotation()));
-    }
+    // if (getTv()) {
+    // SubsystemContainer.swerveSubsystem2
+    // .resetPose(new Pose2d(pose[0], pose[1],
+    // SubsystemContainer.swerveSubsystem2.getCurrentPose().getRotation()));
+    // }
   }
 }

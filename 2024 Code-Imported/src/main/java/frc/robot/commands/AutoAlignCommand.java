@@ -48,22 +48,27 @@ public class AutoAlignCommand extends Command {
         // }
 
         // if (SubsystemContainer.limelightSubsystem.getTv()) {
-        SwerveRequestStash.driveForAutoAlign.HeadingController.setPID(0.5, 0, 0.2);
-        SwerveRequestStash.driveForAutoAlign.HeadingController.enableContinuousInput(-180.0, 180.0);
-        double x = SubsystemContainer.swerveSubsystem2.getYaw() % 360;
-        x *= Math.signum(x);
+        SwerveRequestStash.driveForAutoAlign.HeadingController.setPID(10, 0, 1);
+        // SwerveRequestStash.driveForAutoAlign.HeadingController.setTolerance(5);
+        SwerveRequestStash.driveForAutoAlign.HeadingController.enableContinuousInput(-Math.PI,
+                Math.PI);
+        double yaw = SubsystemContainer.swerveSubsystem2.getYaw();
+        // yaw *= Math.signum(yaw);
+        Rotation2d targetDirection = Rotation2d.fromDegrees(0);
+
         SubsystemContainer.swerveSubsystem2.setControl(SwerveRequestStash.driveForAutoAlign
                 .withVelocityX(m_xboxController.getLeftY())
                 .withVelocityY(m_xboxController.getLeftX())
                 .withTargetDirection(
-                        Rotation2d.fromDegrees(0)));
-        // Rotation2d.fromDegrees(-x
+                        targetDirection));
+        // Rotation2d.fromDegrees(-yaw
         // + SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag())));
 
         // System.out.println("tag " +
         // SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag());
-        System.out.println("swerve " + x);
-        // System.out.println("Result" + Rotation2d.fromDegrees(x
+        System.out.println("robot yaw" + yaw);
+        System.out.println("target direction" + targetDirection);
+        // System.out.println("Result" + Rotation2d.fromDegrees(yaw
         // - SubsystemContainer.limelightSubsystem.getOffsetAngleFromTag()));
         // }
     }
